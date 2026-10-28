@@ -37,4 +37,4 @@ Use the brief's own sections and order if it gives them. Otherwise:
 
 ---
 
-**Time:** about [x] hours building, [y] testing. **AI tools:** built with Claude Code and Cursor; every decision and line of copy is mine.
+**Time:** about [x] hours building, [y] testing. **AI tools:** built with Claude Code; every decision and line of copy is mine.
