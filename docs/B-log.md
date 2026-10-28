@@ -15,10 +15,11 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 4:10 PM | Lily pushed chore/cleanup-and-docs (preview built 4:05 PM), turned off Vercel Authentication, and checked the preview in incognito: loads with no login | Lily, Vercel dashboard | None |
 | 2026-10-28 | 4:12 PM | Turned off the Vercel Toolbar for preview and production. Tried to open PR 1 through the GitHub connector; it was refused (403, the token can't write to this repo). Saved the PR description to .git/PR1_BODY.md (not tracked) for Lily to open it with gh | Cowork, Station B, Vercel and GitHub connectors | None |
 | 2026-10-28 | 4:14 PM | PR 2 on branch data/legion-funnel-csv: added Legion's funnel table as a CSV and analysis/check_funnel.py (standard library only). Narrowed .gitignore so analysis/data/ is tracked. Checked two ways: the CSV matches the brief's table cell by cell (11 rows, 0 differences), and the script recomputes every derived figure and passes. Changing one session count makes it fail, as it should. Logged 2 decisions | Cowork, Station B | analysis/data/legion_funnel_30d_to_2026-08-29.csv (new), analysis/check_funnel.py (new), .gitignore, docs/decisions.md, docs/B-log.md |
+| 2026-10-28 | 4:20 PM | Removed the Claude Code footer and session link from both PR descriptions (.git/PR1_BODY.md, .git/PR2_BODY.md), at Lily's request: the AI history covers it. GitHub connector still refused (403), so couldn't check or update PR 1 on GitHub yet | Cowork, Station B, GitHub connector | None tracked |
+| 2026-10-28 | 4:21 PM | Lily chose the PR plan: PR 1 and PR 2 merge into main, then the build ships as several small PRs with the last one left open. Logged the decision | Cowork, Station B | docs/decisions.md, docs/B-log.md |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
-- Lily to decide: how many PRs the submission has (brief says "open pull request", singular)
 - Lily to open PR 1 (GitHub connector can't), then merge it before PR 2 is pushed
 - Replace the starter favicon.ico in a later PR

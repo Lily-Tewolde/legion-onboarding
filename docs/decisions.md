@@ -35,7 +35,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **What:** PR 1 removes starter and template leftovers and adds B-log.md and decisions.md. Every later change, including log updates, goes through a PR
 - **Why:** The repo and its history are part of the submission. A PR for every change keeps the history readable and matches CLAUDE.md
 - **Rejected:** Committing the logs directly to main. Faster, but it breaks the rule the rest of the work follows
-- **Revisit when:** We decide how many PRs the submission should have. The brief asks for "the repository and open pull request" (singular), which is still open
+- **Revisit when:** Settled by "Build in several small PRs, with the last one left open" below
 
 ## 2026-10-28 · Delete funnel.py and profile_data.py
 
@@ -64,6 +64,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** It's a Vercel tool, not part of the prototype. Legion should see only the product
 - **Rejected:** Leaving it on for comments on previews. Review happens in the GitHub PRs, so it adds nothing
 - **Revisit when:** We want reviewers to comment directly on preview pages
+
+## 2026-10-28 · Build in several small PRs, with the last one left open
+
+- **What:** PR 1 (cleanup) and PR 2 (funnel CSV) merge into main. The build in Step 4 ships as a series of small PRs, one concern each, following the plan in the build brief. Each merges into main once checked on its preview, and the last one stays open for the submission
+- **Why:** Each PR is small enough to review on its own, and the PR list shows how the work was sequenced. It's the workflow CLAUDE.md and the build brief already describe. Leaving the last PR open still meets the brief's "repository and open pull request"
+- **Rejected:** One build branch with a single open PR (the game plan's option). It matches the brief's wording more literally and keeps one preview link, but it puts the whole build in one large diff
+- **Revisit when:** The build runs short on time and PR overhead starts costing more than it saves
 
 ---
 
