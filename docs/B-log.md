@@ -18,9 +18,14 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 4:20 PM | Removed the Claude Code footer and session link from both PR descriptions (.git/PR1_BODY.md, .git/PR2_BODY.md), at Lily's request: the AI history covers it. GitHub connector still refused (403), so couldn't check or update PR 1 on GitHub yet | Cowork, Station B, GitHub connector | None tracked |
 | 2026-10-28 | 4:21 PM | Lily chose the PR plan: PR 1 and PR 2 merge into main, then the build ships as several small PRs with the last one left open. Logged the decision | Cowork, Station B | docs/decisions.md, docs/B-log.md |
 | 2026-10-28 | 4:28 PM | Removed the Claude-Session line from the 3 commit messages on PR 1 and PR 2, kept Co-Authored-By (git filter-branch on the message only; file contents unchanged, checked with git diff). PR 1's branch needs a force-push. New SHAs: db56459 (PR 1), 6c7d782 and the log commit (PR 2) | Cowork, Station B | None (commit messages only) |
+| 2026-10-28 | 4:29 PM | Lily force-pushed PR 1 (the clean commit db56459 is what merged) and merged PR #1 into main (c40b077) | Lily, GitHub | None |
+| 2026-10-28 | 4:31 PM | Lily pushed and merged PR #2 into main (54291b6). Checked the PR 2 preview: the Vercel Toolbar icon is gone | Lily, GitHub and Vercel | None |
+| 2026-10-28 | 4:34 PM | Lily pulled main. Confirmed main matches the merged branches and the check script passes. Started branch docs/step-1-flow-map | Cowork, Station B | docs/B-log.md |
+| 2026-10-28 | 4:34 PM | **Step 0 done.** Gate: docs folder, B-log.md and decisions.md set up and merged; repo, Vercel and GitHub linked; preview links open without a login; AI_HISTORY_INDEX.md is Lily's to maintain (not checked by Station B); export reminder below | Cowork, Station B | docs/B-log.md |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
-- Lily to open PR 1 (GitHub connector can't), then merge it before PR 2 is pushed
+- GitHub connector still returns 403 on this repo, so Lily pushes and opens PRs for now
+- Step 1: Lily walks the Texas flow (phone and laptop), then we fill docs/flow-map.md together
 - Replace the starter favicon.ico in a later PR
