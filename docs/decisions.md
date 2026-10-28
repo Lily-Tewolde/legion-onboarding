@@ -35,7 +35,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **What:** PR 1 removes starter and template leftovers and adds B-log.md and decisions.md. Every later change, including log updates, goes through a PR
 - **Why:** The repo and its history are part of the submission. A PR for every change keeps the history readable and matches CLAUDE.md
 - **Rejected:** Committing the logs directly to main. Faster, but it breaks the rule the rest of the work follows
-- **Revisit when:** We decide how many PRs the submission should have. The brief asks for "the repository and open pull request" (singular), which is still open
+- **Revisit when:** Settled by "Build in several small PRs, with the last one left open" below
 
 ## 2026-10-28 · Delete funnel.py and profile_data.py
 
@@ -50,6 +50,27 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** `next dev` recreates AGENTS.md whenever it detects an AI coding agent, so deleting the file alone wouldn't hold once Claude Code runs the dev server in Step 4
 - **Rejected:** Deleting it and gitignoring it. The file would still appear locally and the setting is the documented off switch
 - **Revisit when:** If Claude Code makes mistakes from outdated Next.js knowledge, add a line to CLAUDE.md pointing it to `node_modules/next/dist/docs/` instead
+
+## 2026-10-28 · Turn off Vercel Authentication
+
+- **What:** Turned off Vercel Authentication on the legion-onboarding project, so preview and production links open without a Vercel login. Checked in an incognito window: the preview loads with no login
+- **Why:** The prototype uses made-up data only, and Legion's own onboarding is public. Legion's reviewers shouldn't hit a login screen
+- **Rejected:** Keeping it on. Every reviewer would need a Vercel account with access to the project
+- **Revisit when:** The prototype ever handles real personal or patient data
+
+## 2026-10-28 · Turn off the Vercel Toolbar
+
+- **What:** Turned off the Vercel Toolbar for preview and production deployments
+- **Why:** It's a Vercel tool, not part of the prototype. Legion should see only the product
+- **Rejected:** Leaving it on for comments on previews. Review happens in the GitHub PRs, so it adds nothing
+- **Revisit when:** We want reviewers to comment directly on preview pages
+
+## 2026-10-28 · Build in several small PRs, with the last one left open
+
+- **What:** PR 1 (cleanup) and PR 2 (funnel CSV) merge into main. The build in Step 4 ships as a series of small PRs, one concern each, following the plan in the build brief. Each merges into main once checked on its preview, and the last one stays open for the submission
+- **Why:** Each PR is small enough to review on its own, and the PR list shows how the work was sequenced. It's the workflow CLAUDE.md and the build brief already describe. Leaving the last PR open still meets the brief's "repository and open pull request"
+- **Rejected:** One build branch with a single open PR (the game plan's option). It matches the brief's wording more literally and keeps one preview link, but it puts the whole build in one large diff
+- **Revisit when:** The build runs short on time and PR overhead starts costing more than it saves
 
 ---
 

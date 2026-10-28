@@ -40,6 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# data and outputs stay out of the repo unless the brief says otherwise
-analysis/data/
+# script outputs are regenerated, so they stay out of the repo
 analysis/output/
