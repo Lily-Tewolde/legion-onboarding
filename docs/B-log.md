@@ -24,10 +24,13 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 4:34 PM | **Step 0 done.** Gate: docs folder, B-log.md and decisions.md set up and merged; repo, Vercel and GitHub linked; preview links open without a login; AI_HISTORY_INDEX.md is Lily's to maintain (not checked by Station B); export reminder below | Cowork, Station B | docs/B-log.md |
 | 2026-10-28 | 4:36 PM | Received two drafts from Lily: an AI-drafted data read and the walkthrough beats template. Checked the data read's sizing against the CSV: the arithmetic holds. Flagged two framing issues for Step 2 (see chat). Not added to the repo yet: they belong to Step 2 and Step 6 | Cowork, Station B | docs/B-log.md |
 | 2026-10-28 | 4:36 PM | Created docs/flow-map.md from Lily's template, adding "Time on page", "Could it screen me out" and "Questions so far" to every page. Legion's numbers unchanged and match the CSV | Cowork, Station B | docs/flow-map.md (new), docs/B-log.md |
+| 2026-10-28 | 4:43 PM | Step 2 started while Lily walks the flow. New branch docs/step-2-data-read off main, to keep Step 1 and Step 2 in separate PRs. Wrote docs/data-read.md from the funnel CSV, using Lily's AI draft as the starting point and correcting it (changes listed at the end of the doc). Added analysis/size_funnel.py, which prints every figure in the doc. Checked: every number in the doc appears in the script output or the CSV; check_funnel.py still passes. "What Lily saw" lines left blank for the walk | Cowork, Station B | docs/data-read.md (new), analysis/size_funnel.py (new), docs/B-log.md |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
 - GitHub connector still returns 403 on this repo, so Lily pushes and opens PRs for now
-- Step 1: Lily walks the Texas flow (phone and laptop), then we fill docs/flow-map.md together
+- Lily to open PR 1 (GitHub connector can't), then merge it before PR 2 is pushed
+- Step 2: fill the "What Lily saw" lines in docs/data-read.md after the walk, then check the Step 2 gate
+- docs/step-1-flow-map and docs/step-2-data-read both add B-log rows, so whichever merges second needs a rebase
 - Replace the starter favicon.ico in a later PR
