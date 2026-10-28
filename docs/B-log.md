@@ -23,6 +23,7 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 4:34 PM | Lily pulled main. Confirmed main matches the merged branches and the check script passes. Started branch docs/step-1-flow-map | Cowork, Station B | docs/B-log.md |
 | 2026-10-28 | 4:34 PM | **Step 0 done.** Gate: docs folder, B-log.md and decisions.md set up and merged; repo, Vercel and GitHub linked; preview links open without a login; AI_HISTORY_INDEX.md is Lily's to maintain (not checked by Station B); export reminder below | Cowork, Station B | docs/B-log.md |
 | 2026-10-28 | 4:36 PM | Received two drafts from Lily: an AI-drafted data read and the walkthrough beats template. Checked the data read's sizing against the CSV: the arithmetic holds. Flagged two framing issues for Step 2 (see chat). Not added to the repo yet: they belong to Step 2 and Step 6 | Cowork, Station B | docs/B-log.md |
+| 2026-10-28 | 4:36 PM | Created docs/flow-map.md from Lily's template, adding "Time on page", "Could it screen me out" and "Questions so far" to every page. Legion's numbers unchanged and match the CSV | Cowork, Station B | docs/flow-map.md (new), docs/B-log.md |
 
 ## Open items
 
