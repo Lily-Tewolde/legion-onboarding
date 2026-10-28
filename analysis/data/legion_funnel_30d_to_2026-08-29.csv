@@ -1,0 +1,12 @@
+step,phase,page_or_action,milestone,sessions,pct_from_previous,pct_from_start,drop_from_previous,pct_drop_from_previous
+1,Start,/portal/join,Page reached,5898,100.0,100.0,,
+2,Fit check,/portal/join/fit,Page reached after start,5490,93.1,93.1,408,6.9
+3,Conditions,/portal/join/conditions,Page reached after fit check,3578,65.2,60.7,1912,34.8
+4,Insurance,/portal/join/insurance,Page reached after conditions,3338,93.3,56.6,240,6.7
+5,Needs,/portal/join/needs,Page reached after insurance,3095,92.7,52.5,243,7.3
+6,Provider match,/portal/join/match,Match page reached after needs,3013,97.4,51.1,82,2.6
+7,Provider selected,/portal/join/match,portal.provider_selected after match-page reach,1909,63.4,32.4,1104,36.6
+8,Reservation created,/portal/join/match,portal.provider.reservation.created after provider selection,1764,92.4,29.9,145,7.6
+9,Patient details,/portal/join/patient,Page reached after reservation creation,1763,99.9,29.9,1,0.1
+10,Account created,/portal/join/patient,portal.onboarding.userCreated after patient-page reach,1403,79.6,23.8,360,20.4
+11,Payment page,/portal/join/payment,Page reached after account creation,1403,100.0,23.8,0,0.0

@@ -12,10 +12,15 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 4:00 PM | Linked Vercel project legion-onboarding to the GitHub repo. First deployment of main is ready | Cowork, Station B, Vercel connector | None in the repo |
 | 2026-10-28 | 4:01 PM | Checked deployment protection. Vercel Authentication is on, set to "all deployments except custom domains", so preview links need a Vercel login. Couldn't open the links from this chat because the network blocks them, so it still needs a manual incognito test | Cowork, Station B, Vercel connector | None |
 | 2026-10-28 | 4:03 PM | Cleanup on branch chore/cleanup-and-docs: removed the starter README, AGENTS.md, starter SVGs, funnel.py and profile_data.py; removed the template line from CLAUDE.md and the Cursor mention from readout-draft.md; replaced the starter page with a blank one; set agentRules: false. Typecheck passes. Logged 5 decisions | Cowork, Station B | README.md, AGENTS.md, public/*.svg, analysis/funnel.py, analysis/profile_data.py (deleted); CLAUDE.md, docs/readout-draft.md, next.config.ts, src/app/page.tsx, src/app/layout.tsx, docs/decisions.md, docs/B-log.md |
+| 2026-10-28 | 4:10 PM | Lily pushed chore/cleanup-and-docs (preview built 4:05 PM), turned off Vercel Authentication, and checked the preview in incognito: loads with no login | Lily, Vercel dashboard | None |
+| 2026-10-28 | 4:12 PM | Turned off the Vercel Toolbar for preview and production. Tried to open PR 1 through the GitHub connector; it was refused (403, the token can't write to this repo). Saved the PR description to .git/PR1_BODY.md (not tracked) for Lily to open it with gh | Cowork, Station B, Vercel and GitHub connectors | None |
+| 2026-10-28 | 4:14 PM | PR 2 on branch data/legion-funnel-csv: added Legion's funnel table as a CSV and analysis/check_funnel.py (standard library only). Narrowed .gitignore so analysis/data/ is tracked. Checked two ways: the CSV matches the brief's table cell by cell (11 rows, 0 differences), and the script recomputes every derived figure and passes. Changing one session count makes it fail, as it should. Logged 2 decisions | Cowork, Station B | analysis/data/legion_funnel_30d_to_2026-08-29.csv (new), analysis/check_funnel.py (new), .gitignore, docs/decisions.md, docs/B-log.md |
+| 2026-10-28 | 4:20 PM | Removed the Claude Code footer and session link from both PR descriptions (.git/PR1_BODY.md, .git/PR2_BODY.md), at Lily's request: the AI history covers it. GitHub connector still refused (403), so couldn't check or update PR 1 on GitHub yet | Cowork, Station B, GitHub connector | None tracked |
+| 2026-10-28 | 4:21 PM | Lily chose the PR plan: PR 1 and PR 2 merge into main, then the build ships as several small PRs with the last one left open. Logged the decision | Cowork, Station B | docs/decisions.md, docs/B-log.md |
+| 2026-10-28 | 4:28 PM | Removed the Claude-Session line from the 3 commit messages on PR 1 and PR 2, kept Co-Authored-By (git filter-branch on the message only; file contents unchanged, checked with git diff). PR 1's branch needs a force-push. New SHAs: db56459 (PR 1), 6c7d782 and the log commit (PR 2) | Cowork, Station B | None (commit messages only) |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
-- Lily to decide: turn off Vercel Authentication so preview links open without a login
-- Lily to decide: how many PRs the submission has (brief says "open pull request", singular)
-- Next PR: funnel CSV and check script
+- Lily to open PR 1 (GitHub connector can't), then merge it before PR 2 is pushed
+- Replace the starter favicon.ico in a later PR
