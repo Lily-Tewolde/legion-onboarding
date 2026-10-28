@@ -1,7 +1,5 @@
 # CLAUDE.md: Legion Health take-home
 
-Copy this file to the repo root on day one. Fill in the bracketed parts from the brief.
-
 ## What this is
 
 A take-home for the Founding Product Manager role at Legion Health (AI-native psychiatry, covered by insurance). Graded on: can Lily build, how she works out requirements, how she thinks about user experience, how she makes sense of data.
@@ -37,5 +35,5 @@ TypeScript, Next.js App Router on Vercel, Postgres (Supabase), Tailwind, no comp
 - `docs/requirements.md`: the problem, the user, the job, the one metric
 - `docs/build-brief.md`: the locked spec for the build
 - `docs/decisions.md`: the decision log
-- `analysis/`: profiler, metric definitions, notebooks or scripts, outputs
+- `analysis/`: metric definitions, notebooks or scripts, outputs
 - `README.md`: the readout, written last, in the brief's sections and order
