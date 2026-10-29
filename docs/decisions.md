@@ -445,6 +445,27 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** A bar with no text. A switch for the in-flow choices. Plain-text numbers. Inspo Book 01's rotating ring and arrow. Legion's logo as the favicon or in the header. Redirecting `/` before `/join` exists (it would show a 404)
 - **Revisit when:** The step count is set screen by screen in PR 3 onward
 
+## 2026-10-29 · Anonymous visitor cookie: set by the proxy, 60 days
+
+- **What:** `src/proxy.ts` gives every new visitor a random id in a first-party cookie (`lh_visitor`: httpOnly, Secure, SameSite=Lax, 60 days). It's the onboarding session's `anon_id`. The session row is only created when the visitor starts (`POST /api/session`), not on every page view
+- **Why:** Progress has to survive on the same device until the first visit. 60 days covers the one metric's 30-day window, with room for a visit booked weeks out. Setting it in the proxy means every page and route can read it, including on the first request
+- **Rejected:** Creating a session row on every page view, which would fill the table with people who never started. A cookie that ends with the browser session, which loses progress when the browser closes
+- **Revisit when:** Lily picks a different lifetime, or the email sign-in link (`docs/next.md`) replaces same-device progress
+
+## 2026-10-29 · Made-up slots are stored relative to today
+
+- **What:** `src/data/slots.json` stores each slot as "this many business days from today, at this Central time", turned into real times when read. Providers and plans are plain JSON next to it, checked against each other when the module loads
+- **Why:** Fixed dates would be in the past within days, and the demo has to keep working until the review. Central time because the patients are in Texas
+- **Rejected:** Fixed dates in the JSON. Slots in Supabase, which the build brief keeps out
+- **Revisit when:** Not expected to change
+
+## 2026-10-29 · A committed check that the browser can't reach the database
+
+- **What:** `npm run check:db` tries to read and write every table with the publishable key and expects to be refused, then reads with the secret key and expects to get in. It prints status codes only
+- **Why:** The build brief requires the publishable-key test, and a script makes it repeatable on every schema change instead of a one-off click in the table editor
+- **Rejected:** Checking by hand once in the Supabase dashboard
+- **Revisit when:** Not expected to change
+
 ---
 
 # Spoken defence (fill before the review call)
