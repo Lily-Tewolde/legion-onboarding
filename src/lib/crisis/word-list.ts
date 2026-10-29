@@ -51,6 +51,7 @@ const PHRASES: Phrase[] = [
     "quiero morir",
     "quiero morirme",
     "me quiero morir",
+    "me quiero matar",
     "matarme",
     "suicidarme",
     "suicidio",
