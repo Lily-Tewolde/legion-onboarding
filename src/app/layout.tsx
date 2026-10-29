@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { DemoBanner } from "@/components/DemoBanner";
-import { HelpPanel } from "@/components/HelpPanel";
+import { HelpLink, HelpPanelProvider } from "@/components/HelpPanel";
 import { copy } from "@/copy";
 import "./globals.css";
 
@@ -24,14 +24,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <DemoBanner />
-        <header className="mx-auto flex w-full max-w-task items-center justify-between px-4 pt-2">
-          <p className="font-semibold text-navy">{copy.shell.name}</p>
-          <HelpPanel />
-        </header>
-        <main className="mx-auto w-full max-w-task flex-1 px-4 pb-16">
-          {children}
-        </main>
+        <HelpPanelProvider>
+          <DemoBanner />
+          <header className="mx-auto flex w-full max-w-task items-center justify-between px-4 pt-2">
+            <p className="font-semibold text-navy">{copy.shell.name}</p>
+            <HelpLink />
+          </header>
+          <main className="mx-auto w-full max-w-task flex-1 px-4 pb-16">
+            {children}
+          </main>
+        </HelpPanelProvider>
       </body>
     </html>
   );
