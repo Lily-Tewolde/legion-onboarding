@@ -28,6 +28,12 @@ Ask for insurance before conditions, so the patient learns they're covered after
 - **What I said:** I answered 7 questions before learning I'm covered (flow map)
 - **Pushback:** it asks for insurance details earlier, before trust is built (research, question 1). The Medicaid or Medicare fit question overlaps with insurance, so the two could merge. The link between late coverage and this drop is still a guess
 
+### F3, reworked: a fit check that asks facts
+Date of birth, state, and insurance plan (or self-pay), then one direct question: "Are you thinking about harming yourself or others?" Age, state and Medicaid or Medicare are worked out from the answers instead of asked as yes/no cards. Coverage shows right after, about 4 answers in instead of 7.
+- **What I said:** rework F3 so the fit check asks facts instead of six yes/no questions, keeping the self-harm question as the only direct one (Rula pattern, research question 5)
+- **Pushback:** it takes on F1 and most of F3, so they become one screen. Insurance comes early in the trust ladder, but Rula does the same and shows providers straight after. Two of today's six questions aren't covered by the facts: a hospital stay in the past year, and virtual care only. "Virtual only" didn't screen me out on the walk; the hospital-stay question may be a clinical screen, so dropping it is Legion's clinical call
+- **Re-score:** impact 3 (the biggest drop by count, and coverage 3 answers sooner), confidence 2 (the walk and the Rula precedent; recovering the 1,912 is still a test), ease 3. **Total 8**
+
 ### F4. AI conversation for the fit check
 - **What I said:** "AI could help here, but I'm worried it would make this step take longer. I want to check what's standard in the industry before changing it"
 - **Pushback:** the research found chat preferred but the same speed or slower, on longer questionnaires than this one (research, question 2). The self-harm question can't depend on AI
@@ -100,13 +106,13 @@ Intake invite at about 72 hours (with the AI sentence), then reminders at 24 hou
 - **Pushback:** simulated in the prototype (show the messages, don't send them). Real texts need SMS consent, which we haven't researched
 
 ### B4a. Card at booking, charged after the visit
-The norm at Talkiatry, Rula and Headway (research, question 3).
+The norm at Talkiatry and Headway. All three peers charge after the visit (research, question 3).
 - **What I said:** —
 - **Pushback:** keeps a payment step before booking, but protects against no-shows
 
 ### B4b. Book now, add the card 24 to 72 hours before or the booking is released
 - **What I said:** "book now, add payment 24 to 72 hours before the visit or the booking is released" (finding 21)
-- **Pushback:** removes a step before booking, but none of the peers checked do this. It loses no-show protection and adds a reason to lose the booking
+- **Pushback:** removes a step before booking. Rula does something close: reserve first, add the card during registration within a deadline, or the slot is cancelled (research, questions 3 and 5). It loses some no-show protection and adds a reason to lose the booking. *(Corrected after question 5: the first version said no peer does this.)*
 
 ### B5. Demo control: simulate visit completed (and no-show)
 - **What I said:** scope input: a simulated visit completed with a demo control
@@ -119,6 +125,7 @@ The norm at Talkiatry, Rula and Headway (research, question 3).
 | F1 Calm full-page fit check | 2 | 2 | 3 | 7 | Pass | No |
 | F2 Kind screen-outs, crisis path | 1 | 3 | 3 | 7 | Pass, and required | No |
 | F3 Coverage first | 2 | 1 | 3 | 6 | Pass | No |
+| F3r Fit check that asks facts (reworked) | 3 | 2 | 3 | 8 | Pass, crisis question stays direct | No |
 | F4 AI fit check | 1 | 2 | 2 | 5 | Pass only if screen-outs stay rule-based | Yes |
 | M1 One recommended provider | 3 | 2 | 2 | 7 | Pass | Partly (ranking) |
 | M2 Providers first, one-tap booking | 2 | 2 | 3 | 7 | Pass | No |
@@ -133,7 +140,7 @@ The norm at Talkiatry, Rula and Headway (research, question 3).
 | B2 AI pre-visit intake | 2 | 2 | 1 | 5 | Pass only with the crisis path | Yes |
 | B3 Reminders with intake invite | 2 | 2 | 3 | 7 | Pass | No |
 | B4a Card at booking, charged after | 1 | 2 | 3 | 6 | Pass | No |
-| B4b Card 24 to 72 hours before | 2 | 1 | 2 | 5 | Pass | No |
+| B4b Card 24 to 72 hours before | 2 | 2 | 2 | 6 | Pass | No |
 | B5 Demo control | — | — | 3 | — | Pass | No |
 
 **Needed whatever we pick:** F2 (crisis path), B5 (demo control), the AI notice, the help link on every screen, a form fallback for any AI step, and screen-out events with the reason, which the north star's denominator depends on.
@@ -143,3 +150,14 @@ The norm at Talkiatry, Rula and Headway (research, question 3).
 - The top scores (7) are mostly small, evidence-backed fixes: F1, F2, M1, M2, A2, A3 and B3. M1 is the only idea scored 3 on impact, because it sits on the biggest drop by rate
 - The ideas where AI does the work (F4, X1, X2, B2) score lowest on completion. X1 and X2 replace pages that lose few sessions today. B2 matters most for Yash's goal of fewer clinician minutes, which the completion score doesn't capture
 - That's the tension for 3d: the brief asks for onboarding rebuilt for an AI-native world, and the data says the biggest wins are on the match page and in measuring booking to visit
+
+## 3d: the slice I chose
+
+Logged in `docs/decisions.md`, each with what was rejected. In short:
+
+- **Built fully:** B2, the AI pre-visit intake, with a simple clinician view
+- **Built simply:** F3 reworked (with F1 and F2), M1, M2, M3, A2, A3, B1, B3 as previews, and B5. Supabase saves progress on the same device
+- **Light version:** X1, one "What's going on?" question on B2's conversation engine
+- **Payment:** B4a. B4b goes in "what I'd do next"
+- **Not built:** F4, X2, the email link from A1
+

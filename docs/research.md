@@ -1,6 +1,6 @@
 # Step 3 research: four questions before brainstorming
 
-Researched Oct 28, 2026. Sources are primary where possible: statutes and regulators for the legal question, companies' own help pages for payment timing, peer-reviewed studies for chatbots vs. forms, and UX research firms (Nielsen Norman Group, Baymard Institute) for interface conventions. Where a source wasn't available, the gap is stated.
+Researched Oct 28, 2026; question 5 added after the brainstorm. Sources are primary where possible: statutes and regulators for the legal question, companies' own help pages for payment timing, peer-reviewed studies for chatbots vs. forms, and UX research firms (Nielsen Norman Group, Baymard Institute) for interface conventions. Where a source wasn't available, the gap is stated.
 
 This is research to inform decisions, not legal advice. Nothing here is a claim about what Legion must do. That's for Legion's counsel.
 
@@ -27,18 +27,18 @@ This is research to inform decisions, not legal advice. Nothing here is a claim 
 
 ## 3. When competitors take payment
 
-**Short answer:** the insurance-based mental health services checked all take a card on file at or before booking, and charge after the visit. None of them wait until 24 to 72 hours before the visit.
+**Short answer:** all three charge after the visit. Talkiatry and Headway need a card before the booking is confirmed. Rula lets the patient reserve a slot first and add the card during registration, before a deadline, or the slot is cancelled. *(Corrected Oct 28: the first version said all three take the card at or before booking. Rula's sign-up guide, checked for question 5, shows the card comes after reserving.)*
 
 | Company | When the card is needed | When it's charged | Source |
 |---|---|---|---|
 | Talkiatry (psychiatry, insurance) | New patients since January 2026: after picking an appointment. "Once you add your payment method, your first visit will be locked in" | Card covers late cancellation and missed appointment fees; exact charge timing not stated | [Talkiatry help center](https://www.talkiatry.com/help-center-articles/is-a-payment-method-on-file-required) |
-| Rula (therapy and psychiatry, insurance) | "We require patients to keep a credit card on file," added during registration | Copay after the visit; deductible after the insurer processes the claim (3 to 4 weeks); no-show or late-cancel fee within 72 hours | [Rula patient support](https://patientsupport.rula.com/hc/en-us/articles/26987317587739) |
+| Rula (therapy and psychiatry, insurance) | "We require patients to keep a credit card on file," added during registration, which comes after reserving a slot. If registration isn't finished within six days of booking or 14 hours before the appointment, whichever is first, the appointment is cancelled ([Rula sign-up guide](https://patientsupport.rula.com/hc/en-us/articles/31296525013787-How-to-complete-the-sign-up-process-and-confirm-your-first-appointment-with-Rula)) | Copay after the visit; deductible after the insurer processes the claim (3 to 4 weeks); no-show or late-cancel fee within 72 hours | [Rula patient support](https://patientsupport.rula.com/hc/en-us/articles/26987317587739) |
 | Headway (therapy and psychiatry, insurance) | Payment on file before a session can be confirmed. Connecticut is an exception: no card required, a one-time payment link is sent instead | "When you confirm a session", after it happens | [Headway help center](https://help.headway.co/hc/en-us/articles/360059065272) |
 
 - Talkiatry and Headway both treat Connecticut differently. I didn't check why, so no claim about Connecticut law
 - **Gap:** I didn't check Maple, since it's Canadian and outside Legion's market, or subscription services like Cerebral
 
-**What it means for us:** "card at booking, charge after the visit" is the norm here, and the card mainly protects against no-shows. Asking for the card 24 to 72 hours before the visit would be unusual. It would remove a step before booking, at the cost of no-show protection.
+**What it means for us:** charging after the visit is the norm, and the card mainly protects against no-shows. Rula's reserve-first approach, with a deadline to add the card, is the closest precedent for adding the card later (idea B4b).
 
 ## 4. Which consents are required in Texas
 
@@ -61,7 +61,15 @@ What I could verify:
 
 **What it means for us:** the prototype's AI steps must tell the patient they're talking to AI, clearly and before the interaction. That matches the game plan's transparency rule. The three checkboxes may be condensable into notices plus one consent, but that's a decision for Step 3, and any real change is for Legion's counsel.
 
-## Sources
+## 5. How competitors run the first screening step
+
+Added for the fit check rework (idea F3). Lily found these sources; Station B checked each one.
+
+- **Rula** asks for date of birth, the state you'll get care in, your insurance, the type of care, and your name, email and phone. It then shows "all of the providers that contract with Rula in your state and that accept your insurance." Address, insurance details for verification, sex assigned at birth and a card come later, in registration after reserving a slot ([Rula sign-up guide](https://patientsupport.rula.com/hc/en-us/articles/31296525013787-How-to-complete-the-sign-up-process-and-confirm-your-first-appointment-with-Rula))
+- **Talkiatry** describes its online assessment as about 10 minutes, covering "why you're seeking care and what you're looking for", with an insurance eligibility checker, and then shows doctors who match ([Talkiatry](https://www.talkiatry.com/blog/how-to-find-a-psychiatrist))
+- A Healthline review (medically reviewed, last updated June 26, 2025) says Talkiatry patients "must fill out a questionnaire before every appointment". That's a reviewer's account, not Talkiatry's own page ([Healthline](https://www.healthline.com/health/talkiatry))
+
+**What it means for us:** Rula screens with facts (age, state, insurance) and shows in-network providers right away, then collects the rest after booking. Talkiatry's pre-visit questionnaire is a precedent for a check-in before each visit. Rula's first step also asks for name, email and phone, so it's short but not only facts.
 
 - [NN/g: Hierarchy of Trust](https://www.nngroup.com/articles/commitment-levels/)
 - [NN/g: Social Proof in the User Experience](https://www.nngroup.com/articles/social-proof-ux/)
@@ -71,6 +79,9 @@ What I could verify:
 - [Talkiatry: Is a payment method on file required?](https://www.talkiatry.com/help-center-articles/is-a-payment-method-on-file-required)
 - [Rula: Patient payment responsibilities](https://patientsupport.rula.com/hc/en-us/articles/26987317587739)
 - [Headway: How Headway bills clients](https://help.headway.co/hc/en-us/articles/360059065272)
+- [Rula: Sign-up and first appointment](https://patientsupport.rula.com/hc/en-us/articles/31296525013787-How-to-complete-the-sign-up-process-and-confirm-your-first-appointment-with-Rula)
+- [Talkiatry: How to find a psychiatrist](https://www.talkiatry.com/blog/how-to-find-a-psychiatrist)
+- [Healthline: Talkiatry review](https://www.healthline.com/health/talkiatry)
 - [HHS: Notice of Privacy Practices](https://hhs.gov/ocr/privacy/hipaa/understanding/coveredentities/notice.html)
 - [Texas Health & Safety Code Chapter 181](https://tcss.legis.texas.gov/resources/HS/htm/HS.181.htm)
 - [Texas Occupations Code Chapter 111](https://tcss.legis.texas.gov/resources/OC/htm/OC.111.htm)

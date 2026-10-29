@@ -128,6 +128,63 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Help only on some screens, or only on AI steps. The promise covers the whole flow
 - **Revisit when:** Not expected to change
 
+## 2026-10-28 · Build the AI pre-visit intake fully (B2)
+
+- **What:** The one part built fully: an optional AI pre-visit intake in the portal, about 72 hours before the visit. A real AI conversation of 5 to 8 questions and a clinician summary, using made-up data, plus a simple clinician view. It never blocks the visit. Crisis words stop it and go to crisis resources and a person. A plain form is the fallback
+- **Why:** It's where AI does the clinical data-collection work Yash described, and the clearest path to fewer clinician minutes per patient. It sits in the stretch the brief adds (booked to visit completed), which Legion doesn't measure today
+- **How we'd prove it:** intake completion; clinician minutes against the 60-minute first visit, for patients who did the intake vs. skipped it; no-show rate; AI cost per intake
+- **Rejected:** Building the booking questions fully instead. They're where the measured drops are, but they're mostly layout fixes that can be built simply. Also rejected: an AI fit check (F4) and an insurance card photo (X2), which scored lowest on completion
+- **Revisit when:** The intake raises no-shows or patients skip it most of the time, or clinicians don't use the summary
+
+## 2026-10-28 · Card at booking, charged after the visit (B4a)
+
+- **What:** The patient adds a card when booking and is charged after the visit
+- **Why:** It's how Talkiatry and Headway work, and it protects against no-shows. Full cost and the cancellation policy show before the card is asked for
+- **Rejected:** Book now and add the card 24 to 72 hours before, or the booking is released (B4b). It goes in "what I'd do next". Rula's reserve-first approach is a close precedent (research, questions 3 and 5)
+- **Revisit when:** The card step turns out to be a large drop of its own
+
+## 2026-10-28 · What gets built simply
+
+- **What:** Built simply: the fit check that asks facts (F3 reworked, taking on F1 and F2), one recommended provider (M1), providers on the first screen (M2), full cost and cancellation policy before the card (M3), a shorter details page (A2), sign-in instead of the email error (A3), booking confirmed and an upcoming-visit screen (B1), reminders shown as previews (B3), and the visit-completed demo control (B5). Supabase saves progress on the same device
+- **Why:** They address the measured drops and the steps after booking with small, evidence-backed changes, leaving time to build the intake fully
+- **Rejected:** The email sign-in link from A1, deferred because it needs an email service. Progress saves on the same device only for now
+- **Revisit when:** There's time after the intake works end to end
+
+## 2026-10-28 · One "What's going on?" question, on the intake's AI engine (X1 light)
+
+- **What:** At the start, one "What's going on?" question, typed or spoken. The AI reflects back what it understood for the patient to confirm or correct, and that feeds the reason shown for the recommended provider. It reuses the intake's conversation engine
+- **Why:** It replaces the conditions and needs pages with one answer in the patient's own words, gives M1 a real reason, and costs little extra once the intake engine exists
+- **Rejected:** A full conversation in booking. Those two pages lose few sessions today (6.7% and 2.6%), and chat can be slower (research, question 2)
+- **Revisit when:** Patients correct the reflection often, or the fallback form gets used a lot
+
+## 2026-10-28 · The fit check asks facts, with self-harm as the only direct question (F3 reworked)
+
+- **What:** Date of birth, state, and insurance plan or self-pay, then "Are you thinking about harming yourself or others?" Age, state and Medicaid or Medicare are worked out from the answers. A "Yes" goes straight to crisis resources and a person. Coverage shows right after, about 4 answers in instead of 7. Re-scored 8 out of 9
+- **Why:** Rula screens with facts and shows in-network providers straight after (research, question 5). Six identical yes/no cards were the friction on the walk (findings 5 to 7)
+- **Rejected:** Six yes/no cards (today's flow), and an AI conversation for the fit check (F4)
+- **Revisit when:** Screen-out reasons get mixed up, or Legion's clinical team needs a question this drops
+
+## 2026-10-28 · Five claims are tests, not facts
+
+- **What:** Treated as tests: that the new fit check recovers the 1,912, that the recommended provider fixes the 36.6%, that mobile is worse, that removing testimonials helps, and that the cost surprise loses people. Each has a test in `analysis/test-plan.md`
+- **Why:** They come from one walk and the funnel data, which show where people drop but not why
+- **Rejected:** Stating them as findings in the readout
+- **Revisit when:** A test reads out
+
+## 2026-10-28 · Keep Legion's event names, measure through visit completed, link sessions to a person
+
+- **What:** Keep Legion's milestone names (page views on /portal/join paths, portal.provider_selected, portal.provider.reservation.created, portal.onboarding.userCreated). Add the missing events through visit completed, in the same portal.* style. Link the browser session to a person once details are saved
+- **Why:** The same names keep the new flow comparable with Legion's funnel. Linking to a person is what lets the numerator count patients, not sessions
+- **Rejected:** A new naming scheme, which would break comparison. Also rejected: sessions only, which can't follow a patient from booking to the visit days later
+- **Revisit when:** Not expected to change
+
+## 2026-10-28 · Test the new flow 50/50 against the current one
+
+- **What:** A rough plan for a 50/50 test against the current flow, with how long each lift takes to detect, in `analysis/test-plan.md`
+- **Why:** The prototype can't prove a lift. A test plan shows how we'd know
+- **Rejected:** A before-and-after comparison, which mixes in seasonality and traffic changes
+- **Revisit when:** The first 30 days of measurement give a real first-visit completion baseline
+
 ---
 
 # Spoken defence (fill before the review call)
