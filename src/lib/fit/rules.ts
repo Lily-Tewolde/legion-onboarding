@@ -43,12 +43,14 @@ export type FieldErrors = Partial<
 // The answer behind "I don't see my plan": not a plan, so it can't pass
 export const PLAN_NOT_LISTED = "not_listed";
 
+export type TapField = "inTexas" | "planId" | "medicaidOrMedicare" | "safety" | "hospital";
+
 // Every one-tap answer acts the moment it's tapped, and only by its own rule:
 // "Yes" to safety opens the crisis screen; "No" to Texas, Medicaid or
 // Medicare (as a plan, or "Yes" to the self-pay question) and "Yes" to the
 // hospital question open their screen-out. The date of birth is typed, so it
 // waits for Continue, and tapping something else never acts on it
-export function tapOutcome(field: FitField, answers: FitAnswers): FitOutcome | null {
+export function tapOutcome(field: TapField, answers: FitAnswers): FitOutcome | null {
   switch (field) {
     case "safety":
       return answers.safety === "yes" && !answers.safeConfirmed ? { result: "crisis" } : null;
@@ -59,8 +61,6 @@ export function tapOutcome(field: FitField, answers: FitAnswers): FitOutcome | n
       return hasMedicaidOrMedicare(answers) ? { result: "screened_out", reason: "medicaid_medicare" } : null;
     case "hospital":
       return answers.hospital === "yes" ? { result: "screened_out", reason: "hospital_stay" } : null;
-    default:
-      return null;
   }
 }
 

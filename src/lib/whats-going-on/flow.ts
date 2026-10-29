@@ -50,8 +50,13 @@ export function crisisScreenFor(kind: CrisisKind): CrisisScreen {
   return "default";
 }
 
-export const crisisPath = (kind: CrisisKind) =>
-  `/help-now?screen=${crisisScreenFor(kind)}&from=whats-going-on`;
+const CRISIS_PATHS: Record<CrisisScreen, string> = {
+  default: "/help-now",
+  immediate_danger: "/help-now/immediate-danger",
+  being_harmed: "/help-now/being-hurt",
+};
+
+export const crisisPath = (kind: CrisisKind) => CRISIS_PATHS[crisisScreenFor(kind)];
 
 // The confirm screen asks "Have you been diagnosed with this?" when we don't
 // know, for example when only a chip was tapped. Not for "Not sure" or "Other"

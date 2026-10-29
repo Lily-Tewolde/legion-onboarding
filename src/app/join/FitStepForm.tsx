@@ -11,20 +11,21 @@ import { TextField } from "@/components/TextField";
 import { copy } from "@/copy";
 import { findPlan, plans } from "@/data";
 import { todayInCentral } from "@/lib/central-time";
-import { FIT_STEPS, type FitStep, nextStep, outcomePath, previousStep, stepOf } from "@/lib/fit/flow";
+import { FIT_STEPS, type FitStep, nextStep, previousStep, stepOf } from "@/lib/fit/flow";
 import {
   type FieldErrors,
   type FitAnswers,
   type FitField,
-  type FitOutcome,
   PLAN_NOT_LISTED,
   partialOutcome,
+  type TapField,
   tapOutcome,
   validateFacts,
   validateFields,
   type YesNo,
 } from "@/lib/fit/rules";
 import { getAnswers, getServerAnswers, saveAnswers, subscribeAnswers } from "@/lib/fit/stored-answers";
+import { useLeave } from "@/lib/fit/use-leave";
 
 // One step of screen 1. Errors show on Continue, next to each question. Every
 // one-tap answer acts the moment it's tapped, by its own rule: "Yes" to safety
@@ -117,17 +118,7 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
     fetch("/api/session", { method: "POST" }).catch(() => {});
   };
 
-  // Saved in the background, so the screen-out or crisis screen never waits.
-  // A tap sends which question it was, so the server records the same outcome
-  const leave = (outcome: FitOutcome, next: FitAnswers, field?: TapField) => {
-    fetch("/api/join/fit", {
-      method: "POST",
-      keepalive: true,
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(field ? { mode: "tap", field, answers: next } : { mode: "outcome", answers: next }),
-    }).catch(() => {});
-    router.push(outcomePath(outcome));
-  };
+  const leave = useLeave();
 
   // A one-tap answer, acted on by its own rule only
   const tap = (field: TapField, patch: FitAnswers) => {
@@ -264,8 +255,6 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
     </form>
   );
 }
-
-type TapField = "inTexas" | "planId" | "medicaidOrMedicare" | "safety" | "hospital";
 
 function InsuranceQuestions({
   answers,
