@@ -667,6 +667,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** "Step n of n", which made people count. One long screen 1, which scrolls on a phone. A general error for "I don't see my plan", when the two ways forward are on screen
 - **Revisit when:** The redesign changes how progress looks
 
+## 2026-10-29 · Self-pay patients are asked about Medicaid or Medicare; one-tap screen-outs act on tap
+
+- **What:** When someone picks self-pay, one Yes / No question: "Do you have Medicaid or Medicare?" "Yes" goes straight to the Medicaid or Medicare screen-out, with the same copy as tapping Medicaid or Medicare in the plan list. "No" to Texas now also screens out as soon as it's tapped, so every one-tap screen-out works the same way (Texas, Medicaid or Medicare, the hospital stay). Date of birth is still checked on Continue. Claude Code adds both to PR 10, with a rule test
+- **Why:** Legion doesn't see Medicaid or Medicare patients even as self-pay, and the screen-out copy says so. Asking for facts instead of yes/no cards dropped that check for self-pay patients, so one could get through. Acting on tap everywhere means people aren't asked more questions after an answer that already decides it
+- **Rejected:** No question for self-pay, which lets a Medicaid or Medicare patient book. Asking every patient the Medicaid question, which repeats the plan for insured patients. Checking Texas only on Continue, which made it behave differently from the other one-tap answers
+- **Revisit when:** Legion changes its Medicaid or Medicare rule
+
 ---
 
 # Spoken defence (fill before the review call)

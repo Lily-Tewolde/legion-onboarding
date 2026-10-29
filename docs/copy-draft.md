@@ -73,6 +73,8 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
     - "Please answer this question."
     - Continue with "I don't see my plan" still selected: "Choose ‘Continue as self-pay’ or talk to a person to keep going" **[decided]**
 - Three steps, so nothing scrolls on a phone: date of birth and Texas, then insurance on its own, then the safety and hospital questions. Medicaid or Medicare goes straight to its screen-out when tapped, like the hospital question **[decided]**
+- Self-pay, shown once self-pay is chosen: "Do you have Medicaid or Medicare?" Options: "Yes", "No". "Yes" goes straight to the Medicaid or Medicare screen-out, with the same copy **[decided]**
+- Every one-tap screen-out works the same way: "No" to Texas, Medicaid or Medicare (from the plan list or the self-pay question) and "Yes" to the hospital question go straight to their screen-out when tapped. Date of birth is checked on Continue **[decided]**
 
 **Lily's notes**
 - The start screen's content now opens this screen
