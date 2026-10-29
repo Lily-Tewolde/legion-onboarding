@@ -22,7 +22,7 @@ Fill in every field:
 
 status
 - "ok": you understood enough to restate it.
-- "clarify": the answer is too vague to place, such as "I need help". Only when there's no <clarifying_question> yet. If there is one, never return "clarify" again: if the answer is still vague, return "ok" with the concern "Not sure" and need "not_sure".
+- "clarify": the answer is too vague to place, such as "I need help". Only when there's no <clarifying_question> yet. If there is one, never return "clarify" again: if the answer is still vague, return "ok" with the concern "Not sure", quoting the patient's first message, and need "not_sure".
 - "eligibility_check": the patient mentions something that may affect whether we can see them. Still fill in their concerns.
 - "not_understood": the input can't be read as words at all, such as mashed keys.
 
@@ -43,15 +43,23 @@ Never repeat an ID number, card number or phone number.`;
 const STATUSES = ["ok", "clarify", "eligibility_check", "not_understood"] as const;
 const FLAG_TYPES = ["age", "state", "insurance", "hospital_stay", "someone_else"] as const;
 
-const Output = z.object({
+// Unknown fields, wrong values and too-long strings are all rejected
+const Output = z.strictObject({
   status: z.enum(STATUSES),
   clarifying_question: z.string().max(200).nullable(),
-  concerns: z.array(z.object({ label: z.enum(CONCERN_LABELS), quote: z.string().max(500) })).max(10),
+  concerns: z.array(z.strictObject({ label: z.enum(CONCERN_LABELS), quote: z.string().max(500) })).max(10),
   diagnosed: z.enum(["yes", "no", "not_sure"]),
   need: z.enum(["medication_support", "new_diagnosis_or_medication", "not_sure"]),
-  eligibility_flags: z.array(z.object({ type: z.enum(FLAG_TYPES), quote: z.string().max(500) })).max(5),
-  chips: z.array(z.object({ label: z.enum(CONCERN_LABELS), display: z.string().max(40) })).max(6),
+  eligibility_flags: z.array(z.strictObject({ type: z.enum(FLAG_TYPES), quote: z.string().max(500) })).max(5),
+  chips: z.array(z.strictObject({ label: z.enum(CONCERN_LABELS), display: z.string().max(40) })).max(6),
 });
+
+// The same checks the app runs on the model's output, for the eval harness to
+// try on outputs the model wouldn't normally give (golden-set case Y-02)
+export function parseUnderstanding(raw: unknown, input: WhatsGoingOnInput): Understanding | null {
+  const parsed = Output.safeParse(raw);
+  return parsed.success ? settle(parsed.data, input) : null;
+}
 
 export type Understanding = z.infer<typeof Output>;
 export type EligibilityFlagType = (typeof FLAG_TYPES)[number];
@@ -125,7 +133,7 @@ function settle(output: Understanding, input: WhatsGoingOnInput): Understanding 
   if ((output.status === "clarify") !== (output.clarifying_question !== null)) return null;
 
   if (output.status === "clarify" && input.clarification) {
-    const quote = input.clarification.answer.slice(0, 500);
+    const quote = input.text.slice(0, 500);
     return {
       ...output,
       status: "ok",
