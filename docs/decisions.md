@@ -391,7 +391,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-29 · AI limits: 30 calls per visitor per hour and a daily spending cap
 
-- **What:** About 30 AI calls per visitor per hour, plus a daily spending cap for the whole demo, estimated from the token counts each call returns. The cap is an environment variable, set to $10 a day by default. Over either limit, the step opens as the simple form with its usual note
+- **What:** About 30 AI calls per visitor per hour, plus a daily spending cap for the whole demo, estimated from the token counts each call returns. The cap is an environment variable, set to $10 a day by default. Over either limit, the step opens as the simple form with its usual note *(updated Oct 29: only the "What's going on?" call counts toward the 30 an hour; see below)*
 - **Why:** The preview is public and the AI calls are real. A per-visitor limit stops one person running it up; a daily cap bounds the total
 - **Rejected:** A per-visitor limit only, which many visitors together could still exceed
 - **Revisit when:** Legitimate demo use hits the cap
@@ -706,12 +706,19 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 - **What:**
     - **Chips only:** when only starter chips are tapped and nothing is typed or said, there's no AI call. The chips are restated as they are, and the confirm screen asks the diagnosis question
-    - **Limits:** over the per-visitor or daily limit, "What's going on?" opens as the simple form, but the word list always runs and the crisis flag still runs on all free text (Lily's call). Whether the crisis flag counts toward the 30 an hour is still open in PR 12
+    - **Limits:** over the per-visitor or daily limit, "What's going on?" opens as the simple form, but the word list always runs and the crisis flag still runs on all free text (Lily's call).
     - **Crisis versions:** immediate danger and being hurt are their own pages, `/help-now/immediate-danger` and `/help-now/being-hurt`. Every other kind, including past risk, goes to `/help-now` with "We want to make sure you're okay."
     - **After "I'm safe right now":** the patient goes back with their words kept, and Continue carries on for those same words. The crisis checks still run on anything new
 - **Why:** No AI call is needed when there's nothing to read. The crisis checks are the one part that can't switch off. The same words shouldn't send someone back to the crisis screen they've just left
 - **Rejected:** Stopping the crisis flag over a limit, which would leave only the word list. Re-checking the same words after "I'm safe", which would loop
 - **Revisit when:** Legion's clinical team sets the rule for continuing after a flag
+
+## 2026-10-29 · Only the "What's going on?" call counts toward the 30 an hour
+
+- **What:** The per-visitor limit of about 30 an hour counts only the "What's going on?" call. The crisis flag never counts toward it, but its cost still counts toward the daily cap. Lily's answer to PR 12's question
+- **Why:** Counting the crisis flag cut the limit to about 15 submits an hour (PR 12). Keeping it in the daily cap still bounds the total cost
+- **Rejected:** Counting every AI call, the crisis flag included (PR 12 as first built)
+- **Revisit when:** Later AI steps (the check-in and summary) are built and need their own limit, or the daily cap is reached
 
 ---
 

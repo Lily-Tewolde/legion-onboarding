@@ -206,7 +206,7 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - Policy line, only for the concern it applies to **[Confirm with Legion]**. For example, for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." For now, Anxiety's is the only one
 - "This only repeats what you told us. It isn't a diagnosis."
 - For each concern where we don't know whether it's been diagnosed (for example, only a chip was tapped): one row under the chips, "Have you been diagnosed with {concern}?" For example: "Have you been diagnosed with anxiety?" Options: "Yes", "No", "Not sure". Concerns we already know about get no row **[decided]**
-- **[drafted]** How each concern reads in that question: "ADHD", "anxiety", "depression", "insomnia", "PTSD", "OCD", "panic disorder", "bipolar disorder". No row for "Other" or "I'm not sure"
+- How each concern reads in that question, with acronyms in capitals: "ADHD", "anxiety", "depression", "insomnia", "PTSD", "OCD", "panic disorder", "bipolar disorder". No row for "Other" or "I'm not sure" **[decided]**
 - Double-checks, when the answer mentions something that doesn't match screen 1: one small row each, under the chips **[decided]**
     - Another state: "You mentioned another state. Will you be in Texas for your visits?" Options: "Yes", "No"
     - Medicaid or Medicare: "You mentioned Medicaid or Medicare. Do you have Medicaid or Medicare?" Options: "Yes", "No"

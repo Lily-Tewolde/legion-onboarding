@@ -144,7 +144,7 @@ Models: `claude-sonnet-5-5` for both AI steps, `claude-haiku-5-5` for the crisis
 Structured outputs use `output_config.format` with `type: "json_schema"`. The API can't enforce string lengths, so every response is also validated in the app (zod), including lengths and that every citation points to a real answer. A refusal, a truncated response or anything that fails validation sends the step to the plain form, logs `portal.ai.fallback_used` without the patient's text, and never retries.
 
 - **Slow responses:** at 5 seconds, show "Still working on it…". At 10 seconds, offer "Use a simple form instead" and keep what the patient typed. The step only switches to the form on its own on a real error (a failed call, a refusal, a truncated response or a validation failure)
-- **Rate limit:** about 30 AI calls per visitor per hour, plus a daily spending cap for the whole demo (`AI_DAILY_CAP_USD`, default $10, estimated from the token counts each call returns). Over either limit, the step opens as the simple form with its note
+- **Rate limit:** about 30 "What's going on?" calls per visitor per hour (the crisis flag never counts toward it), plus a daily spending cap for the whole demo (`AI_DAILY_CAP_USD`, default $10, estimated from the token counts each call returns, the crisis flag included). Over either limit, the step opens as the simple form with its note
 - **Patient text limit:** 2,000 characters per answer
 
 ## 5. Events to track
