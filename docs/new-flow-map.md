@@ -55,7 +55,7 @@ Lily merged three screens into screen 1 and three into screen 5, so the copy dra
 - **Events:** page view on /portal/join/conditions (keeps Legion's milestone); `portal.concern.submitted` with typed, spoken, chips or form
 
 ### 3. Here's what we understood (AI)
-- **Shows:** what we understood, as chips the patient can remove or add to, in the patient's language with the standard English label behind each. One short policy line only for the concern it applies to, for example for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." (wording to confirm with Legion). "This only repeats what you told us. It isn't a diagnosis." When we don't know whether it's been diagnosed (for example, only a chip was tapped), one row: "Have you been diagnosed with this?" Yes / No / Not sure
+- **Shows:** what we understood, as chips the patient can remove or add to, in the patient's language with the standard English label behind each. One short policy line only for the concern it applies to, for example for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." (wording to confirm with Legion). "This only repeats what you told us. It isn't a diagnosis." For each concern where we don't know whether it's been diagnosed (for example, only a chip was tapped), one row: "Have you been diagnosed with {concern}?" Yes / No / Not sure. One small double-check row for anything that doesn't match screen 1, with the same rules
 - **Questions so far:** 8
 - **Events:** page view on /portal/join/needs (keeps Legion's milestone); `portal.concern.confirmed` with whether it was corrected
 

@@ -488,7 +488,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-29 · A diagnosis row instead of an AI question
 
-- **What:** When we don't know whether something's been diagnosed (for example, only a chip was tapped), the confirm screen shows one row: "Have you been diagnosed with this?" Yes / No / Not sure
+- **What:** When we don't know whether something's been diagnosed (for example, only a chip was tapped), the confirm screen shows one row: "Have you been diagnosed with this?" Yes / No / Not sure *(updated Oct 29: one row per concern we don't know about; see below)*
 - **Trade-off:** one more tap on the confirm screen
 - **Rejected:** an AI clarifying question, which is slower and asks the patient to explain
 - **Revisit when:** most patients answer "Not sure"
@@ -680,6 +680,38 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** "Pay" reads like the card step, so people may think they're being charged now.
 - **Rejected:** Keeping "How will you pay?", which sounds like a payment step
 - **Revisit when:** Testing shows people without insurance pick "Yes", or Legion adds other ways to pay
+
+## 2026-10-29 · The diagnosis question is asked once per concern we don't know about
+
+- **What:** The confirm screen asks "Have you been diagnosed with {concern}?" (for example, "Have you been diagnosed with anxiety?") once for each concern where we don't know, with Yes / No / Not sure. Concerns we already know about get no row. Replaces the single "Have you been diagnosed with this?" row. Lily's call from her design review; Claude Code builds it in PR 12
+- **Why:** With one row for everything, someone with two concerns can't say which one has been diagnosed
+- **Rejected:** One row for everything (the earlier decision)
+- **Revisit when:** Most patients answer "Not sure"
+
+## 2026-10-29 · Double-checks on the confirm screen: one row each, same rules as screen 1
+
+- **What:** When "What's going on?" mentions something that doesn't match screen 1, the confirm screen shows one small row for each: another state, Medicaid or Medicare, a hospital stay, or age. Each row is a short lead ("You mentioned another state.") then screen 1's own question; age asks "Can you check your date of birth?" The rules are the same as screen 1: "No" to Texas, "Yes" to Medicaid or Medicare and "Yes" to the hospital question screen out on tap, and the date of birth is checked on "Looks right". "Yes" to Medicaid or Medicare screens out however someone pays. Lily's wording, built in PR 12. Applies the eligibility-surprises decision above
+- **Why:** The rules decide, never the AI, and each answer acts the same way wherever it's asked
+- **Rejected:** Sending the patient back to screen 1, which loses their place
+- **Revisit when:** The redesign changes how the confirm screen looks
+
+## 2026-10-29 · Legion's conditions list, and labels that match it
+
+- **What:** The simple form and "+ Add" use Legion's conditions list as built in PR 12: ADHD, Anxiety, Depression, Insomnia & sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other and I'm not sure. PTSD, OCD, Panic disorder and Other are new concern labels, and the made-up providers now cover PTSD, OCD and Panic disorder. "Insomnia & sleep" keeps the label Sleep, so matching, the golden set and the AI line up. Anxiety's is the only policy line for now. Updates the made-up providers decision above
+- **Why:** Patients choose from the same list they'd see in Legion's flow, and every condition on it can be matched to a provider
+- **Rejected:** Renaming the Sleep label, which would mean changing the golden set and matching for no gain to the patient
+- **Revisit when:** Legion confirms its conditions list or adds policy lines
+
+## 2026-10-29 · Smaller calls from PR 12
+
+- **What:**
+    - **Chips only:** when only starter chips are tapped and nothing is typed or said, there's no AI call. The chips are restated as they are, and the confirm screen asks the diagnosis question
+    - **Limits:** over the per-visitor or daily limit, "What's going on?" opens as the simple form, but the word list always runs and the crisis flag still runs on all free text (Lily's call). Whether the crisis flag counts toward the 30 an hour is still open in PR 12
+    - **Crisis versions:** immediate danger and being hurt are their own pages, `/help-now/immediate-danger` and `/help-now/being-hurt`. Every other kind, including past risk, goes to `/help-now` with "We want to make sure you're okay."
+    - **After "I'm safe right now":** the patient goes back with their words kept, and Continue carries on for those same words. The crisis checks still run on anything new
+- **Why:** No AI call is needed when there's nothing to read. The crisis checks are the one part that can't switch off. The same words shouldn't send someone back to the crisis screen they've just left
+- **Rejected:** Stopping the crisis flag over a limit, which would leave only the word list. Re-checking the same words after "I'm safe", which would loop
+- **Revisit when:** Legion's clinical team sets the rule for continuing after a flag
 
 ---
 
