@@ -61,19 +61,19 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - If progress is saved on this device: "Welcome back. Pick up where you left off." Button: "Continue"
 - Date of birth. Label: "Date of birth". Hint: "MM / DD / YYYY"
 - Texas. Question: "Will you be in Texas for your visits?" Options: "Yes", "No"
-- Payment. Label: "How will you pay?" Options: "With insurance", "Self-pay (no insurance)"
+- Insurance. Label: "Do you have health insurance?" Options: "Yes", "No". "Yes" shows the plan field; "No" is self-pay **[decided]**
 - Plan, if insured. Label: "Your insurance plan". Placeholder: "Choose your plan". Last option: "I don't see my plan". Coverage shows inline under the field (see screen 3)
-- Self-pay, shown inline once chosen: "Self-pay is $250 for your first visit and $150 for follow-up visits, charged after your visit." Label: "From Legion's current flow"
+- Self-pay, shown inline once "No" is chosen: "Self-pay is $250 for your first visit and $150 for follow-up visits, charged after your visit." Label: "From Legion's current flow"
 - **[REVIEW]** Safety question: "Are you thinking about harming yourself or others?" Options: "No", "Yes". Hint: "If you answer yes, we'll show you how to get help right away."
 - **[REVIEW]** **[Confirm with Legion's clinical team]** "Have you been in the hospital for mental health or substance use in the past year?" Options: "No", "Yes". Hint: "This helps us make sure we can offer the right level of care."
 - Button: "Continue"
 - Errors:
     - "Please enter your date of birth as MM / DD / YYYY."
-    - "Please choose how you'll pay."
+    - "Please choose Yes or No." **[decided]**
     - "Please answer this question."
     - Continue with "I don't see my plan" still selected: "Choose ‘Continue as self-pay’ or talk to a person to keep going" **[decided]**
 - Three steps, so nothing scrolls on a phone: date of birth and Texas, then insurance on its own, then the safety and hospital questions. Medicaid or Medicare goes straight to its screen-out when tapped, like the hospital question **[decided]**
-- Self-pay, shown once self-pay is chosen: "Do you have Medicaid or Medicare?" Options: "Yes", "No". "Yes" goes straight to the Medicaid or Medicare screen-out, with the same copy **[decided]**
+- Self-pay, shown once "No" is chosen: "Do you have Medicaid or Medicare?" Options: "Yes", "No". "Yes" goes straight to the Medicaid or Medicare screen-out, with the same copy **[decided]**
 - Every one-tap screen-out works the same way: "No" to Texas, Medicaid or Medicare (from the plan list or the self-pay question) and "Yes" to the hospital question go straight to their screen-out when tapped. Date of birth is checked on Continue **[decided]**
 
 **Lily's notes**

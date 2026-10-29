@@ -674,6 +674,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** No question for self-pay, which lets a Medicaid or Medicare patient book. Asking every patient the Medicaid question, which repeats the plan for insured patients. Checking Texas only on Continue, which made it behave differently from the other one-tap answers
 - **Revisit when:** Legion changes its Medicaid or Medicare rule
 
+## 2026-10-29 · "Do you have health insurance?" replaces "How will you pay?"
+
+- **What:** The insurance question on screen 1 is now "Do you have health insurance?" with "Yes" and "No", replacing "How will you pay?" with "With insurance" and "Self-pay (no insurance)". "Yes" shows the plan field; "No" is self-pay, with the price and "Do you have Medicaid or Medicare?" as before. The error is "Please choose Yes or No." The stored value (`pay_method`) doesn't change. Lily's call from her design review; Claude Code updates `src/copy.ts` in the design pass
+- **Why:** "Pay" reads like the card step, so people may think they're being charged now.
+- **Rejected:** Keeping "How will you pay?", which sounds like a payment step
+- **Revisit when:** Testing shows people without insurance pick "Yes", or Legion adds other ways to pay
+
 ---
 
 # Spoken defence (fill before the review call)
