@@ -7,11 +7,14 @@ import { Checkbox } from "@/components/Checkbox";
 import { copy } from "@/copy";
 import { FIT_STEPS } from "@/lib/fit/flow";
 import { getAnswers, saveAnswers } from "@/lib/fit/stored-answers";
+import { crisisFromStore, safeKey, whatsGoingOnStore } from "@/lib/whats-going-on/stored";
 
 // "I'm safe right now and want to keep going", on its own at the bottom of the
-// crisis screen. Continuing goes back to the safety question's step with the
-// answers kept, and the other fit rules decide. Answering "Yes" to the safety question again
-// shows this screen again. To confirm with Legion's clinical team
+// crisis screen. From the safety question, continuing goes back to that step
+// with the answers kept, and the other fit rules decide. From "What's going
+// on?", it goes back with the words kept; Continue there carries on, and the
+// crisis check still runs on anything new. A new crisis shows this screen
+// again. To confirm with Legion's clinical team
 export function SafeToContinue() {
   const router = useRouter();
   const [safe, setSafe] = useState(false);
@@ -30,6 +33,12 @@ export function SafeToContinue() {
   const onContinue = () => {
     if (!safe) {
       setError(true);
+      return;
+    }
+    if (crisisFromStore.get().from === "whats_going_on") {
+      const words = whatsGoingOnStore.get();
+      whatsGoingOnStore.save({ ...words, safeText: safeKey(words.text, words.clarifyingAnswer ?? "") });
+      router.push("/join/whats-going-on");
       return;
     }
     saveAnswers({ ...getAnswers(), safeConfirmed: true });

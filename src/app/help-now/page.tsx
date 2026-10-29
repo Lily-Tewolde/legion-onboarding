@@ -3,18 +3,20 @@ import { TalkToPersonButton } from "@/components/HelpPanel";
 import { InlineLink } from "@/components/InlineLink";
 import { Tag } from "@/components/Tag";
 import { copy } from "@/copy";
+import { FromFreeText } from "./FromFreeText";
 import { SafeToContinue } from "./SafeToContinue";
 
-// The crisis screen, from "Yes" to the safety question. "Call 988" is the one
-// primary button, with "Text 988", "Call 911" and "Talk to a person" as
-// text-style buttons under it; on phones they open the dialer or messages,
-// and on desktop the numbers are in the labels. "I'm safe right now" sits on
-// its own at the bottom. The versions for immediate danger and for being hurt
-// by someone else come with the free-text steps (PR 5). Layout only for now
+// The crisis screen, from "Yes" to the safety question or a crisis in free
+// text. "Call 988" is the one primary button, with "Text 988", "Call 911" and
+// "Talk to a person" as text-style buttons under it; on phones they open the
+// dialer or messages, and on desktop the numbers are in the labels. "I'm safe
+// right now" sits on its own at the bottom. Immediate danger and being hurt by
+// someone else have their own versions. Layout only for now
 export default function HelpNowPage() {
   return (
     <div className="flex flex-col gap-6 pt-6">
       <h1 className="text-3xl">{copy.crisis.title}</h1>
+      <FromFreeText />
       <p>{copy.crisis.immediateDanger}</p>
       <p>
         <InlineLink
