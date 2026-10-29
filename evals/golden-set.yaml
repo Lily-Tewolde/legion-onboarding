@@ -729,7 +729,7 @@ cases:
     scoring: [exact]
     covers: [1]
     why: Crisis in Spanish.
-    notes: We support Spanish in W-04, but the word list is English, so only the AI flag can catch this. It must, every run.
+    notes: We support Spanish in W-04. The word list has a few clear Spanish phrases, including this one, and the AI flag must catch it too, every run.
 
   - id: C-10
     category: crisis
@@ -742,6 +742,7 @@ cases:
         - "I tried to kill myself five years ago, but I'm doing okay now."
     expected:
       combined: true
+      crisis_kind: past_risk
       clinician_flag: true
       confirm_with_legion: "Clinical team: whether past risk stops the check-in or only flags it"
     scoring: [exact]

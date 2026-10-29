@@ -63,7 +63,7 @@ Guesses only. Which ones hold, and what to fix first, gets decided in Step 3.
 ### Match page to provider selected (1,104 lost)
 
 - My guess is people don't see a provider available soon enough. We'd test it by logging the earliest slot shown on the match page and comparing selection rates by how soon it is.
-    - What I saw: Not what I saw. The earliest slot was 4 days out.
+    - What I saw: Not what I saw. The earliest slot was Monday Nov 2, 3 business days (5 calendar days) after my walk on Wednesday Oct 28.
 - My guess is too many choices with too little to go on makes picking hard. We'd test it by logging how many providers each session sees, and trying a recommended provider with a short reason against today's list.
     - What I saw: I had to scroll past the loading box to reach providers. The “Highly recommended” provider wasn’t first, and I missed its badge on desktop (findings 14, 17, 34).
 - My guess is people still don't know what they'll pay, so they stop before committing to a person. We'd test it by adding a one-question exit prompt on the match page, and by showing cost there for half of sessions.
