@@ -453,7 +453,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-29 · Crisis kinds: 911 first for immediate danger, safety resources for being hurt, a flag for past risk
 
-- **What:** The crisis flag returns a kind. Something happening right now ("I took a bunch of my pills an hour ago") shows 911 first. Being hurt by someone else shows safety resources, including the National Domestic Violence Hotline. A past attempt escalates and flags the clinician. All three to confirm with Legion's clinical team
+- **What:** The crisis flag returns a kind. Something happening right now ("I took a bunch of my pills an hour ago") shows 911 first. Being hurt by someone else shows safety resources, including the National Domestic Violence Hotline *(updated the same day: it pauses the check-in, offers the same "I'm safe" option and flags the clinician; see below)*. A past attempt escalates and flags the clinician. All three to confirm with Legion's clinical team
 - **Trade-off:** more screens to get right and test, in exchange for the right first step in each situation
 - **Rejected:** one crisis screen for everything, which puts 988 first even in an emergency and has nothing for someone being hurt
 - **Revisit when:** Legion's clinical team sets the responses
@@ -502,14 +502,14 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-29 · A gentle note after a skip, and a soft note for questions we can't answer
 
-- **What:** After a skip, one note, shown once: "That's okay. A few answers help your provider spend more of your visit on you." When the patient asks something we can't answer here, a soft inline note ("We can't answer that here. For cost or coverage, talk to a person.") and the check-in continues
+- **What:** *(Updated the same day: the note shows after two skips in a row.)* After a skip, one note, shown once: "That's okay. A few answers help your provider spend more of your visit on you." When the patient asks something we can't answer here, a soft inline note ("We can't answer that here. For cost or coverage, talk to a person.") and the check-in continues
 - **Trade-off:** a little more text on screen
 - **Rejected:** no note at all, which leaves a skipping patient unsure if that's okay. A warning or a banner, which adds pressure
 - **Revisit when:** the note seems to push people away rather than encourage them
 
 ## 2026-10-29 · Medications confirmed at the end, never silently changed
 
-- **What:** At the end of the check-in: "Did we get your medications right?", showing each one as the patient said it, or as heard when spoken. The AI never silently changes a drug name. Obvious typos can be normalized, but anything that could be two different drugs (Celebrex and Celexa) stays "unclear" for the clinician
+- **What:** At the end of the check-in: "Did we get your medications right?", showing each one as the patient said it, or as heard when spoken. The AI never silently changes a drug name. Obvious typos can be normalized, but anything that could be two different drugs (Celebrex and Celexa) stays "unclear" for the clinician *(updated the same day with an exact rule and a "Did you mean" question; see below)*
 - **Trade-off:** one more step, in exchange for a medication list the patient has checked
 - **Rejected:** silently correcting to the closest drug, which could put the wrong medication in front of a clinician
 - **Revisit when:** clinicians find "unclear" entries common enough to slow them down
@@ -527,6 +527,47 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Trade-off:** more cases to keep passing
 - **Rejected:** testing only well-written English
 - **Revisit when:** Legion confirms which languages they support
+
+## 2026-10-29 · The patient decides unclear medication names, not the AI
+
+- **What:** Only a one-letter typo that matches exactly one known drug, with nothing else close, is normalized, in plain code with a list of known drugs. Anything else stays "unclear". The summary says only "As heard: 'sir tra lean' (unclear)", and the medication check at the end asks "Did you mean sertraline?" so the patient decides. Cases I-07, I-13 and I-14
+- **Trade-off:** one more question at the end for a patient whose drug name wasn't clear
+- **Rejected:** the summary guessing "possibly sertraline", which names a drug the patient didn't say. Letting the AI decide what counts as an obvious typo
+- **Revisit when:** the "Did you mean" question is wrong often enough to confuse patients
+
+## 2026-10-29 · Being hurt by someone else pauses the check-in
+
+- **What:** The check-in pauses and shows safety resources, with the same "I'm safe right now and want to keep going" option, and flags the clinician. To confirm with Legion's clinical team
+- **Trade-off:** the check-in is interrupted for someone who may want to finish it, but they can continue
+- **Rejected:** showing resources and carrying on without a pause, which treats it as less serious than other safety risks. Stopping the check-in completely, which takes away the patient's choice
+- **Revisit when:** Legion's clinical team sets the response
+
+## 2026-10-29 · Smaller calls from the golden-set audit
+
+- **What:**
+    - A medication question gets "We'll pass your question to your provider." (A-04)
+    - The skip note shows after two skips in a row (I-03)
+    - The diagnosis row is on the confirm screen, under the chips (W-06)
+    - W-14's expected behaviour matches the someone-else screen
+    - The grader-check example G-09 says "we", like every AI line
+    - F-06 is split: the false alarm stays reported without a bar, and the side-effect fact moves to its own summary case (S-02), where it counts toward the summary bar
+- **Trade-off:** none worth noting; each one makes the cases match the spec
+- **Rejected:** leaving the cases and the spec out of step
+- **Revisit when:** Not expected to change
+
+## 2026-10-29 · A few clear Spanish phrases in the crisis word list
+
+- **What:** The word list adds a few clear Spanish phrases, matched as whole phrases. "Ya no quiero vivir" now trips the word list as well as the AI flag (C-09), and "me muero de sueño" still doesn't (F-05). The final list is for Legion's clinical team to confirm
+- **Trade-off:** a slightly longer list to maintain, and some risk of false alarms, which F-05 checks
+- **Rejected:** relying only on the AI flag for Spanish, which leaves one layer instead of two
+- **Revisit when:** Legion confirms which languages they support
+
+## 2026-10-29 · Seven more cases and three more pre-mortem failures
+
+- **What:** Added from the audit, at my request: a medication fixed at the end check (I-13), the normalization rule's edge (I-14), tapped chips and typed text that disagree (W-15), Medicare and a hospital stay mentioned before booking (W-16, W-17), the side-effect summary case (S-02), and "Not sure" never selected with a specific concern (Y-07, finding 11). The golden set is now 70 cases. The pre-mortem gains failures 11 to 13: being hurt by someone else, someone filling it in for another person, and a minor found after booking
+- **Trade-off:** a longer eval run
+- **Rejected:** leaving gaps the audit found against my own findings and flow
+- **Revisit when:** a full run gets slow or expensive enough that it gets skipped
 
 ---
 

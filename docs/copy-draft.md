@@ -136,6 +136,7 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - "The National Domestic Violence Hotline is free and open 24/7, with help in Spanish. Call 1-800-799-7233 or text START to 88788." (Source: [thehotline.org](https://www.thehotline.org/))
 - "You can also talk to a person at Legion: (555) 010-0123." Label: "Demo number"
 - Buttons on phones: "Call the hotline", "Text the hotline", "Call 911"
+- The check-in pauses here. To continue: checkbox "I'm safe right now and want to keep going", then button "Continue". The clinician sees a safety flag **[Confirm with Legion's clinical team]**
 
 **Lily's notes**
 - Approved as drafted
@@ -333,9 +334,11 @@ One page, like a one-page checkout when you shop online.
 - Always visible: "Skip, I'll cover it in my visit"
 - While the next question loads: skeleton
 - Form fallback note: "We're using a simple form for the check-in."
-- After the patient skips, shown once, never as a warning: "That's okay. A few answers help your provider spend more of your visit on you." **[decided]**
+- After two skips in a row, shown once, never as a warning: "That's okay. A few answers help your provider spend more of your visit on you." **[decided]**
 - When the patient asks something we can't answer here (for example, about cost or coverage), a soft note in line, and the check-in keeps going: "We can't answer that here. For cost or coverage, talk to a person." **[decided]**
+- When the patient asks a medication question (for example, about a dose): "We'll pass your question to your provider." The check-in keeps going **[decided]**
 - Medication check, at the end: "Did we get your medications right?" Each medication shows as the patient said it, or as it was heard when spoken. Buttons: "Yes, that's right", "Fix something" **[drafted]**. If none were mentioned: "You didn't mention any medications." Buttons: "That's right", "Add one" **[drafted]**
+- At the medication check, for a name that wasn't clear (spoken, or more than a one-letter typo): "Did you mean {drug}?" Buttons: "Yes", "No, keep what I said" **[drafted]**. The patient decides, not the AI
 - If the patient says they're under 18: the check-in stops with "Thanks for telling us. Someone from our team will reach out before your visit." **[decided]** **[Confirm with Legion's clinical and legal team]**
 - Done: "Thanks. Your provider will see your answers before your visit." Button: "Back to my visit page"
 
