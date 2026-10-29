@@ -2,7 +2,8 @@
 
 import { cx } from "./cx";
 
-// Adapted from Inspo Book 01's switch: same track-and-thumb build, sized up
+// Adapted from Inspo Book 01's switch, for settings only (choices inside
+// the flow use Checkbox). Same track-and-thumb build, sized up
 // from 18 x 10px to 44 x 26px, with the whole row as a 44px tap target
 export type SwitchProps = {
   label: string;
