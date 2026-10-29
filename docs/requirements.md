@@ -49,7 +49,7 @@ Median days from start to a completed first visit.
 
 ## Transparency
 
-One calm info box at the start of onboarding, before any AI step: "We use AI to help with some steps. You can talk to a person any time." Readable text, not alarming. No markers on individual AI screens.
+One blanket notice at the very start of onboarding, shown once: "We use AI to help with some steps. You can talk to a person any time." Readable text, not alarming. No per-step disclosures or markers.
 
 ## How Legion grades the take-home
 

@@ -88,9 +88,9 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · Tell patients about AI once, at the start
 
-- **What:** One calm info box at the start of onboarding, before any AI step: "We use AI to help with some steps. You can talk to a person any time." Readable text, not alarming. No markers on individual AI screens
+- **What:** One blanket notice at the very start of onboarding, shown once: "We use AI to help with some steps. You can talk to a person any time." Readable text, not alarming. No per-step disclosures or markers
 - **Why:** Patients should know up front and know how to reach a person, without being alarmed on every screen. Texas requires clear disclosure of AI use in health care before or at the time of interaction (docs/research.md, question 4)
-- **Rejected:** A label on every AI screen. It repeats the message and makes each step feel riskier
+- **Rejected:** A label on every AI screen. It repeats the message and makes each step feel riskier. Also rejected: showing the notice again at the start of the pre-visit intake
 - **Revisit when:** A patient reaches an AI step without passing the start screen (for example, the pre-visit intake days later, or on another device), or Legion's counsel says one notice isn't enough
 
 ## 2026-10-28 · NPS after the first visit, never inside onboarding
