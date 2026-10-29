@@ -234,6 +234,20 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Storing made-up example conversations in Supabase. A patient's own conversation still wouldn't show, and it adds a table for no gain
 - **Revisit when:** The clinician view needs to work on a different device from the patient's
 
+## 2026-10-28 · Use Legion's real prices and cancellation fees, labelled
+
+- **What:** The copy uses Legion's prices from the current flow's payment page: self-pay $250 for the first visit and $150 for follow-ups; late cancellation (within 48 hours) or no-show $250 for first visits and $100 for follow-ups; most insured patients pay $0 to $40. Each is labelled "From Legion's current flow"
+- **Why:** Real numbers make the cost screen honest and show the change is about when the cost is shown, not what it is
+- **Rejected:** Made-up demo prices
+- **Revisit when:** Legion's prices change
+
+## 2026-10-28 · Font: Inter, with Inter Display for headings
+
+- **What:** Body text in Inter, headings in Inter Display. 16px body minimum, per `Design fundamentals.md`
+- **Why:** It's the face Legion's site already uses, so the prototype reads as Legion. It's free under the SIL Open Font License, so it can live in a public repo
+- **Rejected:** Satoshi, from Lily's Inspo Book 01: its licence says not to put the font files in a public repo. SF Pro: Apple's system font, not Legion's
+- **Revisit when:** Not expected to change
+
 ---
 
 # Spoken defence (fill before the review call)

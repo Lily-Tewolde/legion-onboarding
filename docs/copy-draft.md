@@ -2,7 +2,7 @@
 
 Every user-facing line for the build, screen by screen. Drafted to be calm, plain and easy to read for people up to 65: short sentences, everyday words, no jargon. Once edited, this becomes section 6 of the build brief.
 
-Lines Lily already decided are marked **[decided]**. Lines that need close review are marked **[REVIEW]**. Lines to check with Legion are marked **[Confirm with Legion]** or **[Confirm with Legion's clinical team]**. Made-up numbers and prices are labelled on screen as demo. `{curly braces}` are filled in by the app.
+Lines Lily already decided are marked **[decided]**. Lines that need close review are marked **[REVIEW]**. Lines to check with Legion are marked **[Confirm with Legion]** or **[Confirm with Legion's clinical team]**. Prices and the cancellation policy are Legion's, read from the current flow's payment page (desktop recording, about 3:37), and labelled "From Legion's current flow". Other made-up values are labelled on screen as demo. `{curly braces}` are filled in by the app.
 
 Crisis resources use the wording from their own sources: the 988 Suicide & Crisis Lifeline ([988lifeline.org](https://988lifeline.org/)) and SAMHSA's National Helpline ([samhsa.gov](https://www.samhsa.gov/find-help/helplines/national-helpline)). No clinical claims.
 
@@ -91,7 +91,7 @@ Shown from the safety question, or when the word list or the AI flag catches som
 
 **Insured**
 - Title: "You're covered"
-- "Your plan is in network. Most patients pay $0 to $40 a visit."
+- "Your plan is in network. Most patients pay $0 to $40 a visit." Label: "From Legion's current flow"
 - "You'll see your full cost before you book."
 - Label: "Demo: coverage check simulated"
 - Button: "Continue"
@@ -103,7 +103,7 @@ Shown from the safety question, or when the word list or the AI flag catches som
 
 **Self-pay**
 - Title: "Self-pay"
-- "Visits are $150 each, charged after your visit." Label: "Demo price"
+- "Self-pay is $250 for your first visit and $150 for follow-up visits, charged after your visit." Label: "From Legion's current flow"
 - Button: "Continue"
 
 ## 4. What's going on?
@@ -136,7 +136,7 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - Title: "Recommended for you"
 - Reason: "Why {first name}: treats {concern} · takes your plan · available {day}"
 - Label: "Demo: made-up provider"
-- "Video visit · about 60 minutes" **[Confirm with Legion]**
+- "Video visit · about 60 minutes" (60 minutes is from Legion's current flow)
 - "Pick a time"
 - Link: "See more providers"
 - Checkbox: "Tell me if an earlier time opens"
@@ -148,13 +148,13 @@ Shown from the safety question, or when the word list or the AI flag catches som
 ## 7. What you'll pay
 
 - Title: "What you'll pay"
-- Insured: "Estimated cost per visit: $0 to $40"
-- Self-pay: "Cost per visit: $150" Label: "Demo price"
+- Insured: "Estimated cost per visit: $0 to $40" Label: "From Legion's current flow"
+- Self-pay: "Cost: $250 for your first visit, $150 for follow-up visits" Label: "From Legion's current flow"
 - "When you're charged: after your visit"
 - "Cancel or reschedule 48 hours or more before: no charge"
-- "Cancel within 48 hours, or miss the visit: $50 fee"
-- Label: "Demo: example policy" **[Confirm with Legion]**
-- Link: "What if I cancel?" Opens: "You can cancel or reschedule from your visit page. If it's 48 hours or more before your visit, there's no charge. If it's later, or you miss the visit, there's a $50 fee."
+- "Cancel within 48 hours, or miss the visit: $250 fee for your first visit, $100 for follow-ups"
+- Label: "From Legion's current flow"
+- Link: "What if I cancel?" Opens: "You can cancel or reschedule from your visit page. If it's 48 hours or more before your visit, there's no charge. If it's later, or you miss the visit, the fee is $250 for your first visit and $100 for follow-ups."
 - Button: "Continue"
 
 ## 8. Your details
@@ -193,7 +193,7 @@ Shown from the safety question, or when the word list or the AI flag catches som
 
 - Title: "Your first visit"
 - "{Day}, {date} at {time} · {Provider} · Video visit"
-- What to expect: "Your provider will ask about what's going on, your history and any medications. Plan for about 60 minutes somewhere quiet and private." **[Confirm with Legion]**
+- What to expect: "Your provider will ask about what's going on, your history and any medications. Plan for about 60 minutes somewhere quiet and private." (60 minutes is from Legion's current flow)
 - Links: "Reschedule", "Cancel visit"
 - Check-in card: "Optional: pre-visit check-in". "About 5 minutes. It helps your provider prepare. You can skip it."
 - Before it opens: "Opens 72 hours before your visit."
