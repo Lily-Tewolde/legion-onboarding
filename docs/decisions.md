@@ -417,6 +417,34 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Simpler words or splitting each into two questions
 - **Revisit when:** Patients skip these questions more than the others
 
+## 2026-10-29 · Inter Display through Inter's optical size axis, no font files in the repo
+
+- **What:** Inter loads through `next/font/google` with its optical size axis (14 to 32). Headings set optical size 32, which is Inter Display. No font files are self-hosted
+- **Why:** The build brief says to self-host only if `next/font` can't load Inter Display. It can: Google's Inter is the variable version with both cuts in one file
+- **Rejected:** Self-hosting Inter Display files. More files to license-check and serve, for the same result
+- **Revisit when:** Headings don't look like Inter Display on the preview
+
+## 2026-10-29 · Small controls are 44px, not Inspo Book 01's 42px
+
+- **What:** Small buttons, chips and list rows are 44px tall. Main buttons and segmented controls stay at Inspo Book 01's 54px
+- **Why:** The build brief sets tap targets at 44px or more, after Apple's guidelines. Inspo Book 01's small size is 42px
+- **Rejected:** Keeping 42px with invisible padding around it. Harder to keep consistent
+- **Revisit when:** Not expected to change
+
+## 2026-10-29 · Contrast-checked colours: #2F5FE0 for actions, a darker grey for control borders
+
+- **What:** Buttons, links, selected states and the focus ring use #2F5FE0 (5.5:1 with white), the example shade from `Design fundamentals.md`. Borders of anything you tap use #7D879A (3.6:1 on white) instead of Inspo Book 01's #DCE2EA (1.3:1). Errors use Inspo Book 01's #DC2626 (4.8:1), since Legion's public palette has no red. Tailwind's default colours are switched off. Ratios in `docs/design.md`
+- **Why:** The brief requires 4.5:1 for text, and Apple's criteria ask for 3:1 for controls and selection states
+- **Rejected:** Legion's #3E70F7 for button fills (4.3:1, fails for normal text). Inspo's light border on controls (hard to see, fails 3:1)
+- **Revisit when:** Lily or Legion picks a different action blue
+
+## 2026-10-29 · Foundation answers: progress, checkboxes, help panel, header and a design page
+
+- **What:** Lily's answers to the open questions on PR #5. Progress is a thin bar with "Step 2 of 4" text, on the booking screens only, ending at "You're booked"; the text is also the screen reader label. Checkboxes for "Tell me if an earlier time opens", the consent and "I'm safe right now and want to keep going"; the switch is for settings only. The help panel's phone number and 988 are tap-to-call, and on phones the panel slides up from the bottom. Headings 600, body 400. Sizes stay (18px questions, 14px fine print). No rotating ring and no arrow on buttons. Hover blue #244CC0. Tab title "Legion Health · Prototype", a plain neutral favicon, and "Legion Health" as plain text in the header, with no logo. `/` redirects to `/join` once PR 3 adds it. A `/design` reference page for checking components on the live link
+- **Why:** Calm, plain and easy to finish. Text progress tells people how far they are, not just a bar. A checkbox reads as "I agree" or "yes, do this"; a switch reads as a setting. Tap-to-call gets people to help in one tap on a phone. Neutral branding avoids using Legion's logo in a prototype
+- **Rejected:** A bar with no text. A switch for the in-flow choices. Plain-text numbers. Inspo Book 01's rotating ring and arrow. Legion's logo as the favicon or in the header. Redirecting `/` before `/join` exists (it would show a 404)
+- **Revisit when:** The step count is set screen by screen in PR 3 onward
+
 ---
 
 # Spoken defence (fill before the review call)

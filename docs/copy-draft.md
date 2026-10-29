@@ -21,6 +21,9 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 
 - Banner: "Demo prototype: don't enter real information" **[decided]**
 - Help link: "Talk to a person" **[decided]**
+- Browser tab title: "Legion Health · Prototype" **[decided]**
+- Header: "Legion Health" as plain text, no logo **[decided]**
+- Progress, on the booking screens only, ending at "You're booked": "Step {step} of {total}", also the screen reader label **[decided]**
 - Back: "Back"
 - Loading: skeleton screens, no loading text
 - When an AI step takes more than 5 seconds: "Still working on it…". At 10 seconds, the "Use a simple form instead" link is offered, and what they typed is kept **[decided]**
