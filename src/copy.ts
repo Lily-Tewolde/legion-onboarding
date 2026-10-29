@@ -9,11 +9,14 @@ export const copy = {
   },
   helpPanel: {
     title: "Talk to a person",
-    phone: "Call or text us at (555) 010-0123.",
+    // {number} is the tap-to-call link
+    phone: "Call or text us at {number}.",
+    phoneNumber: "(555) 010-0123",
     phoneLabel: "Demo number",
     hours: "Monday to Friday, 8 am to 6 pm Central.",
     hoursLabel: "Demo hours",
-    crisis: "If you're in crisis, call or text 988 any time.",
+    crisis: "If you're in crisis, call or text {number} any time.",
+    crisisNumber: "988",
     close: "Close",
   },
   progress: {
