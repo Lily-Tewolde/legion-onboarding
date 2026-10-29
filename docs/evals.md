@@ -73,11 +73,11 @@ How we know the two AI steps behave before any prompt is merged, and how they're
   "diagnosed": "yes | no | not_sure",
   "need": "medication_support | new_diagnosis_or_medication | not_sure",
   "eligibility_flags": [{ "type": "age | state | insurance", "quote": "the patient's own words" }],
-  "chips": ["short labels for the patient to confirm, at most 6"]
+  "chips": [{ "label": "standard English label, used for matching and the summary", "display": "the same label in the patient's language" }]
 }
 ```
 
-`need` uses Legion's three needs options. The allowed condition labels match Legion's conditions list (to confirm with Legion).
+`need` uses Legion's three needs options. The allowed condition labels match Legion's conditions list (to confirm with Legion). Chips show in the patient's language, at most 6, with the standard English label stored behind each one for matching and the summary.
 
 Pre-visit intake, each turn:
 

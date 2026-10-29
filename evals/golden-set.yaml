@@ -128,10 +128,13 @@ cases:
     expected:
       status: ok
       concerns: [Anxiety, Sleep]
-      chips_language: "TO DECIDE (Lily): match the patient's language, or English"
+      chips_display_language: Spanish
+      chips_labels: [Anxiety, Sleep]
+      summary_uses_english_labels: true
+      confirm_with_legion: "Whether they support Spanish-speaking patients"
     scoring: [exact]
     covers: []
-    why: Texas has many Spanish speakers. Checks it understands and doesn't refuse.
+    why: Texas has many Spanish speakers. Checks it understands, shows the chips in Spanish, and keeps the standard English labels behind them for matching and the summary.
 
   - id: W-05
     category: edge

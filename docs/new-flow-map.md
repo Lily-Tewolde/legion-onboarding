@@ -40,7 +40,7 @@ Counts for the new flow are from this map and will be rechecked in the build.
 - **Events:** page view on /portal/join/conditions (keeps Legion's milestone); `portal.concern.submitted` with typed, spoken or form
 
 ### 5. Here's what I understood (AI)
-- **Shows:** what the AI understood, as chips the patient can remove or add to. "The AI only restates what you said. It doesn't diagnose."
+- **Shows:** what the AI understood, as chips the patient can remove or add to, in the patient's language, with the standard English label stored behind each. "The AI only restates what you said. It doesn't diagnose."
 - **Questions so far:** 7
 - **Events:** page view on /portal/join/needs (keeps Legion's milestone); `portal.concern.confirmed` with whether it was corrected
 
@@ -113,3 +113,4 @@ Counts for the new flow are from this map and will be rechecked in the build.
 - **The virtual-care question** is dropped. The start screen says "All visits are by video" instead, labelled "Confirm with Legion" in case they use the answer for something
 - **The hospital-stay question** stays, labelled "Confirm with Legion's clinical team"
 - **Event names** above are proposals in Legion's portal.* style, fixed in the build brief
+- **Spanish-speaking patients:** chips show in the patient's language (step 5). Confirm with Legion whether they support Spanish-speaking patients

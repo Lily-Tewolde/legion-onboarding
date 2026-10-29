@@ -319,6 +319,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Running evals automatically on every PR in GitHub Actions: it would need the API key as a repository secret and costs a run on every push, including docs changes. Worth adding later
 - **Revisit when:** Prompt changes become frequent enough that a manual run gets skipped
 
+## 2026-10-29 · Chips in the patient's language, English labels behind them
+
+- **What:** In "What's going on?", the chips show in the patient's language. Each stores the standard English label for matching providers and for the clinician summary. Confirm with Legion whether they support Spanish-speaking patients
+- **Why:** A patient who writes in Spanish should be able to read what they're confirming. Fixed English labels keep provider matching, events and the summary consistent
+- **Rejected:** Always English, which asks a Spanish speaker to confirm words they may not read easily. Labels in any language, which would break matching and the summary
+- **Revisit when:** Legion confirms which languages they support
+
 ---
 
 # Spoken defence (fill before the review call)
