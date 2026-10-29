@@ -48,12 +48,13 @@ Lily merged three screens into screen 1 and three into screen 5, so the copy dra
 
 ### 2. What's going on? (AI)
 - **Asks:** one question, "What's going on?". The patient can tap starter chips (ADHD, Anxiety, Depression, Sleep, Not sure), type, or both. Typing is the default; a visible mic button uses the browser's speech-to-text, and the AI doesn't talk back. "Use a simple form instead" is always there. Plain form if the AI is down
+- **Unreadable input** (mashed keys): one gentle retry, then the simple form. **Someone else** ("My husband needs help"): the someone-else screen. Typed text never fills the quick facts
 - **Replaces:** the conditions and needs pages
 - **Questions so far:** 7
 - **Events:** page view on /portal/join/conditions (keeps Legion's milestone); `portal.concern.submitted` with typed, spoken, chips or form
 
 ### 3. Here's what we understood (AI)
-- **Shows:** what we understood, as chips the patient can remove or add to, in the patient's language with the standard English label behind each. One short policy line only for the concern it applies to, for example for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." (wording to confirm with Legion). "This only repeats what you told us. It isn't a diagnosis."
+- **Shows:** what we understood, as chips the patient can remove or add to, in the patient's language with the standard English label behind each. One short policy line only for the concern it applies to, for example for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." (wording to confirm with Legion). "This only repeats what you told us. It isn't a diagnosis." When we don't know whether it's been diagnosed (for example, only a chip was tapped), one row: "Have you been diagnosed with this?" Yes / No / Not sure
 - **Questions so far:** 8
 - **Events:** page view on /portal/join/needs (keeps Legion's milestone); `portal.concern.confirmed` with whether it was corrected
 
@@ -88,7 +89,7 @@ Lily merged three screens into screen 1 and three into screen 5, so the copy dra
 - **Events:** `portal.intake.invited`
 
 ### 9. Pre-visit check-in (AI, built fully)
-- **Shows:** one question at a time, form-style, not chat bubbles. 6 starting questions (confirm with Legion's clinical team); the AI writes each next question from the answers so far, 5 to 8 in all. Type or speak. "Skip this question" and "Skip, I'll cover it in my visit" always there; skipping never blocks the visit. Never advice or a diagnosis. Crisis words or the AI flag stop it and go to the crisis path. Plain form if the AI is down
+- **Shows:** one question at a time, form-style, not chat bubbles. 6 starting questions (confirm with Legion's clinical team); the AI writes each next question from the answers so far, 5 to 8 in all. Type, or tap the mic icon inside the answer box. "Next" is the primary button, with "Skip this question" under it, and a small "Skip the check-in" link at the bottom; skipping never blocks the visit. Never advice or a diagnosis. A topic already covered is confirmed and extended, not re-asked. One gentle note after two skips in a row. A soft inline note for questions we can't answer here. At the end, "Did we get your medications right?", shown as the patient said them or as heard; when what we heard isn't a real drug, "Did you mean {drug}?" so the patient decides; when it's a real drug that doesn't fit, "Can you check the name of this medication?" with no other drug suggested. A medication question gets "We'll pass your question to your provider." If the patient says they're under 18, it stops with a calm message (confirm with Legion's clinical and legal team). Crisis words or the AI flag stop it and go to the crisis path. Plain form if the AI is down
 - **Events:** `portal.intake.started`; `portal.intake.completed` with questions answered; `portal.intake.skipped`; `portal.intake.fallback_used`; AI cost per check-in
 
 ### 10. Clinician view (AI summary)
@@ -107,8 +108,9 @@ Lily merged three screens into screen 1 and three into screen 5, so the copy dra
 ## Side paths
 
 - **Screened out kindly:** from screen 1 (under 18, not in Texas, Medicaid or Medicare, or a hospital stay in the past year). One calm screen with the right resources for the reason. Logs the reason, which the north star's denominator needs
-- **Crisis path:** from screen 1 ("Yes"), or in any free-text step when the word list or the AI flag catches it. Stops immediately. On phones, one-tap "Call 988", "Text 988" and "Call 911", with 988 most prominent; on desktop the numbers are shown clearly. "Talk to a person" at Legion (who answers and when, to confirm with Legion). The AI can only escalate. The patient continues only after confirming they're safe (confirm with Legion's clinical team)
+- **Crisis path:** from screen 1 ("Yes"), or in any free-text step when the word list or the AI flag catches it. Stops immediately. "Call 988" is the primary button, with "Text 988", "Call 911" and "Talk to a person" as text-style buttons under it (one tap on phones; numbers shown clearly on desktop), and the "I'm safe" checkbox and Continue on their own at the bottom. "Talk to a person" at Legion (who answers and when, to confirm with Legion). The AI can only escalate. The patient continues only after confirming they're safe (confirm with Legion's clinical team), and the check stays on after that. Versions: immediate danger shows "Call 911" first, with "Call or text 988" under it; being hurt by someone else pauses the check-in and shows safety resources ("Call the hotline" primary, "Text the hotline" and "Call 911" under it) and a "Leave this page" quick exit at the top, including the National Domestic Violence Hotline, with the same "I'm safe" option and a clinician flag; past risk escalates and flags the clinician (all to confirm with Legion's clinical team). If the AI crisis flag fails, the word list still runs and 988 stays in the help panel
 - **Eligibility surprise:** in "What's going on?", a calm double-check and the fit check rules run again. In the check-in, a flag for a person and a calm note
+- **Someone else:** from screen 2, when the patient is filling it in for another person. A calm screen: they'll need to sign up themselves, with 988 if they're worried about the person's safety, and "This is for me" to go back
 - **AI down or wrong:** screens 2, 3 and 9 fall back to a plain form. Corrections and fallback use are tracked
 - **Email already has an account:** from screen 5. Offer sign-in and keep progress
 - **Talk to a person:** the help link on every screen. Logs `portal.help.clicked` with the screen

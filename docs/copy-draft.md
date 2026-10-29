@@ -29,6 +29,8 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - When an AI step takes more than 5 seconds: "Still working on it…". At 10 seconds, the "Use a simple form instead" link is offered, and what they typed is kept **[decided]**
 - When the AI limit for the visitor or the day is reached, or the AI fails: the step opens as the simple form with its note ("We're using a simple form for this step." or "…for the check-in.")
 - Something broke: "Something went wrong on our side. Please try again." Button: "Try again". Below: "If it keeps happening, talk to a person."
+- Buttons: one primary button per screen, with the secondary action as a text-style button underneath. Where this draft lists two buttons, the first is the primary one **[decided]**
+- All copy: warm, accurate, and short enough to fit on mobile and desktop **[decided]**
 
 **Lily's notes**
 - Approved as drafted, with skeletons instead of "One moment…"
@@ -117,9 +119,29 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - "If you're in immediate danger, call 911."
 - "Call or text 988 to reach the 988 Suicide & Crisis Lifeline, any time. You can also chat at 988lifeline.org."
 - "You can also talk to a person at Legion: (555) 010-0123." Label: "Demo number" **[Confirm with Legion]** who answers and when
-- Buttons on phones (one tap opens the dialer or messages): "Call 988", "Text 988", "Call 911". On desktop: the numbers shown clearly
-- Button: "Talk to a person"
-- **[Confirm with Legion's clinical team]** To continue: checkbox "I'm safe right now and want to keep going", then button "Continue"
+- Primary button: "Call 988" **[decided]**
+- Text-style buttons underneath: "Text 988", "Call 911", "Talk to a person" **[decided]**
+- On phones, these open the dialer or messages in one tap. On desktop, the numbers are shown clearly
+- **[Confirm with Legion's clinical team]** On its own at the bottom: checkbox "I'm safe right now and want to keep going", then button "Continue". The crisis check stays on for the rest of the session
+
+**Added from the golden-set review (Oct 29). Lines marked [drafted] were drafted in the Legion Cowork Session for Lily to edit.**
+
+*Immediate danger (for example, "I took a bunch of my pills an hour ago")* **[REVIEW]** **[drafted]** **[Confirm with Legion's clinical team]**
+- Title: "Call 911 now"
+- "If you've taken something or you're in danger right now, call 911."
+- Primary button: "Call 911"
+- Secondary, text-style button under it: "Call or text 988" **[decided]**
+- No "I'm safe" checkbox on this version **[Confirm with Legion's clinical team]**
+
+*Being hurt by someone else (for example, "My partner hurts me when he drinks")* **[REVIEW]** **[drafted]** **[Confirm with Legion's clinical team]**
+- Title: "Help is available"
+- "If you're in immediate danger, call 911."
+- "The National Domestic Violence Hotline is free and open 24/7, with help in Spanish. Call 1-800-799-7233 or text START to 88788." (Source: [thehotline.org](https://www.thehotline.org/))
+- "You can also talk to a person at Legion: (555) 010-0123." Label: "Demo number"
+- Primary button: "Call the hotline" **[decided]**
+- Text-style buttons underneath: "Text the hotline", "Call 911" **[decided]**
+- Quick exit, always visible at the top: "Leave this page". It opens a neutral page and replaces this one in the browser history **[decided]**
+- The check-in pauses here. On its own at the bottom, like the crisis screen: checkbox "I'm safe right now and want to keep going", then button "Continue". The clinician sees a safety flag **[Confirm with Legion's clinical team]**
 
 **Lily's notes**
 - Approved as drafted
@@ -153,6 +175,13 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - While reading: skeleton
 - If empty: "Please tell us a little more."
 - Link: "Use a simple form instead"
+- If the answer can't be read (for example, mashed keys): "We didn't quite catch that. Try again, or use a simple form instead." If it happens a second time, the simple form opens **[decided]**
+
+**Someone else (for example, "My husband needs help with his anxiety")** **[REVIEW]** **[drafted]**
+- Title: "Is this for someone else?"
+- "It sounds like you're looking for help for someone else. They'll need to sign up themselves, so their provider can talk with them directly."
+- "If you're worried about their safety right now, call or text 988."
+- Buttons: "This is for me", "Talk to a person"
 
 **Form fallback (if the AI is down or the patient chooses it)**
 - Note: "We're using a simple form for this step."
@@ -172,6 +201,7 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - Add: "+ Add"
 - Policy line, only for the concern it applies to **[Confirm with Legion]**. For example, for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day."
 - "This only repeats what you told us. It isn't a diagnosis."
+- When we don't know whether it's been diagnosed (for example, only a chip was tapped): one row under the chips, "Have you been diagnosed with this?" Options: "Yes", "No", "Not sure" **[decided]**
 - Buttons: "Looks right", "Start over"
 
 **Lily's notes**
@@ -218,7 +248,7 @@ One page, like a one-page checkout when you shop online.
 - Fields: "First and last name", "Email", "Mobile phone"
 - **[Confirm with Legion]** Notice: "By continuing, you agree to our Terms of Service and Privacy Policy. You can read our HIPAA Notice of Privacy Practices and how we use AI." (Each is a link. A proposed pattern; what's required is for Legion's counsel.)
 - **[Confirm with Legion]** Checkbox: "I consent to treatment by Legion Health providers." Link: "Read the consent"
-- Email already used: "There's already an account with this email." Buttons: "Sign in and pick up where you left off", "Use a different email". Label: "Demo: sign-in simulated"
+- Email already used: "There's already an account with this email." Buttons: "Sign in to continue", "Use a different email". Label: "Demo: sign-in simulated"
 
 **Payment**
 - "You won't be charged now."
@@ -304,11 +334,20 @@ One page, like a one-page checkout when you shop online.
     4. "Have you had mental health care before? What helped, and what didn't?"
     5. "How have you been sleeping lately?"
     6. "Is there anything else about your health your provider should know, like allergies or other conditions?"
-- Placeholder: "Type your answer, or tap Speak"
-- Buttons: "Speak", "Next", "Skip this question"
-- Always visible: "Skip, I'll cover it in my visit"
+- Placeholder: "Type your answer, or tap the mic" **[decided]**
+- Mic icon inside the answer box (screen-reader label: "Speak") **[decided]**
+- Primary button: "Next" **[decided]**
+- Text-style button under it: "Skip this question" **[decided]**
+- Small link at the bottom, always visible: "Skip the check-in" **[decided]**
 - While the next question loads: skeleton
 - Form fallback note: "We're using a simple form for the check-in."
+- After two skips in a row, shown once, never as a warning: "That's okay. A few answers help your provider spend more of your visit on you." **[decided]**
+- When the patient asks something we can't answer here (for example, about cost or coverage), a soft note in line, and the check-in keeps going: "We can't answer that here. For cost or coverage, talk to a person." **[decided]**
+- When the patient asks a medication question (for example, about a dose): "We'll pass your question to your provider." The check-in keeps going **[decided]**
+- Medication check, at the end: "Did we get your medications right?" Each medication shows as the patient said it, or as it was heard when spoken. Buttons: "Yes, that's right", "Fix something" **[drafted]**. If none were mentioned: "You didn't mention any medications." Buttons: "That's right", "Add one" **[drafted]**
+- At the medication check, when what we heard isn't a real drug name (spoken, or more than a one-letter typo): "Did you mean {drug}?" Buttons: "Yes", "No, keep what I said" **[drafted]**. The patient decides, not the AI
+- When it's a real drug that doesn't fit what they told us (for example, Celebrex for depression): no other drug is suggested. "Can you check the name of this medication?" It stays marked unclear for the clinician **[decided]**
+- If the patient says they're under 18: the check-in stops with "Thanks for telling us. Someone from our team will reach out before your visit." **[decided]** **[Confirm with Legion's clinical and legal team]**
 - Done: "Thanks. Your provider will see your answers before your visit." Button: "Back to my visit page"
 
 **Lily's notes**

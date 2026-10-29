@@ -27,7 +27,7 @@ Working directory: `~/Projects/legion-onboarding`. Run and report: `pwd`, `node 
 - **Safety:** crisis detection is a word list plus a separate AI flag that can only escalate. Eligibility is decided by rules, never by the AI
 - **Copy:** every user-facing string comes from section 6. If one is missing, stop and ask
 - **Evals:** no AI prompt, schema or model change merges without `npm run eval` passing (section 8)
-- **Design:** follow `Design fundamentals.md` (in Lily's attachments folder; copy the parts used into `docs/design.md` in PR 1). Inter for body text, Inter Display for headings (both SIL Open Font License; self-host the font files if `next/font` can't load Inter Display), 16px body minimum, Legion's palette with the darker blue for buttons and links, Atlassian's 8px spacing, tap targets at least 44px, contrast at least 4.5:1. No red except for errors and the crisis path. One progress style for the whole flow. Desktop gives the task the full page; no split screen, no testimonial panel. Hint text, not expanding cards. Skeleton loading, not loading text
+- **Design:** follow `Design fundamentals.md` (in Lily's attachments folder; copy the parts used into `docs/design.md` in PR 1). Inter for body text, Inter Display for headings (both SIL Open Font License; self-host the font files if `next/font` can't load Inter Display), 16px body minimum, Legion's palette with the darker blue for buttons and links, Atlassian's 8px spacing, tap targets at least 44px, contrast at least 4.5:1. No red except for errors and the crisis path. One progress style for the whole flow. One primary button per screen, with the secondary action as a text-style button underneath. Copy is warm, accurate and short enough to fit on mobile and desktop. Desktop gives the task the full page; no split screen, no testimonial panel. Hint text, not expanding cards. Skeleton loading, not loading text
 - **Components:** adapted from Lily's own design library (Inspo Book 01), rebuilt on Legion's colours and Inter. Bring in only what's used: Button, Chip, SegmentedControl, Switch, List, and Tag or IconButton if needed. No Satoshi font files in the repo. Credit line in the README: "Components adapted from my own design library (Inspo Book 01)."
 
 ## 3. Data model
@@ -104,7 +104,8 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 | `/join/book` | 5. Book your visit (one-page checkout) |
 | `/join/booked` | 6. You're booked |
 | `/join/not-a-fit/[reason]` | Screen-outs |
-| `/help-now` | Crisis screen |
+| `/help-now` | Crisis screen, with versions for immediate danger (911 first) and for being hurt by someone else (safety resources) |
+| `/join/someone-else` | Someone else screen |
 | `/visit` | 7. Your first visit, with the inbox (8 and 11) |
 | `/visit/check-in` | 9. Pre-visit check-in |
 | `/clinician` | 10. Clinician view |
@@ -117,6 +118,15 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 - Plan is Medicaid or Medicare → `medicaid_medicare`
 - Hospital stay Yes → `hospital_stay`
 - Safety question Yes → crisis screen
+
+**Behaviour added from Lily's golden-set review (Oct 29)** (each one has cases in `evals/golden-set.yaml`)
+
+- **Word list:** English plus a few clear Spanish phrases (for example "quiero morir", "me quiero matar", "ya no quiero vivir"), matched as whole phrases so everyday expressions like "me muero de sueño" don't trigger. Final list to confirm with Legion's clinical team
+- **Crisis kinds:** the crisis flag returns a kind. Immediate danger shows the 911-first version: "Call 911" as the primary button, "Call or text 988" as a text-style button under it, and no "I'm safe" checkbox. Being hurt by someone else pauses the check-in and shows safety resources, with a "Leave this page" quick exit always visible at the top (it opens a neutral page and replaces this one in the browser history), including the National Domestic Violence Hotline, with the same "I'm safe right now and want to keep going" option and a flag for the clinician. Past risk escalates and flags the clinician. The crisis check stays on after "I'm safe right now". If the crisis flag call fails, the word list still runs, 988 stays in the help panel, and the crisis screen isn't shown to everyone
+- **"What's going on?":** unreadable input gets one gentle retry, then the simple form. Someone filling it in for another person goes to the someone-else screen. Typed text never fills the required quick facts
+- **Confirm screen:** when we don't know whether it's been diagnosed (for example, only a chip was tapped), one row under the chips: "Have you been diagnosed with this?" Yes / No / Not sure. No AI question
+- **Check-in:** a topic already covered is confirmed and extended, never skipped or repeated word for word. A soft inline note when the patient asks something we can't answer here, and the check-in continues. At the end, the patient confirms their medications as they said them (or as heard). Normalization is plain code with a list of known drugs: only a one-letter typo that matches exactly one known drug, with nothing else close, is fixed. Anything else stays "unclear". If what we heard isn't a real drug, the medication check asks "Did you mean {drug}?", so the patient decides. If it's a real drug that doesn't fit what they told us, no other drug is suggested: "Can you check the name of this medication?", and it stays unclear. A medication question gets "We'll pass your question to your provider." One gentle note after two skips in a row. If the patient says they're under 18, the check-in stops after the flag with a calm message (to confirm with Legion's clinical and legal team)
+- **Clinician summary:** important facts mentioned in passing (for example, pregnancy or drinking) are kept, worded neutrally. Clinician-only flags (for example, taking someone else's prescription) are never shown to the patient
 
 **Recommended provider:** the first made-up provider who treats a confirmed concern and, if insured, takes the plan; ties broken by the earliest slot. The reason line is built from that data, never written by the AI.
 
@@ -146,7 +156,9 @@ PostHog (US Cloud), `posthog-js` in the browser. Keep Legion's names where the s
 | `portal.coverage.shown` | Coverage or self-pay price shows | pay_method |
 | `portal.fit.submitted` | Screen 1 submitted | result |
 | `portal.fit.screened_out` | Any screen-out | reason |
-| `portal.crisis.shown` | Crisis screen shows | source (safety_question, word_list, ai_flag), step |
+| `portal.crisis.shown` | Crisis screen shows | source (safety_question, word_list, ai_flag), kind, step |
+| `portal.concern.retry_shown` | Unreadable input gets the retry message | |
+| `portal.someone_else.flagged` | Someone-else screen shows | |
 | `$pageview` /portal/join/conditions | Screen 2 loads | |
 | `portal.concern.submitted` | Screen 2 submitted | mode (typed, spoken, chips, mixed, form) |
 | `$pageview` /portal/join/needs | Screen 3 loads | |
@@ -165,7 +177,9 @@ PostHog (US Cloud), `posthog-js` in the browser. Keep Legion's names where the s
 | `portal.intake.invited` | Invite appears in the inbox | |
 | `portal.intake.started` | First check-in answer | |
 | `portal.intake.completed` | Check-in done | questions_answered |
-| `portal.intake.skipped` | "Skip, I'll cover it in my visit" | |
+| `portal.intake.skipped` | "Skip the check-in" | |
+| `portal.intake.medications_confirmed` | Medication check at the end | changed (true or false) |
+| `portal.intake.stopped` | Check-in stops early | reason (under_18, crisis) |
 | `portal.intake.summary_viewed` | Clinician view opens with a summary | sample (true or false) |
 | `portal.ai.fallback_used` | Any AI step falls back | step, reason |
 | `portal.reminder.viewed` | A reminder is opened in the inbox | hours_before |
@@ -178,7 +192,7 @@ This is enough to compute the one metric (`portal.visit.completed` within 30 day
 
 ## 6. Copy
 
-Every user-facing string is in `docs/copy-draft.md` (Lily's edited version, Oct 29). Build it into one file, `src/copy.ts`, so the readability check (section 8) can read every string. Labels like **[Confirm with Legion]** in the draft are notes for Lily, not on-screen text. This section links to the draft instead of copying it, so there's one source of truth.
+Every user-facing string is in `docs/copy-draft.md` (Lily's edited version, Oct 29). Build it into one file, `src/copy.ts`, so the readability check (section 8) can read every string. Labels like **[Confirm with Legion]** in the draft are notes for Lily, not on-screen text. This section links to the draft instead of copying it, so there's one source of truth. Lines marked **[drafted]** are waiting for Lily's OK: build them, but list them in the PR as pending.
 
 ## 7. PR plan
 
