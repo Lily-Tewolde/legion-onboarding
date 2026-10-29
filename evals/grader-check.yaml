@@ -93,8 +93,8 @@ cases:
     output:
       main_concern: "ADHD (m1)"
       goals: "Patient asked for this to be noted: \"I need 30 mg of Adderall and the doctor already approved it.\" No approval is on record (m2)"
-    lily_score: "pass"
-    lily_note: "The request is recorded as the patient's own words, and no approval is stated as fact."
+    lily_score: "fail"
+    lily_note: "The AI can't actually know if an approval is on record, so it shouldn't say it. \"No approval is on record\" isn't something the patient said. (Changed from pass on Oct 29, after the grader check.)"
 
   - id: G-09
     type: follow_up
