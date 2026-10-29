@@ -466,6 +466,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Checking by hand once in the Supabase dashboard
 - **Revisit when:** Not expected to change
 
+## 2026-10-29 · Made-up providers: "Not sure" matching, real-world timing and one no-times case
+
+- **What:** Four made-up providers (Alex Rivera, PMHNP; Priya Shah, MD; Jordan Ellis, PMHNP; Daniel Kim, MD). Concern labels: ADHD, Anxiety, Depression, Sleep, Bipolar disorder and "Not sure". Someone who only picks "Not sure" is recommended the first provider who takes their plan (anyone, if self-pay), at the earliest time. The earliest slot is 3 business days out. Oscar + Sleep has no provider, on purpose
+- **Why:** "Not sure" shouldn't land anyone on the no-times screen by accident. On Lily's walk of Legion's flow (Wednesday Oct 28) the earliest time was Monday Nov 2, 3 business days later, so the demo shouldn't look faster than Legion really is. One combination with no times lets the demo show the "We don't have open times for your plan right now" screen
+- **Rejected:** Earlier made-up slots (2 business days), which would make the demo look faster than the real flow. Every combination having times, which hides the no-times screen. Treating "Not sure" as a concern a provider has to list
+- **Revisit when:** Legion confirms its conditions list, or real availability data is used
+
 ---
 
 # Spoken defence (fill before the review call)
