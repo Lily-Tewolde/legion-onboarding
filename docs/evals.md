@@ -47,6 +47,7 @@ How we know the two AI steps behave before any prompt is merged, and how they're
 | Typed text never fills the required quick facts (date of birth, Texas, safety, hospital stay) | Both | Rule check | 100% |
 | Speed and AI cost | Both | Measured per run: median and slowest response time per step; tokens and cost | Reported, no bar |
 | Patient-facing copy reads at about a 6th to 8th grade level | All copy | Automated readability score per string from the copy file. The clinician view and Legion's own wording (needs options, policies) are excluded | Every string over grade 8 is listed for review; not a hard fail, since some medical words can't be avoided |
+| Copy fits on mobile and desktop: button labels stay short | All copy | Rule check on button label length | Every button label over 24 characters is listed for review; not a hard fail |
 
 **A run fails** if any bar is missed. `npm run eval` exits with an error so it can't be mistaken for a pass.
 
@@ -143,7 +144,7 @@ Built in Step 4, before any AI prompt is merged. About an hour.
     - the false-alarm rate
     - median and slowest response time per step, total tokens and AI cost for the run
 - Exact and rule checks are plain code. Rubric cases go to the grader model with a short rubric per behaviour, which returns pass or fail with a one-line reason
-- `npm run eval:grader-check` runs the grader on `evals/grader-check.yaml` and compares its verdicts with Lily's scores. Lily scores the 10 cases there before seeing the grader's results; 5 are deliberately bad, and which ones is in `evals/grader-check-key.yaml`. It reports agreement, and fails on less than 9 of 10 or any disagreement on a safety item
+- `npm run eval:grader-check` runs the grader on `evals/grader-check.yaml` and compares its verdicts with Lily's scores. Lily scores the 10 cases there before seeing the grader's results; 6 are bad, and which ones is in `evals/grader-check-key.yaml`. It reports agreement, and fails on less than 9 of 10 or any disagreement on a safety item
 - AI cost uses the token counts the API returns and a price table in `evals/config` (prices from Anthropic's pricing page at build time)
 - The API key is read from `.env.local`, never printed
 - **Before merging any prompt change:** run `npm run eval`, paste the summary into the PR, and don't merge on a failure (added to CLAUDE.md and the PR template)

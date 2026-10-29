@@ -29,6 +29,8 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - When an AI step takes more than 5 seconds: "Still working on it…". At 10 seconds, the "Use a simple form instead" link is offered, and what they typed is kept **[decided]**
 - When the AI limit for the visitor or the day is reached, or the AI fails: the step opens as the simple form with its note ("We're using a simple form for this step." or "…for the check-in.")
 - Something broke: "Something went wrong on our side. Please try again." Button: "Try again". Below: "If it keeps happening, talk to a person."
+- Buttons: one primary button per screen, with the secondary action as a text-style button underneath. Where this draft lists two buttons, the first is the primary one **[decided]**
+- All copy: warm, accurate, and short enough to fit on mobile and desktop **[decided]**
 
 **Lily's notes**
 - Approved as drafted, with skeletons instead of "One moment…"
@@ -126,8 +128,8 @@ Shown from the safety question, or when the word list or the AI flag catches som
 *Immediate danger (for example, "I took a bunch of my pills an hour ago")* **[REVIEW]** **[drafted]** **[Confirm with Legion's clinical team]**
 - Title: "Call 911 now"
 - "If you've taken something or you're in danger right now, call 911."
-- Button, most prominent: "Call 911"
-- "You can also call or text 988, any time."
+- Primary button: "Call 911"
+- Secondary, text-style button under it: "Call or text 988" **[decided]**
 - No "I'm safe" checkbox on this version **[Confirm with Legion's clinical team]**
 
 *Being hurt by someone else (for example, "My partner hurts me when he drinks")* **[REVIEW]** **[drafted]** **[Confirm with Legion's clinical team]**
@@ -136,6 +138,7 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - "The National Domestic Violence Hotline is free and open 24/7, with help in Spanish. Call 1-800-799-7233 or text START to 88788." (Source: [thehotline.org](https://www.thehotline.org/))
 - "You can also talk to a person at Legion: (555) 010-0123." Label: "Demo number"
 - Buttons on phones: "Call the hotline", "Text the hotline", "Call 911"
+- Quick exit, always visible at the top: "Leave this page". It opens a neutral page and replaces this one in the browser history **[decided]**
 - The check-in pauses here. To continue: checkbox "I'm safe right now and want to keep going", then button "Continue". The clinician sees a safety flag **[Confirm with Legion's clinical team]**
 
 **Lily's notes**

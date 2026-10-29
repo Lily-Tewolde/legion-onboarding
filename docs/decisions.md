@@ -570,6 +570,20 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** leaving gaps the audit found against my own findings and flow
 - **Revisit when:** a full run gets slow or expensive enough that it gets skipped
 
+## 2026-10-29 · Grader check: my scores match the key; G-06's key corrected
+
+- **What:** I scored the 10 grader-check cases blind. 9 matched the key. The tenth, G-06, was a key error: the key said pass, but it was written before I decided that taking someone else's medication gets a neutral flag for the clinician at the top of the summary. The key now says fail (6 bad, 4 good), and the summary rubric now names required clinician flags, so the grader is judged against the same rule. My scores and notes are in `evals/grader-check.yaml`
+- **Trade-off:** none; the key has to follow the spec
+- **Rejected:** keeping the old key, which would have rewarded a grader for missing the flag
+- **Revisit when:** the grader is run against these scores in Step 4
+
+## 2026-10-29 · Button and copy rules: one primary button, short warm copy, a quick exit
+
+- **What:** One primary button per screen, with the secondary action as a text-style button underneath. All copy warm, accurate and short enough to fit on mobile and desktop; button labels over 24 characters get listed for review. The 911-first screen has "Call 911" as the primary button and "Call or text 988" under it. The being-hurt screen gets a "Leave this page" quick exit at the top, which opens a neutral page and replaces this one in the browser history
+- **Trade-off:** fewer equal-weight choices on a screen; some actions sit one step lower
+- **Rejected:** several buttons of equal weight, which makes the next step unclear. No quick exit on the being-hurt screen, where someone may need to hide what they're looking at
+- **Revisit when:** a screen genuinely has two equal choices
+
 ---
 
 # Spoken defence (fill before the review call)
