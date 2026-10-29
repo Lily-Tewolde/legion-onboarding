@@ -1,6 +1,8 @@
 # Build brief: AI-native onboarding, start to first visit
 
-For Claude Code. This is a spec, not a discussion. Everything here is decided, except items marked **OPEN QUESTION**, which come back to Lily unanswered. The reasons behind each decision are in `docs/decisions.md`; the screen-by-screen flow is `docs/new-flow-map.md`; the AI behaviour and tests are `docs/evals.md`.
+**Locked Oct 29, 2026.** Changes after this go through `docs/decisions.md`.
+
+For Claude Code. This is a spec, not a discussion. Everything here is decided. Anything undecided that comes up during the build is marked OPEN QUESTION and comes back to Lily unanswered. The reasons behind each decision are in `docs/decisions.md`; the screen-by-screen flow is `docs/new-flow-map.md`; the AI behaviour and tests are `docs/evals.md`.
 
 ## 0. Before writing code
 
@@ -68,9 +70,11 @@ create table public.ai_calls (
   id bigint generated always as identity primary key,
   anon_id text not null,
   route text not null,
+  cost_usd numeric(10,6) not null default 0, -- estimated from token counts, for the daily cap
   created_at timestamptz not null default now()
 );
 create index ai_calls_anon_recent on public.ai_calls (anon_id, created_at desc);
+create index ai_calls_recent on public.ai_calls (created_at desc);
 
 alter table public.onboarding_sessions enable row level security;
 alter table public.people enable row level security;
@@ -83,7 +87,7 @@ grant usage on sequence public.ai_calls_id_seq to service_role;
 
 Not in Supabase: providers, slots and insurance plans (made-up JSON in `src/data/`), the "What's going on?" text and the check-in answers and summary (kept in the browser's session storage, per `docs/decisions.md`), and the sample check-in (in the code).
 
-**OPEN QUESTION:** the insurance plan list. Real insurer names (as Legion's current flow shows) look realistic, but with a simulated coverage check they could read as claims about who's in network. Made-up plan names avoid that but look less real.
+**Insurance plans:** the real insurer names from Legion's current flow, as text only, no logos: Aetna, Blue Cross Blue Shield, Cigna, UnitedHealthcare and Oscar, plus Medicaid and Medicare (which screen out) and "I don't see my plan". The coverage check stays labelled "Demo: coverage check simulated".
 
 ## 4. Screens and flows
 
@@ -127,8 +131,8 @@ Models: `claude-sonnet-5-5` for both AI steps, `claude-haiku-5-5` for the crisis
 
 Structured outputs use `output_config.format` with `type: "json_schema"`. The API can't enforce string lengths, so every response is also validated in the app (zod), including lengths and that every citation points to a real answer. A refusal, a truncated response or anything that fails validation sends the step to the plain form, logs `portal.ai.fallback_used` without the patient's text, and never retries.
 
-- **Timeout:** **OPEN QUESTION.** Proposal: 10 seconds per AI call, then the form
-- **Rate limit:** **OPEN QUESTION.** Proposal: 30 AI calls per visitor per hour, then a calm message and the form
+- **Slow responses:** at 5 seconds, show "Still working on it…". At 10 seconds, offer "Use a simple form instead" and keep what the patient typed. The step only switches to the form on its own on a real error (a failed call, a refusal, a truncated response or a validation failure)
+- **Rate limit:** about 30 AI calls per visitor per hour, plus a daily spending cap for the whole demo (`AI_DAILY_CAP_USD`, default $10, estimated from the token counts each call returns). Over either limit, the step opens as the simple form with its note
 - **Patient text limit:** 2,000 characters per answer
 
 ## 5. Events to track
@@ -174,7 +178,7 @@ This is enough to compute the one metric (`portal.visit.completed` within 30 day
 
 ## 6. Copy
 
-Every user-facing string is in `docs/copy-draft.md` (Lily's edited version, Oct 29). Build it into one file, `src/copy.ts`, so the readability check (section 8) can read every string. Labels like **[Confirm with Legion]** in the draft are notes for Lily, not on-screen text. **OPEN QUESTION:** lock `docs/copy-draft.md` as section 6 as it stands, or copy it in here.
+Every user-facing string is in `docs/copy-draft.md` (Lily's edited version, Oct 29). Build it into one file, `src/copy.ts`, so the readability check (section 8) can read every string. Labels like **[Confirm with Legion]** in the draft are notes for Lily, not on-screen text. This section links to the draft instead of copying it, so there's one source of truth.
 
 ## 7. PR plan
 
@@ -197,10 +201,10 @@ Each check is observed two ways where possible.
 
 - **Every rule:** unit tests at the edges (18 today, one day short, Texas No, Medicaid, Medicare, hospital Yes, safety Yes), and clicked through on the preview
 - **Evals:** `npm run eval` passes every bar in `docs/evals.md`; the summary is pasted into each AI PR. The grader check passes against Lily's blind scores
-- **Readability:** every patient-facing string in `src/copy.ts` scored; strings over grade 8 listed for Lily
+- **Readability:** every patient-facing string in `src/copy.ts` scored; strings over grade 8 listed for Lily. Known exceptions: the two longer check-in questions about medications and other health, which keep "medications" and "allergies"
 - **Events:** every event in section 5 fires on screen (PostHog's debug view) and shows in PostHog with the right properties. No free text in any event
 - **Supabase:** rows written as expected, checked in the table editor. No free text in any table. The browser can't read any table with the publishable key (tested)
-- **Fallbacks:** AI timeout, a bad output and the rate limit each send the step to the form (forced in a test)
+- **Fallbacks:** a slow response shows "Still working on it…" at 5 seconds and offers the form at 10 with the text kept; a failed call, a bad output, the visitor limit and the daily cap each open the form (forced in a test)
 - **Mobile:** the whole flow on a real phone and in Chrome's device mode
 - **Links:** the preview opens in an incognito window with no login
 

@@ -382,6 +382,41 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** A calendar preview that does nothing. A demo panel that only marks visits completed
 - **Revisit when:** Not expected to change
 
+## 2026-10-29 · Slow AI: reassure at 5 seconds, offer the form at 10, switch only on errors
+
+- **What:** At 5 seconds an AI step shows "Still working on it…". At 10 seconds it offers "Use a simple form instead" and keeps what the patient typed. It switches to the form on its own only on a real error: a failed call, a refusal, a truncated response or a validation failure
+- **Why:** A slow answer isn't a failed one. The patient stays in control and never loses what they wrote
+- **Rejected:** Switching to the form automatically at a fixed timeout, which throws away a response that may be seconds away
+- **Revisit when:** Many patients wait past 10 seconds
+
+## 2026-10-29 · AI limits: 30 calls per visitor per hour and a daily spending cap
+
+- **What:** About 30 AI calls per visitor per hour, plus a daily spending cap for the whole demo, estimated from the token counts each call returns. The cap is an environment variable, set to $10 a day by default. Over either limit, the step opens as the simple form with its usual note
+- **Why:** The preview is public and the AI calls are real. A per-visitor limit stops one person running it up; a daily cap bounds the total
+- **Rejected:** A per-visitor limit only, which many visitors together could still exceed
+- **Revisit when:** Legitimate demo use hits the cap
+
+## 2026-10-29 · Real insurer names, text only, coverage still simulated
+
+- **What:** The plan list uses the insurers from Legion's current flow as text, no logos: Aetna, Blue Cross Blue Shield, Cigna, UnitedHealthcare and Oscar, plus Medicaid, Medicare and "I don't see my plan". The coverage check stays labelled as simulated
+- **Why:** Real names make the flow recognisable and match Legion's own list. Text only avoids using brand logos, and the label keeps it from reading as a real coverage result
+- **Rejected:** Made-up plan names, which look less real. Logos, which Legion's flow uses but we don't need
+- **Revisit when:** Legion's plan list changes
+
+## 2026-10-29 · The build brief links to the copy draft as its copy section
+
+- **What:** Section 6 of the build brief points to `docs/copy-draft.md` instead of copying it
+- **Why:** One source of truth, so the copy can't drift between two files
+- **Rejected:** Copying the copy into the brief
+- **Revisit when:** Not expected to change
+
+## 2026-10-29 · Readability exception: the longer check-in questions stay
+
+- **What:** "What medications are you taking right now, including any you've stopped recently?" and "Is there anything else about your health your provider should know, like allergies or other conditions?" stay as they are, though they score a little above grade 8
+- **Why:** "Medications" and "allergies" are the right words, and splitting the questions adds steps
+- **Rejected:** Simpler words or splitting each into two questions
+- **Revisit when:** Patients skip these questions more than the others
+
 ---
 
 # Spoken defence (fill before the review call)

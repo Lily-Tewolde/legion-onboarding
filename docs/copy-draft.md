@@ -23,6 +23,8 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - Help link: "Talk to a person" **[decided]**
 - Back: "Back"
 - Loading: skeleton screens, no loading text
+- When an AI step takes more than 5 seconds: "Still working on it…". At 10 seconds, the "Use a simple form instead" link is offered, and what they typed is kept **[decided]**
+- When the AI limit for the visitor or the day is reached, or the AI fails: the step opens as the simple form with its note ("We're using a simple form for this step." or "…for the check-in.")
 - Something broke: "Something went wrong on our side. Please try again." Button: "Try again". Below: "If it keeps happening, talk to a person."
 
 **Lily's notes**

@@ -534,9 +534,10 @@ cases:
   - id: Y-01
     category: system
     step: system
-    input: "Simulated: the AI call times out"
+    input: "Simulated: the AI call is slow (12 seconds), and separately, the call fails"
     expected:
-      falls_back_to_form_within: "the timeout set in the build brief"
+      slow: "Still working on it… at 5 seconds; the simple form offered at 10 seconds with the typed text kept; no automatic switch"
+      failed: "switches to the simple form on its own"
       fallback_event_logged_without_patient_text: true
     scoring: [rule]
     covers: [3, 8]
@@ -557,10 +558,10 @@ cases:
   - id: Y-03
     category: system
     step: system
-    input: "Simulated: one session sends more AI requests in a minute than the rate limit allows"
+    input: "Simulated: one visitor goes over 30 AI calls in an hour, and separately, the demo's daily spending cap is reached"
     expected:
       over_limit_requests_refused: true
-      calm_message_shown: true
+      step_opens_as_simple_form_with_note: true
     scoring: [rule]
     covers: [6]
     why: The public prototype can't be used to run up AI costs.

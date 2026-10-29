@@ -4,9 +4,10 @@
 
 A take-home for the Founding Product Manager role at Legion Health (AI-native psychiatry, covered by insurance). Graded on: can Lily build, how she works out requirements, how she thinks about user experience, how she makes sense of data.
 
-- **The brief, in their words:** [paste]
-- **Graded hardest, in order:** [1] [2] [3]
-- **Out of scope (theirs):** [paste]
+- **The brief, in their words:** "Rebuild our patient onboarding in an AI-native world." "Onboarding ends when the patient's first visit is completed. It does not end when the visit is booked or scheduled." Submit the working prototype, the repository and open pull request, and a short recorded walkthrough (full text: `Legion Health - Take-Home Assignment.md` in Lily's attachments)
+- **Graded hardest, in order:** Legion didn't rank them: can Lily build, how she works out requirements, how she thinks about user experience, how she makes sense of data
+- **Out of scope (theirs):** none stated
+- **The build spec:** `docs/build-brief.md` (locked)
 - **Out of scope (ours):** roles and permissions, admin panels, auth beyond what's asked, dark mode, landing page, seed data beyond what the brief needs, a second feature nobody asked for
 
 ## Stack (matches Legion's)
