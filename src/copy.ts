@@ -4,6 +4,8 @@
 
 export const copy = {
   shell: {
+    tabTitle: "Legion Health · Prototype",
+    name: "Legion Health",
     banner: "Demo prototype: don't enter real information",
     helpLink: "Talk to a person",
   },
