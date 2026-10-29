@@ -29,12 +29,25 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 5:45 PM | Deviation from the plan, recorded by Lily: on desktop she reserved a provider slot, entered her real details and created an account, then let the booking timer run out without adding a card. On mobile she tapped Book, which creates a reservation, and stopped on the patient-details page without entering anything | Lily | None |
 | 2026-10-28 | 5:45 PM | Checked the desktop recording's blur on the patient-details page. Found the date-of-birth year dropdown showing outside the blurred area at about 2:50 to 2:55 | Cowork, Station B | None |
 | 2026-10-28 | 5:45 PM | Updated docs/data-read.md with Lily's walk: renamed "What Lily saw" to "What I saw" and added her nine lines; section 2 now reflects that the desktop walk went through reservation to the payment page; the guesses intro now points to Step 3 | Cowork, Station B | docs/data-read.md, docs/B-log.md |
+| 2026-10-28 | 5:53 PM | Combined Steps 1 and 2 into one branch, docs/steps-1-2-walk-and-data-read, at Lily's request to commit the flow map with the data read. The data read now cites the walk findings, so the two belong in one PR. Rebased the data read commits onto the flow map commits and merged the B-log rows in time order; no content lost (checked with git diff). Deleted the local docs/step-1-flow-map branch, which was never pushed | Cowork, Station B | docs/B-log.md |
+| 2026-10-28 | 5:53 PM | Added Lily's walk count to the data read (section 2) and the flow map (payment page): 20 questions answered before the full cost, fees and card requirement | Cowork, Station B | docs/data-read.md, docs/flow-map.md, docs/B-log.md |
+| 2026-10-28 | 5:53 PM | Logged Lily's input for Step 3, not decided (see open items): scope through visit completed, and four research questions to answer before brainstorming | Cowork, Station B | docs/B-log.md |
+| 2026-10-28 | 5:53 PM | Lily's updated findings (with her AI opportunities section) didn't come through as an attachment, so the flow map isn't filled yet | Cowork, Station B | None |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
 - GitHub connector still returns 403 on this repo, so Lily pushes and opens PRs for now
 - Extend the blur on the desktop recording to cover the year dropdown (about 2:50 to 2:55) before it goes in the walkthrough or the submission
-- Step 1: fill docs/flow-map.md from the findings, and add the findings to the repo so the finding numbers in data-read.md resolve
-- docs/step-1-flow-map and docs/step-2-data-read both add B-log rows, so whichever merges second needs a rebase
+- Step 1: fill docs/flow-map.md from Lily's updated findings, including her AI opportunities section (waiting on the file)
+- Decide whether the findings file goes in the repo, so the finding numbers in data-read.md resolve
 - Replace the starter favicon.ico in a later PR
+
+## Lily's input for Step 3 (not decided)
+
+- **Scope:** onboarding ends at visit completed, so the design should cover booking confirmed, an upcoming-visit screen, the pre-visit intake about 72 hours before, a reminder and join step, and a simulated visit completed with a demo control. Step 3 decides which parts are built fully and which stay simple
+- **Research before brainstorming:**
+    - What's standard in health tech for reviews and testimonials inside a signup flow
+    - Whether AI in the fit check is standard or slows people down
+    - When competitors take payment: at booking, or 24 to 72 hours before the visit
+    - Which consent checkboxes are actually required in Texas
