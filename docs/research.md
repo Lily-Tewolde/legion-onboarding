@@ -63,7 +63,7 @@ What I could verify:
 
 ## 5. How competitors run the first screening step
 
-Added for the fit check rework (idea F3). Lily found these sources; Station B checked each one.
+Added for the fit check rework (idea F3). Lily found these sources; the Legion Cowork Session checked each one.
 
 - **Rula** asks for date of birth, the state you'll get care in, your insurance, the type of care, and your name, email and phone. It then shows "all of the providers that contract with Rula in your state and that accept your insurance." Address, insurance details for verification, sex assigned at birth and a card come later, in registration after reserving a slot ([Rula sign-up guide](https://patientsupport.rula.com/hc/en-us/articles/31296525013787-How-to-complete-the-sign-up-process-and-confirm-your-first-appointment-with-Rula))
 - **Talkiatry** describes its online assessment as about 10 minutes, covering "why you're seeking care and what you're looking for", with an insurance eligibility checker, and then shows doctors who match ([Talkiatry](https://www.talkiatry.com/blog/how-to-find-a-psychiatrist))

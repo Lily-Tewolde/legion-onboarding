@@ -1,6 +1,6 @@
 # Step 3 brainstorm (3c and 3d)
 
-Ideas for each cliff and for booking to visit. "What I said" is from my Step 1 findings (`docs/step-1-findings.md`), the flow map or my Step 3 input; a dash means I haven't said anything yet. "Pushback" is Station B's challenge. Scores are proposed by Station B for me to adjust. Choosing the slice is my call in 3d.
+Ideas for each cliff and for booking to visit. "What I said" is from my Step 1 findings (`docs/step-1-findings.md`), the flow map or my Step 3 input; a dash means I haven't said anything yet. "Pushback" is the Legion Cowork Session's challenge. Scores are proposed by the Legion Cowork Session for me to adjust. Choosing the slice is my call in 3d.
 
 ## How the scores work
 

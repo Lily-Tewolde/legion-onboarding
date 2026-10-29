@@ -11,7 +11,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · Log as we go, and reread docs/ after a compaction
 
-- **What:** B-log.md gets updated at the end of every step. Every decision goes in decisions.md in the same session it's made. If a chat compacts, Station B rereads the whole docs folder before doing anything else
+- **What:** work-log.md gets updated at the end of every step. Every decision goes in decisions.md in the same session it's made. If a chat compacts, the Legion Cowork Session rereads the whole docs folder before doing anything else
 - **Why:** Long chats compact and lose detail. The docs folder is the source of truth, so the record has to be complete before a compaction happens, not rebuilt afterwards
 - **Rejected:** Relying on the chat history or a summary to carry context. A compacted summary drops the reasons and rejected options this log exists to keep
 - **Revisit when:** Not expected to change
@@ -32,7 +32,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · Nothing goes straight to main; the first PR is cleanup plus the logs
 
-- **What:** PR 1 removes starter and template leftovers and adds B-log.md and decisions.md. Every later change, including log updates, goes through a PR
+- **What:** PR 1 removes starter and template leftovers and adds work-log.md and decisions.md. Every later change, including log updates, goes through a PR
 - **Why:** The repo and its history are part of the submission. A PR for every change keeps the history readable and matches CLAUDE.md
 - **Rejected:** Committing the logs directly to main. Faster, but it breaks the rule the rest of the work follows
 - **Revisit when:** Settled by "Build in several small PRs, with the last one left open" below

@@ -77,7 +77,7 @@ I walked the flow by hand on Oct 28, 2026, in incognito, as a prospective patien
 - Patient details: 1,763 (99.9%), automatic
 - Account created: 1,403 (79.6%). Lost 360 (20.4%)
 - Payment page: 1,403 (100%), automatic
-- The plan was to stop before these. On desktop I went through to the payment page; on mobile I tapped Book, which creates a reservation, and stopped on the patient-details page (see B-log)
+- The plan was to stop before these. On desktop I went through to the payment page; on mobile I tapped Book, which creates a reservation, and stopped on the patient-details page (see the work log)
 - What the patient-details page asks: six fields and three consent checkboxes on one page (finding 19)
 - Questions so far (counting the patient-details page): 20 (9 on this page: six fields and three consents)
 - Time on page: patient details about 0:32 on desktop. Payment about 0:29 on desktop, until the recording ends

@@ -17,7 +17,7 @@ TypeScript, Next.js App Router on Vercel, Postgres (Supabase), Tailwind, no comp
 
 - **Small PRs, always.** Every change on its own branch, merged through a PR using `.github/PULL_REQUEST_TEMPLATE.md`. One concern per PR. Never commit straight to main. The PR history is part of the submission
 - **Push every PR.** Vercel is connected to GitHub, so each PR gets a preview URL. Paste it into the PR description
-- **Plain commit messages and PR titles.** Describe the change. Don't name the chat or tool that made it (for example, no "Station B")
+- **Plain commit messages and PR titles.** Describe the change. Don't name the chat or tool that made it
 - **Decisions get written down.** Anything decided goes in `docs/decisions.md` the same session: what, why, what we rejected, what would make us revisit it
 - **Open questions come back to Lily.** If the brief or the build brief doesn't decide something, stop and ask. Don't guess
 - **Copy is Lily's.** User-facing strings come from the build brief. If one is missing, ask
