@@ -2,7 +2,7 @@
 
 Source: Legion's PostHog funnel from the brief, saved as `analysis/data/legion_funnel_30d_to_2026-08-29.csv`. Production traffic, rolling 30 days ending Aug 29, 2026. Every figure is in sessions per 30 days.
 
-**Reproduce every number:**
+**Reproduce every figure from Legion's data** (the "What I saw" lines are walk observations):
 
 - `python3 analysis/check_funnel.py` confirms the CSV matches the brief's table
 - `python3 analysis/size_funnel.py` prints every figure below. Each section names the part of its output it comes from
@@ -19,14 +19,14 @@ These are browser sessions, not patients. Repeat visits, identity stitching, blo
 
 ## 2. Real decisions vs. automatic steps
 
-From the brief's milestone definitions and the conversion rates. To confirm on the walk.
+From the brief's milestone definitions and the conversion rates, checked against the walk. On desktop the walk went through to the payment page.
 
 | Step | What kind of step | Why |
 |---|---|---|
 | Fit check | Real choice | The patient answers fit questions and decides whether to go on. 1,912 lost |
 | Conditions, insurance, needs | Question pages | The patient answers and continues. Each loses 2.6% to 7.3% |
 | Choosing a provider | Real choice | The patient picks from the match page. 1,104 lost |
-| Reservation created | System step after selection | An event, not a page. 145 lost (7.6%). The data can't show whether the patient or the system drops these, and the walk stops before this step |
+| Reservation created | System step after selection | An event, not a page. 145 lost (7.6%). The data can't show whether the patient or the system drops these. On the walk, tapping Book created the reservation |
 | Patient details | Redirect | 1,763 of 1,764 arrive (99.9%) |
 | Creating an account | Real choice | The patient enters details and creates an account. 360 lost |
 | Payment page | Redirect | 1,403 of 1,403 arrive (100%) |
@@ -47,34 +47,34 @@ By count, account creation is fourth. Start to fit check loses more (408, 6.9%),
 
 ## 4. Guesses to test
 
-Guesses only. Which ones hold, and what to fix first, gets decided after the walk.
+Guesses only. Which ones hold, and what to fix first, gets decided in Step 3.
 
 ### Fit check to conditions (1,912 lost)
 
 - My guess is part of this drop is screening on purpose: people under 18, outside the states Legion serves, or with needs Legion doesn't treat. We'd test it by logging a screened-out event with the reason, and comparing screened-out sessions to the total drop.
-    - What Lily saw:
+    - What I saw: I saw six fit questions: Texas, Medicaid or Medicare, self-harm risk, a hospital stay in the past year, 18 or older, and virtual only. Several screen you out with resources, so part of this drop is on purpose. I can’t tell how much from the data.
 - My guess is some people leave because they're asked about themselves before they learn whether they're covered or what it costs. We'd test it by showing coverage and cost earlier to half of new sessions and comparing how many reach conditions.
-    - What Lily saw:
+    - What I saw: I answered the fit check and conditions before seeing anything about coverage. The “$0 to $40” estimate only showed on the insurance page, and the full fees only at payment.
 - My guess is the fit check is harder to finish on a phone. We'd test it by splitting this drop by device type in PostHog.
-    - What Lily saw:
+    - What I saw: On mobile I saw a bounce between questions, more scrolling, and the back button moving between the bottom and the top (findings 24 to 27).
 
 ### Match page to provider selected (1,104 lost)
 
 - My guess is people don't see a provider available soon enough. We'd test it by logging the earliest slot shown on the match page and comparing selection rates by how soon it is.
-    - What Lily saw:
+    - What I saw: Not what I saw. The earliest slot was 4 days out.
 - My guess is too many choices with too little to go on makes picking hard. We'd test it by logging how many providers each session sees, and trying a recommended provider with a short reason against today's list.
-    - What Lily saw:
+    - What I saw: I had to scroll past the loading box to reach providers. The “Highly recommended” provider wasn’t first, and I missed its badge on desktop (findings 14, 17, 34).
 - My guess is people still don't know what they'll pay, so they stop before committing to a person. We'd test it by adding a one-question exit prompt on the match page, and by showing cost there for half of sessions.
-    - What Lily saw:
+    - What I saw: Partly. I saw the estimate earlier, but the late-cancellation fee, cash price and card requirement only showed at payment.
 
 ### Patient details to account created (360 lost)
 
 - My guess is this is the first time the flow asks for identifying details, and some people stop there. We'd test it by logging which field each session last touched before leaving.
-    - What Lily saw:
+    - What I saw: I saw six fields and three consent checkboxes on one page (finding 19).
 - My guess is some sessions hit form errors, like an email that's already registered or a phone number format. We'd test it by logging validation errors by field.
-    - What Lily saw:
+    - What I saw: I hit “this email already has an account” and had to switch emails.
 - My guess is some returning visitors already have an account and come back in a new session, so they look like a drop here. We'd test it by checking how many dropped sessions belong to people who already have an account.
-    - What Lily saw:
+    - What I saw: When I came back, I was an “Anonymous User” with no way to log in, and Login sent me back into onboarding (findings 1, 20, 32).
 
 ## 5. Sizing
 
@@ -113,5 +113,5 @@ Event names will follow Legion's `portal.*` style, and get fixed in the build br
 - **"Three cliffs by people lost" wasn't accurate.** By count, start to fit check (408) loses more than account creation (360). The three cliffs are the top three by rate
 - **"A month" is now "per 30 days, in sessions",** matching the data's window and unit
 - **The conditions sizing now says it assumes the whole drop is recoverable**
-- **Guesses now say how we'd test each one,** with room for what Lily saw on the walk
+- **Guesses now say how we'd test each one,** with what I saw on the walk
 - **Added the steps between the cliffs** (section 2) and **the full blind spot** after the payment page (section 6)

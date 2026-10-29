@@ -25,12 +25,16 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 4:36 PM | Received two drafts from Lily: an AI-drafted data read and the walkthrough beats template. Checked the data read's sizing against the CSV: the arithmetic holds. Flagged two framing issues for Step 2 (see chat). Not added to the repo yet: they belong to Step 2 and Step 6 | Cowork, Station B | docs/B-log.md |
 | 2026-10-28 | 4:36 PM | Created docs/flow-map.md from Lily's template, adding "Time on page", "Could it screen me out" and "Questions so far" to every page. Legion's numbers unchanged and match the CSV | Cowork, Station B | docs/flow-map.md (new), docs/B-log.md |
 | 2026-10-28 | 4:43 PM | Step 2 started while Lily walks the flow. New branch docs/step-2-data-read off main, to keep Step 1 and Step 2 in separate PRs. Wrote docs/data-read.md from the funnel CSV, using Lily's AI draft as the starting point and correcting it (changes listed at the end of the doc). Added analysis/size_funnel.py, which prints every figure in the doc. Checked: every number in the doc appears in the script output or the CSV; check_funnel.py still passes. "What Lily saw" lines left blank for the walk | Cowork, Station B | docs/data-read.md (new), analysis/size_funnel.py (new), docs/B-log.md |
+| 2026-10-28 | 5:45 PM | Step 1 walk done by Lily (desktop and phone, incognito, Texas). Received her findings (35 items) and two screen recordings without audio: desktop 3:46, mobile 2:26 | Lily | None in the repo |
+| 2026-10-28 | 5:45 PM | Deviation from the plan, recorded by Lily: on desktop she reserved a provider slot, entered her real details and created an account, then let the booking timer run out without adding a card. On mobile she tapped Book, which creates a reservation, and stopped on the patient-details page without entering anything | Lily | None |
+| 2026-10-28 | 5:45 PM | Checked the desktop recording's blur on the patient-details page. Found the date-of-birth year dropdown showing outside the blurred area at about 2:50 to 2:55 | Cowork, Station B | None |
+| 2026-10-28 | 5:45 PM | Updated docs/data-read.md with Lily's walk: renamed "What Lily saw" to "What I saw" and added her nine lines; section 2 now reflects that the desktop walk went through reservation to the payment page; the guesses intro now points to Step 3 | Cowork, Station B | docs/data-read.md, docs/B-log.md |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
 - GitHub connector still returns 403 on this repo, so Lily pushes and opens PRs for now
-- Lily to open PR 1 (GitHub connector can't), then merge it before PR 2 is pushed
-- Step 2: fill the "What Lily saw" lines in docs/data-read.md after the walk, then check the Step 2 gate
+- Extend the blur on the desktop recording to cover the year dropdown (about 2:50 to 2:55) before it goes in the walkthrough or the submission
+- Step 1: fill docs/flow-map.md from the findings, and add the findings to the repo so the finding numbers in data-read.md resolve
 - docs/step-1-flow-map and docs/step-2-data-read both add B-log rows, so whichever merges second needs a rebase
 - Replace the starter favicon.ico in a later PR
