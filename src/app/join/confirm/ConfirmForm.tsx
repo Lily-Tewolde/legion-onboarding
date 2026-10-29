@@ -8,16 +8,17 @@ import { SegmentedControl } from "@/components/SegmentedControl";
 import { TextField } from "@/components/TextField";
 import { copy } from "@/copy";
 import { CONCERN_LABELS, type ConcernLabel } from "@/data";
-import type { Understanding } from "@/lib/ai/whats-going-on";
+import type { Diagnosed, Understanding } from "@/lib/ai/whats-going-on";
 import { todayInCentral } from "@/lib/central-time";
 import { partialOutcome, tapOutcome, validateFacts, type YesNo } from "@/lib/fit/rules";
 import { getAnswers, saveAnswers } from "@/lib/fit/stored-answers";
 import { useLeave } from "@/lib/fit/use-leave";
-import { needsDiagnosisRow, type RecheckType, recheckRows, toggleChip } from "@/lib/whats-going-on/flow";
+import { diagnosisRows, knownDiagnoses, type RecheckType, recheckRows, toggleChip } from "@/lib/whats-going-on/flow";
 import { type WhatsGoingOnState, whatsGoingOnStore } from "@/lib/whats-going-on/stored";
 
 // Screen 3. The patient checks what we understood: removes what's wrong, adds
-// what we missed, answers "Have you been diagnosed with this?" when we don't
+// what we missed, answers "Have you been diagnosed with {item}?" for each
+// concern where we don't
 // know, and answers one small double-check row for anything that contradicted
 // screen 1. The double-checks run the same rule as screen 1: a one-tap answer
 // acts as soon as it's tapped, the date of birth on "Looks right" (Lily, PR 5).
@@ -66,7 +67,8 @@ function BackToStart() {
   return <ConfirmSkeleton />;
 }
 
-type Errors = Partial<Record<"diagnosed" | RecheckType | "save", boolean>>;
+// Each concern's diagnosis question has its own error, keyed by its label
+type Errors = Partial<Record<RecheckType | "save", boolean>> & { diagnoses?: ConcernLabel[] };
 
 function Confirm({ state, understanding }: { state: WhatsGoingOnState; understanding: Understanding }) {
   const router = useRouter();
@@ -90,7 +92,8 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
 
   const chips: Chip[] = state.confirmChips ?? understanding.chips;
   const labels = chips.map((chip) => chip.label);
-  const showDiagnosis = needsDiagnosisRow({ ...understanding, concerns: labels.map((label) => ({ label, quote: "" })) });
+  const diagnosisFor = diagnosisRows(labels, knownDiagnoses(understanding));
+  const answers = state.diagnoses ?? {};
   const rows = recheckRows(understanding);
 
   const setChips = (next: ConcernLabel[]) => {
@@ -115,7 +118,8 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
     event.preventDefault();
     const today = todayInCentral();
     const found: Errors = {};
-    if (showDiagnosis && !state.diagnosed) found.diagnosed = true;
+    const unanswered = diagnosisFor.filter((label) => !answers[label]);
+    if (unanswered.length > 0) found.diagnoses = unanswered;
     for (const row of rows) {
       if (row === "age") {
         if (validateFacts({ dateOfBirth: rechecks.dateOfBirth }, today).dateOfBirth) found.age = true;
@@ -209,23 +213,27 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
 
       {labels.includes("Anxiety") && <p className="text-slate">{copy.confirm.policy.Anxiety}</p>}
 
-      {showDiagnosis && (
-        <SegmentedControl
-          legend={copy.confirm.diagnosed}
-          name="diagnosed"
-          options={[
-            { value: "yes", label: copy.join.yes },
-            { value: "no", label: copy.join.no },
-            { value: "not_sure", label: copy.confirm.notSure },
-          ]}
-          value={state.diagnosed}
-          onChange={(value) => {
-            setErrors((current) => ({ ...current, diagnosed: false }));
-            whatsGoingOnStore.save({ ...state, diagnosed: value as Understanding["diagnosed"] });
-          }}
-          error={errors.diagnosed ? copy.join.errors.required : undefined}
-        />
-      )}
+      {diagnosisFor.map((label) => {
+        const display = chips.find((chip) => chip.label === label)?.display ?? copy.conditions[label];
+        return (
+          <SegmentedControl
+            key={label}
+            legend={copy.confirm.diagnosed.replace("{item}", display)}
+            name={`diagnosed-${label}`}
+            options={[
+              { value: "yes", label: copy.join.yes },
+              { value: "no", label: copy.join.no },
+              { value: "not_sure", label: copy.confirm.notSure },
+            ]}
+            value={answers[label]}
+            onChange={(value) => {
+              setErrors((current) => ({ ...current, diagnoses: current.diagnoses?.filter((l) => l !== label) }));
+              whatsGoingOnStore.save({ ...state, diagnoses: { ...answers, [label]: value as Diagnosed } });
+            }}
+            error={errors.diagnoses?.includes(label) ? copy.join.errors.required : undefined}
+          />
+        );
+      })}
 
       {rows.map((row) =>
         row === "age" ? (

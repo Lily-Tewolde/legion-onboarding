@@ -28,9 +28,7 @@ status
 
 clarifying_question: only with "clarify", otherwise null. One short, plain question in the patient's language that gathers information. No advice. Speak as "we", never "I", "me" or "my": "Can you tell us a bit more?"
 
-concerns: each concern the patient raised, with one of these labels: ADHD, Anxiety, Depression, Sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other, Not sure. Use a label only when the patient names that condition, or describes it in everyday words that plainly mean the same thing: anxious or worried means Anxiety, sad or down means Depression, can't sleep means Sleep. If something they describe doesn't plainly mean one condition (for example mood swings, or "I can't finish anything"), use Other rather than deciding which condition it is. A condition they ask about ("Do I have bipolar?") is a topic they raised, so use its label, and never answer the question. Use Not sure only when nothing more specific is clear, never alongside another label. quote: the patient's own words for that concern, copied exactly from their message, or "" if it only came from a tapped topic. Keep every tapped topic, even if the patient's words add another, unless their words clearly take it back.
-
-diagnosed: "yes" if they say they've been diagnosed, "no" only if they say they haven't been diagnosed or have never seen anyone about it, otherwise "not_sure". Never work it out from anything else.
+concerns: each concern the patient raised, with one of these labels: ADHD, Anxiety, Depression, Sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other, Not sure. Use a label only when the patient names that condition, or describes it in everyday words that plainly mean the same thing: anxious or worried means Anxiety, sad or down means Depression, can't sleep means Sleep. If something they describe doesn't plainly mean one condition (for example mood swings, or "I can't finish anything"), use Other rather than deciding which condition it is. A condition they ask about ("Do I have bipolar?") is a topic they raised, so use its label, and never answer the question. Use Not sure only when nothing more specific is clear, never alongside another label. quote: the patient's own words for that concern, copied exactly from their message, or "" if it only came from a tapped topic. Keep every tapped topic, even if the patient's words add another, unless their words clearly take it back. diagnosed, for each concern on its own: "yes" if they say they've been diagnosed with it, "no" only if they say they haven't been diagnosed with it or have never seen anyone about anything, otherwise "not_sure". Never work it out from anything else.
 
 need: "medication_support" if they have a diagnosis and need medication support or a refill; "new_diagnosis_or_medication" if they're looking for a diagnosis or new medication, or have never been seen; otherwise "not_sure".
 
@@ -43,12 +41,17 @@ Never repeat an ID number, card number or phone number.`;
 const STATUSES = ["ok", "clarify", "eligibility_check", "not_understood"] as const;
 const FLAG_TYPES = ["age", "state", "insurance", "hospital_stay", "someone_else"] as const;
 
-// Unknown fields, wrong values and too-long strings are all rejected
+const DIAGNOSED = ["yes", "no", "not_sure"] as const;
+export type Diagnosed = (typeof DIAGNOSED)[number];
+
+// Unknown fields, wrong values and too-long strings are all rejected.
+// Whether it's been diagnosed is recorded per concern (Lily, PR 5)
 const Output = z.strictObject({
   status: z.enum(STATUSES),
   clarifying_question: z.string().max(200).nullable(),
-  concerns: z.array(z.strictObject({ label: z.enum(CONCERN_LABELS), quote: z.string().max(500) })).max(10),
-  diagnosed: z.enum(["yes", "no", "not_sure"]),
+  concerns: z
+    .array(z.strictObject({ label: z.enum(CONCERN_LABELS), quote: z.string().max(500), diagnosed: z.enum(DIAGNOSED) }))
+    .max(10),
   need: z.enum(["medication_support", "new_diagnosis_or_medication", "not_sure"]),
   eligibility_flags: z.array(z.strictObject({ type: z.enum(FLAG_TYPES), quote: z.string().max(500) })).max(5),
   chips: z.array(z.strictObject({ label: z.enum(CONCERN_LABELS), display: z.string().max(40) })).max(6),
@@ -61,7 +64,21 @@ export function parseUnderstanding(raw: unknown, input: WhatsGoingOnInput): Unde
   return parsed.success ? settle(parsed.data, input) : null;
 }
 
-export type Understanding = z.infer<typeof Output>;
+type ModelOutput = z.infer<typeof Output>;
+
+// What the screens use: the model's output, plus one overall "diagnosed",
+// worked out from the concerns, for the golden set and the summary
+export type Understanding = ModelOutput & { diagnosed: Diagnosed };
+
+// "yes" only if every concern was diagnosed, "no" only if none was, otherwise
+// "not_sure". "Not sure" itself doesn't count either way
+export function overallDiagnosed(concerns: ModelOutput["concerns"]): Diagnosed {
+  const known = concerns.filter((concern) => concern.label !== "Not sure").map((concern) => concern.diagnosed);
+  if (known.length === 0) return "not_sure";
+  if (known.every((value) => value === "yes")) return "yes";
+  if (known.every((value) => value === "no")) return "no";
+  return "not_sure";
+}
 export type EligibilityFlagType = (typeof FLAG_TYPES)[number];
 
 export type WhatsGoingOnInput = {
@@ -129,31 +146,34 @@ function userTurn(input: WhatsGoingOnInput): string {
 
 // Checks the schema can't express, and holds the AI to at most one
 // clarifying question. Null means the output can't be used
-function settle(output: Understanding, input: WhatsGoingOnInput): Understanding | null {
+function settle(output: ModelOutput, input: WhatsGoingOnInput): Understanding | null {
   if ((output.status === "clarify") !== (output.clarifying_question !== null)) return null;
 
   if (output.status === "clarify" && input.clarification) {
     const quote = input.text.slice(0, 500);
+    const concerns = [{ label: "Not sure" as const, quote, diagnosed: "not_sure" as const }];
     return {
       ...output,
       status: "ok",
       clarifying_question: null,
-      concerns: [{ label: "Not sure", quote }],
+      concerns,
+      diagnosed: overallDiagnosed(concerns),
       need: "not_sure",
       chips: [{ label: "Not sure", display: "Not sure" }],
     };
   }
   if (output.status === "ok" && output.concerns.length === 0) return null;
   if (output.status === "eligibility_check" && output.eligibility_flags.length === 0) return null;
-  return output;
+  return { ...output, diagnosed: overallDiagnosed(output.concerns) };
 }
 
 function fromChipsOnly(chips: ConcernLabel[]): Understanding {
+  const concerns = chips.map((label) => ({ label, quote: "", diagnosed: "not_sure" as const }));
   return {
     status: "ok",
     clarifying_question: null,
-    concerns: chips.map((label) => ({ label, quote: "" })),
-    diagnosed: "not_sure",
+    concerns,
+    diagnosed: overallDiagnosed(concerns),
     need: "not_sure",
     eligibility_flags: [],
     chips: chips.map((label) => ({ label, display: label })),

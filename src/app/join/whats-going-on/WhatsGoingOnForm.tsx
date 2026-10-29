@@ -9,7 +9,7 @@ import { cx } from "@/components/cx";
 import { List } from "@/components/List";
 import { copy } from "@/copy";
 import { CONCERN_LABELS, type ConcernLabel } from "@/data";
-import type { Understanding } from "@/lib/ai/whats-going-on";
+import { overallDiagnosed, type Understanding } from "@/lib/ai/whats-going-on";
 import { nextAction, slowStage, toggleChip } from "@/lib/whats-going-on/flow";
 import type { StepResponse } from "@/lib/whats-going-on/step";
 import { crisisFromStore, safeKey, type WhatsGoingOnState, whatsGoingOnStore } from "@/lib/whats-going-on/stored";
@@ -148,12 +148,8 @@ function TypedStep({ state }: { state: WhatsGoingOnState }) {
         router.push("/join/someone-else");
         return;
       case "confirm":
-        save(current, {
-          understanding: action.understanding,
-          confirmChips: action.understanding.chips,
-          // Unknown starts unanswered, so the confirm screen's row is a real question
-          diagnosed: action.understanding.diagnosed === "not_sure" ? undefined : action.understanding.diagnosed,
-        });
+        // The confirm screen's diagnosis questions start unanswered
+        save(current, { understanding: action.understanding, confirmChips: action.understanding.chips, diagnoses: {} });
         router.push("/join/confirm");
     }
   };
@@ -296,20 +292,23 @@ function SimpleForm({ state }: { state: WhatsGoingOnState }) {
       return;
     }
     const need = form.need ?? "not_sure";
+    // "I already have a diagnosis" covers what they chose; otherwise the
+    // confirm screen asks for each
+    const concerns = form.conditions.map((label) => ({
+      label,
+      quote: "",
+      diagnosed: need === "medication_support" ? ("yes" as const) : ("not_sure" as const),
+    }));
     const understanding: Understanding = {
       status: "ok",
       clarifying_question: null,
-      concerns: form.conditions.map((label) => ({ label, quote: "" })),
-      diagnosed: need === "medication_support" ? "yes" : "not_sure",
+      concerns,
+      diagnosed: overallDiagnosed(concerns),
       need,
       eligibility_flags: [],
       chips: form.conditions.map((label) => ({ label, display: copy.conditions[label] })),
     };
-    save(state, {
-      understanding,
-      confirmChips: understanding.chips,
-      diagnosed: understanding.diagnosed === "not_sure" ? undefined : understanding.diagnosed,
-    });
+    save(state, { understanding, confirmChips: understanding.chips, diagnoses: {} });
     router.push("/join/confirm");
   };
 

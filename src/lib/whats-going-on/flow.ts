@@ -1,5 +1,5 @@
 import type { ConcernLabel } from "@/data";
-import type { EligibilityFlagType, Understanding } from "@/lib/ai/whats-going-on";
+import type { Diagnosed, EligibilityFlagType, Understanding } from "@/lib/ai/whats-going-on";
 import type { CrisisKind } from "@/lib/crisis/word-list";
 import type { FallbackReason, StepResponse } from "./step";
 
@@ -58,11 +58,20 @@ const CRISIS_PATHS: Record<CrisisScreen, string> = {
 
 export const crisisPath = (kind: CrisisKind) => CRISIS_PATHS[crisisScreenFor(kind)];
 
-// The confirm screen asks "Have you been diagnosed with this?" when we don't
-// know, for example when only a chip was tapped. Not for "Not sure" or "Other"
-export const needsDiagnosisRow = (understanding: Understanding) =>
-  understanding.diagnosed === "not_sure" &&
-  understanding.concerns.some((concern) => concern.label !== "Not sure" && concern.label !== "Other");
+// The confirm screen asks "Have you been diagnosed with {item}?" for each
+// concern where we don't know (Lily, PR 5): when the patient didn't say, when
+// only a chip was tapped, or for a concern they added. Not for "Not sure" or "Other"
+export type Diagnoses = Partial<Record<ConcernLabel, Diagnosed>>;
+
+export const knownDiagnoses = (understanding: Understanding): Diagnoses =>
+  Object.fromEntries(
+    understanding.concerns
+      .filter((concern) => concern.diagnosed !== "not_sure")
+      .map((concern) => [concern.label, concern.diagnosed]),
+  );
+
+export const diagnosisRows = (labels: ConcernLabel[], known: Diagnoses): ConcernLabel[] =>
+  labels.filter((label) => label !== "Not sure" && label !== "Other" && known[label] === undefined);
 
 // One small double-check row on the confirm screen for each eligibility
 // surprise. Someone else has its own screen instead

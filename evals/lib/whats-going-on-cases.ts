@@ -2,8 +2,9 @@ import { copy } from "@/copy";
 import type { ConcernLabel } from "@/data";
 import { parseUnderstanding, type Understanding, type WhatsGoingOnInput } from "@/lib/ai/whats-going-on";
 import {
+  diagnosisRows,
+  knownDiagnoses,
   nextAction,
-  needsDiagnosisRow,
   recheckRows,
   slowStage,
   toggleChip,
@@ -197,7 +198,11 @@ export async function runWhatsGoingOnCase(testCase: GoldenCase, deps: WgoDeps): 
     const action = nextAction(response, { retried: false, forThemselves: false });
     fieldChecks.push([action.to === "someone_else", "the someone-else screen"]);
   }
-  if (e.shows_diagnosis_row) fieldChecks.push([!!u && needsDiagnosisRow(u), "the diagnosis row shows"]);
+  // The question is per concern now: one for each concern where we don't know
+  if (e.shows_diagnosis_row) {
+    const asked = u ? diagnosisRows(u.concerns.map((c) => c.label), knownDiagnoses(u)) : [];
+    fieldChecks.push([asked.length > 0, "a diagnosis question shows for each concern we don't know"]);
+  }
   if (e.tapped_chip_not_dropped_silently) {
     fieldChecks.push([input.chips.every((chip) => labels.includes(chip)), "the tapped chip is kept"]);
   }
@@ -236,15 +241,17 @@ export async function runWhatsGoingOnSystemChecks(cases: GoldenCase[]): Promise<
     wordList: { hit: false },
     aiFlag: { ok: true, crisis: false, kind: null, reason: "test", usage: { inputTokens: 0, outputTokens: 0 } },
   };
-  const okUnderstanding: Understanding = {
+  // A valid output as the model gives it (no overall "diagnosed"; the app
+  // works that out), and the same as the screens use it
+  const okOutput = {
     status: "ok",
     clarifying_question: null,
-    concerns: [{ label: "Anxiety", quote: "anxious" }],
-    diagnosed: "no",
+    concerns: [{ label: "Anxiety", quote: "anxious", diagnosed: "no" }],
     need: "not_sure",
     eligibility_flags: [],
     chips: [{ label: "Anxiety", display: "Anxiety" }],
   };
+  const okUnderstanding = { ...okOutput, diagnosed: "no" } as Understanding;
   const spy = () => {
     const calls = { understand: 0, checkMessage: 0 };
     const deps = (over: Partial<StepDeps> = {}): StepDeps => ({
@@ -285,17 +292,18 @@ export async function runWhatsGoingOnSystemChecks(cases: GoldenCase[]): Promise<
   if (has("Y-02")) {
     const input = { text: "anxious", chips: [] };
     const bad: [string, unknown][] = [
-      ["an extra field", { ...okUnderstanding, extra: "x" }],
-      ["a wrong status", { ...okUnderstanding, status: "great" }],
-      ["a question without status clarify", { ...okUnderstanding, clarifying_question: "Why?" }],
-      ["a label that isn't allowed", { ...okUnderstanding, concerns: [{ label: "Grief", quote: "x" }] }],
-      ["a too-long chip", { ...okUnderstanding, chips: [{ label: "Anxiety", display: "x".repeat(41) }] }],
-      ["status ok with no concerns", { ...okUnderstanding, concerns: [] }],
+      ["an extra field", { ...okOutput, extra: "x" }],
+      ["a wrong status", { ...okOutput, status: "great" }],
+      ["a question without status clarify", { ...okOutput, clarifying_question: "Why?" }],
+      ["a label that isn't allowed", { ...okOutput, concerns: [{ label: "Grief", quote: "x", diagnosed: "no" }] }],
+      ["a concern without diagnosed", { ...okOutput, concerns: [{ label: "Anxiety", quote: "x" }] }],
+      ["a too-long chip", { ...okOutput, chips: [{ label: "Anxiety", display: "x".repeat(41) }] }],
+      ["status ok with no concerns", { ...okOutput, concerns: [] }],
     ];
     for (const [what, output] of bad) {
       add("Y-02", "wgo_fallback", parseUnderstanding(output, input) === null, `rejects ${what}`, parseUnderstanding(output, input) ? "accepted" : "rejected");
     }
-    add("Y-02", "wgo_fallback", parseUnderstanding(okUnderstanding, input) !== null, "accepts a valid output", "checked");
+    add("Y-02", "wgo_fallback", parseUnderstanding(okOutput, input) !== null, "accepts a valid output", "checked");
     const { deps } = spy();
     const invalid = await runWhatsGoingOnStep(input, deps({ understand: async () => ({ ok: false, failure: "invalid_output", usage: null }) }));
     add("Y-02", "wgo_fallback", nextAction(invalid, { retried: false, forThemselves: false }).to === "form",

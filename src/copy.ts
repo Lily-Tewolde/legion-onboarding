@@ -165,7 +165,7 @@ export const copy = {
       Anxiety: "We don't prescribe benzodiazepines over 1 mg a day.",
     },
     notDiagnosis: "This only repeats what you told us. It isn't a diagnosis.",
-    diagnosed: "Have you been diagnosed with this?",
+    diagnosed: "Have you been diagnosed with {item}?",
     notSure: "Not sure",
     looksRight: "Looks right",
     startOver: "Start over",

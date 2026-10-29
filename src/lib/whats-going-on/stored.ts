@@ -1,5 +1,6 @@
 import type { ConcernLabel } from "@/data";
 import type { Understanding } from "@/lib/ai/whats-going-on";
+import type { Diagnoses } from "./flow";
 import { createSessionStore } from "@/lib/session-store";
 
 // Screens 2 and 3, kept in this browser tab only. What the patient typed is
@@ -22,7 +23,8 @@ export type WhatsGoingOnState = {
   // What screen 3 shows, and the patient's edits to it
   understanding?: Understanding;
   confirmChips?: Understanding["chips"];
-  diagnosed?: Understanding["diagnosed"];
+  // The patient's answers to "Have you been diagnosed with {item}?"
+  diagnoses?: Diagnoses;
 };
 
 export const whatsGoingOnStore = createSessionStore<WhatsGoingOnState>("lh_whats_going_on", { text: "", chips: [] });
