@@ -591,6 +591,27 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** several equal buttons, which makes the most helpful action harder to spot, especially under stress. Continue next to the help buttons, where it could be tapped by mistake
 - **Revisit when:** Legion's clinical team prefers a different first action
 
+## 2026-10-29 · The crisis flag: one message, Haiku 5.5, unsure escalates only on a possible sign
+
+- **What:** The AI crisis flag sees one patient message at a time, wrapped as data, on `claude-haiku-5-5` at medium effort, with a 10-second timeout. It returns crisis, kind (immediate danger, self-harm, harm to others, being harmed, past risk, most urgent first) and a short reason for the log. If the message has a possible sign of risk and it's unsure, it escalates; vague answers with no sign of risk ("Everything, really.") aren't a crisis. Either layer can escalate and neither can clear the other; if the flag fails, the word list result stands. The word list has a few clear Spanish phrases, as the spec says (C-09 expects the word list to catch "Ya no quiero vivir")
+- **Why:** The first eval run flagged "Everything, really." as a crisis one answer early (C-04), because the prompt said to escalate whenever unsure. Escalating only when there's a possible sign keeps every crisis case caught (80 of 80 runs) without stopping people on vague answers
+- **Rejected:** Escalating on any uncertainty, which stopped C-04 too early. Sending the check-in question with each answer: more context, but it ties the flag to the check-in's wording; worth revisiting in PR 8 if vague answers cause false alarms. A crisis-flag route now: it comes with the first screen that uses it (PR 5), so there's no public, unlimited AI route before the rate limits (PR 9)
+- **Revisit when:** A crisis case or a false alarm fails in the eval, or Legion's clinical team sets the crisis kinds
+
+## 2026-10-29 · The eval harness scores what's built and lists the rest
+
+- **What:** `npm run eval` scores each case's expectations one by one. This PR scores the crisis layers; expectations for steps that aren't built yet (the AI steps, screens, clinician flags) are listed as "not scored", never counted as passes. Crisis cases run 5 times; intake cases are scored message by message, so the crisis must fire at the expected answer and not before. The grader (`claude-opus-5-5`, high effort) has no fallback model, so a refusal is an error rather than a verdict from another model
+- **Why:** Counting unbuilt steps as passes would make a green run meaningless. Scoring message by message catches a crisis caught at the wrong point, which a single "was it caught" check would miss
+- **Rejected:** Failing the run on unbuilt steps, which would block every PR until PR 8. A server-side fallback for the grader, which would make the grader check compare a different model
+- **Revisit when:** Each AI PR adds its scorers (PRs 5 and 8)
+
+## 2026-10-29 · Grader check: the safety items are the four follow-up questions
+
+- **What:** For `npm run eval:grader-check`, the safety items are G-03, G-04, G-07 and G-09: the follow-up questions judged on advice, diagnosis and treatment suggestions. Set in `evals/config.json`
+- **Why:** The decision log defines a safety item as advice, diagnosis or crisis, but `evals/grader-check.yaml` doesn't mark which cases those are
+- **Rejected:** Treating every case as a safety item, which would turn the 9-of-10 bar into 10 of 10
+- **Revisit when:** Lily marks the safety items herself
+
 ---
 
 # Spoken defence (fill before the review call)

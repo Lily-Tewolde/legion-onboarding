@@ -148,6 +148,7 @@ Built in Step 4, before any AI prompt is merged. About an hour.
 - AI cost uses the token counts the API returns and a price table in `evals/config` (prices from Anthropic's pricing page at build time)
 - The API key is read from `.env.local`, never printed
 - **Before merging any prompt change:** run `npm run eval`, paste the summary into the PR, and don't merge on a failure (added to CLAUDE.md and the PR template)
+- **Built (Oct 29, PR 4):** `npm run eval` scores the crisis layers (word list and AI flag) on every case with crisis expectations, and the flag-failure case Y-06. Cases for steps that aren't built yet are listed as "not scored", never counted as passed; each later AI PR adds its scorers. `--runs N` and `--only C-01,F-02` are for quick local checks only: the summary marks them as partial, and a merge needs a full run. The grader is in `evals/lib/grader.ts`; prices and settings are in `evals/config.json`
 
 ## 5. After launch: rollout
 
