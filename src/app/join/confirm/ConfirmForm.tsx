@@ -54,10 +54,15 @@ function ConfirmSkeleton() {
   );
 }
 
-// Nothing to confirm in this tab (opened directly, or in a new tab)
+// Nothing to confirm in this tab (opened directly, or in a new tab). Checks
+// the store again when it runs: Next keeps this screen alive in the
+// background, so it can render here after "Start over" and only run once a
+// new answer has been saved
 function BackToStart() {
   const router = useRouter();
-  useEffect(() => router.replace("/join/whats-going-on"), [router]);
+  useEffect(() => {
+    if (!whatsGoingOnStore.get().understanding) router.replace("/join/whats-going-on");
+  }, [router]);
   return <ConfirmSkeleton />;
 }
 
