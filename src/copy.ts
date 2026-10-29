@@ -110,8 +110,76 @@ export const copy = {
     hospitalSamhsa:
       "SAMHSA's National Helpline: {number}. Free, confidential, 24/7, in English and Spanish. They can help you find treatment near you.",
   },
+  // Screen 2. Starter chip labels are the concern labels themselves
+  whatsGoingOn: {
+    title: "What's going on?",
+    intro: "Tell us in your own words. A sentence or two is enough.",
+    placeholder: "For example: I was diagnosed with ADHD and my medication ran out.",
+    speak: "Speak",
+    listening: "Listening… Tap to stop.",
+    empty: "Please tell us a little more.",
+    useForm: "Use a simple form instead",
+    stillWorking: "Still working on it…",
+    // {link} is "use a simple form instead"
+    notUnderstood: "We didn't quite catch that. Try again, or {link}.",
+    notUnderstoodLink: "use a simple form instead",
+    formNote: "We're using a simple form for this step.",
+    formConditions: "What would you like help with? Choose any that fit.",
+    formNeed: "How can we help you?",
+    needs: {
+      medication_support: "I already have a diagnosis and need medication support",
+      new_diagnosis_or_medication: "I'm looking for a new diagnosis or medication",
+      not_sure: "I'm not sure, but I need help",
+    },
+  },
+  // Legion's conditions list from their current flow, for the simple form and
+  // the confirm screen's "+ Add", shown against the standard labels
+  conditions: {
+    ADHD: "ADHD",
+    Anxiety: "Anxiety",
+    Depression: "Depression",
+    Sleep: "Insomnia & sleep",
+    PTSD: "PTSD",
+    OCD: "OCD",
+    "Panic disorder": "Panic disorder",
+    "Bipolar disorder": "Bipolar disorder",
+    Other: "Other",
+    "Not sure": "I'm not sure",
+  },
+  someoneElse: {
+    title: "Is this for someone else?",
+    body: "It sounds like you're looking for help for someone else. They'll need to sign up themselves, so their provider can talk with them directly.",
+    safety: "If you're worried about their safety right now, call or text {number}.",
+    safetyNumber: "988",
+    forMe: "This is for me",
+    talkToPerson: "Talk to a person",
+  },
+  // Screen 3
+  confirm: {
+    title: "Here's what we understood",
+    intro: "Remove anything that's wrong, or add anything we missed.",
+    remove: "Remove {item}",
+    add: "+ Add",
+    // One line, only for the concern it applies to. To confirm with Legion
+    policy: {
+      Anxiety: "We don't prescribe benzodiazepines over 1 mg a day.",
+    },
+    notDiagnosis: "This only repeats what you told us. It isn't a diagnosis.",
+    diagnosed: "Have you been diagnosed with this?",
+    notSure: "Not sure",
+    looksRight: "Looks right",
+    startOver: "Start over",
+    // One small row per eligibility surprise, before the same question as screen 1
+    recheck: {
+      stateLead: "You mentioned another state.",
+      insuranceLead: "You mentioned Medicaid or Medicare.",
+      hospitalLead: "You mentioned a hospital stay.",
+      dateOfBirth: "Can you check your date of birth?",
+    },
+  },
   crisis: {
     title: "Help is available right now",
+    fromText: "We want to make sure you're okay.",
     immediateDanger: "If you're in immediate danger, call 911.",
     lifeline:
       "Call or text 988 to reach the 988 Suicide & Crisis Lifeline, any time. You can also chat at {link}.",
@@ -124,5 +192,21 @@ export const copy = {
     talkToPerson: "Talk to a person",
     safeNow: "I'm safe right now and want to keep going",
     safeNowError: "Please check the box to continue.",
+    // When someone may be in danger right now. To confirm with Legion's clinical team
+    immediate: {
+      title: "Call 911 now",
+      body: "If you've taken something or you're in danger right now, call 911.",
+      call911: "Call 911",
+      callOrText988: "Call or text 988",
+    },
+    // When someone is being hurt by someone else. To confirm with Legion's clinical team
+    beingHurt: {
+      title: "Help is available",
+      hotline:
+        "The National Domestic Violence Hotline is free and open 24/7, with help in Spanish. Call 1-800-799-7233 or text START to 88788.",
+      callHotline: "Call the hotline",
+      textHotline: "Text the hotline",
+      leave: "Leave this page",
+    },
   },
 } as const;
