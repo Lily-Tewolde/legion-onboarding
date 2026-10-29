@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useLayoutEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { Button } from "@/components/Button";
 import { TalkToPersonButton } from "@/components/HelpPanel";
 import { SegmentedControl } from "@/components/SegmentedControl";
@@ -74,6 +74,13 @@ function Form({ answers }: { answers: FitAnswers }) {
     },
     [],
   );
+
+  // The crisis screen has to open straight away, so it's loaded in advance,
+  // along with the hospital screen-out
+  useEffect(() => {
+    router.prefetch("/help-now");
+    router.prefetch("/join/not-a-fit/hospital_stay");
+  }, [router]);
 
   const update = (patch: FitAnswers) => {
     const next = { ...answers, ...patch };
