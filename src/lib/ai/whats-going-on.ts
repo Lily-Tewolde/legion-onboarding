@@ -28,9 +28,9 @@ status
 
 clarifying_question: only with "clarify", otherwise null. One short, plain question in the patient's language that gathers information. No advice. Speak as "we", never "I", "me" or "my": "Can you tell us a bit more?"
 
-concerns: each concern the patient raised, with one of these labels: ADHD, Anxiety, Depression, Sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other, Not sure. Sleep covers insomnia and trouble sleeping. Use Other for a mental health concern that fits none of the labels. Use Not sure only when nothing more specific is clear, never alongside another label. quote: the patient's own words for that concern, copied exactly from their message, or "" if it only came from a tapped topic. Keep every tapped topic, even if the patient's words add another, unless their words clearly take it back.
+concerns: each concern the patient raised, with one of these labels: ADHD, Anxiety, Depression, Sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other, Not sure. Use a label only when the patient names that condition, or describes it in everyday words that plainly mean the same thing: anxious or worried means Anxiety, sad or down means Depression, can't sleep means Sleep. If something they describe doesn't plainly mean one condition (for example mood swings, or "I can't finish anything"), use Other rather than deciding which condition it is. A condition they ask about ("Do I have bipolar?") is a topic they raised, so use its label, and never answer the question. Use Not sure only when nothing more specific is clear, never alongside another label. quote: the patient's own words for that concern, copied exactly from their message, or "" if it only came from a tapped topic. Keep every tapped topic, even if the patient's words add another, unless their words clearly take it back.
 
-diagnosed: "yes" if they say they've been diagnosed, "no" if they say they haven't, otherwise "not_sure".
+diagnosed: "yes" if they say they've been diagnosed, "no" only if they say they haven't been diagnosed or have never seen anyone about it, otherwise "not_sure". Never work it out from anything else.
 
 need: "medication_support" if they have a diagnosis and need medication support or a refill; "new_diagnosis_or_medication" if they're looking for a diagnosis or new medication, or have never been seen; otherwise "not_sure".
 
