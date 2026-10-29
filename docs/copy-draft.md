@@ -338,7 +338,8 @@ One page, like a one-page checkout when you shop online.
 - When the patient asks something we can't answer here (for example, about cost or coverage), a soft note in line, and the check-in keeps going: "We can't answer that here. For cost or coverage, talk to a person." **[decided]**
 - When the patient asks a medication question (for example, about a dose): "We'll pass your question to your provider." The check-in keeps going **[decided]**
 - Medication check, at the end: "Did we get your medications right?" Each medication shows as the patient said it, or as it was heard when spoken. Buttons: "Yes, that's right", "Fix something" **[drafted]**. If none were mentioned: "You didn't mention any medications." Buttons: "That's right", "Add one" **[drafted]**
-- At the medication check, for a name that wasn't clear (spoken, or more than a one-letter typo): "Did you mean {drug}?" Buttons: "Yes", "No, keep what I said" **[drafted]**. The patient decides, not the AI
+- At the medication check, when what we heard isn't a real drug name (spoken, or more than a one-letter typo): "Did you mean {drug}?" Buttons: "Yes", "No, keep what I said" **[drafted]**. The patient decides, not the AI
+- When it's a real drug that doesn't fit what they told us (for example, Celebrex for depression): no other drug is suggested. "Can you check the name of this medication?" It stays marked unclear for the clinician **[decided]**
 - If the patient says they're under 18: the check-in stops with "Thanks for telling us. Someone from our team will reach out before your visit." **[decided]** **[Confirm with Legion's clinical and legal team]**
 - Done: "Thanks. Your provider will see your answers before your visit." Button: "Back to my visit page"
 

@@ -273,6 +273,8 @@ cases:
       medication_status: unclear
       summary_keeps_patient_words: true
       normalization_rule: "Only a one-letter typo that matches exactly one known drug, with nothing else close, is normalized. Everything else is unclear and goes to the medication check."
+      medication_check_asks: "Can you check the name of this medication?"
+      no_other_drug_suggested: true
     scoring: [rule, rubric]
     covers: [10]
     why: Sound-alike drug names.

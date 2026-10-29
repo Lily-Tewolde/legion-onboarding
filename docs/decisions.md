@@ -533,6 +533,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **What:** Only a one-letter typo that matches exactly one known drug, with nothing else close, is normalized, in plain code with a list of known drugs. Anything else stays "unclear". The summary says only "As heard: 'sir tra lean' (unclear)", and the medication check at the end asks "Did you mean sertraline?" so the patient decides. Cases I-07, I-13 and I-14
 - **Trade-off:** one more question at the end for a patient whose drug name wasn't clear
 - **Rejected:** the summary guessing "possibly sertraline", which names a drug the patient didn't say. Letting the AI decide what counts as an obvious typo
+- **Refined the same day:** "Did you mean {drug}?" only when what we heard isn't a real drug. When it's a real drug that doesn't fit (Celebrex for depression), no other drug is suggested: "Can you check the name of this medication?", and it stays unclear. Suggesting another real drug would put the AI's guess in front of the patient as if it were a correction (case I-08)
 - **Revisit when:** the "Did you mean" question is wrong often enough to confuse patients
 
 ## 2026-10-29 · Being hurt by someone else pauses the check-in
