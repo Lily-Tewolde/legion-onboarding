@@ -660,6 +660,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Turning Cache Components off, which the rest of the setup uses. Resetting the whole page on every visit, which loses the answers "Go back" is meant to keep
 - **Revisit when:** A later screen keeps state that should reset, which needs the same treatment
 
+## 2026-10-29 · Four named phases, and screen 1 in three steps
+
+- **What:** Progress shows four named phases instead of step numbers: "About you", "What's going on", "Your provider" and "Book", ending at "You're booked" (replacing "Step 2 of 4" from PR #5). Screen 1 is now three steps, at `/join`, `/join/insurance` and `/join/safety`, all in "About you": date of birth and Texas; then insurance on its own; then the safety and hospital questions. Medicaid or Medicare goes straight to its screen-out when tapped, like the hospital question. Continue with "I don't see my plan" still selected shows "Choose ‘Continue as self-pay’ or talk to a person to keep going". "Answered by mistake? Go back" returns to the step with that answer, and "I'm safe right now" returns to the safety step. Lily's calls, PR #10
+- **Why:** Nothing should scroll on a phone, and phase names say where people are without making a long flow look long. Once insurance is its own step, Medicaid or Medicare can act like the hospital question
+- **Rejected:** "Step n of n", which made people count. One long screen 1, which scrolls on a phone. A general error for "I don't see my plan", when the two ways forward are on screen
+- **Revisit when:** The redesign changes how progress looks
+
 ---
 
 # Spoken defence (fill before the review call)
