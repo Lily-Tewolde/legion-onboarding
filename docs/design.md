@@ -39,7 +39,7 @@ Legion's palette, read from the computed styles of legionhealth.com (Oct 28). Ta
 
 - **Inter** for body text, **Inter Display** for headings. Both SIL Open Font License. Loaded with `next/font/google` with Inter's optical size axis: optical size 32 is Inter Display, so headings set `font-variation-settings: "opsz" 32` and no font files are self-hosted
 - Body 16px (1rem), line height 1.5, regular weight. Question labels 18px, medium. Fine print (tags, the banner) 14px. All in rem, so text scales with the browser's text size
-- Headings semibold (600), line height 1.25, letter spacing -0.01em. Never smaller than body or more than twice body: 32px at most
+- Headings semibold (600) on regular (400) body, Lily's call between Legion's 500 and Atlassian's bold. Line height 1.25, letter spacing -0.01em. Never smaller than body or more than twice body: 32px at most
 - Lines of 60 to 80 characters: the task column is 40rem wide
 - No all caps. Never truncate text without a way to read it all. Use correct heading levels
 - No Satoshi: its licence rules out a public repo
@@ -60,10 +60,11 @@ Adapted from Lily's own design library (Inspo Book 01): its structure, sizes, ra
 
 | Component | File | Changes from Inspo Book 01 |
 |---|---|---|
-| Button | `Button.tsx` | Primary and secondary, large (54px) and small (44px). Primary is `action` blue, not black. Pill shape kept. Small text 16px, not 14. The rotating light ring is left out to keep it calm. The arrow icon is opt-in (`showIcon`) |
+| Button | `Button.tsx` | Primary and secondary, large (54px) and small (44px). Primary is `action` blue, not black. Pill shape kept. Small text 16px, not 14. No rotating light ring and no arrow icon, to keep it calm |
 | Chip | `Chip.tsx` | The filter chip only. 16px text, 44px tall (was 9px text). Selected: `wash` fill, `action` border and a tick, so the state doesn't rely on colour alone |
 | SegmentedControl | `SegmentedControl.tsx` | Native radio inputs instead of `role="radio"` buttons, so arrow keys and forms work. 54px segments. The question is the legend, with optional hint and error text |
-| Switch | `Switch.tsx` | Track 44 x 26px (was 18 x 10). `action` when on, `line-control` when off. The whole row is a 44px tap target |
+| Switch | `Switch.tsx` | For settings only. Track 44 x 26px (was 18 x 10). `action` when on, `line-control` when off. The whole row is a 44px tap target |
+| Checkbox | `Checkbox.tsx` | Not in Inspo Book 01. For choices inside the flow: "Tell me if an earlier time opens", the consent and "I'm safe right now and want to keep going". A native checkbox drawn as a 24px box (`line-control` border, `action` fill and a white tick when checked) in a 44px row, with optional error text. The label can hold a link |
 | List | `List.tsx` | A choose-one list on native radio inputs (Inspo's is a nav list). 44px rows, 16px text, optional second line. The chosen row keeps Inspo's left bar, in `action` |
 | Tag | `Tag.tsx` | Sentence case, 14px (was all caps, 9px). For on-screen labels like "Demo: payment simulated" |
 
@@ -74,9 +75,12 @@ Left out of the repo: Tabs, UnitToggle, NavLink, LiveIndicator, FeatureCard, Act
 Every screen, from the root layout (`src/app/layout.tsx`):
 
 - **Demo banner** (`DemoBanner.tsx`): "Demo prototype: don't enter real information", full width at the top, `navy` on `wash`
-- **Help link** (`HelpPanel.tsx`): "Talk to a person", top right of the task column, as in Lily's sketch. Opens the help panel, a native dialog that traps focus, closes on Escape, on "Close" or on a tap outside, and returns focus to the link. The 988 line sits in a soft `wash` box: prominent but not alarming, no red
+- **Header:** "Legion Health" as plain text on the left, `navy` semibold. No logo
+- **Help link** (`HelpPanel.tsx`): "Talk to a person", on the right of the header. Opens the help panel, a native dialog that traps focus, closes on Escape, on "Close" or on a tap outside, and returns focus to the link. Centred on larger screens; on phones (under 640px) it slides up from the bottom, with no slide when the system asks for reduced motion. The phone number and 988 are tap-to-call links with 44px tap areas. The 988 line sits in a soft `wash` box: prominent but not alarming, no red
 - **Task column:** one centred column, 40rem wide, 16px side gutters. No split screen
-- **Progress** (`ProgressBar.tsx`): the one progress style, a thin `action` bar on a `wash` track with no step text. Screens place it at the top of the column. Its screen reader label comes from `src/copy.ts`
+- **Progress** (`ProgressBar.tsx`): the one progress style. "Step 2 of 4" in small `slate` text above a thin `action` bar on a `wash` track. On the booking screens only, ending at "You're booked". Screens place it at the top of the column. The same text is the screen reader label
+- **Tab title and icon:** "Legion Health · Prototype". The favicon is a plain neutral mark (a white dot on `slate`), not Legion's logo
+- **`/design`:** a reference page with every token and component, for checking on the live link. Not part of the patient flow and not indexed
 
 All shell strings live in `src/copy.ts`.
 

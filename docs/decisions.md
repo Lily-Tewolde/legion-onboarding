@@ -438,6 +438,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Legion's #3E70F7 for button fills (4.3:1, fails for normal text). Inspo's light border on controls (hard to see, fails 3:1)
 - **Revisit when:** Lily or Legion picks a different action blue
 
+## 2026-10-29 · Foundation answers: progress, checkboxes, help panel, header and a design page
+
+- **What:** Lily's answers to the open questions on PR #5. Progress is a thin bar with "Step 2 of 4" text, on the booking screens only, ending at "You're booked"; the text is also the screen reader label. Checkboxes for "Tell me if an earlier time opens", the consent and "I'm safe right now and want to keep going"; the switch is for settings only. The help panel's phone number and 988 are tap-to-call, and on phones the panel slides up from the bottom. Headings 600, body 400. Sizes stay (18px questions, 14px fine print). No rotating ring and no arrow on buttons. Hover blue #244CC0. Tab title "Legion Health · Prototype", a plain neutral favicon, and "Legion Health" as plain text in the header, with no logo. `/` redirects to `/join` once PR 3 adds it. A `/design` reference page for checking components on the live link
+- **Why:** Calm, plain and easy to finish. Text progress tells people how far they are, not just a bar. A checkbox reads as "I agree" or "yes, do this"; a switch reads as a setting. Tap-to-call gets people to help in one tap on a phone. Neutral branding avoids using Legion's logo in a prototype
+- **Rejected:** A bar with no text. A switch for the in-flow choices. Plain-text numbers. Inspo Book 01's rotating ring and arrow. Legion's logo as the favicon or in the header. Redirecting `/` before `/join` exists (it would show a 404)
+- **Revisit when:** The step count is set screen by screen in PR 3 onward
+
 ---
 
 # Spoken defence (fill before the review call)
