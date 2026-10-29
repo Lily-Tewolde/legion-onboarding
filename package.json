@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check:db": "node --env-file=.env.local scripts/check-db-access.mjs"
+    "check:db": "node --env-file=.env.local scripts/check-db-access.mjs",
+    "test": "node --import tsx --test 'src/**/*.test.ts'"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
