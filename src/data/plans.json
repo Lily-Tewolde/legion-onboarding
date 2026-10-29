@@ -1,0 +1,9 @@
+[
+  { "id": "aetna", "name": "Aetna", "screensOut": false },
+  { "id": "bcbs", "name": "Blue Cross Blue Shield", "screensOut": false },
+  { "id": "cigna", "name": "Cigna", "screensOut": false },
+  { "id": "unitedhealthcare", "name": "UnitedHealthcare", "screensOut": false },
+  { "id": "oscar", "name": "Oscar", "screensOut": false },
+  { "id": "medicaid", "name": "Medicaid", "screensOut": true },
+  { "id": "medicare", "name": "Medicare", "screensOut": true }
+]
