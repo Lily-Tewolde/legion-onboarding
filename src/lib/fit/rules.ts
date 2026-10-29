@@ -12,8 +12,9 @@ export type FitAnswers = {
   inTexas?: YesNo;
   payMethod?: "insurance" | "self_pay";
   planId?: string;
-  // Asked of self-pay only: Legion doesn't see Medicaid or Medicare patients,
-  // "including as self-pay"
+  // "Do you have Medicaid or Medicare?": asked of self-pay on screen 1, and
+  // as a double-check on the confirm screen. Legion doesn't see Medicaid or
+  // Medicare patients, "including as self-pay"
   medicaidOrMedicare?: YesNo;
   safety?: YesNo;
   hospital?: YesNo;
@@ -77,10 +78,11 @@ export function partialOutcome(answers: FitAnswers, today: string): FitOutcome |
   return null;
 }
 
+// "Yes" to the question counts however they pay. Screen 1 clears the
+// self-pay answer when someone switches to insurance
 function hasMedicaidOrMedicare(answers: FitAnswers): boolean {
-  if (answers.payMethod === "insurance") return Boolean(findPlan(answers.planId ?? "")?.screensOut);
-  if (answers.payMethod === "self_pay") return answers.medicaidOrMedicare === "yes";
-  return false;
+  if (answers.medicaidOrMedicare === "yes") return true;
+  return answers.payMethod === "insurance" && Boolean(findPlan(answers.planId ?? "")?.screensOut);
 }
 
 // The whole fit check, on the last step's Continue. Assumes validateFacts

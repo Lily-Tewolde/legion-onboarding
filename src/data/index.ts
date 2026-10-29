@@ -11,17 +11,23 @@ import slotsJson from "./slots.json";
 // screen as "Demo: made-up provider" and "Demo: coverage check simulated".
 // Checked when the module loads, so a typo in the JSON fails loudly
 
-// Standard English labels: the starter chips plus one from the golden set.
-// Legion's full conditions list is still to confirm with Legion.
-// "Not sure" isn't something a provider treats: someone who only picks it is
-// matched to the first provider who takes their plan (anyone, if self-pay),
-// at the earliest time, so they never land on the no-times screen by accident
+// Standard English labels, used for matching, the AI's output and the
+// summary. Legion's conditions list from their current flow (Lily, PR 5), to
+// confirm with Legion; "Insomnia & sleep" is shown with the label "Sleep".
+// "Not sure" and "Other" aren't things a provider treats: someone who only
+// picks those is matched to the first provider who takes their plan (anyone,
+// if self-pay), at the earliest time, so they never land on the no-times
+// screen by accident
 export const CONCERN_LABELS = [
   "ADHD",
   "Anxiety",
   "Depression",
   "Sleep",
+  "PTSD",
+  "OCD",
+  "Panic disorder",
   "Bipolar disorder",
+  "Other",
   "Not sure",
 ] as const;
 export type ConcernLabel = (typeof CONCERN_LABELS)[number];

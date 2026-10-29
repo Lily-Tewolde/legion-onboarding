@@ -104,9 +104,14 @@ describe("one-tap answers acting the moment they're tapped", () => {
     assert.equal(tapOutcome("medicaidOrMedicare", { payMethod: "self_pay", medicaidOrMedicare: "no" }), null);
   });
 
-  it("ignores the self-pay answer once someone switches to insurance", () => {
+  it("screens out Yes to Medicaid or Medicare however they pay (the confirm screen's double-check)", () => {
     const answers: FitAnswers = { payMethod: "insurance", planId: "cigna", medicaidOrMedicare: "yes" };
-    assert.equal(tapOutcome("planId", answers), null);
+    assert.deepEqual(tapOutcome("medicaidOrMedicare", answers), { result: "screened_out", reason: "medicaid_medicare" });
+    assert.deepEqual(partialOutcome(answers, TODAY), { result: "screened_out", reason: "medicaid_medicare" });
+  });
+
+  it("lets an insured patient through when they answer No", () => {
+    const answers: FitAnswers = { payMethod: "insurance", planId: "cigna", medicaidOrMedicare: "no" };
     assert.equal(partialOutcome(answers, TODAY), null);
   });
 
