@@ -89,6 +89,7 @@ Counts for the new flow are from this map and will be rechecked in the build.
 
 ### 14. Clinician view (AI summary)
 - **Shows:** main concern, history, medications and goal, for the clinician to review, with the full conversation next to it. The summary uses only what the patient said. "AI summary for clinician review. Not a diagnosis."
+- **Where the data lives:** in the patient's browser, so this view works on the same device. "Load a sample conversation" shows a clearly labelled made-up example for anyone who opens it without doing an intake
 - **Events:** `portal.intake.summary_viewed`
 
 ### 15. Reminders and join (preview)

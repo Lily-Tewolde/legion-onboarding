@@ -227,6 +227,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** A summary on its own
 - **Revisit when:** Not expected to change
 
+## 2026-10-28 · The intake conversation stays in the browser, with a sample for the clinician view
+
+- **What:** The intake conversation and summary stay in the patient's browser, so the clinician view shows them on the same device. A "Load a sample conversation" button on the clinician view shows a clearly labelled made-up example for anyone who opens it without doing an intake. The sample lives in the code, not in Supabase
+- **Why:** Free text stays out of Supabase (pre-mortem, failure 5), and the demo is clicked through on one device. The sample means a reviewer can see the clinician view without doing an intake first
+- **Rejected:** Storing made-up example conversations in Supabase. A patient's own conversation still wouldn't show, and it adds a table for no gain
+- **Revisit when:** The clinician view needs to work on a different device from the patient's
+
 ---
 
 # Spoken defence (fill before the review call)
