@@ -8,9 +8,9 @@ Every screen has a "Talk to a person" help link. All data is made up. Coverage, 
 
 | Moment | Today (walk) | New flow |
 |---|---|---|
-| Learn I'm covered | after 7 | after 4 |
-| See who I'd see | after 9 | after 6 |
-| See the full cost and cancellation policy | after 20 | after 8 |
+| Learn I'm covered | after 7 | after 5 |
+| See who I'd see | after 9 | after 7 |
+| See the full cost and cancellation policy | after 20 | after 9 |
 
 Counts for the new flow are from this map and will be rechecked in the build.
 
@@ -22,38 +22,38 @@ Counts for the new flow are from this map and will be rechecked in the build.
 - **Events:** page view on /portal/join (Legion's start milestone)
 
 ### 2. Quick facts (fit check)
-- **Asks:** date of birth, state, insurance plan or self-pay, and "Are you thinking about harming yourself or others?"
-- **Rules, not AI:** under 18, outside Texas, or Medicaid or Medicare screen the patient out kindly. "Yes" to the safety question goes straight to the crisis path
+- **Asks:** date of birth, state, insurance plan or self-pay, then two direct questions: "Are you thinking about harming yourself or others?" and "Have you been hospitalized for mental health or substance use in the past year?" The hospital-stay question is labelled "Confirm with Legion's clinical team": it's their clinical screen
+- **Rules, not AI:** under 18, outside Texas, or Medicaid or Medicare screen the patient out kindly. "Yes" to the safety question goes straight to the crisis path. "Yes" to the hospital stay screens out kindly with specialized treatment resources, as today's flow does (mobile recording, about 0:40)
 - **Fixes:** the 34.8% drop (a test, not a fact)
-- **Questions so far:** 4
+- **Questions so far:** 5
 - **Events:** page view on /portal/join/fit; `portal.fit.submitted` with the result; `portal.fit.screened_out` with the reason; `portal.crisis.shown` with where it came from
 
 ### 3. Covered (or self-pay)
 - **Shows:** "Your plan is in network. Most patients pay $0 to $40 a visit." Self-pay sees the cash price instead. Labelled "Demo: coverage check simulated"
-- **Questions so far:** 4
+- **Questions so far:** 5
 - **Events:** `portal.coverage.shown` with insured or self-pay
 
 ### 4. What's going on? (AI)
 - **Asks:** one question in the patient's own words, typed or spoken. Uses the intake's conversation engine. Plain form if the AI is down
 - **Replaces:** the conditions and needs pages
-- **Questions so far:** 5
+- **Questions so far:** 6
 - **Events:** page view on /portal/join/conditions (keeps Legion's milestone); `portal.concern.submitted` with typed, spoken or form
 
 ### 5. Here's what I understood (AI)
 - **Shows:** what the AI understood, as chips the patient can remove or add to. "The AI only restates what you said. It doesn't diagnose."
-- **Questions so far:** 6
+- **Questions so far:** 7
 - **Events:** page view on /portal/join/needs (keeps Legion's milestone); `portal.concern.confirmed` with whether it was corrected
 
 ### 6. Your provider
 - **Shows:** one recommended made-up provider first, on the first screen, with a reason from the patient's own words and plan ("Treats ADHD, takes your plan, available Thu"), and a few times. "See more providers" below. No loading box
-- **Open:** the sketch also has "Tell me if an earlier time opens" (M4), which isn't in the 3d slice list. To confirm
+- **Also:** a "Tell me if an earlier time opens" checkbox (M4), with a simulated notification
 - **Fixes:** the 36.6% drop (a test, not a fact)
-- **Questions so far:** 8 (a provider and a time)
-- **Events:** page view on /portal/join/match; `portal.provider_selected` with whether it was the recommended one; `portal.provider.reservation.created`
+- **Questions so far:** 9 (a provider and a time)
+- **Events:** page view on /portal/join/match; `portal.provider_selected` with whether it was the recommended one; `portal.provider.reservation.created`; `portal.earlier_time.requested`
 
 ### 7. What you'll pay
 - **Shows:** estimated copay or cash price, charged after the visit, the cancellation policy, and "What if I cancel?" answered from fixed policy text, not AI. The policy terms in the prototype are made up and labelled
-- **Questions so far:** 8
+- **Questions so far:** 9
 - **Events:** `portal.cost.viewed`; `portal.cost.cancel_policy_opened`
 
 ### 8. Your details
@@ -61,12 +61,12 @@ Counts for the new flow are from this map and will be rechecked in the build.
 - **Saves progress** to Supabase here, on the same device
 - **Side path:** "This email already has an account" offers sign-in and keeps progress
 - **Fixes:** the 20.4% drop (a test, not a fact)
-- **Questions so far:** 12
+- **Questions so far:** 13
 - **Events:** page view on /portal/join/patient; `portal.onboarding.userCreated`, which links the session to the person
 
 ### 9. Hold your spot (card)
 - **Shows:** "You won't be charged until after your visit." Card entry, labelled "Demo: payment simulated"
-- **Questions so far:** 13
+- **Questions so far:** 14
 - **Events:** page view on /portal/join/payment; `portal.payment.method_added`
 
 ### 10. You're booked
@@ -101,7 +101,7 @@ Counts for the new flow are from this map and will be rechecked in the build.
 
 ## Side paths
 
-- **Screened out kindly:** from step 2. One calm screen with the right resources for the reason. Logs the reason, which the north star's denominator needs
+- **Screened out kindly:** from step 2 (under 18, outside Texas, Medicaid or Medicare, or a hospital stay in the past year). One calm screen with the right resources for the reason. Logs the reason, which the north star's denominator needs
 - **Crisis path:** from step 2 ("Yes") or any AI conversation. Stops immediately and shows 988 and crisis resources and a person. Rule-based, never left to the AI
 - **AI down or wrong:** steps 4, 5 and 13 fall back to a plain form. Corrections and fallback use are tracked
 - **Email already has an account:** from step 8. Offer sign-in and keep progress
@@ -109,6 +109,6 @@ Counts for the new flow are from this map and will be rechecked in the build.
 
 ## Open questions
 
-- **The hospital-stay question.** Today's fit check asks about a hospital stay in the past year. The new quick facts don't. It may be a clinical screen, so dropping it is Legion's clinical call
-- **"Tell me if an earlier time opens" (M4)** is in the sketch but not in the 3d slice list
+- **The virtual-care question.** Today's question 6 is "Are you looking for virtual care only?", with "All sessions happen conveniently online, no travel required" (mobile recording, about 0:58). Answering "No" didn't screen me out. Whether it stays in the new flow is to decide
+- **The hospital-stay question** stays, labelled "Confirm with Legion's clinical team"
 - **Event names** above are proposals in Legion's portal.* style, fixed in the build brief

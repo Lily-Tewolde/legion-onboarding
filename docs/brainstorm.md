@@ -29,7 +29,7 @@ Ask for insurance before conditions, so the patient learns they're covered after
 - **Pushback:** it asks for insurance details earlier, before trust is built (research, question 1). The Medicaid or Medicare fit question overlaps with insurance, so the two could merge. The link between late coverage and this drop is still a guess
 
 ### F3, reworked: a fit check that asks facts
-Date of birth, state, and insurance plan (or self-pay), then one direct question: "Are you thinking about harming yourself or others?" Age, state and Medicaid or Medicare are worked out from the answers instead of asked as yes/no cards. Coverage shows right after, about 4 answers in instead of 7.
+Date of birth, state, and insurance plan (or self-pay), then one direct question: "Are you thinking about harming yourself or others?" Age, state and Medicaid or Medicare are worked out from the answers instead of asked as yes/no cards. Coverage shows right after, about 4 answers in instead of 7. *(3d update: the hospital-stay question stays as a second direct question, so coverage comes after 5.)*
 - **What I said:** rework F3 so the fit check asks facts instead of six yes/no questions, keeping the self-harm question as the only direct one (Rula pattern, research question 5)
 - **Pushback:** it takes on F1 and most of F3, so they become one screen. Insurance comes early in the trust ladder, but Rula does the same and shows providers straight after. Two of today's six questions aren't covered by the facts: a hospital stay in the past year, and virtual care only. "Virtual only" didn't screen me out on the walk; the hospital-stay question may be a clinical screen, so dropping it is Legion's clinical call
 - **Re-score:** impact 3 (the biggest drop by count, and coverage 3 answers sooner), confidence 2 (the walk and the Rula precedent; recovering the 1,912 is still a test), ease 3. **Total 8**
@@ -156,8 +156,8 @@ The norm at Talkiatry and Headway. All three peers charge after the visit (resea
 Logged in `docs/decisions.md`, each with what was rejected. In short:
 
 - **Built fully:** B2, the AI pre-visit intake, with a simple clinician view
-- **Built simply:** F3 reworked (with F1 and F2), M1, M2, M3, A2, A3, B1, B3 as previews, and B5. Supabase saves progress on the same device
+- **Built simply:** F3 reworked (with F1 and F2, keeping the hospital-stay question), M1, M2, M3, M4 as a checkbox, A2, A3, B1, B3 as previews, and B5. Supabase saves progress on the same device
 - **Light version:** X1, one "What's going on?" question on B2's conversation engine
-- **Payment:** B4a. B4b goes in "what I'd do next"
+- **Payment:** B4a. B4b goes in "what I'd do next" (`docs/next.md`)
 - **Not built:** F4, X2, the email link from A1
 

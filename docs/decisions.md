@@ -139,9 +139,9 @@ One entry per decision, written the same session it's made. This becomes the spo
 ## 2026-10-28 · Card at booking, charged after the visit (B4a)
 
 - **What:** The patient adds a card when booking and is charged after the visit
-- **Why:** It's how Talkiatry and Headway work, and it protects against no-shows. Full cost and the cancellation policy show before the card is asked for
-- **Rejected:** Book now and add the card 24 to 72 hours before, or the booking is released (B4b). It goes in "what I'd do next". Rula's reserve-first approach is a close precedent (research, questions 3 and 5)
-- **Revisit when:** The card step turns out to be a large drop of its own
+- **Why:** There's no evidence that payment is where people drop: every session that creates an account reaches the payment page (1,403 of 1,403), and nothing after that is measured. A card at booking protects against no-shows, and it's how Talkiatry and Headway work. Full cost and the cancellation policy show before the card is asked for
+- **Rejected:** Book now and add the card 24 to 72 hours before, or the booking is released (B4b). It goes in "what I'd do next" (`docs/next.md`), with Rula's reserve-first approach as the precedent, to test once payment success is tracked
+- **Revisit when:** Payment success is tracked and the card step turns out to be a large drop of its own
 
 ## 2026-10-28 · What gets built simply
 
@@ -157,9 +157,9 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** A full conversation in booking. Those two pages lose few sessions today (6.7% and 2.6%), and chat can be slower (research, question 2)
 - **Revisit when:** Patients correct the reflection often, or the fallback form gets used a lot
 
-## 2026-10-28 · The fit check asks facts, with self-harm as the only direct question (F3 reworked)
+## 2026-10-28 · The fit check asks facts, with direct questions only for safety (F3 reworked)
 
-- **What:** Date of birth, state, and insurance plan or self-pay, then "Are you thinking about harming yourself or others?" Age, state and Medicaid or Medicare are worked out from the answers. A "Yes" goes straight to crisis resources and a person. Coverage shows right after, about 4 answers in instead of 7. Re-scored 8 out of 9
+- **What:** Date of birth, state, and insurance plan or self-pay, then "Are you thinking about harming yourself or others?" Age, state and Medicaid or Medicare are worked out from the answers. A "Yes" goes straight to crisis resources and a person. Re-scored 8 out of 9. *(Updated the same day: the hospital-stay question stays as a second direct question, see below. Coverage now shows after 5 answers instead of 7.)*
 - **Why:** Rula screens with facts and shows in-network providers straight after (research, question 5). Six identical yes/no cards were the friction on the walk (findings 5 to 7)
 - **Rejected:** Six yes/no cards (today's flow), and an AI conversation for the fit check (F4)
 - **Revisit when:** Screen-out reasons get mixed up, or Legion's clinical team needs a question this drops
@@ -184,6 +184,20 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** The prototype can't prove a lift. A test plan shows how we'd know
 - **Rejected:** A before-and-after comparison, which mixes in seasonality and traffic changes
 - **Revisit when:** The first 30 days of measurement give a real first-visit completion baseline
+
+## 2026-10-28 · Keep the hospital-stay question, labelled for Legion's clinical team
+
+- **What:** The fit check keeps "Have you been hospitalized for mental health or substance use in the past year?" as a second direct question next to self-harm, labelled "Confirm with Legion's clinical team". "Yes" screens out kindly with specialized treatment resources, as today's flow does
+- **Why:** It's Legion's clinical screen for the intensity of care they can offer, so removing it isn't ours to decide
+- **Rejected:** Dropping it to shorten the fit check (the first version of F3 reworked)
+- **Revisit when:** Legion's clinical team says it can change or go
+
+## 2026-10-28 · Add "Tell me if an earlier time opens" (M4)
+
+- **What:** A checkbox on the provider screen, with a simulated notification
+- **Why:** It was in the sketch, I liked it on the walk (finding 18), and it costs little to show as a checkbox
+- **Rejected:** Leaving it out of the slice
+- **Revisit when:** Not expected to change
 
 ---
 
