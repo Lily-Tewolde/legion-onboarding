@@ -1,4 +1,6 @@
-// No landing page. The flow starts at /join, added in PR 3
+import { redirect } from "next/navigation";
+
+// next.config.ts redirects "/" to "/join" before this runs; this is the fallback
 export default function Home() {
-  return null;
+  redirect("/join");
 }
