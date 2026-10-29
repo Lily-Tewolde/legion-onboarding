@@ -22,3 +22,9 @@ Ideas decided against for this build, kept for later. Each says what would make 
 - **Why not now:** which screeners to use, and when, is a clinical decision for Legion's team. The prototype suggests it but doesn't build it
 - **When:** if Legion's clinical team wants them
 
+## Worried about someone else
+
+- **Idea:** a path for people who come to the flow for someone else, like a partner or a parent. Today the prototype flags it and explains they'll need to sign up themselves (golden-set case W-14)
+- **Why not now:** helping a family member get care raises consent and privacy questions for Legion's clinical and legal teams. Common in immigrant families, where one person often handles the paperwork
+- **When:** if Legion's teams want to support family members helping someone sign up
+

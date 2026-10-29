@@ -444,6 +444,89 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** Calm, plain and easy to finish. Text progress tells people how far they are, not just a bar. A checkbox reads as "I agree" or "yes, do this"; a switch reads as a setting. Tap-to-call gets people to help in one tap on a phone. Neutral branding avoids using Legion's logo in a prototype
 - **Rejected:** A bar with no text. A switch for the in-flow choices. Plain-text numbers. Inspo Book 01's rotating ring and arrow. Legion's logo as the favicon or in the header. Redirecting `/` before `/join` exists (it would show a 404)
 - **Revisit when:** The step count is set screen by screen in PR 3 onward
+## 2026-10-29 · Golden set reviewed: 63 cases
+
+- **What:** I reviewed and extended the golden set from 40 to 63 cases, with a note on every case I changed or added. Scripted check-ins now follow the 6 starting questions in order
+- **Trade-off:** more cases mean a longer, costlier eval run (15 crisis cases at 5 runs each), but each new case covers a real way the flow could go wrong
+- **Rejected:** staying within the original 25 to 40, which would have left out Spanish, speech-to-text, people being hurt by someone else, and sound-alike drug names
+- **Revisit when:** a full run gets slow or expensive enough that it gets skipped
+
+## 2026-10-29 · Crisis kinds: 911 first for immediate danger, safety resources for being hurt, a flag for past risk
+
+- **What:** The crisis flag returns a kind. Something happening right now ("I took a bunch of my pills an hour ago") shows 911 first. Being hurt by someone else shows safety resources, including the National Domestic Violence Hotline. A past attempt escalates and flags the clinician. All three to confirm with Legion's clinical team
+- **Trade-off:** more screens to get right and test, in exchange for the right first step in each situation
+- **Rejected:** one crisis screen for everything, which puts 988 first even in an emergency and has nothing for someone being hurt
+- **Revisit when:** Legion's clinical team sets the responses
+
+## 2026-10-29 · The crisis check never switches off, and catches Spanish and misheard speech
+
+- **What:** Ticking "I'm safe right now" doesn't turn the crisis check off; a second mention escalates again. The AI flag must catch crisis in Spanish and in garbled speech-to-text, since the word list is English and literal. If the AI flag call fails, the word list still runs, 988 stays in the help panel, and the crisis screen isn't shown to everyone
+- **Trade-off:** patients who've confirmed they're safe may see the crisis screen again
+- **Rejected:** trusting "I'm safe" for the rest of the session. Showing the crisis screen to everyone when the AI flag is down, which would be worse than the word list alone
+- **Revisit when:** Legion's clinical team sets the rule for continuing after a flag
+
+## 2026-10-29 · Unreadable input gets one retry before the form
+
+- **What:** Mashed keys get "We didn't quite catch that. Try again, or use a simple form instead." The form opens only if it happens twice. Updates the earlier "unsure" decision, where input that made no sense went straight to the form
+- **Trade-off:** one more step for the rare patient who really can't use the AI step
+- **Rejected:** switching straight to the form, which felt abrupt for what's often a pocket tap or a child grabbing the phone
+- **Revisit when:** the retry rarely helps
+
+## 2026-10-29 · Someone filling it in for another person is flagged
+
+- **What:** When the answer is about someone else ("My husband needs help with his anxiety"), the flow shows a calm someone-else screen: they'll need to sign up themselves, with 988 if the patient is worried about the person's safety, and "This is for me" to go back. A fuller path is in `docs/next.md`
+- **Trade-off:** family members trying to help get stopped, but the patient has to be the one who consents and books
+- **Rejected:** carrying on as if it were the patient's own answer
+- **Revisit when:** Legion's clinical and legal teams want to support family members helping someone sign up
+
+## 2026-10-29 · Under 18 after booking stops the check-in
+
+- **What:** If a patient says they're under 18 in the check-in, it stops after the flag with "Thanks for telling us. Someone from our team will reach out before your visit." State and insurance surprises still flag and continue. Updates the earlier eligibility decision. To confirm with Legion's clinical and legal team
+- **Trade-off:** the clinician gets less information before the visit
+- **Rejected:** flagging and continuing, which keeps collecting a minor's health details without a parent or guardian involved
+- **Revisit when:** Legion's clinical and legal team confirms how minors are handled
+
+## 2026-10-29 · A diagnosis row instead of an AI question
+
+- **What:** When we don't know whether something's been diagnosed (for example, only a chip was tapped), the confirm screen shows one row: "Have you been diagnosed with this?" Yes / No / Not sure
+- **Trade-off:** one more tap on the confirm screen
+- **Rejected:** an AI clarifying question, which is slower and asks the patient to explain
+- **Revisit when:** most patients answer "Not sure"
+
+## 2026-10-29 · The check-in confirms and extends; nothing gets skipped by rambling
+
+- **What:** If an earlier answer already covered a later topic, the AI confirms and extends ("You mentioned Adderall 20 mg. Are you taking anything else?") instead of re-asking or skipping it. Typed text never fills the required quick facts
+- **Trade-off:** a question may feel familiar, but nothing important is skipped
+- **Rejected:** skipping topics that seem covered, which lets a long first answer quietly drop medications or sleep. Re-asking word for word, which feels like the AI wasn't listening
+- **Revisit when:** patients say the check-in feels repetitive
+
+## 2026-10-29 · A gentle note after a skip, and a soft note for questions we can't answer
+
+- **What:** After a skip, one note, shown once: "That's okay. A few answers help your provider spend more of your visit on you." When the patient asks something we can't answer here, a soft inline note ("We can't answer that here. For cost or coverage, talk to a person.") and the check-in continues
+- **Trade-off:** a little more text on screen
+- **Rejected:** no note at all, which leaves a skipping patient unsure if that's okay. A warning or a banner, which adds pressure
+- **Revisit when:** the note seems to push people away rather than encourage them
+
+## 2026-10-29 · Medications confirmed at the end, never silently changed
+
+- **What:** At the end of the check-in: "Did we get your medications right?", showing each one as the patient said it, or as heard when spoken. The AI never silently changes a drug name. Obvious typos can be normalized, but anything that could be two different drugs (Celebrex and Celexa) stays "unclear" for the clinician
+- **Trade-off:** one more step, in exchange for a medication list the patient has checked
+- **Rejected:** silently correcting to the closest drug, which could put the wrong medication in front of a clinician
+- **Revisit when:** clinicians find "unclear" entries common enough to slow them down
+
+## 2026-10-29 · The summary keeps important facts from anywhere, and some flags are for the clinician only
+
+- **What:** Important facts mentioned in passing, like pregnancy or drinking, reach the summary, worded neutrally with no advice. Flags such as taking someone else's prescription show at the top of the summary for the clinician only; the patient never sees a flag, and the AI doesn't lecture or ask why
+- **Trade-off:** the patient isn't told what was flagged
+- **Rejected:** dropping facts that came up under the "wrong" question. Showing flags to the patient, which could feel invasive
+- **Revisit when:** Legion's clinical team wants patients told about specific flags
+
+## 2026-10-29 · Plain language for every reader, including Spanglish
+
+- **What:** The AI understands short, misspelled and mixed English and Spanish answers, and keeps its own words simple without talking down. Everyday expressions in both languages ("my boss is gonna be the death of me", "me muero de sueño") shouldn't trigger the crisis path, and the false-alarm cases track that
+- **Trade-off:** more cases to keep passing
+- **Rejected:** testing only well-written English
+- **Revisit when:** Legion confirms which languages they support
 
 ---
 

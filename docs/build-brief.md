@@ -104,7 +104,8 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 | `/join/book` | 5. Book your visit (one-page checkout) |
 | `/join/booked` | 6. You're booked |
 | `/join/not-a-fit/[reason]` | Screen-outs |
-| `/help-now` | Crisis screen |
+| `/help-now` | Crisis screen, with versions for immediate danger (911 first) and for being hurt by someone else (safety resources) |
+| `/join/someone-else` | Someone else screen |
 | `/visit` | 7. Your first visit, with the inbox (8 and 11) |
 | `/visit/check-in` | 9. Pre-visit check-in |
 | `/clinician` | 10. Clinician view |
@@ -117,6 +118,14 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 - Plan is Medicaid or Medicare → `medicaid_medicare`
 - Hospital stay Yes → `hospital_stay`
 - Safety question Yes → crisis screen
+
+**Behaviour added from Lily's golden-set review (Oct 29)** (each one has cases in `evals/golden-set.yaml`)
+
+- **Crisis kinds:** the crisis flag returns a kind. Immediate danger shows the 911-first version with no "I'm safe" checkbox. Being hurt by someone else shows safety resources, including the National Domestic Violence Hotline. Past risk escalates and flags the clinician. The crisis check stays on after "I'm safe right now". If the crisis flag call fails, the word list still runs, 988 stays in the help panel, and the crisis screen isn't shown to everyone
+- **"What's going on?":** unreadable input gets one gentle retry, then the simple form. Someone filling it in for another person goes to the someone-else screen. Typed text never fills the required quick facts
+- **Confirm screen:** when we don't know whether it's been diagnosed (for example, only a chip was tapped), one row under the chips: "Have you been diagnosed with this?" Yes / No / Not sure. No AI question
+- **Check-in:** a topic already covered is confirmed and extended, never skipped or repeated word for word. One gentle note after a skip, shown once. A soft inline note when the patient asks something we can't answer here, and the check-in continues. At the end, the patient confirms their medications as they said them (or as heard). Drug names are never silently changed; anything that could be two different drugs stays "unclear". If the patient says they're under 18, the check-in stops after the flag with a calm message (to confirm with Legion's clinical and legal team)
+- **Clinician summary:** important facts mentioned in passing (for example, pregnancy or drinking) are kept, worded neutrally. Clinician-only flags (for example, taking someone else's prescription) are never shown to the patient
 
 **Recommended provider:** the first made-up provider who treats a confirmed concern and, if insured, takes the plan; ties broken by the earliest slot. The reason line is built from that data, never written by the AI.
 
@@ -146,7 +155,9 @@ PostHog (US Cloud), `posthog-js` in the browser. Keep Legion's names where the s
 | `portal.coverage.shown` | Coverage or self-pay price shows | pay_method |
 | `portal.fit.submitted` | Screen 1 submitted | result |
 | `portal.fit.screened_out` | Any screen-out | reason |
-| `portal.crisis.shown` | Crisis screen shows | source (safety_question, word_list, ai_flag), step |
+| `portal.crisis.shown` | Crisis screen shows | source (safety_question, word_list, ai_flag), kind, step |
+| `portal.concern.retry_shown` | Unreadable input gets the retry message | |
+| `portal.someone_else.flagged` | Someone-else screen shows | |
 | `$pageview` /portal/join/conditions | Screen 2 loads | |
 | `portal.concern.submitted` | Screen 2 submitted | mode (typed, spoken, chips, mixed, form) |
 | `$pageview` /portal/join/needs | Screen 3 loads | |
@@ -166,6 +177,8 @@ PostHog (US Cloud), `posthog-js` in the browser. Keep Legion's names where the s
 | `portal.intake.started` | First check-in answer | |
 | `portal.intake.completed` | Check-in done | questions_answered |
 | `portal.intake.skipped` | "Skip, I'll cover it in my visit" | |
+| `portal.intake.medications_confirmed` | Medication check at the end | changed (true or false) |
+| `portal.intake.stopped` | Check-in stops early | reason (under_18, crisis) |
 | `portal.intake.summary_viewed` | Clinician view opens with a summary | sample (true or false) |
 | `portal.ai.fallback_used` | Any AI step falls back | step, reason |
 | `portal.reminder.viewed` | A reminder is opened in the inbox | hours_before |
@@ -178,7 +191,7 @@ This is enough to compute the one metric (`portal.visit.completed` within 30 day
 
 ## 6. Copy
 
-Every user-facing string is in `docs/copy-draft.md` (Lily's edited version, Oct 29). Build it into one file, `src/copy.ts`, so the readability check (section 8) can read every string. Labels like **[Confirm with Legion]** in the draft are notes for Lily, not on-screen text. This section links to the draft instead of copying it, so there's one source of truth.
+Every user-facing string is in `docs/copy-draft.md` (Lily's edited version, Oct 29). Build it into one file, `src/copy.ts`, so the readability check (section 8) can read every string. Labels like **[Confirm with Legion]** in the draft are notes for Lily, not on-screen text. This section links to the draft instead of copying it, so there's one source of truth. Lines marked **[drafted]** are waiting for Lily's OK: build them, but list them in the PR as pending.
 
 ## 7. PR plan
 
