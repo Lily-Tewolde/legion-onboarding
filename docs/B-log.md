@@ -46,6 +46,7 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 6:40 PM | Step 3 framing (3b). Proposed user, job, metric and guardrails; Lily decided the denominator (everyone who starts minus screened out) and added transparency, AI accuracy, self-pay and NPS. Wrote docs/requirements.md and logged 5 decisions. 30-day window still an assumption to confirm | Cowork, Station B | docs/requirements.md, docs/decisions.md, docs/B-log.md |
 | 2026-10-28 | 6:41 PM | Lily confirmed the AI notice is shown once, at the very start of onboarding, with no per-step disclosures, including at the pre-visit intake. Updated the requirements and the decision entry; the revisit trigger stays | Cowork, Station B | docs/requirements.md, docs/decisions.md, docs/B-log.md |
 | 2026-10-28 | 6:44 PM | Lily confirmed the 30-day window, added the AI sentence to the reminder that invites patients to the pre-visit intake, and a "talk to a person" help link on every screen. Updated requirements and logged 2 decisions. Framing (3b) done; starting the brainstorm (3c) | Cowork, Station B | docs/requirements.md, docs/decisions.md, docs/B-log.md |
+| 2026-10-28 | 6:45 PM | Brainstorm (3c): wrote docs/brainstorm.md with 19 ideas across the three cliffs, questions before value, and booking to visit. Each has Lily's own words where she gave them and Station B's pushback. Proposed scores on impact, confidence and ease, with safety as pass or fail, for Lily to adjust | Cowork, Station B | docs/brainstorm.md (new), docs/B-log.md |
 
 ## Open items
 
