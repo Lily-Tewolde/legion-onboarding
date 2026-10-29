@@ -199,6 +199,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Leaving it out of the slice
 - **Revisit when:** Not expected to change
 
+## 2026-10-28 · Drop the virtual-care question; say "All visits are by video" up front
+
+- **What:** The fit check no longer asks "Are you looking for virtual care only?" The start screen says "All visits are by video" instead, labelled "Confirm with Legion"
+- **Why:** Answering "No" didn't screen me out on the walk (mobile recording, about 0:58), so the question informs rather than screens. A plain line tells every patient up front, with one fewer answer
+- **Rejected:** Keeping it as a question. The label stays in case Legion uses the answer for something we can't see
+- **Revisit when:** Legion says they use the answer
+
 ---
 
 # Spoken defence (fill before the review call)

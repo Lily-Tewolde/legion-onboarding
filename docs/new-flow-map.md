@@ -17,7 +17,7 @@ Counts for the new flow are from this map and will be rechecked in the build.
 ## Part 1: Booking
 
 ### 1. Start
-- **Shows:** "Let's get you care" and what happens next. The one AI notice: "We use AI to help with some steps. You can talk to a person any time." No testimonial panel
+- **Shows:** "Let's get you care" and what happens next. "All visits are by video", labelled "Confirm with Legion". The one AI notice: "We use AI to help with some steps. You can talk to a person any time." No testimonial panel
 - **Questions so far:** 0
 - **Events:** page view on /portal/join (Legion's start milestone)
 
@@ -109,6 +109,6 @@ Counts for the new flow are from this map and will be rechecked in the build.
 
 ## Open questions
 
-- **The virtual-care question.** Today's question 6 is "Are you looking for virtual care only?", with "All sessions happen conveniently online, no travel required" (mobile recording, about 0:58). Answering "No" didn't screen me out. Whether it stays in the new flow is to decide
+- **The virtual-care question** is dropped. The start screen says "All visits are by video" instead, labelled "Confirm with Legion" in case they use the answer for something
 - **The hospital-stay question** stays, labelled "Confirm with Legion's clinical team"
 - **Event names** above are proposals in Legion's portal.* style, fixed in the build brief
