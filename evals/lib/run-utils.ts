@@ -1,20 +1,11 @@
 import config from "../config.json";
 
-// Small helpers shared by `npm run eval` and `npm run eval:grader-check`
+// Small helpers shared by `npm run eval` and `npm run eval:grader-check`.
+// Costs use the app's own price table (src/lib/ai/prices.ts)
 
-type Model = keyof typeof config.prices.usd_per_million_tokens;
+export { costUsd } from "@/lib/ai/prices";
 
 export type TokenTally = { inputTokens: number; outputTokens: number };
-
-// Cost from the token counts the API returns and the price table in
-// evals/config.json
-export function costUsd(model: Model, tokens: TokenTally): number {
-  const price = config.prices.usd_per_million_tokens[model];
-  return (
-    (tokens.inputTokens * price.input + tokens.outputTokens * price.output) /
-    1_000_000
-  );
-}
 
 // Runs tasks with at most `limit` in flight, keeping results in order
 export async function runPool<T>(
