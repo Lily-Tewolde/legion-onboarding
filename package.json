@@ -9,7 +9,8 @@
     "lint": "eslint",
     "check:db": "node --env-file=.env.local scripts/check-db-access.mjs",
     "eval": "node --env-file-if-exists=.env.local --import tsx evals/run.ts",
-    "eval:grader-check": "node --env-file-if-exists=.env.local --import tsx evals/grader-check.ts"
+    "eval:grader-check": "node --env-file-if-exists=.env.local --import tsx evals/grader-check.ts",
+    "test": "node --import tsx --test 'src/**/*.test.ts'"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

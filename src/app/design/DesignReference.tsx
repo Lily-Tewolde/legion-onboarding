@@ -5,7 +5,7 @@ import { Button } from "@/components/Button";
 import { Checkbox } from "@/components/Checkbox";
 import { Chip } from "@/components/Chip";
 import { List } from "@/components/List";
-import { ProgressBar } from "@/components/ProgressBar";
+import { Progress } from "@/components/Progress";
 import { SegmentedControl } from "@/components/SegmentedControl";
 import { Switch } from "@/components/Switch";
 import { Tag } from "@/components/Tag";
@@ -66,7 +66,7 @@ export function DesignReference() {
       </div>
 
       <Section title="Progress">
-        <ProgressBar step={2} total={4} />
+        <Progress phase="whats_going_on" />
       </Section>
 
       <Section title="Type">

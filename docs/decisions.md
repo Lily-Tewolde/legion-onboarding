@@ -646,6 +646,27 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** loosening the summary rubric so G-08 passes, which would fit the grader to its own test
 - **Revisit when:** Not expected to change
 
+## 2026-10-29 · Screen 1: when each rule acts, and where the answers live
+
+- **What:** "Yes" to the safety question opens the crisis screen straight away, and "Yes" to the hospital question opens its screen-out straight away (Lily's note); both are saved in the background so the screen never waits on the network, and the crisis screen is loaded in advance. Age, Texas and Medicaid or Medicare are checked on Continue. The rules run in the browser for errors and again on the server, which decides and saves the outcome to the session. The date of birth is checked but never stored. The answers stay in the browser tab's session storage, so "Answered by mistake? Go back" and "I'm safe right now" return to them. After "I'm safe right now", screen 1 keeps the safety answer and the other rules decide; answering "Yes" again shows the crisis screen again
+- **Why:** The crisis path has to be immediate and can't depend on a network call. The server deciding means the saved outcome can't be faked from the browser. Keeping the answers in the tab means no personal details in Supabase beyond what the session needs
+- **Rejected:** Checking everything only on Continue, which delays the crisis screen. Storing the answers in Supabase. Clearing the answers after a screen-out, which makes "Go back" useless
+- **Revisit when:** Legion's clinical team decides what happens after "I'm safe right now" on the safety question
+
+## 2026-10-29 · Pages Next keeps alive read their answers from the store
+
+- **What:** With Cache Components on, Next keeps up to three visited pages alive and shows them again with their state. Screen 1 reads its answers from session storage as an external store (`useSyncExternalStore`), resets in-progress state (submitting, errors) when it's hidden, and the crisis screen unticks "I'm safe right now" when it's hidden. Rule tests use Node's built-in test runner (`npm test`), so there's no new test dependency
+- **Why:** Testing on the preview found Continue still disabled after "Go back", and screen 1's old answers would have undone "I'm safe right now"
+- **Rejected:** Turning Cache Components off, which the rest of the setup uses. Resetting the whole page on every visit, which loses the answers "Go back" is meant to keep
+- **Revisit when:** A later screen keeps state that should reset, which needs the same treatment
+
+## 2026-10-29 · Four named phases, and screen 1 in three steps
+
+- **What:** Progress shows four named phases instead of step numbers: "About you", "What's going on", "Your provider" and "Book", ending at "You're booked" (replacing "Step 2 of 4" from PR #5). Screen 1 is now three steps, at `/join`, `/join/insurance` and `/join/safety`, all in "About you": date of birth and Texas; then insurance on its own; then the safety and hospital questions. Medicaid or Medicare goes straight to its screen-out when tapped, like the hospital question. Continue with "I don't see my plan" still selected shows "Choose ‘Continue as self-pay’ or talk to a person to keep going". "Answered by mistake? Go back" returns to the step with that answer, and "I'm safe right now" returns to the safety step. Lily's calls, PR #10
+- **Why:** Nothing should scroll on a phone, and phase names say where people are without making a long flow look long. Once insurance is its own step, Medicaid or Medicare can act like the hospital question
+- **Rejected:** "Step n of n", which made people count. One long screen 1, which scrolls on a phone. A general error for "I don't see my plan", when the two ways forward are on screen
+- **Revisit when:** The redesign changes how progress looks
+
 ---
 
 # Spoken defence (fill before the review call)

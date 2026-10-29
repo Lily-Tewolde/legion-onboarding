@@ -1,36 +1,46 @@
 "use client";
 
-import { useRef } from "react";
+import { createContext, useContext, useMemo, useRef, type ReactNode } from "react";
 import { copy } from "@/copy";
 import { Button } from "./Button";
 import { cx } from "./cx";
+import { InlineLink } from "./InlineLink";
 import { Tag } from "./Tag";
 
-// The "Talk to a person" link and the panel it opens, on every screen.
-// A native <dialog>: it traps focus, closes on Escape and returns focus
-// to the link. Focus starts on the title, so a screen reader reads from the
-// top and Enter can't start a call by accident. Tapping outside the panel closes it too. Centred on larger
-// screens; on phones it slides up from the bottom
-export function HelpPanel() {
+// The "Talk to a person" panel, on every screen. The provider owns the panel;
+// the header link and any screen's "Talk to a person" button open it with
+// useHelpPanel(). A native <dialog>: it traps focus, closes on Escape and
+// returns focus to whatever opened it. Focus starts on the title, so a screen
+// reader reads from the top and Enter can't start a call by accident.
+// Tapping outside the panel closes it too. Centred on larger screens; on
+// phones it slides up from the bottom
+
+const HelpPanelContext = createContext<{ open: () => void } | null>(null);
+
+export function useHelpPanel() {
+  const context = useContext(HelpPanelContext);
+  if (!context) throw new Error("useHelpPanel must be inside HelpPanelProvider");
+  return context;
+}
+
+export function HelpPanelProvider({ children }: { children: ReactNode }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
 
-  const open = () => {
-    dialogRef.current?.showModal();
-    titleRef.current?.focus();
-  };
+  const value = useMemo(
+    () => ({
+      open: () => {
+        dialogRef.current?.showModal();
+        titleRef.current?.focus();
+      },
+    }),
+    [],
+  );
   const close = () => dialogRef.current?.close();
 
   return (
-    <>
-      <button
-        type="button"
-        onClick={open}
-        className="focus-ring min-h-control-sm cursor-pointer rounded-md px-2 text-base font-medium text-action underline underline-offset-4 hover:text-action-hover"
-      >
-        {copy.shell.helpLink}
-      </button>
-
+    <HelpPanelContext.Provider value={value}>
+      {children}
       <dialog
         ref={dialogRef}
         aria-labelledby="help-panel-title"
@@ -53,9 +63,9 @@ export function HelpPanel() {
           </h2>
           <div className="flex flex-col gap-1">
             <p>
-              <WithCallLink
+              <InlineLink
                 text={copy.helpPanel.phone}
-                number={copy.helpPanel.phoneNumber}
+                label={copy.helpPanel.phoneNumber}
                 href="tel:+15550100123"
               />
             </p>
@@ -70,9 +80,9 @@ export function HelpPanel() {
             </div>
           </div>
           <p className="rounded-lg bg-wash px-4 py-3 font-medium text-navy">
-            <WithCallLink
+            <InlineLink
               text={copy.helpPanel.crisis}
-              number={copy.helpPanel.crisisNumber}
+              label={copy.helpPanel.crisisNumber}
               href="tel:988"
             />
           </p>
@@ -81,31 +91,30 @@ export function HelpPanel() {
           </Button>
         </div>
       </dialog>
-    </>
+    </HelpPanelContext.Provider>
   );
 }
 
-// Puts the phone number into its sentence as a tap-to-call link
-const WithCallLink = ({
-  text,
-  number,
-  href,
-}: {
-  text: string;
-  number: string;
-  href: string;
-}) => {
-  const [before, after] = text.split("{number}");
+// The header's help link
+export function HelpLink() {
+  const { open } = useHelpPanel();
   return (
-    <>
-      {before}
-      <a
-        href={href}
-        className="focus-ring relative rounded-sm font-medium text-action underline underline-offset-4 hover:text-action-hover after:absolute after:-inset-x-2 after:-inset-y-3.5 after:content-['']"
-      >
-        {number}
-      </a>
-      {after}
-    </>
+    <button
+      type="button"
+      onClick={open}
+      className="focus-ring min-h-control-sm cursor-pointer rounded-md px-2 text-base font-medium text-action underline underline-offset-4 hover:text-action-hover"
+    >
+      {copy.shell.helpLink}
+    </button>
   );
-};
+}
+
+// A "Talk to a person" button inside a screen, as a text-style button
+export function TalkToPersonButton({ label }: { label: string }) {
+  const { open } = useHelpPanel();
+  return (
+    <Button variant="text" onClick={open}>
+      {label}
+    </Button>
+  );
+}
