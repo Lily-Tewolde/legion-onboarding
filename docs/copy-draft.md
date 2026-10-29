@@ -334,7 +334,7 @@ One page, like a one-page checkout when you shop online.
     4. "Have you had mental health care before? What helped, and what didn't?"
     5. "How have you been sleeping lately?"
     6. "Is there anything else about your health your provider should know, like allergies or other conditions?"
-- Placeholder: "Type your answer, or tap the mic" **[drafted]**
+- Placeholder: "Type your answer, or tap the mic" **[decided]**
 - Mic icon inside the answer box (screen-reader label: "Speak") **[decided]**
 - Primary button: "Next" **[decided]**
 - Text-style button under it: "Skip this question" **[decided]**
