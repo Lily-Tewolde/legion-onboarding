@@ -64,6 +64,7 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - Payment. Label: "How will you pay?" Options: "With insurance", "Self-pay (no insurance)"
 - Plan, if insured. Label: "Your insurance plan". Placeholder: "Choose your plan". Last option: "I don't see my plan". Coverage shows inline under the field (see screen 3)
 - Self-pay, shown inline once chosen: "Self-pay is $250 for your first visit and $150 for follow-up visits, charged after your visit." Label: "From Legion's current flow"
+- Inside the self-pay part, one row: "Do you have Medicaid or Medicare?" Options: "Yes", "No". "Yes" goes straight to the Medicaid or Medicare screen-out, since Legion's rule includes self-pay **[decided]**
 - **[REVIEW]** Safety question: "Are you thinking about harming yourself or others?" Options: "No", "Yes". Hint: "If you answer yes, we'll show you how to get help right away."
 - **[REVIEW]** **[Confirm with Legion's clinical team]** "Have you been in the hospital for mental health or substance use in the past year?" Options: "No", "Yes". Hint: "This helps us make sure we can offer the right level of care."
 - Button: "Continue"
@@ -72,7 +73,7 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
     - "Please choose how you'll pay."
     - "Please answer this question."
     - Continue with "I don't see my plan" still selected: "Choose ‘Continue as self-pay’ or talk to a person to keep going" **[decided]**
-- Three steps, so nothing scrolls on a phone: date of birth and Texas, then insurance on its own, then the safety and hospital questions. Medicaid or Medicare goes straight to its screen-out when tapped, like the hospital question **[decided]**
+- Three steps, so nothing scrolls on a phone: date of birth and Texas, then insurance on its own, then the safety and hospital questions. Every one-tap screen-out acts as soon as it's tapped: "No" to Texas, Medicaid or Medicare (as a plan, or "Yes" for self-pay) and "Yes" to the hospital question. The date of birth is checked on Continue **[decided]**
 
 **Lily's notes**
 - The start screen's content now opens this screen

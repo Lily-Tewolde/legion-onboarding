@@ -59,6 +59,7 @@ export const copy = {
     planNotListed: "I don't see my plan",
     selfPayPrice:
       "Self-pay is $250 for your first visit and $150 for follow-up visits, charged after your visit.",
+    selfPayMedicaid: "Do you have Medicaid or Medicare?",
     safety: "Are you thinking about harming yourself or others?",
     safetyHint: "If you answer yes, we'll show you how to get help right away.",
     hospital:

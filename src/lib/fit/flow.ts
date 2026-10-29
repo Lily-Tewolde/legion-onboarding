@@ -7,7 +7,7 @@ import type { FitField, FitOutcome } from "./rules";
 
 export const FIT_STEPS = {
   about: { path: "/join", fields: ["dateOfBirth", "inTexas"] },
-  insurance: { path: "/join/insurance", fields: ["payMethod", "planId"] },
+  insurance: { path: "/join/insurance", fields: ["payMethod", "planId", "medicaidOrMedicare"] },
   health: { path: "/join/safety", fields: ["safety", "hospital"] },
 } as const satisfies Record<string, { path: string; fields: readonly FitField[] }>;
 

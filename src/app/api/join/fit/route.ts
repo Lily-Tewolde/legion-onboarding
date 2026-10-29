@@ -2,26 +2,28 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { todayInCentral } from "@/lib/central-time";
 import { currentScreenFor, outcomePath } from "@/lib/fit/flow";
-import { evaluateFit, partialOutcome, validateFacts } from "@/lib/fit/rules";
+import { evaluateFit, partialOutcome, tapOutcome, validateFacts } from "@/lib/fit/rules";
 import { getOrCreateSession, updateSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
 
 // Screen 1's fit check. The rules decide here, on the server, on today's date
 // in Central time, and the outcome is saved to the visitor's session. The
-// date of birth is checked but never stored. "outcome" is a rule acting as
-// soon as its answer is in (a screen-out or the crisis screen, mid-way
-// through screen 1's steps); "submit" is the last step's Continue
+// date of birth is checked but never stored. "tap" is a one-tap answer acting
+// by its own rule; "outcome" is a step's Continue ruling someone out mid-way;
+// "submit" is the last step's Continue
 
 const YesNo = z.enum(["yes", "no"]);
 
 const Body = z.object({
-  mode: z.enum(["outcome", "submit"]),
+  mode: z.enum(["tap", "outcome", "submit"]),
+  field: z.enum(["inTexas", "planId", "medicaidOrMedicare", "safety", "hospital"]).optional(),
   answers: z
     .object({
       dateOfBirth: z.string().max(20).optional(),
       inTexas: YesNo.optional(),
       payMethod: z.enum(["insurance", "self_pay"]).optional(),
       planId: z.string().max(40).optional(),
+      medicaidOrMedicare: YesNo.optional(),
       safety: YesNo.optional(),
       hospital: YesNo.optional(),
       safeConfirmed: z.boolean().optional(),
@@ -36,14 +38,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "bad_request" }, { status: 400 });
   }
 
-  const { mode, answers } = parsed.data;
+  const { mode, field, answers } = parsed.data;
   const today = todayInCentral();
   const outcome =
-    mode === "outcome"
-      ? partialOutcome(answers, today)
-      : Object.keys(validateFacts(answers, today)).length === 0
-        ? evaluateFit(answers, today)
-        : null;
+    mode === "tap"
+      ? field
+        ? tapOutcome(field, answers)
+        : null
+      : mode === "outcome"
+        ? partialOutcome(answers, today)
+        : Object.keys(validateFacts(answers, today)).length === 0
+          ? evaluateFit(answers, today)
+          : null;
   if (!outcome) {
     return NextResponse.json({ error: "incomplete" }, { status: 400 });
   }

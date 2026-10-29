@@ -6,6 +6,7 @@ import {
   type FitAnswers,
   parseDateOfBirth,
   partialOutcome,
+  tapOutcome,
   validateFacts,
   validateFields,
 } from "./rules";
@@ -53,9 +54,14 @@ describe("the fit check", () => {
     }
   });
 
-  it("lets in self-pay without a plan", () => {
-    const answers: FitAnswers = { ...eligible, payMethod: "self_pay", planId: undefined };
+  it("lets in self-pay without Medicaid or Medicare", () => {
+    const answers: FitAnswers = { ...eligible, payMethod: "self_pay", planId: undefined, medicaidOrMedicare: "no" };
     assert.deepEqual(evaluateFit(answers, TODAY), { result: "eligible" });
+  });
+
+  it("screens out self-pay with Medicaid or Medicare, as Legion's rule includes self-pay", () => {
+    const answers: FitAnswers = { ...eligible, payMethod: "self_pay", planId: undefined, medicaidOrMedicare: "yes" };
+    assert.deepEqual(evaluateFit(answers, TODAY), { result: "screened_out", reason: "medicaid_medicare" });
   });
 
   it("screens out Yes to the hospital question", () => {
@@ -71,6 +77,45 @@ describe("the fit check", () => {
   it("lets the other rules decide once they've said they're safe right now", () => {
     const answers: FitAnswers = { ...eligible, safety: "yes", safeConfirmed: true };
     assert.deepEqual(evaluateFit(answers, TODAY), { result: "eligible" });
+  });
+});
+
+describe("one-tap answers acting the moment they're tapped", () => {
+  it("opens the crisis screen for Yes to safety", () => {
+    assert.deepEqual(tapOutcome("safety", { safety: "yes" }), { result: "crisis" });
+  });
+
+  it("screens out No to Texas", () => {
+    assert.deepEqual(tapOutcome("inTexas", { inTexas: "no" }), { result: "screened_out", reason: "not_in_texas" });
+  });
+
+  it("screens out Medicaid or Medicare as a plan", () => {
+    assert.deepEqual(tapOutcome("planId", { payMethod: "insurance", planId: "medicare" }), {
+      result: "screened_out",
+      reason: "medicaid_medicare",
+    });
+  });
+
+  it("screens out Yes to Medicaid or Medicare for self-pay, with the same screen-out", () => {
+    assert.deepEqual(tapOutcome("medicaidOrMedicare", { payMethod: "self_pay", medicaidOrMedicare: "yes" }), {
+      result: "screened_out",
+      reason: "medicaid_medicare",
+    });
+    assert.equal(tapOutcome("medicaidOrMedicare", { payMethod: "self_pay", medicaidOrMedicare: "no" }), null);
+  });
+
+  it("ignores the self-pay answer once someone switches to insurance", () => {
+    const answers: FitAnswers = { payMethod: "insurance", planId: "cigna", medicaidOrMedicare: "yes" };
+    assert.equal(tapOutcome("planId", answers), null);
+    assert.equal(partialOutcome(answers, TODAY), null);
+  });
+
+  it("screens out Yes to the hospital question", () => {
+    assert.deepEqual(tapOutcome("hospital", { hospital: "yes" }), { result: "screened_out", reason: "hospital_stay" });
+  });
+
+  it("leaves the date of birth for Continue, even when another answer is tapped", () => {
+    assert.equal(tapOutcome("inTexas", { dateOfBirth: "10/30/2008", inTexas: "yes" }), null);
   });
 });
 
@@ -152,6 +197,11 @@ describe("required answers", () => {
 
   it("needs a plan from the list when paying with insurance", () => {
     assert.equal(validateFacts({ ...eligible, planId: undefined }, TODAY).planId, "required");
+  });
+
+  it("needs the Medicaid or Medicare answer when paying for themselves", () => {
+    const answers: FitAnswers = { ...eligible, payMethod: "self_pay", planId: undefined };
+    assert.equal(validateFacts(answers, TODAY).medicaidOrMedicare, "required");
   });
 
   it("asks people who don't see their plan to choose self-pay or talk to a person", () => {

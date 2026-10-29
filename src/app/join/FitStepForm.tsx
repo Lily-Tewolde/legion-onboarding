@@ -19,18 +19,20 @@ import {
   type FitOutcome,
   PLAN_NOT_LISTED,
   partialOutcome,
+  tapOutcome,
   validateFacts,
   validateFields,
   type YesNo,
 } from "@/lib/fit/rules";
 import { getAnswers, getServerAnswers, saveAnswers, subscribeAnswers } from "@/lib/fit/stored-answers";
 
-// One step of screen 1. Errors show on Continue, next to each question. A
-// rule acts as soon as its answer is in: "Yes" to safety opens the crisis
-// screen, Medicaid or Medicare and "Yes" to the hospital question open their
-// screen-out, all straight away and saved in the background; age and Texas
-// are checked on the first step's Continue. The last step's Continue sends
-// everything to the server, which runs the rules and saves the outcome
+// One step of screen 1. Errors show on Continue, next to each question. Every
+// one-tap answer acts the moment it's tapped, by its own rule: "Yes" to safety
+// opens the crisis screen; "No" to Texas, Medicaid or Medicare (as a plan, or
+// "Yes" for self-pay) and "Yes" to the hospital question open their
+// screen-out, saved in the background. The date of birth waits for the first
+// step's Continue. The last step's Continue sends everything to the server,
+// which runs the rules and saves the outcome
 
 const ERROR_TEXT = {
   date_of_birth: copy.join.errors.dateOfBirth,
@@ -115,20 +117,23 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
     fetch("/api/session", { method: "POST" }).catch(() => {});
   };
 
-  // Saved in the background, so the screen-out or crisis screen never waits
-  const leave = (outcome: FitOutcome, next: FitAnswers) => {
+  // Saved in the background, so the screen-out or crisis screen never waits.
+  // A tap sends which question it was, so the server records the same outcome
+  const leave = (outcome: FitOutcome, next: FitAnswers, field?: TapField) => {
     fetch("/api/join/fit", {
       method: "POST",
       keepalive: true,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mode: "outcome", answers: next }),
+      body: JSON.stringify(field ? { mode: "tap", field, answers: next } : { mode: "outcome", answers: next }),
     }).catch(() => {});
     router.push(outcomePath(outcome));
   };
 
-  const actOn = (next: FitAnswers) => {
-    const outcome = partialOutcome(next, todayInCentral());
-    if (outcome) leave(outcome, next);
+  // A one-tap answer, acted on by its own rule only
+  const tap = (field: TapField, patch: FitAnswers) => {
+    const next = update(patch);
+    const outcome = tapOutcome(field, next);
+    if (outcome) leave(outcome, next, field);
   };
 
   const onSubmit = async (event: FormEvent) => {
@@ -201,19 +206,14 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
               { value: "no", label: copy.join.no },
             ]}
             value={answers.inTexas}
-            onChange={(value) => update({ inTexas: value as YesNo })}
+            onChange={(value) => tap("inTexas", { inTexas: value as YesNo })}
             error={error("inTexas")}
           />
         </>
       )}
 
       {step === "insurance" && (
-        <InsuranceQuestions
-          answers={answers}
-          update={update}
-          actOn={actOn}
-          error={error}
-        />
+        <InsuranceQuestions answers={answers} update={update} tap={tap} error={error} />
       )}
 
       {step === "health" && (
@@ -227,7 +227,7 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
               { value: "yes", label: copy.join.yes },
             ]}
             value={answers.safety}
-            onChange={(value) => actOn(update({ safety: value as YesNo, safeConfirmed: false }))}
+            onChange={(value) => tap("safety", { safety: value as YesNo, safeConfirmed: false })}
             error={error("safety")}
           />
           <SegmentedControl
@@ -239,7 +239,7 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
               { value: "yes", label: copy.join.yes },
             ]}
             value={answers.hospital}
-            onChange={(value) => actOn(update({ hospital: value as YesNo }))}
+            onChange={(value) => tap("hospital", { hospital: value as YesNo })}
             error={error("hospital")}
           />
         </>
@@ -265,15 +265,17 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
   );
 }
 
+type TapField = "inTexas" | "planId" | "medicaidOrMedicare" | "safety" | "hospital";
+
 function InsuranceQuestions({
   answers,
   update,
-  actOn,
+  tap,
   error,
 }: {
   answers: FitAnswers;
   update: (patch: FitAnswers) => FitAnswers;
-  actOn: (next: FitAnswers) => void;
+  tap: (field: TapField, patch: FitAnswers) => void;
   error: (field: FitField) => string | undefined;
 }) {
   const plan = answers.planId ? findPlan(answers.planId) : undefined;
@@ -289,7 +291,11 @@ function InsuranceQuestions({
         ]}
         value={answers.payMethod}
         onChange={(value) =>
-          update(value === "self_pay" ? { payMethod: "self_pay", planId: undefined } : { payMethod: "insurance" })
+          update(
+            value === "self_pay"
+              ? { payMethod: "self_pay", planId: undefined }
+              : { payMethod: "insurance", medicaidOrMedicare: undefined },
+          )
         }
         error={error("payMethod")}
       />
@@ -302,7 +308,7 @@ function InsuranceQuestions({
             placeholder={copy.join.planPlaceholder}
             options={planOptions}
             value={answers.planId}
-            onChange={(value) => actOn(update({ planId: value }))}
+            onChange={(value) => tap("planId", { planId: value })}
             error={error("planId")}
           />
           {plan && !plan.screensOut && (
@@ -333,11 +339,24 @@ function InsuranceQuestions({
       )}
 
       {answers.payMethod === "self_pay" && (
-        <div className="flex flex-col gap-2">
-          <p>{copy.join.selfPayPrice}</p>
-          <div>
-            <Tag>{copy.common.fromLegion}</Tag>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <p>{copy.join.selfPayPrice}</p>
+            <div>
+              <Tag>{copy.common.fromLegion}</Tag>
+            </div>
           </div>
+          <SegmentedControl
+            legend={copy.join.selfPayMedicaid}
+            name="medicaidOrMedicare"
+            options={[
+              { value: "yes", label: copy.join.yes },
+              { value: "no", label: copy.join.no },
+            ]}
+            value={answers.medicaidOrMedicare}
+            onChange={(value) => tap("medicaidOrMedicare", { medicaidOrMedicare: value as YesNo })}
+            error={error("medicaidOrMedicare")}
+          />
         </div>
       )}
     </>

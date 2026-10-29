@@ -12,6 +12,9 @@ export type FitAnswers = {
   inTexas?: YesNo;
   payMethod?: "insurance" | "self_pay";
   planId?: string;
+  // Asked of self-pay only: Legion doesn't see Medicaid or Medicare patients,
+  // "including as self-pay"
+  medicaidOrMedicare?: YesNo;
   safety?: YesNo;
   hospital?: YesNo;
   // Ticked "I'm safe right now and want to keep going" on the crisis screen
@@ -23,7 +26,14 @@ export type FitOutcome =
   | { result: "screened_out"; reason: ScreenOutReason }
   | { result: "eligible" };
 
-export type FitField = "dateOfBirth" | "inTexas" | "payMethod" | "planId" | "safety" | "hospital";
+export type FitField =
+  | "dateOfBirth"
+  | "inTexas"
+  | "payMethod"
+  | "planId"
+  | "medicaidOrMedicare"
+  | "safety"
+  | "hospital";
 
 export type FieldErrors = Partial<
   Record<FitField, "date_of_birth" | "pay_method" | "plan_not_listed" | "required">
@@ -32,22 +42,45 @@ export type FieldErrors = Partial<
 // The answer behind "I don't see my plan": not a plan, so it can't pass
 export const PLAN_NOT_LISTED = "not_listed";
 
+// Every one-tap answer acts the moment it's tapped, and only by its own rule:
+// "Yes" to safety opens the crisis screen; "No" to Texas, Medicaid or
+// Medicare (as a plan, or "Yes" to the self-pay question) and "Yes" to the
+// hospital question open their screen-out. The date of birth is typed, so it
+// waits for Continue, and tapping something else never acts on it
+export function tapOutcome(field: FitField, answers: FitAnswers): FitOutcome | null {
+  switch (field) {
+    case "safety":
+      return answers.safety === "yes" && !answers.safeConfirmed ? { result: "crisis" } : null;
+    case "inTexas":
+      return answers.inTexas === "no" ? { result: "screened_out", reason: "not_in_texas" } : null;
+    case "planId":
+    case "medicaidOrMedicare":
+      return hasMedicaidOrMedicare(answers) ? { result: "screened_out", reason: "medicaid_medicare" } : null;
+    case "hospital":
+      return answers.hospital === "yes" ? { result: "screened_out", reason: "hospital_stay" } : null;
+    default:
+      return null;
+  }
+}
+
 // The rules for whatever has been answered so far, in the order the
-// questions are asked, with safety first. Screen 1 is three steps, and each
-// rule acts as soon as its answer is in: "Yes" to safety, Medicaid or
-// Medicare and "Yes" to the hospital question straight away, age and Texas
-// on the first step's Continue. Null means nothing rules them out yet
+// questions are asked, with safety first. Used on each step's Continue, where
+// the date of birth is checked too. Null means nothing rules them out yet
 export function partialOutcome(answers: FitAnswers, today: string): FitOutcome | null {
   if (answers.safety === "yes" && !answers.safeConfirmed) return { result: "crisis" };
 
   const dob = parseDateOfBirth(answers.dateOfBirth ?? "");
   if (dob && ageOn(dob, today) < 18) return { result: "screened_out", reason: "under_18" };
   if (answers.inTexas === "no") return { result: "screened_out", reason: "not_in_texas" };
-  if (answers.payMethod === "insurance" && findPlan(answers.planId ?? "")?.screensOut) {
-    return { result: "screened_out", reason: "medicaid_medicare" };
-  }
+  if (hasMedicaidOrMedicare(answers)) return { result: "screened_out", reason: "medicaid_medicare" };
   if (answers.hospital === "yes") return { result: "screened_out", reason: "hospital_stay" };
   return null;
+}
+
+function hasMedicaidOrMedicare(answers: FitAnswers): boolean {
+  if (answers.payMethod === "insurance") return Boolean(findPlan(answers.planId ?? "")?.screensOut);
+  if (answers.payMethod === "self_pay") return answers.medicaidOrMedicare === "yes";
+  return false;
 }
 
 // The whole fit check, on the last step's Continue. Assumes validateFacts
@@ -65,6 +98,9 @@ export function validateFacts(answers: FitAnswers, today: string): FieldErrors {
   if (answers.payMethod === "insurance") {
     if (answers.planId === PLAN_NOT_LISTED) errors.planId = "plan_not_listed";
     else if (!findPlan(answers.planId ?? "")) errors.planId = "required";
+  }
+  if (answers.payMethod === "self_pay" && !answers.medicaidOrMedicare) {
+    errors.medicaidOrMedicare = "required";
   }
   if (!answers.safety) errors.safety = "required";
   if (!answers.hospital) errors.hospital = "required";
