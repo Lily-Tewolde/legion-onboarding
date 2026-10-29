@@ -23,7 +23,7 @@ Get from "I need help" to a completed first visit, knowing early whether I'm cov
 - **Denominator:** everyone who starts, minus people the fit check screens out
 - **Tracked next to it:** the screen-out rate (screened out ÷ everyone who starts), so over-screening can't hide
 - **Unit:** people are anonymous until they enter their details, so the denominator counts browsers, like Legion's data. The numerator counts patients
-- **Window:** 30 days is an assumption to confirm. The metric needs a window to be calculated
+- **Window:** 30 days from starting. Speed is measured separately by the second metric
 
 ## Second metric
 
@@ -50,6 +50,9 @@ Median days from start to a completed first visit.
 ## Transparency
 
 One blanket notice at the very start of onboarding, shown once: "We use AI to help with some steps. You can talk to a person any time." Readable text, not alarming. No per-step disclosures or markers.
+
+- **Pre-visit intake:** no notice on the screen. The reminder email or text that invites the patient to the intake includes the same sentence, so they see it right before the AI step
+- **Help on every screen:** a "talk to a person" help link on every screen, like Legion's "Need help? Call us". It's a help link, not an AI marker, and it backs up the notice's promise
 
 ## How Legion grades the take-home
 

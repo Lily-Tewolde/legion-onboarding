@@ -90,7 +90,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 - **What:** One blanket notice at the very start of onboarding, shown once: "We use AI to help with some steps. You can talk to a person any time." Readable text, not alarming. No per-step disclosures or markers
 - **Why:** Patients should know up front and know how to reach a person, without being alarmed on every screen. Texas requires clear disclosure of AI use in health care before or at the time of interaction (docs/research.md, question 4)
-- **Rejected:** A label on every AI screen. It repeats the message and makes each step feel riskier. Also rejected: showing the notice again at the start of the pre-visit intake
+- **Rejected:** A label on every AI screen. It repeats the message and makes each step feel riskier. Also rejected: showing the notice again at the start of the pre-visit intake. Instead, the reminder email or text that invites the patient to the intake includes the same sentence, and every screen has a "talk to a person" help link
 - **Revisit when:** A patient reaches an AI step without passing the start screen (for example, the pre-visit intake days later, or on another device), or Legion's counsel says one notice isn't enough
 
 ## 2026-10-28 · NPS after the first visit, never inside onboarding
@@ -113,6 +113,20 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** If the AI misreads people often, it slows them down and erodes trust, even if completion goes up
 - **Rejected:** No AI-specific guardrail. The north star alone wouldn't show the AI getting things wrong
 - **Revisit when:** Corrections turn out to mean patients are adding detail rather than fixing mistakes, which would need a split
+
+## 2026-10-28 · A 30-day window for a completed first visit
+
+- **What:** The north star counts first visits completed within 30 days of starting
+- **Why:** The metric needs a window to be calculated. 30 days leaves room for rescheduling (the earliest slot on the walk was 4 days out), and speed is measured separately by median days to the first visit
+- **Rejected:** A shorter window. It would mix speed into the completion metric, which the second metric already covers
+- **Revisit when:** Median days to the first visit gets close to 30
+
+## 2026-10-28 · A "talk to a person" help link on every screen
+
+- **What:** Every screen has a help link to reach a person, like Legion's "Need help? Call us"
+- **Why:** The AI notice promises "You can talk to a person any time", so a person has to be one tap away everywhere. It's a help link, not an AI marker
+- **Rejected:** Help only on some screens, or only on AI steps. The promise covers the whole flow
+- **Revisit when:** Not expected to change
 
 ---
 
