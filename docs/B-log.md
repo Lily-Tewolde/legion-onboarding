@@ -37,11 +37,14 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 5:56 PM | Filled the flow map's remaining blanks from Lily's answers: questions per page (6, 7, 8, 9, 11, 20), 7 questions before learning coverage, 9 before seeing a provider, the needs page's three options, and screen-outs after the fit check (none seen; insurance "None / No insurance" untested, marked unknown). Lily confirmed the start page is 0 questions and the fit check time includes the "All done" screen | Cowork, Station B | docs/flow-map.md, docs/B-log.md |
 | 2026-10-28 | 5:56 PM | Added Lily's findings to the repo as docs/step-1-findings.md, unchanged (checked by hash), so finding numbers can be looked up. The flow map and data read now point to it. The recordings stay out of the repo | Cowork, Station B | docs/step-1-findings.md (new), docs/flow-map.md, docs/data-read.md, docs/B-log.md |
 | 2026-10-28 | 5:56 PM | **Gates checked for Steps 1 and 2.** Step 1: flow map has every page with URL, what it asks, friction, the drop and an AI opportunity; recordings done on desktop and phone; the game plan's watch-fors are answered (screening is partly on purpose, what the match page shows, questions before coverage, cost and provider, when cost appears, which steps are redirects). Not met: page screenshots weren't taken (the recordings cover the same pages), and the walk went past the planned stop (logged above). Step 2: data read has the headline, cliffs, guesses with tests checked against the walk, sizing from the script, and the blind spot. Open: the recording blur fix | Cowork, Station B | docs/B-log.md |
+| 2026-10-28 | 5:58 PM | Lily opened PR #3 and fixed the GitHub connector (pull requests read and write, commit statuses read) | Lily, GitHub | None |
+| 2026-10-28 | 6:05 PM | Checked PR #3: Vercel preview built (status success), branch head matched the local commit, no conflicts. Merged it into main with a merge commit (1f19817), as Lily asked | Cowork, Station B, GitHub connector | None |
+| 2026-10-28 | 6:10 PM | **Step 3 started.** Researched Lily's four questions: testimonials in signup flows, AI in the fit check, when competitors take payment, and which consents Texas requires. Read Legion's three consent checkboxes from the mobile recording. Wrote docs/research.md with sources and stated gaps. New branch docs/step-3-research, started from the merged PR #3 branch because this chat can't pull main | Cowork, Station B, web search | docs/research.md (new), docs/B-log.md |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
-- GitHub connector still returns 403 on this repo, so Lily pushes and opens PRs for now
+- Lily pushes branches (this chat can't push or pull); Station B opens and merges PRs through the GitHub connector
 - Extend the blur on the desktop recording to cover the year dropdown (about 2:50 to 2:55) before it goes in the walkthrough or the submission
 - Lily to decide: whether page screenshots are needed, or the recordings are enough
 - Replace the starter favicon.ico in a later PR
