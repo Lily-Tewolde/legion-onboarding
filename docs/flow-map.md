@@ -73,6 +73,7 @@ Fill in the blanks while you walk the flow. Stop before the provider reservation
 - What the patient-details page asks (look, don't submit):
 - Questions so far (counting the patient-details page):
 - Time on page (looking only):
+- Questions answered before seeing the full cost, fees and card requirement (payment page): 20
 
 ## After payment (not tracked at all)
 - Payment success, booking confirmed, reminders, showing up, visit completed: no data

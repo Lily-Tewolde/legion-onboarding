@@ -33,6 +33,8 @@ From the brief's milestone definitions and the conversion rates, checked against
 
 *Source: `size_funnel.py`, section 2 (drops between steps), and `check_funnel.py` (sessions at each step).*
 
+From the walk: I answered 20 questions before I saw the full cost, fees and the card requirement, which only appear on the payment page.
+
 ## 3. The three cliffs
 
 | Cliff | Lost | Rate | Rank by count | Rank by rate |
