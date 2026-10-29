@@ -52,6 +52,7 @@ Median days from start to a completed first visit.
 One blanket notice at the very start of onboarding, shown once: "We use AI to help with some steps. You can talk to a person any time." Readable text, not alarming. No per-step disclosures or markers.
 
 - **Pre-visit intake:** no notice on the screen. The reminder email or text that invites the patient to the intake includes the same sentence, so they see it right before the AI step
+- **Demo banner on every screen:** "Demo prototype: don't enter real information". Free text stays out of Supabase, and the AI route is rate-limited
 - **Help on every screen:** a "talk to a person" help link on every screen, like Legion's "Need help? Call us". It's a help link, not an AI marker, and it backs up the notice's promise
 
 ## How Legion grades the take-home

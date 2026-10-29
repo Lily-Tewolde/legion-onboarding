@@ -2,7 +2,7 @@
 
 The agreed flow for the build, from Lily's low-fi sketch and the 3d decisions in `docs/decisions.md`. The overall flow is agreed; UI details (like the speak buttons) will change in the build brief.
 
-Every screen has a "Talk to a person" help link. All data is made up. Coverage, payment, messages and the visit are simulated and labelled on screen.
+Every screen has a "Talk to a person" help link and the banner "Demo prototype: don't enter real information". All data is made up. Coverage, payment, messages and the visit are simulated and labelled on screen.
 
 ## Questions before value: today vs. new
 
@@ -88,7 +88,7 @@ Counts for the new flow are from this map and will be rechecked in the build.
 - **Events:** `portal.intake.started`; `portal.intake.completed` with questions answered; `portal.intake.skipped`; `portal.intake.fallback_used`; AI cost per intake
 
 ### 14. Clinician view (AI summary)
-- **Shows:** main concern, history, medications and goal, for the clinician to review. "AI summary for clinician review. Not a diagnosis."
+- **Shows:** main concern, history, medications and goal, for the clinician to review, with the full conversation next to it. The summary uses only what the patient said. "AI summary for clinician review. Not a diagnosis."
 - **Events:** `portal.intake.summary_viewed`
 
 ### 15. Reminders and join (preview)
@@ -102,7 +102,7 @@ Counts for the new flow are from this map and will be rechecked in the build.
 ## Side paths
 
 - **Screened out kindly:** from step 2 (under 18, outside Texas, Medicaid or Medicare, or a hospital stay in the past year). One calm screen with the right resources for the reason. Logs the reason, which the north star's denominator needs
-- **Crisis path:** from step 2 ("Yes") or any AI conversation. Stops immediately and shows 988 and crisis resources and a person. Rule-based, never left to the AI
+- **Crisis path:** from step 2 ("Yes"), or in any free-text step when the word list or the AI flag catches it. Stops immediately and shows 988 and crisis resources and a person. The AI can only escalate, never decide it's fine to continue. The patient continues only after confirming they're safe, labelled "Confirm with Legion's clinical team"
 - **AI down or wrong:** steps 4, 5 and 13 fall back to a plain form. Corrections and fallback use are tracked
 - **Email already has an account:** from step 8. Offer sign-in and keep progress
 - **Talk to a person:** the help link on every screen. Logs `portal.help.clicked` with the screen

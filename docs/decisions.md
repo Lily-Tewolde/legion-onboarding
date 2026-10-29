@@ -206,6 +206,27 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Keeping it as a question. The label stays in case Legion uses the answer for something we can't see
 - **Revisit when:** Legion says they use the answer
 
+## 2026-10-28 · Crisis detection: a word list plus an AI flag that can only escalate
+
+- **What:** In every free-text step, a word list and an AI flag both check for crisis. Either one stops the conversation and shows crisis resources and a person immediately. The AI can never decide it's fine to continue. The patient can continue only after confirming they're safe, labelled "Confirm with Legion's clinical team"
+- **Why:** A word list misses indirect phrasing ("I don't want to be here anymore"). The AI catches more, but the decision to keep going can't rest on it (pre-mortem, failure 1)
+- **Rejected:** A word list only, which misses indirect phrasing. AI only, which leaves safety to the AI
+- **Revisit when:** Legion's clinical team sets the rule for continuing after a flag
+
+## 2026-10-28 · A demo banner on every screen, no free text in Supabase, and a rate limit on the AI
+
+- **What:** One banner on every screen: "Demo prototype: don't enter real information". Free text (what the patient types or says) stays out of Supabase. The AI route is rate-limited
+- **Why:** Preview links open without a login and the AI calls are real, so a real person could type real health details, and anyone with the link could run up costs (pre-mortem, failures 5 and 6)
+- **Rejected:** A warning next to every text box. One banner says it once, everywhere
+- **Revisit when:** The prototype moves behind a login
+
+## 2026-10-28 · The clinician summary uses only what the patient said
+
+- **What:** The summary draws only on the patient's own answers. The clinician view shows the full conversation next to it
+- **Why:** A summary that adds something the patient didn't say could mislead a clinician (pre-mortem, failure 10). Showing the conversation lets the clinician check
+- **Rejected:** A summary on its own
+- **Revisit when:** Not expected to change
+
 ---
 
 # Spoken defence (fill before the review call)
