@@ -79,6 +79,41 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Browser storage only. It's lost in incognito, on another device, or when storage is cleared, and the server can't send a link back to it. Also rejected: no saving at all, which repeats the current problem
 - **Revisit when:** The build runs short on time and saving progress isn't in the slice we build fully. Browser storage could then stand in for the demo, labelled as such
 
+## 2026-10-28 · North-star denominator: everyone who starts, minus people screened out
+
+- **What:** First-visit completion rate = patients with a completed first visit ÷ (everyone who starts − people the fit check screens out). The screen-out rate is tracked next to it
+- **Why:** Screening out the wrong patients kindly is the product working, so it shouldn't count as a failure. Keeping everyone else in, including people who quit during the fit check, means abandonment there still counts against us. Tracking the screen-out rate stops over-screening from making the metric look better
+- **Rejected:** Everyone who starts: directly comparable to Legion's 5,898, but it would reward letting the wrong patients through. Only people who pass the fit check: it would hide everyone who gives up during the fit check
+- **Revisit when:** Screen-out reasons turn out to be fuzzy (for example, people screened out who should have been helped), which would make the subtraction unreliable
+
+## 2026-10-28 · Tell patients about AI once, at the start
+
+- **What:** One calm info box at the start of onboarding, before any AI step: "We use AI to help with some steps. You can talk to a person any time." Readable text, not alarming. No markers on individual AI screens
+- **Why:** Patients should know up front and know how to reach a person, without being alarmed on every screen. Texas requires clear disclosure of AI use in health care before or at the time of interaction (docs/research.md, question 4)
+- **Rejected:** A label on every AI screen. It repeats the message and makes each step feel riskier
+- **Revisit when:** A patient reaches an AI step without passing the start screen (for example, the pre-visit intake days later, or on another device), or Legion's counsel says one notice isn't enough
+
+## 2026-10-28 · NPS after the first visit, never inside onboarding
+
+- **What:** NPS is asked from time to time in the portal after the first visit. Onboarding never asks for it
+- **Why:** The goal inside onboarding is getting patients through the questions as fast as possible. Every extra question adds to the 20 asked today
+- **Rejected:** A rating at the end of onboarding. It adds a question at the point where patients are most likely to drop
+- **Revisit when:** Post-visit response rates are too low to read
+
+## 2026-10-28 · Self-pay patients are in scope, with a clear path
+
+- **What:** The user is insured or self-pay. Self-pay gets a clear path through onboarding, not a dead end
+- **Why:** Legion shows a cash price at payment today, so self-pay patients exist. A clear path keeps them from leaving at insurance
+- **Rejected:** Insured patients only. Simpler, but anyone without accepted insurance would hit a dead end
+- **Revisit when:** Not expected to change
+
+## 2026-10-28 · AI accuracy is a guardrail
+
+- **What:** Track how often patients correct what the AI understood, and how often the form fallback is used
+- **Why:** If the AI misreads people often, it slows them down and erodes trust, even if completion goes up
+- **Rejected:** No AI-specific guardrail. The north star alone wouldn't show the AI getting things wrong
+- **Revisit when:** Corrections turn out to mean patients are adding detail rather than fixing mistakes, which would need a split
+
 ---
 
 # Spoken defence (fill before the review call)
