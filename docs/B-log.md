@@ -40,6 +40,8 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 5:58 PM | Lily opened PR #3 and fixed the GitHub connector (pull requests read and write, commit statuses read) | Lily, GitHub | None |
 | 2026-10-28 | 6:05 PM | Checked PR #3: Vercel preview built (status success), branch head matched the local commit, no conflicts. Merged it into main with a merge commit (1f19817), as Lily asked | Cowork, Station B, GitHub connector | None |
 | 2026-10-28 | 6:10 PM | **Step 3 started.** Researched Lily's four questions: testimonials in signup flows, AI in the fit check, when competitors take payment, and which consents Texas requires. Read Legion's three consent checkboxes from the mobile recording. Wrote docs/research.md with sources and stated gaps. New branch docs/step-3-research, started from the merged PR #3 branch because this chat can't pull main | Cowork, Station B, web search | docs/research.md (new), docs/B-log.md |
+| 2026-10-28 | 6:30 PM | Lily set up Step 4 accounts: added the Anthropic, PostHog (US Cloud) and Supabase environment variables to Vercel for all three environments and pulled them into .env.local. Supabase: Data API on, automatic table exposure off, automatic row-level security on | Lily, Vercel and Supabase | .env.local (not tracked) |
+| 2026-10-28 | 6:30 PM | Logged the Supabase decision. Added .env.example with variable names only, and added !.env.example to .gitignore so it's tracked while .env.local stays ignored (checked with git check-ignore). Read only the variable names in .env.local, never the values. Left out VERCEL_OIDC_TOKEN, which vercel env pull adds on its own | Cowork, Station B | docs/decisions.md, .env.example (new), .gitignore, docs/B-log.md |
 
 ## Open items
 
