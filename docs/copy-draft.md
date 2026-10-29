@@ -119,9 +119,10 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - "If you're in immediate danger, call 911."
 - "Call or text 988 to reach the 988 Suicide & Crisis Lifeline, any time. You can also chat at 988lifeline.org."
 - "You can also talk to a person at Legion: (555) 010-0123." Label: "Demo number" **[Confirm with Legion]** who answers and when
-- Buttons on phones (one tap opens the dialer or messages): "Call 988", "Text 988", "Call 911". On desktop: the numbers shown clearly
-- Button: "Talk to a person"
-- **[Confirm with Legion's clinical team]** To continue: checkbox "I'm safe right now and want to keep going", then button "Continue". The crisis check stays on for the rest of the session
+- Primary button: "Call 988" **[decided]**
+- Text-style buttons underneath: "Text 988", "Call 911", "Talk to a person" **[decided]**
+- On phones, these open the dialer or messages in one tap. On desktop, the numbers are shown clearly
+- **[Confirm with Legion's clinical team]** On its own at the bottom: checkbox "I'm safe right now and want to keep going", then button "Continue". The crisis check stays on for the rest of the session
 
 **Added from the golden-set review (Oct 29). Lines marked [drafted] were drafted in the Legion Cowork Session for Lily to edit.**
 
@@ -137,9 +138,10 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - "If you're in immediate danger, call 911."
 - "The National Domestic Violence Hotline is free and open 24/7, with help in Spanish. Call 1-800-799-7233 or text START to 88788." (Source: [thehotline.org](https://www.thehotline.org/))
 - "You can also talk to a person at Legion: (555) 010-0123." Label: "Demo number"
-- Buttons on phones: "Call the hotline", "Text the hotline", "Call 911"
+- Primary button: "Call the hotline" **[decided]**
+- Text-style buttons underneath: "Text the hotline", "Call 911" **[decided]**
 - Quick exit, always visible at the top: "Leave this page". It opens a neutral page and replaces this one in the browser history **[decided]**
-- The check-in pauses here. To continue: checkbox "I'm safe right now and want to keep going", then button "Continue". The clinician sees a safety flag **[Confirm with Legion's clinical team]**
+- The check-in pauses here. On its own at the bottom, like the crisis screen: checkbox "I'm safe right now and want to keep going", then button "Continue". The clinician sees a safety flag **[Confirm with Legion's clinical team]**
 
 **Lily's notes**
 - Approved as drafted
@@ -246,7 +248,7 @@ One page, like a one-page checkout when you shop online.
 - Fields: "First and last name", "Email", "Mobile phone"
 - **[Confirm with Legion]** Notice: "By continuing, you agree to our Terms of Service and Privacy Policy. You can read our HIPAA Notice of Privacy Practices and how we use AI." (Each is a link. A proposed pattern; what's required is for Legion's counsel.)
 - **[Confirm with Legion]** Checkbox: "I consent to treatment by Legion Health providers." Link: "Read the consent"
-- Email already used: "There's already an account with this email." Buttons: "Sign in and pick up where you left off", "Use a different email". Label: "Demo: sign-in simulated"
+- Email already used: "There's already an account with this email." Buttons: "Sign in to continue", "Use a different email". Label: "Demo: sign-in simulated"
 
 **Payment**
 - "You won't be charged now."
@@ -332,9 +334,11 @@ One page, like a one-page checkout when you shop online.
     4. "Have you had mental health care before? What helped, and what didn't?"
     5. "How have you been sleeping lately?"
     6. "Is there anything else about your health your provider should know, like allergies or other conditions?"
-- Placeholder: "Type your answer, or tap Speak"
-- Buttons: "Speak", "Next", "Skip this question"
-- Always visible: "Skip, I'll cover it in my visit"
+- Placeholder: "Type your answer, or tap the mic" **[drafted]**
+- Mic icon inside the answer box (screen-reader label: "Speak") **[decided]**
+- Primary button: "Next" **[decided]**
+- Text-style button under it: "Skip this question" **[decided]**
+- Small link at the bottom, always visible: "Skip the check-in" **[decided]**
 - While the next question loads: skeleton
 - Form fallback note: "We're using a simple form for the check-in."
 - After two skips in a row, shown once, never as a warning: "That's okay. A few answers help your provider spend more of your visit on you." **[decided]**

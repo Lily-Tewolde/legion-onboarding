@@ -177,7 +177,7 @@ PostHog (US Cloud), `posthog-js` in the browser. Keep Legion's names where the s
 | `portal.intake.invited` | Invite appears in the inbox | |
 | `portal.intake.started` | First check-in answer | |
 | `portal.intake.completed` | Check-in done | questions_answered |
-| `portal.intake.skipped` | "Skip, I'll cover it in my visit" | |
+| `portal.intake.skipped` | "Skip the check-in" | |
 | `portal.intake.medications_confirmed` | Medication check at the end | changed (true or false) |
 | `portal.intake.stopped` | Check-in stops early | reason (under_18, crisis) |
 | `portal.intake.summary_viewed` | Clinician view opens with a summary | sample (true or false) |

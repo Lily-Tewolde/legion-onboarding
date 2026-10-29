@@ -584,6 +584,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** several buttons of equal weight, which makes the next step unclear. No quick exit on the being-hurt screen, where someone may need to hide what they're looking at
 - **Revisit when:** a screen genuinely has two equal choices
 
+## 2026-10-29 · One primary action on the crisis, being-hurt and check-in screens
+
+- **What:** Crisis screen: "Call 988" is primary; "Text 988", "Call 911" and "Talk to a person" are text-style buttons under it; the "I'm safe" checkbox and Continue sit on their own at the bottom. Being-hurt screen: "Call the hotline" is primary; "Text the hotline" and "Call 911" under it; "Leave this page" stays at the top; Continue at the bottom. Check-in: "Next" is primary; the mic is an icon inside the answer box; "Skip this question" sits under Next; "Skip, I'll cover it in my visit" becomes a small "Skip the check-in" link at the bottom. "Sign in and pick up where you left off" becomes "Sign in to continue"
+- **Trade-off:** the other crisis options are one visual step lower, but still one tap away
+- **Rejected:** several equal buttons, which makes the most helpful action harder to spot, especially under stress. Continue next to the help buttons, where it could be tapped by mistake
+- **Revisit when:** Legion's clinical team prefers a different first action
+
 ---
 
 # Spoken defence (fill before the review call)
