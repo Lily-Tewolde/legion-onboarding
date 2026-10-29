@@ -32,3 +32,7 @@ export const whatsGoingOnStore = createSessionStore<WhatsGoingOnState>("lh_whats
 export type CrisisFrom = { from: "safety_question" | "whats_going_on" };
 
 export const crisisFromStore = createSessionStore<CrisisFrom>("lh_crisis_from", { from: "safety_question" });
+
+// The words the patient said "I'm safe right now" for, so the same words don't
+// stop them again. The checks still run, and any new words are checked as usual
+export const safeKey = (text: string, answer: string) => `${text}\n${answer}`;
