@@ -33,13 +33,14 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 5:53 PM | Added Lily's walk count to the data read (section 2) and the flow map (payment page): 20 questions answered before the full cost, fees and card requirement | Cowork, Station B | docs/data-read.md, docs/flow-map.md, docs/B-log.md |
 | 2026-10-28 | 5:53 PM | Logged Lily's input for Step 3, not decided (see open items): scope through visit completed, and four research questions to answer before brainstorming | Cowork, Station B | docs/B-log.md |
 | 2026-10-28 | 5:53 PM | Lily's updated findings (with her AI opportunities section) didn't come through as an attachment, so the flow map isn't filled yet | Cowork, Station B | None |
+| 2026-10-28 | 5:54 PM | Received Lily's updated Step 1 findings (adds her AI opportunities and the 20-question count). Filled docs/flow-map.md from them: time on page from the recordings' start times, what each page asks, friction with finding numbers, screen-outs, and her AI opportunities per step. Added an "Across the whole flow" section for findings that apply to every page. Left blank where the findings don't say: per-page question counts after the fit check, what the needs page asks, and whether conditions, insurance, needs or match can screen you out. Legion's numbers unchanged (checked) | Cowork, Station B | docs/flow-map.md, docs/B-log.md |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
 - GitHub connector still returns 403 on this repo, so Lily pushes and opens PRs for now
 - Extend the blur on the desktop recording to cover the year dropdown (about 2:50 to 2:55) before it goes in the walkthrough or the submission
-- Step 1: fill docs/flow-map.md from Lily's updated findings, including her AI opportunities section (waiting on the file)
+- Step 1: fill the flow map's remaining blanks (per-page question counts, needs page questions, screen-outs after the fit check)
 - Decide whether the findings file goes in the repo, so the finding numbers in data-read.md resolve
 - Replace the starter favicon.ico in a later PR
 
@@ -51,3 +52,5 @@ Running log of the work station. One line per action: when, what, which tool or 
     - Whether AI in the fit check is standard or slows people down
     - When competitors take payment: at booking, or 24 to 72 hours before the visit
     - Which consent checkboxes are actually required in Texas
+- **Design principles (from Lily's Step 1 findings):** simple and sleek, very user-focused, and it has to work for patients up to 65. Follow Apple's interface guidelines and Atlassian's design rules. Desktop gets the full page for the task, not a split screen
+- **AI opportunities:** Lily's take per step is in docs/flow-map.md
