@@ -58,6 +58,7 @@ Running log of the Legion Cowork Session (renamed from B-log.md on Oct 28, 2026)
 | 2026-10-28 | 7:21 PM | Lily force-pushed. Checked on GitHub: main is 99799a8, the Step 3 branch is ebf0aaa, and the three old branches are gone. Vercel's production deploy of the new main is ready. Updated PR #4's description to list everything in Step 3 so far. The virtual-care commit still needs a push | Legion Cowork Session, GitHub and Vercel connectors | docs/work-log.md |
 | 2026-10-28 | 7:25 PM | Pre-mortem (3e): 10 failures with fixes in docs/pre-mortem.md. Lily decided crisis detection (word list plus an AI flag that can only escalate; continue only after confirming safe, for Legion's clinical team to confirm), a demo banner on every screen, no free text in Supabase, a rate limit on the AI route, and a summary that uses only what the patient said, shown next to the full conversation. Logged 3 decisions; updated requirements and the new flow map | Legion Cowork Session | docs/pre-mortem.md (new), docs/decisions.md, docs/requirements.md, docs/new-flow-map.md, docs/work-log.md |
 | 2026-10-28 | 7:26 PM | Lily chose to keep the intake conversation in the browser, with a "Load a sample conversation" button on the clinician view showing a labelled made-up example. Logged the decision and updated the new flow map | Legion Cowork Session | docs/decisions.md, docs/new-flow-map.md, docs/work-log.md |
+| 2026-10-28 | 7:29 PM | Drafted all user-facing copy in docs/copy-draft.md for Lily to edit tomorrow morning: every screen of the new flow, the side paths, loading, empty and error states. Used Lily's decided lines word for word. Marked crisis and screen-out lines for her close review, and lines to confirm with Legion. Crisis and helpline wording checked against 988lifeline.org and SAMHSA. Stopping for the night | Legion Cowork Session, web | docs/copy-draft.md (new), docs/work-log.md |
 
 ## Open items
 
@@ -65,6 +66,7 @@ Running log of the Legion Cowork Session (renamed from B-log.md on Oct 28, 2026)
 - Lily pushes branches (this chat can't push or pull); the Legion Cowork Session opens and merges PRs through the GitHub connector
 - Extend the blur on the desktop recording to cover the year dropdown (about 2:50 to 2:55) before it goes in the walkthrough or the submission
 - Lily to decide: whether page screenshots are needed, or the recordings are enough
+- Lily to edit docs/copy-draft.md, then lock the build brief (Step 3f)
 - Replace the starter favicon.ico in a later PR
 
 ## Lily's input for Step 3 (not decided)
