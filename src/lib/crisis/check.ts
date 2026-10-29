@@ -35,13 +35,25 @@ export async function checkMessage(
   );
   if (!aiFlag.ok) deps.logFlagFailure(aiFlag.failure);
 
-  const flagged = aiFlag.ok && aiFlag.crisis;
   return {
-    crisis: wordList.hit || flagged,
-    // The AI's kind is more specific (it can tell "happening now" from a
-    // past attempt), so it wins when it fires
-    kind: flagged ? aiFlag.kind : wordList.hit ? wordList.kind : null,
+    crisis: wordList.hit || (aiFlag.ok && aiFlag.crisis),
+    kind: combinedKind(wordList, aiFlag),
     wordList,
     aiFlag,
   };
+}
+
+// Immediate danger from the word list always stands, so 911 comes first and
+// the AI's label can never downgrade it. Otherwise the AI's kind wins when it
+// fires, because it's more specific: "I tried to kill myself five years ago"
+// hits the word list as self-harm, but the AI can tell it's past risk
+function combinedKind(
+  wordList: WordListResult,
+  aiFlag: CrisisFlagResult,
+): CrisisKind | null {
+  if (wordList.hit && wordList.kind === "immediate_danger") {
+    return "immediate_danger";
+  }
+  if (aiFlag.ok && aiFlag.crisis) return aiFlag.kind;
+  return wordList.hit ? wordList.kind : null;
 }

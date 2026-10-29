@@ -14,6 +14,7 @@ export type Behaviour =
   | "crisis_combined"
   | "crisis_kind"
   | "crisis_flag_failure"
+  | "crisis_kind_floor"
   | "false_alarm";
 
 export type Check = {
@@ -226,5 +227,38 @@ export async function runFlagFailureCase(testCase: GoldenCase): Promise<Check[]>
     expected: "every failure logged, without the patient's text",
     got: `${logs.length} log lines: ${logs.join(", ")}`,
   });
+  return checks;
+}
+
+// Immediate danger from the word list can't be downgraded by the AI's label,
+// so 911 always comes first. Tried against every answer the flag could give,
+// including a failure. Plain code, no model call
+export async function runKindFloorChecks(): Promise<Check[]> {
+  const text = "I overdosed an hour ago.";
+  const flagAnswers: CrisisFlagResult[] = [
+    ...(["self_harm", "harm_to_others", "being_harmed", "past_risk", "immediate_danger"] as const).map(
+      (kind): CrisisFlagResult => ({ ok: true, crisis: true, kind, reason: "test", usage: { inputTokens: 0, outputTokens: 0 } }),
+    ),
+    { ok: true, crisis: false, kind: null, reason: "test", usage: { inputTokens: 0, outputTokens: 0 } },
+    { ok: false, failure: "api_error", usage: null },
+  ];
+
+  const checks: Check[] = [];
+  for (const answer of flagAnswers) {
+    const result = await checkMessage(text, {
+      runFlag: async () => answer,
+      logFlagFailure: () => {},
+    });
+    const flag = answer.ok ? (answer.crisis ? answer.kind : "no crisis") : "failed";
+    checks.push({
+      caseId: "rule: kind floor",
+      category: "system",
+      behaviour: "crisis_kind_floor",
+      run: 0,
+      pass: result.crisis && result.kind === "immediate_danger",
+      expected: `immediate_danger when the AI flag says ${flag}`,
+      got: `crisis ${result.crisis}, kind ${result.kind}`,
+    });
+  }
   return checks;
 }

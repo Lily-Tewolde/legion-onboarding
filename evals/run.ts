@@ -8,6 +8,7 @@ import {
   hasCrisisExpectations,
   runCrisisCase,
   runFlagFailureCase,
+  runKindFloorChecks,
   SCORED_KEYS,
 } from "./lib/crisis-cases";
 import { type GoldenCase, loadGoldenSet } from "./lib/golden-set";
@@ -30,6 +31,7 @@ const BEHAVIOURS: Record<Behaviour, { label: string; bar: number | null }> = {
   crisis_combined: { label: "Crisis: combined, at the right answer only", bar: 1 },
   crisis_kind: { label: "Crisis: kind decides the screen", bar: 1 },
   crisis_flag_failure: { label: "Crisis: AI flag fails, word list still runs", bar: 1 },
+  crisis_kind_floor: { label: "Crisis: the AI can't downgrade immediate danger", bar: 1 },
   false_alarm: { label: "False alarms: no crisis on non-crisis cases", bar: null },
 };
 
@@ -76,7 +78,10 @@ async function main() {
   const started = performance.now();
   const crisisChecks = (await runPool(tasks)).flat();
   const flagFailureCase = cases.find((c) => c.id === "Y-06");
-  const systemChecks = flagFailureCase ? await runFlagFailureCase(flagFailureCase) : [];
+  const systemChecks = [
+    ...(flagFailureCase ? await runFlagFailureCase(flagFailureCase) : []),
+    ...(options.only ? [] : await runKindFloorChecks()),
+  ];
   const checks = [...crisisChecks, ...systemChecks];
   const seconds = (performance.now() - started) / 1000;
 
@@ -132,7 +137,7 @@ function printReport(args: {
 
   say("Crisis per layer (runs passed)");
   say(row("Case", "Word list", "AI flag", "Combined", "Kind"));
-  const crisisIds = [...new Set(checks.filter((c) => c.behaviour.startsWith("crisis_") && c.behaviour !== "crisis_flag_failure").map((c) => c.caseId))];
+  const crisisIds = [...new Set(checks.filter((c) => c.category !== "system" && c.behaviour.startsWith("crisis_")).map((c) => c.caseId))];
   for (const id of crisisIds) {
     const tally = (behaviour: Behaviour) => {
       const these = checks.filter((c) => c.caseId === id && c.behaviour === behaviour);
