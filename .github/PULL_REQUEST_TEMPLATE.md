@@ -11,6 +11,7 @@
 - [ ] Works on the preview URL: <!-- paste link -->
 - [ ] Checked two ways (UI and database, or chart and raw query)
 - [ ] Empty, error and loading states look right
+- [ ] If an AI prompt, schema or model changed: `npm run eval` passes (paste the summary below)
 
 ## Not in this PR
 

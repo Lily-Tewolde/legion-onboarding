@@ -255,6 +255,70 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Copying the whole library as is: its colours and Satoshi font aren't Legion's, and Satoshi's licence rules out a public repo. Building every component from scratch: slower, for no gain
 - **Revisit when:** Not expected to change
 
+## 2026-10-29 · Evals: crisis pass bars per layer
+
+- **What:** The word list must catch 100% of direct-wording crisis cases (run once, since it's a fixed list). The AI flag must catch 100% of all crisis cases, direct and indirect, with each case run 5 times. The two together must catch 100%. A few non-crisis cases that sound alarming ("this ADHD is killing me") measure the false-alarm rate, which is reported without a hard bar
+- **Why:** Each layer is held to what it can do: a fixed list can't catch indirect wording, so the AI flag carries that, and running each case 5 times catches an AI flag that only works some of the time. False alarms send someone to crisis resources unnecessarily, which is safe but worth watching
+- **Rejected:** Both layers at 100% on everything: the word list would need to flag ordinary sentences and still might not get there. Only a combined bar: a weak AI flag could hide behind the word list on direct cases
+- **Revisit when:** The false-alarm rate is high enough to put patients off
+
+## 2026-10-29 · Eligibility surprises: double-check before booking, flag after
+
+- **What:** When a free-text answer contradicts the quick facts (for example "I'm 16", "I just moved to Oklahoma", "I'm on Medicaid now"), the AI never decides eligibility. In "What's going on?", before booking, the patient gets a calm double-check ("You mentioned you're 16. Can you confirm your date of birth?") and the fit check rules run again, so the rules decide. In the pre-visit intake, after booking, the AI flags it and the patient continues, with a calm note that someone will check one detail before the visit. The flag shows in the clinician view. Eval cases cover both
+- **Why:** Before booking, the rules can settle it on the spot. After booking, a person should check rather than cancel a visit automatically
+- **Rejected:** Flag and continue in both steps, which could let someone ineligible book. Pausing for a person, which is a dead end in a prototype. Sending everyone back to the quick facts, which could feel like being caught out after booking
+- **Revisit when:** Legion's team sets how eligibility changes after booking are handled
+
+## 2026-10-29 · When the AI is unsure: one clarifying question, then "Not sure"; the form only for failures
+
+- **What:** The AI asks at most one clarifying question. If the answer is still vague but real ("everything's just off"), it's recorded as "Not sure, needs help" and the patient continues; the intake summary quotes it as said. The step switches to the plain form only when the AI's output doesn't fit the format or it can't make sense of the input at all. Evals check: no guessing, at most one clarifying question, vague answers map to "Not sure", format failures fall back to the form
+- **Why:** Vague answers are common and real in mental health, and "I'm not sure, but I need help" is already one of Legion's needs options. Sending vague answers to the form would make it common; guessing would put words in the patient's mouth
+- **Rejected:** Straight to the form on any doubt, which would show the form often. Asking until sure, which can loop and slow patients down
+- **Revisit when:** "Not sure" turns out to be most answers, or clinicians find the quotes unhelpful
+
+## 2026-10-29 · Models: mid tier for the AI steps, a separate fast crisis flag, a top-tier grader
+
+- **What:** Both AI steps run on a mid-tier model (Sonnet class). The crisis flag is a separate call with its own short prompt on a fast model (Haiku class), run on every message. The rubric grader is a top-tier model (Opus class), different from the model being graded. If the fast model misses any crisis case in the evals, the crisis flag moves up to the mid tier, and the eval result that decided it is logged here. Exact model IDs are checked against Anthropic's docs in the build brief
+- **Why:** The mid tier balances quality on summaries and follow-ups against speed and AI cost per intake. A separate crisis call is harder for a prompt injection in the main conversation to switch off. A grader from a different, stronger model is less likely to share the graded model's blind spots
+- **Rejected:** All fast tier: cheapest, but weaker on nuance and on faithful summaries. Top tier for the steps: best quality, but the slowest and most expensive per intake
+- **Revisit when:** The crisis flag misses a case (move it up), or AI cost per intake is too high
+- **Eval result:** not run yet
+
+## 2026-10-29 · Check the grader against 10 cases I score blind
+
+- **What:** I score 10 rubric cases before seeing the grader's results. At least 4 are deliberately bad outputs: a summary that adds something the patient didn't say, one that misses something they did say, and a follow-up that drifts into advice. The grader must agree on at least 9 of 10, and any disagreement on a safety item (advice, diagnosis, crisis) means fixing the grader before trusting it. Re-checked whenever the grader prompt changes
+- **Why:** A grader that only sees good outputs can pass by approving everything. Planted failures show it actually catches them, and scoring blind keeps my scores independent
+- **Rejected:** Scoring every rubric case at 100% agreement, which doubles review time. 5 cases at 4 of 5, too few to show the grader is reliable
+- **Revisit when:** The grader disagrees with me on a safety item
+
+## 2026-10-29 · Roll out the AI intake the way Legion rolls out Utah renewals
+
+- **What:** Clinicians check every summary against the full conversation for the first 250 intakes, then audit 10% of the next 1,000. The AI pauses and the intake goes back to the form immediately on any missed crisis or any made-up statement that could affect care, and also if more than 2% of audited summaries have an error. It resumes only after a fix, a passing eval run and sign-off from Legion's clinical lead. Clinician time savings are measured from the audit phase, since full checks add time at first. All numbers are proposals for Legion's clinical team
+- **Why:** It mirrors how Legion already introduces AI (Utah renewals: the first 250 with human and AI agreement, then a human audit of the next 1,000), so the clinical team knows the pattern
+- **Rejected:** A smaller first phase of 50, too small a sample to trust. Full checks until sign-off with no set numbers, which has no end point and uses up the clinician minutes the intake is meant to save
+- **Revisit when:** Legion's clinical team sets different numbers
+
+## 2026-10-29 · Write the golden set now, build the harness first in Step 4
+
+- **What:** The eval spec, the 40-case golden set and the grader check are written now, in Step 3. The harness is built in Step 4, before any AI prompt is merged
+- **Why:** The cases define what the AI steps must do, so they belong with the spec. The harness needs the prompt code, which doesn't exist until Step 4
+- **Rejected:** Writing the cases after the prompts, which tends to fit the tests to what the prompts already do
+- **Revisit when:** Not expected to change
+
+## 2026-10-29 · Patient text is data; outputs follow a strict schema; anything else goes to the form
+
+- **What:** Patient text only goes in the user turn, inside tagged blocks the system prompt marks as the patient's words, never instructions. The model has no tools and no secrets. The word list runs before any model, and the crisis flag is a separate call. Eligibility is decided by rules. Model output must fit an exact schema per step (in `docs/evals.md`), enforced by the API's structured output and validated in the app. Anything that doesn't fit is rejected and the step falls back to the form, without a retry. Output is shown as plain text only
+- **Why:** Keeps a prompt injection from changing what the AI does, what the clinician sees, or whether a crisis is caught. The fallback follows the "unsure" decision: format failures go to the form
+- **Rejected:** Free-text output parsed loosely, which an injection can bend. Retrying on a bad output, which makes the patient wait twice
+- **Revisit when:** The fallback rate in the evals or after launch is high enough to hurt the experience
+
+## 2026-10-29 · A lean harness: `npm run eval`, run before merging prompt changes
+
+- **What:** `npm run eval` runs the golden set, scores it (exact, rule or model-graded), and prints pass rates per category and behaviour, failures, crisis results per layer, the false-alarm rate, speed and AI cost. `npm run eval:grader-check` compares the grader with my scores. Cases live in YAML so I can read and edit them. The rule is in CLAUDE.md and the PR template: run it before merging any prompt, schema or model change, paste the summary into the PR, don't merge on a failure
+- **Why:** About an hour to build, and it makes every prompt change show its effect before it ships
+- **Rejected:** Running evals automatically on every PR in GitHub Actions: it would need the API key as a repository secret and costs a run on every push, including docs changes. Worth adding later
+- **Revisit when:** Prompt changes become frequent enough that a manual run gets skipped
+
 ---
 
 # Spoken defence (fill before the review call)
