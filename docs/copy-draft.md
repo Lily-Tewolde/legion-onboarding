@@ -150,11 +150,13 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - Title: "What you'll pay"
 - Insured: "Estimated cost per visit: $0 to $40" Label: "From Legion's current flow"
 - Self-pay: "Cost: $250 for your first visit, $150 for follow-up visits" Label: "From Legion's current flow"
-- "When you're charged: after your visit"
+- Insured: "When you're charged: for what insurance doesn't cover, about 5 days after your visit" Label: "From Legion's current flow"
+- Self-pay: "When you're charged: after your visit"
 - "Cancel or reschedule 48 hours or more before: no charge"
 - "Cancel within 48 hours, or miss the visit: $250 fee for your first visit, $100 for follow-ups"
+- "Missing the visit means not joining within 10 minutes of the start." Label: "From Legion's current flow"
 - Label: "From Legion's current flow"
-- Link: "What if I cancel?" Opens: "You can cancel or reschedule from your visit page. If it's 48 hours or more before your visit, there's no charge. If it's later, or you miss the visit, the fee is $250 for your first visit and $100 for follow-ups."
+- Link: "What if I cancel?" Opens: "You can cancel or reschedule from your visit page. If it's 48 hours or more before your visit, there's no charge. If it's later, or you miss the visit, the fee is $250 for your first visit and $100 for follow-ups. Missing the visit means not joining within 10 minutes of the start."
 - Button: "Continue"
 
 ## 8. Your details
@@ -176,7 +178,8 @@ Shown from the safety question, or when the word list or the AI flag catches som
 ## 9. Hold your spot
 
 - Title: "Hold your spot"
-- "We'll charge your card after your visit, not now."
+- Insured: "We won't charge your card now. We'll charge it for what insurance doesn't cover, about 5 days after your visit."
+- Self-pay: "We'll charge your card after your visit, not now."
 - Fields: "Card number", "Expiry (MM/YY)", "Security code", "ZIP code"
 - Label: "Demo: payment simulated. Use any made-up card number."
 - Button: "Book my visit"

@@ -248,6 +248,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Rejected:** Satoshi, from Lily's Inspo Book 01: its licence says not to put the font files in a public repo. SF Pro: Apple's system font, not Legion's
 - **Revisit when:** Not expected to change
 
+## 2026-10-28 · Bring in only the components the build uses, rebuilt as Legion
+
+- **What:** Components adapted from my own design library (Inspo Book 01). Only the ones the build uses come into the repo: Button, Chip, SegmentedControl, Switch, List, and any others the build needs (for example Tag or IconButton). They're rebuilt on Legion's colours and Inter. The rest of the library stays out (Tabs, UnitToggle, NavLink, LiveIndicator, FeatureCard, ActionNode, MockWindow, GridBackground), and so does the Satoshi font
+- **Why:** A ready, tested base saves build time. Rebuilding on Legion's palette and font makes it read as Legion. Leaving the rest out keeps the public repo to what the assignment uses
+- **Rejected:** Copying the whole library as is: its colours and Satoshi font aren't Legion's, and Satoshi's licence rules out a public repo. Building every component from scratch: slower, for no gain
+- **Revisit when:** Not expected to change
+
 ---
 
 # Spoken defence (fill before the review call)
