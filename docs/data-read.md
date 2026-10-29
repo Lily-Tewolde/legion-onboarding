@@ -1,6 +1,6 @@
 # Data read: Legion's current onboarding funnel
 
-Source: Legion's PostHog funnel from the brief, saved as `analysis/data/legion_funnel_30d_to_2026-08-29.csv`. Production traffic, rolling 30 days ending Aug 29, 2026. Every figure is in sessions per 30 days.
+Source: Legion's PostHog funnel from the brief, saved as `analysis/data/legion_funnel_30d_to_2026-08-29.csv`. Production traffic, rolling 30 days ending Aug 29, 2026. Every figure is in sessions per 30 days. Finding numbers refer to `docs/step-1-findings.md`.
 
 **Reproduce every figure from Legion's data** (the "What I saw" lines are walk observations):
 

@@ -34,14 +34,16 @@ Running log of the work station. One line per action: when, what, which tool or 
 | 2026-10-28 | 5:53 PM | Logged Lily's input for Step 3, not decided (see open items): scope through visit completed, and four research questions to answer before brainstorming | Cowork, Station B | docs/B-log.md |
 | 2026-10-28 | 5:53 PM | Lily's updated findings (with her AI opportunities section) didn't come through as an attachment, so the flow map isn't filled yet | Cowork, Station B | None |
 | 2026-10-28 | 5:54 PM | Received Lily's updated Step 1 findings (adds her AI opportunities and the 20-question count). Filled docs/flow-map.md from them: time on page from the recordings' start times, what each page asks, friction with finding numbers, screen-outs, and her AI opportunities per step. Added an "Across the whole flow" section for findings that apply to every page. Left blank where the findings don't say: per-page question counts after the fit check, what the needs page asks, and whether conditions, insurance, needs or match can screen you out. Legion's numbers unchanged (checked) | Cowork, Station B | docs/flow-map.md, docs/B-log.md |
+| 2026-10-28 | 5:56 PM | Filled the flow map's remaining blanks from Lily's answers: questions per page (6, 7, 8, 9, 11, 20), 7 questions before learning coverage, 9 before seeing a provider, the needs page's three options, and screen-outs after the fit check (none seen; insurance "None / No insurance" untested, marked unknown). Lily confirmed the start page is 0 questions and the fit check time includes the "All done" screen | Cowork, Station B | docs/flow-map.md, docs/B-log.md |
+| 2026-10-28 | 5:56 PM | Added Lily's findings to the repo as docs/step-1-findings.md, unchanged (checked by hash), so finding numbers can be looked up. The flow map and data read now point to it. The recordings stay out of the repo | Cowork, Station B | docs/step-1-findings.md (new), docs/flow-map.md, docs/data-read.md, docs/B-log.md |
+| 2026-10-28 | 5:56 PM | **Gates checked for Steps 1 and 2.** Step 1: flow map has every page with URL, what it asks, friction, the drop and an AI opportunity; recordings done on desktop and phone; the game plan's watch-fors are answered (screening is partly on purpose, what the match page shows, questions before coverage, cost and provider, when cost appears, which steps are redirects). Not met: page screenshots weren't taken (the recordings cover the same pages), and the walk went past the planned stop (logged above). Step 2: data read has the headline, cliffs, guesses with tests checked against the walk, sizing from the script, and the blind spot. Open: the recording blur fix | Cowork, Station B | docs/B-log.md |
 
 ## Open items
 
 - Export this chat before the session closes (game plan, Step 0)
 - GitHub connector still returns 403 on this repo, so Lily pushes and opens PRs for now
 - Extend the blur on the desktop recording to cover the year dropdown (about 2:50 to 2:55) before it goes in the walkthrough or the submission
-- Step 1: fill the flow map's remaining blanks (per-page question counts, needs page questions, screen-outs after the fit check)
-- Decide whether the findings file goes in the repo, so the finding numbers in data-read.md resolve
+- Lily to decide: whether page screenshots are needed, or the recordings are enough
 - Replace the starter favicon.ico in a later PR
 
 ## Lily's input for Step 3 (not decided)
