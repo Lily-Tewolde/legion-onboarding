@@ -1,19 +1,86 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Design tokens. Legion's palette and Inter, on the structure of Lily's
+   Inspo Book 01 (spacing, radii, control sizes, focus ring, shadows, motion).
+   Values and contrast ratios are in docs/design.md. */
+@theme {
+  /* Only these colours exist, so nothing off-palette slips in */
+  --color-*: initial;
+  --color-white: #ffffff;
+
+  /* Legion's palette, read from legionhealth.com */
+  --color-ink: #000614; /* main text, 20.3:1 on white */
+  --color-navy: #061b4d; /* deep accents, 16.5:1 on white */
+  --color-brand: #3e70f7; /* Legion's blue: large text and decoration only (4.3:1) */
+  --color-slate: #607086; /* secondary text, 5.1:1 on white */
+  --color-wash: #eef2fc; /* soft panels, the banner, selected fills */
+  --color-pale: #b6d3ea; /* decoration only */
+
+  /* Darker blue for button fills and text links, so labels pass 4.5:1 */
+  --color-action: #2f5fe0; /* 5.5:1 with white */
+  --color-action-hover: #244cc0; /* 7.3:1 with white */
+
+  /* Lines: subtle for dividers, control for anything you tap (3:1 or more) */
+  --color-line: #dce2ea;
+  --color-line-control: #7d879a; /* 3.6:1 on white */
+
+  /* Red only for errors and the crisis path */
+  --color-error: #dc2626; /* 4.8:1 on white */
+
+  /* Type: Inter for body, Inter Display (Inter's optical size 32) for headings */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Radii from Inspo Book 01 */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-card: 16px;
+
+  /* Control heights from Inspo Book 01, small raised from 42px to 44px for tap targets */
+  --spacing-control: 3.375rem; /* 54px: main buttons, segmented controls */
+  --spacing-control-sm: 2.75rem; /* 44px: small buttons, chips, list rows */
+
+  /* One reading column for the task, about 70 characters of body text */
+  --container-task: 40rem;
+
+  /* Shadows from Inspo Book 01 */
+  --shadow-card: 0 14px 34px rgb(15 23 42 / 0.1);
+  --shadow-float: 0 18px 50px rgb(15 23 42 / 0.16);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Focus ring from Inspo Book 01, drawn as an outline so it survives forced colours */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-action);
+    outline-offset: 2px;
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-variation-settings: "opsz" 32;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
 }
