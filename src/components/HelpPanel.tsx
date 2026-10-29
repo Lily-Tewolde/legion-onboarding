@@ -8,12 +8,17 @@ import { Tag } from "./Tag";
 
 // The "Talk to a person" link and the panel it opens, on every screen.
 // A native <dialog>: it traps focus, closes on Escape and returns focus
-// to the link. Tapping outside the panel closes it too. Centred on larger
+// to the link. Focus starts on the title, so a screen reader reads from the
+// top and Enter can't start a call by accident. Tapping outside the panel closes it too. Centred on larger
 // screens; on phones it slides up from the bottom
 export function HelpPanel() {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
-  const open = () => dialogRef.current?.showModal();
+  const open = () => {
+    dialogRef.current?.showModal();
+    titleRef.current?.focus();
+  };
   const close = () => dialogRef.current?.close();
 
   return (
@@ -38,7 +43,12 @@ export function HelpPanel() {
         )}
       >
         <div className="flex flex-col gap-4 p-6">
-          <h2 id="help-panel-title" className="text-2xl">
+          <h2
+            id="help-panel-title"
+            ref={titleRef}
+            tabIndex={-1}
+            className="text-2xl outline-none"
+          >
             {copy.helpPanel.title}
           </h2>
           <div className="flex flex-col gap-1">
@@ -91,7 +101,7 @@ const WithCallLink = ({
       {before}
       <a
         href={href}
-        className="focus-ring relative rounded-sm font-medium text-action underline underline-offset-4 hover:text-action-hover after:absolute after:-inset-x-2 after:-inset-y-3 after:content-['']"
+        className="focus-ring relative rounded-sm font-medium text-action underline underline-offset-4 hover:text-action-hover after:absolute after:-inset-x-2 after:-inset-y-3.5 after:content-['']"
       >
         {number}
       </a>
