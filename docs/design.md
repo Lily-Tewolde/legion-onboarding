@@ -78,7 +78,7 @@ Every screen, from the root layout (`src/app/layout.tsx`):
 - **Header:** "Legion Health" as plain text on the left, `navy` semibold. No logo
 - **Help link** (`HelpPanel.tsx`): "Talk to a person", on the right of the header. Opens the help panel, a native dialog that traps focus, closes on Escape, on "Close" or on a tap outside, and returns focus to the link. Centred on larger screens; on phones (under 640px) it slides up from the bottom, with no slide when the system asks for reduced motion. The phone number and 988 are tap-to-call links with 44px tap areas. The 988 line sits in a soft `wash` box: prominent but not alarming, no red
 - **Task column:** one centred column, 40rem wide, 16px side gutters. No split screen
-- **Progress** (`ProgressBar.tsx`): the one progress style. "Step 2 of 4" in small `slate` text above a thin `action` bar on a `wash` track. On the booking screens only, ending at "You're booked". Screens place it at the top of the column. The same text is the screen reader label
+- **Progress** (`Progress.tsx`): the one progress style, on the booking screens only, ending at "You're booked". Four named phases, "About you", "What's going on", "Your provider" and "Book", each with its own segment of a thin bar: `action` for done and current phases, `wash` for the rest. The current phase's name is `navy` and medium weight, and marked `aria-current="step"` for screen readers. No step numbers. Screens place it at the top of the column
 - **Tab title and icon:** "Legion Health · Prototype". The favicon is a plain neutral mark (a white dot on `slate`), not Legion's logo
 - **`/design`:** a reference page with every token and component, for checking on the live link. Not part of the patient flow and not indexed
 

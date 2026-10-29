@@ -1,6 +1,6 @@
 // Every user-facing string, from docs/copy-draft.md (Lily's edited version,
 // Oct 29). One file so the readability check can read them all. Later PRs
-// add each screen's strings here. {curly braces} are filled in by the app
+// add each screen's strings here. {number} and {link} mark where a link goes
 
 export const copy = {
   shell: {
@@ -21,8 +21,12 @@ export const copy = {
     crisisNumber: "988",
     close: "Close",
   },
+  // The four phases on the booking screens, ending at "You're booked"
   progress: {
-    step: "Step {step} of {total}",
+    aboutYou: "About you",
+    whatsGoingOn: "What's going on",
+    yourProvider: "Your provider",
+    book: "Book",
   },
   common: {
     back: "Back",
@@ -65,6 +69,7 @@ export const copy = {
       dateOfBirth: "Please enter your date of birth as MM / DD / YYYY.",
       payMethod: "Please choose how you'll pay.",
       required: "Please answer this question.",
+      planNotListed: "Choose ‘Continue as self-pay’ or talk to a person to keep going",
     },
   },
   coverage: {
@@ -120,11 +125,3 @@ export const copy = {
     safeNowError: "Please check the box to continue.",
   },
 } as const;
-
-export const fillCopy = (
-  template: string,
-  values: Record<string, string | number>,
-) =>
-  template.replace(/\{(\w+)\}/g, (match, key: string) =>
-    key in values ? String(values[key]) : match,
-  );

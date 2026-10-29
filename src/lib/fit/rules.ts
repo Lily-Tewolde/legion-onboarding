@@ -2,8 +2,8 @@ import { findPlan } from "@/data";
 import type { ScreenOutReason } from "@/server/sessions";
 
 // The fit check rules (build brief, section 4). Plain code, unit-tested,
-// never AI. Shared by screen 1 (to show errors as people answer) and the
-// server (which decides). "today" is a YYYY-MM-DD date in Central time
+// never AI. Shared by screen 1's steps (to show errors and act on answers)
+// and the server (which decides). "today" is a YYYY-MM-DD date in Central time
 
 export type YesNo = "yes" | "no";
 
@@ -23,16 +23,37 @@ export type FitOutcome =
   | { result: "screened_out"; reason: ScreenOutReason }
   | { result: "eligible" };
 
+export type FitField = "dateOfBirth" | "inTexas" | "payMethod" | "planId" | "safety" | "hospital";
+
 export type FieldErrors = Partial<
-  Record<"dateOfBirth" | "inTexas" | "payMethod" | "planId" | "safety" | "hospital", "date_of_birth" | "pay_method" | "required">
+  Record<FitField, "date_of_birth" | "pay_method" | "plan_not_listed" | "required">
 >;
 
-// The two direct questions act as soon as they're answered "Yes": the
-// safety question goes to the crisis screen, the hospital question screens out
-export function earlyOutcome(answers: FitAnswers): FitOutcome | null {
+// The answer behind "I don't see my plan": not a plan, so it can't pass
+export const PLAN_NOT_LISTED = "not_listed";
+
+// The rules for whatever has been answered so far, in the order the
+// questions are asked, with safety first. Screen 1 is three steps, and each
+// rule acts as soon as its answer is in: "Yes" to safety, Medicaid or
+// Medicare and "Yes" to the hospital question straight away, age and Texas
+// on the first step's Continue. Null means nothing rules them out yet
+export function partialOutcome(answers: FitAnswers, today: string): FitOutcome | null {
   if (answers.safety === "yes" && !answers.safeConfirmed) return { result: "crisis" };
+
+  const dob = parseDateOfBirth(answers.dateOfBirth ?? "");
+  if (dob && ageOn(dob, today) < 18) return { result: "screened_out", reason: "under_18" };
+  if (answers.inTexas === "no") return { result: "screened_out", reason: "not_in_texas" };
+  if (answers.payMethod === "insurance" && findPlan(answers.planId ?? "")?.screensOut) {
+    return { result: "screened_out", reason: "medicaid_medicare" };
+  }
   if (answers.hospital === "yes") return { result: "screened_out", reason: "hospital_stay" };
   return null;
+}
+
+// The whole fit check, on the last step's Continue. Assumes validateFacts
+// found no errors
+export function evaluateFit(answers: FitAnswers, today: string): FitOutcome {
+  return partialOutcome(answers, today) ?? { result: "eligible" };
 }
 
 export function validateFacts(answers: FitAnswers, today: string): FieldErrors {
@@ -41,28 +62,23 @@ export function validateFacts(answers: FitAnswers, today: string): FieldErrors {
   if (!dob || !isPlausibleBirthDate(dob, today)) errors.dateOfBirth = "date_of_birth";
   if (!answers.inTexas) errors.inTexas = "required";
   if (!answers.payMethod) errors.payMethod = "pay_method";
-  if (answers.payMethod === "insurance" && !findPlan(answers.planId ?? "")) {
-    errors.planId = "required";
+  if (answers.payMethod === "insurance") {
+    if (answers.planId === PLAN_NOT_LISTED) errors.planId = "plan_not_listed";
+    else if (!findPlan(answers.planId ?? "")) errors.planId = "required";
   }
   if (!answers.safety) errors.safety = "required";
   if (!answers.hospital) errors.hospital = "required";
   return errors;
 }
 
-// The whole fit check, on Continue. Assumes validateFacts found no errors.
-// Order: safety first, then the questions in the order they're asked
-export function evaluateFit(answers: FitAnswers, today: string): FitOutcome {
-  const early = earlyOutcome(answers);
-  if (early?.result === "crisis") return early;
-
-  const dob = parseDateOfBirth(answers.dateOfBirth ?? "");
-  if (dob && ageOn(dob, today) < 18) return { result: "screened_out", reason: "under_18" };
-  if (answers.inTexas === "no") return { result: "screened_out", reason: "not_in_texas" };
-  if (answers.payMethod === "insurance" && findPlan(answers.planId ?? "")?.screensOut) {
-    return { result: "screened_out", reason: "medicaid_medicare" };
-  }
-  if (early) return early;
-  return { result: "eligible" };
+// The errors for one step's questions only
+export function validateFields(
+  fields: readonly FitField[],
+  answers: FitAnswers,
+  today: string,
+): FieldErrors {
+  const all = validateFacts(answers, today);
+  return Object.fromEntries(fields.flatMap((field) => (all[field] ? [[field, all[field]]] : [])));
 }
 
 export type DateParts = { year: number; month: number; day: number };

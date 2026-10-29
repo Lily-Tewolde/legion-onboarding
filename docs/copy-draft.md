@@ -23,7 +23,7 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - Help link: "Talk to a person" **[decided]**
 - Browser tab title: "Legion Health · Prototype" **[decided]**
 - Header: "Legion Health" as plain text, no logo **[decided]**
-- Progress, on the booking screens only, ending at "You're booked": "Step {step} of {total}", also the screen reader label **[decided]**
+- Progress, on the booking screens only, ending at "You're booked": four named phases, "About you", "What's going on", "Your provider" and "Book", no step numbers **[decided]**
 - Back: "Back"
 - Loading: skeleton screens, no loading text
 - When an AI step takes more than 5 seconds: "Still working on it…". At 10 seconds, the "Use a simple form instead" link is offered, and what they typed is kept **[decided]**
@@ -71,6 +71,8 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
     - "Please enter your date of birth as MM / DD / YYYY."
     - "Please choose how you'll pay."
     - "Please answer this question."
+    - Continue with "I don't see my plan" still selected: "Choose ‘Continue as self-pay’ or talk to a person to keep going" **[decided]**
+- Three steps, so nothing scrolls on a phone: date of birth and Texas, then insurance on its own, then the safety and hospital questions. Medicaid or Medicare goes straight to its screen-out when tapped, like the hospital question **[decided]**
 
 **Lily's notes**
 - The start screen's content now opens this screen

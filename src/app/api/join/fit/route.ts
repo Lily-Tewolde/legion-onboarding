@@ -2,19 +2,20 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { todayInCentral } from "@/lib/central-time";
 import { currentScreenFor, outcomePath } from "@/lib/fit/flow";
-import { earlyOutcome, evaluateFit, validateFacts } from "@/lib/fit/rules";
+import { evaluateFit, partialOutcome, validateFacts } from "@/lib/fit/rules";
 import { getOrCreateSession, updateSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
 
 // Screen 1's fit check. The rules decide here, on the server, on today's date
 // in Central time, and the outcome is saved to the visitor's session. The
-// date of birth is checked but never stored. "early" is the safety or
-// hospital question answered "Yes"; "submit" is Continue
+// date of birth is checked but never stored. "outcome" is a rule acting as
+// soon as its answer is in (a screen-out or the crisis screen, mid-way
+// through screen 1's steps); "submit" is the last step's Continue
 
 const YesNo = z.enum(["yes", "no"]);
 
 const Body = z.object({
-  mode: z.enum(["early", "submit"]),
+  mode: z.enum(["outcome", "submit"]),
   answers: z
     .object({
       dateOfBirth: z.string().max(20).optional(),
@@ -38,8 +39,8 @@ export async function POST(request: Request) {
   const { mode, answers } = parsed.data;
   const today = todayInCentral();
   const outcome =
-    mode === "early"
-      ? earlyOutcome(answers)
+    mode === "outcome"
+      ? partialOutcome(answers, today)
       : Object.keys(validateFacts(answers, today)).length === 0
         ? evaluateFit(answers, today)
         : null;

@@ -1,16 +1,15 @@
 import { Suspense } from "react";
-import { ProgressBar } from "@/components/ProgressBar";
+import { Progress } from "@/components/Progress";
 import { copy } from "@/copy";
-import { BOOKING_STEPS } from "@/lib/fit/flow";
-import { FactsForm } from "./FactsForm";
+import { FitStepForm } from "./FitStepForm";
 import { WelcomeBack } from "./WelcomeBack";
 
-// Screen 1: "Let's get you care". The start screen, the quick facts and
-// coverage, on one screen. Layout only for now; the visual design comes later
+// Screen 1, step 1 of 3: the start content, then date of birth and Texas.
+// Layout only for now; the visual design comes later
 export default function JoinPage() {
   return (
     <div className="flex flex-col gap-8 pt-6">
-      <ProgressBar step={1} total={BOOKING_STEPS} />
+      <Progress phase="about_you" />
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl">{copy.join.title}</h1>
         <p>{copy.join.intro}</p>
@@ -21,7 +20,7 @@ export default function JoinPage() {
       <Suspense fallback={null}>
         <WelcomeBack />
       </Suspense>
-      <FactsForm />
+      <FitStepForm step="about" />
     </div>
   );
 }

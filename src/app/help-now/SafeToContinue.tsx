@@ -5,11 +5,12 @@ import { useLayoutEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { Checkbox } from "@/components/Checkbox";
 import { copy } from "@/copy";
+import { FIT_STEPS } from "@/lib/fit/flow";
 import { getAnswers, saveAnswers } from "@/lib/fit/stored-answers";
 
 // "I'm safe right now and want to keep going", on its own at the bottom of the
-// crisis screen. Continuing goes back to screen 1 with the answers kept, and
-// the other fit rules decide. Answering "Yes" to the safety question again
+// crisis screen. Continuing goes back to the safety question's step with the
+// answers kept, and the other fit rules decide. Answering "Yes" to the safety question again
 // shows this screen again. To confirm with Legion's clinical team
 export function SafeToContinue() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export function SafeToContinue() {
       return;
     }
     saveAnswers({ ...getAnswers(), safeConfirmed: true });
-    router.push("/join");
+    router.push(FIT_STEPS.health.path);
   };
 
   return (

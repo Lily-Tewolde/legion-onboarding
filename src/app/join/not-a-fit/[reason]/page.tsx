@@ -2,12 +2,12 @@ import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/Button";
 import { InlineLink } from "@/components/InlineLink";
 import { copy } from "@/copy";
-import { isScreenOutReason, SCREEN_OUT_REASONS } from "@/lib/fit/flow";
+import { goBackPath, isScreenOutReason, SCREEN_OUT_REASONS } from "@/lib/fit/flow";
 import type { ScreenOutReason } from "@/server/sessions";
 
 // The screen-outs: one calm layout, with the right resources for each reason
-// and "Answered by mistake? Go back", which returns to screen 1 with the
-// answers kept. Layout only for now; the visual design comes later
+// and "Answered by mistake? Go back", which returns to the step with that
+// answer, with the answers kept. Layout only for now; the visual design comes later
 
 const SAMHSA = "tel:+18006624357";
 
@@ -48,7 +48,7 @@ export default async function NotAFitPage({ params }: PageProps<"/join/not-a-fit
       <p>
         <InlineLink text={resource.text} label={resource.label} href={resource.href} />
       </p>
-      <ButtonLink href="/join" variant="text" className="self-start">
+      <ButtonLink href={goBackPath[reason]} variant="text" className="self-start">
         {copy.screenOut.goBack}
       </ButtonLink>
     </div>

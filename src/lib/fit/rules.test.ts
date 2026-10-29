@@ -2,11 +2,12 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   ageOn,
-  earlyOutcome,
   evaluateFit,
   type FitAnswers,
   parseDateOfBirth,
+  partialOutcome,
   validateFacts,
+  validateFields,
 } from "./rules";
 
 // The edges from the build brief (section 8): 18 today, one day short,
@@ -73,17 +74,39 @@ describe("the fit check", () => {
   });
 });
 
-describe("answering Yes to the two direct questions", () => {
+describe("each rule acting as soon as its answer is in", () => {
   it("goes straight to the crisis screen for safety, even with nothing else answered", () => {
-    assert.deepEqual(earlyOutcome({ safety: "yes" }), { result: "crisis" });
+    assert.deepEqual(partialOutcome({ safety: "yes" }, TODAY), { result: "crisis" });
   });
 
   it("screens out straight away for a hospital stay", () => {
-    assert.deepEqual(earlyOutcome({ hospital: "yes" }), { result: "screened_out", reason: "hospital_stay" });
+    assert.deepEqual(partialOutcome({ hospital: "yes" }, TODAY), { result: "screened_out", reason: "hospital_stay" });
   });
 
-  it("does nothing early for No answers", () => {
-    assert.equal(earlyOutcome({ safety: "no", hospital: "no" }), null);
+  it("screens out straight away for Medicaid or Medicare on the insurance step", () => {
+    for (const planId of ["medicaid", "medicare"]) {
+      assert.deepEqual(partialOutcome({ payMethod: "insurance", planId }, TODAY), {
+        result: "screened_out",
+        reason: "medicaid_medicare",
+      });
+    }
+  });
+
+  it("screens out under 18 and No to Texas after the first step", () => {
+    assert.deepEqual(partialOutcome({ dateOfBirth: "10/30/2008", inTexas: "yes" }, TODAY), {
+      result: "screened_out",
+      reason: "under_18",
+    });
+    assert.deepEqual(partialOutcome({ dateOfBirth: "05/14/1990", inTexas: "no" }, TODAY), {
+      result: "screened_out",
+      reason: "not_in_texas",
+    });
+  });
+
+  it("lets someone carry on while nothing rules them out", () => {
+    assert.equal(partialOutcome({ dateOfBirth: "05/14/1990", inTexas: "yes" }, TODAY), null);
+    assert.equal(partialOutcome({ payMethod: "insurance", planId: "cigna" }, TODAY), null);
+    assert.equal(partialOutcome({ safety: "no", hospital: "no" }, TODAY), null);
   });
 });
 
@@ -129,6 +152,17 @@ describe("required answers", () => {
 
   it("needs a plan from the list when paying with insurance", () => {
     assert.equal(validateFacts({ ...eligible, planId: undefined }, TODAY).planId, "required");
-    assert.equal(validateFacts({ ...eligible, planId: "not_listed" }, TODAY).planId, "required");
+  });
+
+  it("asks people who don't see their plan to choose self-pay or talk to a person", () => {
+    assert.equal(validateFacts({ ...eligible, planId: "not_listed" }, TODAY).planId, "plan_not_listed");
+  });
+
+  it("checks one step's questions at a time", () => {
+    assert.deepEqual(validateFields(["dateOfBirth", "inTexas"], {}, TODAY), {
+      dateOfBirth: "date_of_birth",
+      inTexas: "required",
+    });
+    assert.deepEqual(validateFields(["safety", "hospital"], eligible, TODAY), {});
   });
 });
