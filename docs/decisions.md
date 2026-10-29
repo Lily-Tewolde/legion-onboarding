@@ -117,7 +117,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 ## 2026-10-28 · A 30-day window for a completed first visit
 
 - **What:** The north star counts first visits completed within 30 days of starting
-- **Why:** The metric needs a window to be calculated. 30 days leaves room for rescheduling (the earliest slot on the walk was 4 days out), and speed is measured separately by median days to the first visit
+- **Why:** The metric needs a window to be calculated. 30 days leaves room for rescheduling (the earliest slot on the walk was Monday Nov 2, 3 business days or 5 calendar days after the walk), and speed is measured separately by median days to the first visit
 - **Rejected:** A shorter window. It would mix speed into the completion metric, which the second metric already covers
 - **Revisit when:** Median days to the first visit gets close to 30
 
@@ -638,6 +638,13 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** A missed medication, a made-up symptom or a wrong dose could affect care as much as advice could. A grader that switched models on a refusal would make the check compare a different grader
 - **Rejected:** Only the four follow-up questions (the first proposal), which left the medication and made-up-statement summaries out. Treating all 10 as safety items, which would make the 9-of-10 bar 10 of 10
 - **Revisit when:** The grader disagrees with Lily on a safety item
+
+## 2026-10-29 · The walk's earliest slot was Monday Nov 2; G-08 is a fail
+
+- **What:** The earliest slot on my walk was Monday Nov 2, 3 business days (5 calendar days) after Wednesday Oct 28, matching the slot in my desktop recording. My docs said "4 days out", which was wrong; they're corrected, and the demo's slots in PR 7 start at the same 3 business days. Separately, my G-08 grader-check score is now fail: the example summary said "No approval is on record", which the patient never said and the AI can't actually know. The grader caught it, so the grader check is now 10 of 10
+- **Trade-off:** none; both are corrections
+- **Rejected:** loosening the summary rubric so G-08 passes, which would fit the grader to its own test
+- **Revisit when:** Not expected to change
 
 ---
 

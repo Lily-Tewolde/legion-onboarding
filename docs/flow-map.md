@@ -61,7 +61,7 @@ I walked the flow by hand on Oct 28, 2026, in incognito, as a prospective patien
 ## 6. Provider match: /portal/join/match
 - Sessions: 3,013 (97.4%). Lost 82 (2.6%)
 - Time on page: desktop about 0:20, mobile about 0:28
-- How many providers, how soon available, how much choice: I see who I'd see for the first time after 9 questions. The earliest slot was 4 days out. The "Highly recommended" provider wasn't first, and its badge is small (finding 17)
+- How many providers, how soon available, how much choice: I see who I'd see for the first time after 9 questions. The earliest slot was Monday Nov 2, 3 business days (5 calendar days) after my walk on Wednesday Oct 28. The "Highly recommended" provider wasn't first, and its badge is small (finding 17)
 - Questions so far: 11 (2 on this page: a provider and a time)
 - Friction: the "Finding your perfect match" box takes up space, and I had to scroll to reach the providers (findings 14, 34). The condition chip colours on the provider card don't seem to match the conditions screen (finding 16). On mobile, the calendar and time-slot layout is odd (finding 35). I liked the About section, the earliest available time, and "I'd like an earlier appointment if one becomes available" (findings 15, 18)
 - Could it screen me out: no
