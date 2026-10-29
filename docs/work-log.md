@@ -53,6 +53,7 @@ Running log of the Legion Cowork Session (renamed from B-log.md on Oct 28, 2026)
 | 2026-10-28 | 7:11 PM | Lily's rule: plain descriptions in commit messages and PR titles, without naming the session. Checked: the only existing uses are PR #1's title and its merged commit (db56459); none on the Step 3 branch. Added the rule to CLAUDE.md so the build follows it | Legion Cowork Session | CLAUDE.md, docs/work-log.md |
 | 2026-10-28 | 7:14 PM | Naming clean-up at Lily's request: renamed docs/B-log.md to docs/work-log.md, replaced the old session name with "Legion Cowork Session" in every doc, and updated references to the log. Retitled PR #1 "Remove starter leftovers and add the work log" and removed the old name from its description. The merged commit on main is left as it is | Legion Cowork Session, GitHub connector | docs/work-log.md (renamed), docs/decisions.md, docs/research.md, docs/brainstorm.md, docs/flow-map.md, CLAUDE.md |
 | 2026-10-28 | 7:18 PM | Lily's 3d follow-ups. Hospital-stay question kept as a second direct question, labelled "Confirm with Legion's clinical team"; checked the mobile recording: "Yes" screens out with specialized treatment resources today (about 0:40). Added M4 as a checkbox with a simulated notification. Payment stays card at booking, with Lily's reasoning; Rula's reserve-first approach logged in the new docs/next.md. Updated the flow map's question counts (coverage after 5, provider after 7, full cost after 9). Read the virtual-care question's wording from the recording (about 0:58) for Lily's decision | Legion Cowork Session | docs/decisions.md, docs/new-flow-map.md, docs/brainstorm.md, docs/next.md (new), docs/work-log.md |
+| 2026-10-28 | 7:20 PM | At Lily's request, reversing her earlier call to leave main as it was: rewrote the two commit messages on main that used the old session name ("add the work log" instead), and rebuilt the Step 3 branch on the new main in the same pass. Only messages changed: file contents are identical (checked with git diff), the commit counts match, and no commit message on main or the Step 3 branch has the old name. Every commit from the first rewritten one onward has a new ID (table below). Deleted the local copies of the merged PR 1 to 3 branches; Lily force-pushes and deletes them on GitHub. GitHub's PR pages keep their original commits | Legion Cowork Session | docs/work-log.md |
 
 ## Open items
 
@@ -72,3 +73,17 @@ Running log of the Legion Cowork Session (renamed from B-log.md on Oct 28, 2026)
     - Which consent checkboxes are actually required in Texas
 - **Design principles (from Lily's Step 1 findings):** simple and sleek, very user-focused, and it has to work for patients up to 65. Follow Apple's interface guidelines and Atlassian's design rules. Desktop gets the full page for the task, not a split screen
 - **AI opportunities:** Lily's take per step is in docs/flow-map.md
+
+## Commit IDs before and after the history rewrite (Oct 28, 2026)
+
+Rows above written before the rewrite use the old IDs. The first two commits didn't change.
+
+| Commit | Old ID | New ID |
+|---|---|---|
+| Remove starter and template leftovers (PR 1) | db56459 | ba2280f |
+| PR 1 merge | c40b077 | 34f7b0c |
+| Add Legion's funnel table as a CSV (PR 2) | 6c7d782 | 0ef47f8 |
+| PR 2 merge | 54291b6 | 352fbd7 |
+| Complete the flow map (PR 3 head) | 8172710 | 0d7a367 |
+| PR 3 merge | 1f19817 | 99799a8 |
+
