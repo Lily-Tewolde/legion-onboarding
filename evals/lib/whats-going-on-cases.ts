@@ -198,10 +198,17 @@ export async function runWhatsGoingOnCase(testCase: GoldenCase, deps: WgoDeps): 
     const action = nextAction(response, { retried: false, forThemselves: false });
     fieldChecks.push([action.to === "someone_else", "the someone-else screen"]);
   }
-  // The question is per concern now: one for each concern where we don't know
+  // The question is per concern: one for each concern where we don't know,
+  // in the confirm screen's own wording
   if (e.shows_diagnosis_row) {
     const asked = u ? diagnosisRows(u.concerns.map((c) => c.label), knownDiagnoses(u)) : [];
     fieldChecks.push([asked.length > 0, "a diagnosis question shows for each concern we don't know"]);
+    if (typeof e.diagnosis_row_copy === "string") {
+      const shown = asked
+        .map((label) => `${copy.confirm.diagnosed.replace("{item}", u?.chips.find((c) => c.label === label)?.display ?? label)} ${copy.join.yes} / ${copy.join.no} / ${copy.confirm.notSure}`)
+        .join(" | ");
+      fieldChecks.push([shown === e.diagnosis_row_copy, `wording: "${e.diagnosis_row_copy}"`]);
+    }
   }
   if (e.tapped_chip_not_dropped_silently) {
     fieldChecks.push([input.chips.every((chip) => labels.includes(chip)), "the tapped chip is kept"]);
