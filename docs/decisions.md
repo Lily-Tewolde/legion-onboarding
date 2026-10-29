@@ -130,7 +130,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · Build the AI pre-visit intake fully (B2)
 
-- **What:** The one part built fully: an optional AI pre-visit intake in the portal, about 72 hours before the visit. A real AI conversation of 5 to 8 questions and a clinician summary, using made-up data, plus a simple clinician view. It never blocks the visit. Crisis words stop it and go to crisis resources and a person. A plain form is the fallback
+- **What:** The one part built fully: an optional AI pre-visit intake in the portal, about 72 hours before the visit *(updated Oct 29: it opens any time after booking, with the 72-hour reminder as a nudge; see below)*. A real AI conversation of 5 to 8 questions and a clinician summary, using made-up data, plus a simple clinician view. It never blocks the visit. Crisis words stop it and go to crisis resources and a person. A plain form is the fallback
 - **Why:** It's where AI does the clinical data-collection work Yash described, and the clearest path to fewer clinician minutes per patient. It sits in the stretch the brief adds (booked to visit completed), which Legion doesn't measure today
 - **How we'd prove it:** intake completion; clinician minutes against the 60-minute first visit, for patients who did the intake vs. skipped it; no-show rate; AI cost per intake
 - **Rejected:** Building the booking questions fully instead. They're where the measured drops are, but they're mostly layout fixes that can be built simply. Also rejected: an AI fit check (F4) and an insurance card photo (X2), which scored lowest on completion
@@ -145,7 +145,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · What gets built simply
 
-- **What:** Built simply: the fit check that asks facts (F3 reworked, taking on F1 and F2), one recommended provider (M1), providers on the first screen (M2), full cost and cancellation policy before the card (M3), a shorter details page (A2), sign-in instead of the email error (A3), booking confirmed and an upcoming-visit screen (B1), reminders shown as previews (B3), and the visit-completed demo control (B5). Supabase saves progress on the same device
+- **What:** *(Updated Oct 29: reminders live in an in-app inbox, and the cost, details and card are one checkout page; see below.)* Built simply: the fit check that asks facts (F3 reworked, taking on F1 and F2), one recommended provider (M1), providers on the first screen (M2), full cost and cancellation policy before the card (M3), a shorter details page (A2), sign-in instead of the email error (A3), booking confirmed and an upcoming-visit screen (B1), reminders shown as previews (B3), and the visit-completed demo control (B5). Supabase saves progress on the same device
 - **Why:** They address the measured drops and the steps after booking with small, evidence-backed changes, leaving time to build the intake fully
 - **Rejected:** The email sign-in link from A1, deferred because it needs an email service. Progress saves on the same device only for now
 - **Revisit when:** There's time after the intake works end to end
@@ -222,14 +222,14 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · The clinician summary uses only what the patient said
 
-- **What:** The summary draws only on the patient's own answers. The clinician view shows the full conversation next to it
+- **What:** The summary draws only on the patient's own answers. The clinician view shows the full conversation next to it *(updated Oct 29: all questions and answers in a side panel, since the check-in is one question at a time)*
 - **Why:** A summary that adds something the patient didn't say could mislead a clinician (pre-mortem, failure 10). Showing the conversation lets the clinician check
 - **Rejected:** A summary on its own
 - **Revisit when:** Not expected to change
 
 ## 2026-10-28 · The intake conversation stays in the browser, with a sample for the clinician view
 
-- **What:** The intake conversation and summary stay in the patient's browser, so the clinician view shows them on the same device. A "Load a sample conversation" button on the clinician view shows a clearly labelled made-up example for anyone who opens it without doing an intake. The sample lives in the code, not in Supabase
+- **What:** *(Updated Oct 29: the button is "Load a sample check-in".)* The intake conversation and summary stay in the patient's browser, so the clinician view shows them on the same device. A "Load a sample conversation" button on the clinician view shows a clearly labelled made-up example for anyone who opens it without doing an intake. The sample lives in the code, not in Supabase
 - **Why:** Free text stays out of Supabase (pre-mortem, failure 5), and the demo is clicked through on one device. The sample means a reviewer can see the clinician view without doing an intake first
 - **Rejected:** Storing made-up example conversations in Supabase. A patient's own conversation still wouldn't show, and it adds a table for no gain
 - **Revisit when:** The clinician view needs to work on a different device from the patient's
@@ -325,6 +325,62 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** A patient who writes in Spanish should be able to read what they're confirming. Fixed English labels keep provider matching, events and the summary consistent
 - **Rejected:** Always English, which asks a Spanish speaker to confirm words they may not read easily. Labels in any language, which would break matching and the summary
 - **Revisit when:** Legion confirms which languages they support
+
+## 2026-10-29 · Fewer screens: start, quick facts and coverage on one screen; a one-page checkout
+
+- **What:** The start screen, quick facts and coverage are one screen: the title, "All visits are by video" and the AI notice sit at the top, and coverage or the self-pay price shows inline under the plan field. Cost, details and card are one checkout page, with the cost summary and one cancellation line at the top, the full policy behind "What if I cancel?", and the cost shown before the card fields. Each checkout section is tracked separately (details done, payment entered, booked)
+- **Why:** The start screen wasn't a pain point, just one more click. Three pages for cost, details and payment is too many, and the payment page repeated the cost page. Section tracking keeps account creation, one of Legion's three biggest drops, visible
+- **Rejected:** Separate screens for each, as in the sketch and today's flow. Hiding the fees entirely behind a link, which would feel like a trap
+- **Revisit when:** Section tracking shows a large drop inside the checkout page
+
+## 2026-10-29 · Ask "Will you be in Texas for your visits?" instead of a state dropdown
+
+- **What:** One yes or no question about where the patient will be during visits. "No" goes to the outside-Texas screen-out
+- **Why:** Legion only serves Texas, so a dropdown is an extra step. Where the patient is during the visit is what matters for licensing, not where they're from
+- **Rejected:** A state dropdown
+- **Revisit when:** Legion serves more states
+
+## 2026-10-29 · "What's going on?": tap, type or speak
+
+- **What:** Starter chips under the text box (ADHD, Anxiety, Depression, Sleep, Not sure) that patients can tap, type next to, or both; the AI combines what they give. Typing is the default, with a visible mic button for the browser's built-in speech-to-text. The AI doesn't talk back
+- **Why:** Nobody, especially older patients, should get stuck on a blank box. Voice helps people who'd rather talk, without making it the main way in
+- **Rejected:** A blank text box only. Voice first, or the AI speaking back
+- **Revisit when:** Most patients only tap chips, which would make the free text unnecessary
+
+## 2026-10-29 · The check-in opens any time after booking, one question at a time
+
+- **What:** The pre-visit check-in opens any time after booking; the 72-hour reminder is a nudge, not a lock. It's one question at a time, form-style, not chat bubbles, with the AI writing each next question from the answers so far. Six starting questions, including "How have you been feeling lately?", 5 to 8 in all. The card says what's in it for the patient: "Your provider can spend more of your visit on you"
+- **Why:** Patients who want to do it early can, and earlier gives the provider time to read it. A form-style layout is calmer and easier to follow than a chat. The feelings question gives the provider the full picture of the person
+- **Rejected:** Locking it until 72 hours before. Chat bubbles
+- **Revisit when:** Check-ins done long before the visit go stale
+
+## 2026-10-29 · Messages live in an in-app inbox
+
+- **What:** The check-in invite and the reminders show in an inbox inside the portal, labelled "Also sent to your email and phone (demo)". Nothing real is sent
+- **Why:** It shows the messages where the patient would see them, without sending anything from a prototype
+- **Rejected:** Separate previews of emails and texts (the earlier plan for B3). Sending real messages
+- **Revisit when:** Not expected to change
+
+## 2026-10-29 · Copy and interface rules
+
+- **What:** Copy aims for about a 6th to 8th grade reading level, checked automatically (strings over grade 8 are listed for review). The AI always says "we", never "I". Explanations are soft hint text under a question, not expanding cards with new colours. Data loads with skeleton screens, not loading text. Legion's condition policies stay, as one short line only for the concern they apply to (wording to confirm with Legion)
+- **Why:** Texas has a wide range of reading levels, and the flow should feel soft and warm, something people want to finish. Most of what we ask is required in a regulated field, so the change is in how we ask, not what we ask
+- **Rejected:** Loading messages, expanding colour cards, and "I" for the AI
+- **Revisit when:** The readability check lists strings that can't be simplified without losing meaning
+
+## 2026-10-29 · The clinician view is a one-page structured summary
+
+- **What:** A one-page summary like a clipboard, with safety and eligibility flags at the top. Sections: main concern in the patient's words, what's been happening, past mental health care, medications (current and recently stopped), sleep, other health and allergies, goals for the visit, unclear answers (confirm with Legion's clinical team). Each line links to the answer it came from. A side panel shows all questions and answers. "Load a sample check-in" for anyone without one
+- **Why:** Clinicians scan, so the summary should read like a chart, with the source one click away
+- **Rejected:** Showing the check-in as a conversation
+- **Revisit when:** Legion's clinical team wants different sections
+
+## 2026-10-29 · A working calendar and a no-show path
+
+- **What:** "Add to calendar" works for Google (a link), Apple and Outlook (a calendar file), on the booked screen and the visit page. The demo panel's "Mark no-show" shows the unhappy path: "You missed your visit. Want to book a new time?" with "Reschedule" and Legion's no-show fee line
+- **Why:** Adding the visit to a calendar is a simple way to help people show up. The no-show path shows the experience doesn't stop at the happy path
+- **Rejected:** A calendar preview that does nothing. A demo panel that only marks visits completed
+- **Revisit when:** Not expected to change
 
 ---
 

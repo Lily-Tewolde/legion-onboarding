@@ -15,3 +15,10 @@ Ideas decided against for this build, kept for later. Each says what would make 
 - **Idea:** an emailed link so patients can pick up where they left off on any device
 - **Why not now:** it needs an email service. For now, progress saves on the same device
 - **When:** after the pre-visit intake works end to end
+
+## Standard screeners in the check-in (suggestion for Legion's clinical team)
+
+- **Idea:** offer standard screeners like the PHQ-9 and GAD-7 as part of the pre-visit check-in
+- **Why not now:** which screeners to use, and when, is a clinical decision for Legion's team. The prototype suggests it but doesn't build it
+- **When:** if Legion's clinical team wants them
+

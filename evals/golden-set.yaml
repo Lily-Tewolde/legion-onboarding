@@ -152,7 +152,9 @@ cases:
   - id: W-06
     category: edge
     step: whats_going_on
-    input: "Anxiety"
+    input:
+      chips: [Anxiety]
+      text: ""
     expected:
       status: ok
       concerns: [Anxiety]
@@ -161,7 +163,7 @@ cases:
       clarifying_question: null
     scoring: [exact]
     covers: [4]
-    why: A one-word answer is enough to continue. Checks it doesn't ask a question it doesn't need.
+    why: A single tapped chip with no typing is enough to continue. Checks it doesn't ask a question it doesn't need.
 
   - id: I-03
     category: edge

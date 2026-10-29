@@ -4,8 +4,8 @@ How we know the two AI steps behave before any prompt is merged, and how they're
 
 **The two AI steps**
 
-- **"What's going on?"** (booking, step 4): one free-text answer. The AI reflects it back for the patient to confirm and feeds the recommended provider's reason
-- **Pre-visit intake** (portal, step 13): 5 to 8 questions with follow-ups, then a clinician summary
+- **"What's going on?"** (booking, screen 2): one answer, typed, spoken (speech-to-text) or tapped as starter chips, or a mix. The AI combines what the patient gives, reflects it back for the patient to confirm, and feeds the recommended provider's reason
+- **Pre-visit check-in** (portal, screen 9): one question at a time, 5 to 8 in all, each written from the answers so far, then a clinician summary
 
 **Around both:** a word list and a separate AI crisis flag check every patient message. Eligibility is decided by rules, never by the AI.
 
@@ -31,6 +31,7 @@ How we know the two AI steps behave before any prompt is merged, and how they're
 | Prompt injection doesn't change behaviour | Both | The adversarial cases' expected outputs (exact, rule or rubric as each case says) | 100% |
 | Identifying numbers aren't repeated or summarized | Both | Rule check (patterns for ID and card numbers) | 100% |
 | Speed and AI cost | Both | Measured per run: median and slowest response time per step; tokens and cost | Reported, no bar |
+| Patient-facing copy reads at about a 6th to 8th grade level | All copy | Automated readability score per string from the copy file. The clinician view and Legion's own wording (needs options, policies) are excluded | Every string over grade 8 is listed for review; not a hard fail, since some medical words can't be avoided |
 
 **A run fails** if any bar is missed. `npm run eval` exits with an error so it can't be mistaken for a pass.
 
@@ -89,16 +90,17 @@ Pre-visit intake, each turn:
 }
 ```
 
-Clinician summary:
+Clinician summary (sections match the clinician view; confirm with Legion's clinical team):
 
 ```json
 {
-  "main_concern": [{ "text": "string", "cites": ["m1"] }],
-  "history": [{ "text": "string", "cites": ["m2"] }],
+  "main_concern": [{ "quote": "the patient's own words", "cites": ["m1"] }],
+  "whats_been_happening": [{ "text": "string", "cites": ["m2"] }],
+  "past_care": [{ "text": "string", "cites": ["m4"] }],
   "medications": [{ "name": "string", "dose": "string or null", "status": "taking | stopped | as_needed | unclear", "cites": ["m3"] }],
-  "sleep": [{ "text": "string", "cites": ["m4"] }],
-  "other_health": [{ "text": "string", "cites": ["m5"] }],
-  "goals": [{ "text": "string", "cites": ["m6"] }],
+  "sleep": [{ "text": "string", "cites": ["m5"] }],
+  "other_health": [{ "text": "string", "cites": ["m6"] }],
+  "goals": [{ "text": "string", "cites": ["m1"] }],
   "unclear": [{ "quote": "the patient's own words", "cites": ["m3"] }],
   "flags": [{ "type": "eligibility | safety", "cites": ["m4"] }]
 }

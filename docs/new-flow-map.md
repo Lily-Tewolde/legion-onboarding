@@ -1,116 +1,124 @@
 # New flow map: onboarding through the first visit
 
-The agreed flow for the build, from Lily's low-fi sketch and the 3d decisions in `docs/decisions.md`. The overall flow is agreed; UI details (like the speak buttons) will change in the build brief.
+The agreed flow for the build, from Lily's low-fi sketch, the 3d decisions and Lily's copy edits (Oct 29) in `docs/copy-draft.md`. Decisions are in `docs/decisions.md`.
 
-Every screen has a "Talk to a person" help link and the banner "Demo prototype: don't enter real information". All data is made up. Coverage, payment, messages and the visit are simulated and labelled on screen.
+Every screen has a "Talk to a person" help link and the banner "Demo prototype: don't enter real information". All data is made up. Coverage, payment, messages and the visit are simulated and labelled on screen. Data loads with skeleton screens, not loading text. The AI always says "we", never "I".
 
-## Questions before value: today vs. new
+## Fewer screens, fewer questions before value
+
+Counts are for an insured patient. Self-pay is one question fewer, because there's no plan to choose.
 
 | Moment | Today (walk) | New flow |
 |---|---|---|
-| Learn I'm covered | after 7 | after 5 |
-| See who I'd see | after 9 | after 7 |
-| See the full cost and cancellation policy | after 20 | after 9 |
+| Learn I'm covered (insured) or see the price (self-pay) | after 7 | after 4 (self-pay: 3) |
+| See who I'd see | after 9 | after 8 |
+| See the full cost and cancellation policy | after 20 | after 10 |
+| Booked (card entered) | after 21 | after 15 |
+| Screens before "You're booked" | 8 pages, plus a celebration screen | 5 |
 
-Counts for the new flow are from this map and will be rechecked in the build.
+## How the copy draft maps to this flow
+
+Lily merged three screens into screen 1 and three into screen 5, so the copy draft's section numbers differ from these screen numbers.
+
+| Screen here | Copy draft sections |
+|---|---|
+| 1. Let's get you care | 1, 2 and 3 |
+| 2. What's going on? | 4 |
+| 3. Here's what we understood | 5 |
+| 4. Your provider | 6 |
+| 5. Book your visit | 7, 8 and 9 |
+| 6. You're booked | 10 |
+| 7. Your first visit | 11 |
+| 8. Inbox: check-in invite | 12 |
+| 9. Pre-visit check-in | 13 |
+| 10. Clinician view | 14 |
+| 11. Inbox: reminders and join | 15 |
+| 12. Demo controls | 16 |
 
 ## Part 1: Booking
 
-### 1. Start
-- **Shows:** "Let's get you care" and what happens next. "All visits are by video", labelled "Confirm with Legion". The one AI notice: "We use AI to help with some steps. You can talk to a person any time." No testimonial panel
-- **Questions so far:** 0
-- **Events:** page view on /portal/join (Legion's start milestone)
-
-### 2. Quick facts (fit check)
-- **Asks:** date of birth, state, insurance plan or self-pay, then two direct questions: "Are you thinking about harming yourself or others?" and "Have you been hospitalized for mental health or substance use in the past year?" The hospital-stay question is labelled "Confirm with Legion's clinical team": it's their clinical screen
-- **Rules, not AI:** under 18, outside Texas, or Medicaid or Medicare screen the patient out kindly. "Yes" to the safety question goes straight to the crisis path. "Yes" to the hospital stay screens out kindly with specialized treatment resources, as today's flow does (mobile recording, about 0:40)
+### 1. Let's get you care (start, quick facts and coverage)
+- **Shows at the top:** "Let's get you care", "All visits are by video" (confirm with Legion) and the one AI notice: "We use AI to help with some steps. You can talk to a person any time." No testimonial panel. Returning on the same device: "Welcome back. Pick up where you left off."
+- **Asks:** date of birth; "Will you be in Texas for your visits?" (yes or no); "How will you pay?" (insurance or self-pay); the plan, if insured; then two direct questions: "Are you thinking about harming yourself or others?" and the hospital-stay question (confirm with Legion's clinical team). Explanations are hint text under each question, not expanding cards
+- **Coverage inline:** once a plan is picked, "You're covered. Your plan is in network. Most patients pay $0 to $40 a visit." shows under the field (from Legion's current flow; coverage check simulated). Self-pay sees the price inline: $250 for the first visit, $150 for follow-ups. "I don't see my plan" offers self-pay or a person
+- **Rules, not AI:** under 18, "No" to Texas, or Medicaid or Medicare screen out kindly. "Yes" to the safety question goes straight to the crisis path. "Yes" to the hospital stay screens out with specialized treatment resources, right after that question
+- **Questions so far:** 6 (self-pay: 5)
 - **Fixes:** the 34.8% drop (a test, not a fact)
-- **Questions so far:** 5
-- **Events:** page view on /portal/join/fit; `portal.fit.submitted` with the result; `portal.fit.screened_out` with the reason; `portal.crisis.shown` with where it came from
+- **Events:** page view on /portal/join on load; /portal/join/fit recorded when the first fact is answered; `portal.coverage.shown` with insured or self-pay; `portal.fit.submitted` with the result; `portal.fit.screened_out` with the reason; `portal.crisis.shown` with where it came from
 
-### 3. Covered (or self-pay)
-- **Shows:** "Your plan is in network. Most patients pay $0 to $40 a visit." Self-pay sees the cash price instead. Labelled "Demo: coverage check simulated"
-- **Questions so far:** 5
-- **Events:** `portal.coverage.shown` with insured or self-pay
-
-### 4. What's going on? (AI)
-- **Asks:** one question in the patient's own words, typed or spoken. Uses the intake's conversation engine. Plain form if the AI is down
+### 2. What's going on? (AI)
+- **Asks:** one question, "What's going on?". The patient can tap starter chips (ADHD, Anxiety, Depression, Sleep, Not sure), type, or both. Typing is the default; a visible mic button uses the browser's speech-to-text, and the AI doesn't talk back. "Use a simple form instead" is always there. Plain form if the AI is down
 - **Replaces:** the conditions and needs pages
-- **Questions so far:** 6
-- **Events:** page view on /portal/join/conditions (keeps Legion's milestone); `portal.concern.submitted` with typed, spoken or form
-
-### 5. Here's what I understood (AI)
-- **Shows:** what the AI understood, as chips the patient can remove or add to, in the patient's language, with the standard English label stored behind each. "The AI only restates what you said. It doesn't diagnose."
 - **Questions so far:** 7
+- **Events:** page view on /portal/join/conditions (keeps Legion's milestone); `portal.concern.submitted` with typed, spoken, chips or form
+
+### 3. Here's what we understood (AI)
+- **Shows:** what we understood, as chips the patient can remove or add to, in the patient's language with the standard English label behind each. One short policy line only for the concern it applies to, for example for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." (wording to confirm with Legion). "This only repeats what you told us. It isn't a diagnosis."
+- **Questions so far:** 8
 - **Events:** page view on /portal/join/needs (keeps Legion's milestone); `portal.concern.confirmed` with whether it was corrected
 
-### 6. Your provider
-- **Shows:** one recommended made-up provider first, on the first screen, with a reason from the patient's own words and plan ("Treats ADHD, takes your plan, available Thu"), and a few times. "See more providers" below. No loading box
-- **Also:** a "Tell me if an earlier time opens" checkbox (M4), with a simulated notification
+### 4. Your provider
+- **Shows:** one recommended made-up provider first, with full name and credential and a reason ("Why we recommend Alex Rivera, PMHNP: treats ADHD · takes your plan · available Thursday"; self-pay leaves out "takes your plan"). "Video visit · about 60 minutes" (from Legion's current flow). A few made-up times; no calendar integration. "See more providers". "Tell me if an earlier time opens" with a simulated notification. No loading box
 - **Fixes:** the 36.6% drop (a test, not a fact)
-- **Questions so far:** 9 (a provider and a time)
+- **Questions so far:** 10 (a provider and a time)
 - **Events:** page view on /portal/join/match; `portal.provider_selected` with whether it was the recommended one; `portal.provider.reservation.created`; `portal.earlier_time.requested`
 
-### 7. What you'll pay
-- **Shows:** estimated copay or cash price, charged after the visit, the cancellation policy, and "What if I cancel?" answered from fixed policy text, not AI. The policy terms in the prototype are made up and labelled
-- **Questions so far:** 9
-- **Events:** `portal.cost.viewed`; `portal.cost.cancel_policy_opened`
-
-### 8. Your details
-- **Asks:** name, email, phone. Notices for Terms, Privacy and AI use as links, plus one "I consent to treatment" checkbox (a proposed pattern; what's required is for Legion's counsel). Date of birth was already given; "How did you hear about us?" moves to after the first visit
-- **Saves progress** to Supabase here, on the same device
-- **Side path:** "This email already has an account" offers sign-in and keeps progress
+### 5. Book your visit (one-page checkout)
+- **Summary card at the top:** the visit, the cost (insured $0 to $40; self-pay $250 first visit, $150 follow-ups), when they're charged (insured: for what insurance doesn't cover, about 5 days after the visit; self-pay: after the visit), "Free to cancel up to 48 hours before", and "What if I cancel?" with Legion's full policy, including the 10-minute no-show rule. All from Legion's current flow. Cost shows before the card fields
+- **Your details:** name, email, mobile phone; notices for Terms, Privacy, the HIPAA notice and how we use AI as links; one "I consent to treatment" checkbox (a proposed pattern, for Legion's counsel). "This email already has an account" offers sign-in and keeps progress
+- **Payment:** "You won't be charged now." Card fields, labelled "Demo: payment simulated"
+- **Button:** "Book my visit"
+- **Saves progress** to Supabase when the details section is complete, on the same device
 - **Fixes:** the 20.4% drop (a test, not a fact)
-- **Questions so far:** 13
-- **Events:** page view on /portal/join/patient; `portal.onboarding.userCreated`, which links the session to the person
+- **Questions so far:** 15 (name, email, phone, consent, card)
+- **Events, one per section so merging the pages doesn't hide where people drop:** page view on /portal/join/patient recorded when the details section comes into view; `portal.onboarding.userCreated` when details are saved, which links the session to the person; page view on /portal/join/payment recorded when the payment section comes into view; `portal.payment.method_added`; `portal.appointment.confirmed`
 
-### 9. Hold your spot (card)
-- **Shows:** "You won't be charged until after your visit." Card entry, labelled "Demo: payment simulated"
-- **Questions so far:** 14
-- **Events:** page view on /portal/join/payment; `portal.payment.method_added`
-
-### 10. You're booked
-- **Shows:** time, provider and video visit. Add to calendar; go to my visit page. The booking questions end here
-- **Events:** `portal.appointment.confirmed`
+### 6. You're booked
+- **Shows:** a compact confirmation card with the date, time, provider and the next step. "We'll send you a reminder before your visit." "Add to calendar" for Google (a link), Apple and Outlook (a calendar file), which actually work. "Go to my visit page". The booking questions end here
+- **Events:** `portal.calendar.added` with which calendar
 
 ## Part 2: Booked to first visit
 
-### 11. Upcoming visit (portal)
-- **Shows:** the visit, what to expect, reschedule, and the optional pre-visit check-in ("About 5 minutes"). A demo control skips ahead to 72 hours before
+### 7. Your first visit (portal)
+- **Shows:** the visit with a calendar preview and "Add to calendar", what to expect (about 60 minutes, somewhere quiet and private), reschedule, cancel, and an inbox. The optional pre-visit check-in card: "About 5 minutes. Your provider can spend more of your visit on you. You can skip it." It opens any time after booking. The 72-hour reminder is a nudge, not a lock. A demo control skips ahead to 72 hours before
 - **Events:** `portal.visit_page.viewed`
 
-### 12. Check-in invite (preview)
-- **Shows:** the email or text that invites the patient to the check-in, with the AI sentence: "We use AI to help with this check-in. You can talk to a person any time." Labelled "Demo: not actually sent"
+### 8. Inbox: check-in invite
+- **Shows:** in the portal's in-app inbox, labelled "Also sent to your email and phone (demo)". Nothing real is sent. The message includes the AI sentence: "We use AI to help with some steps. You can talk to a person any time."
 - **Events:** `portal.intake.invited`
 
-### 13. Pre-visit check-in (AI, built fully)
-- **Shows:** a real AI conversation of 5 to 8 questions, typed or spoken, with follow-ups. Never advice or a diagnosis. "Skip, I'll cover it in my visit" is always there, and skipping never blocks the visit. Crisis words stop it and go to the crisis path. Plain form if the AI is down
-- **Events:** `portal.intake.started`; `portal.intake.completed` with questions answered; `portal.intake.skipped`; `portal.intake.fallback_used`; AI cost per intake
+### 9. Pre-visit check-in (AI, built fully)
+- **Shows:** one question at a time, form-style, not chat bubbles. 6 starting questions (confirm with Legion's clinical team); the AI writes each next question from the answers so far, 5 to 8 in all. Type or speak. "Skip this question" and "Skip, I'll cover it in my visit" always there; skipping never blocks the visit. Never advice or a diagnosis. Crisis words or the AI flag stop it and go to the crisis path. Plain form if the AI is down
+- **Events:** `portal.intake.started`; `portal.intake.completed` with questions answered; `portal.intake.skipped`; `portal.intake.fallback_used`; AI cost per check-in
 
-### 14. Clinician view (AI summary)
-- **Shows:** main concern, history, medications and goal, for the clinician to review, with the full conversation next to it. The summary uses only what the patient said. "AI summary for clinician review. Not a diagnosis."
-- **Where the data lives:** in the patient's browser, so this view works on the same device. "Load a sample conversation" shows a clearly labelled made-up example for anyone who opens it without doing an intake
+### 10. Clinician view (AI summary)
+- **Shows:** a one-page structured summary, like a clipboard. Safety and eligibility flags at the top. Sections (confirm with Legion's clinical team): main concern in the patient's words, what's been happening, past mental health care, medications (current and recently stopped), sleep, other health and allergies, goals for the visit, unclear answers. Each line links to the answer it came from, and the summary uses only what the patient said. A side panel shows all questions and answers. "AI summary for clinician review. Not a diagnosis."
+- **Where the data lives:** in the patient's browser, so this view works on the same device. "Load a sample check-in" shows a clearly labelled made-up example
 - **Events:** `portal.intake.summary_viewed`
 
-### 15. Reminders and join (preview)
-- **Shows:** 24-hour and 1-hour reminders with reschedule and a one-tap join. Previews, not sent
-- **Events:** `portal.reminder.previewed`; `portal.visit.joined`
+### 11. Inbox: reminders and join
+- **Shows:** 24-hour and 1-hour reminders in the in-app inbox and on the calendar preview, with reschedule and one-tap "Join visit". Labelled "Also sent to your email and phone (demo)"
+- **Events:** `portal.reminder.viewed`; `portal.visit.joined`
 
-### 16. Visit completed (demo control)
-- **Shows:** "Mark visit completed" and "Mark no-show", labelled as demo only. NPS is asked later in the portal, not here
-- **Events:** `portal.visit.completed` with whether the intake was done (the north-star event); `portal.visit.no_show`
+### 12. Demo controls
+- **Shows:** a separate demo panel, not part of the clinician view. "Mark visit completed" and "Mark no-show", labelled demo only. A no-show shows the unhappy path on the visit page: "You missed your visit. Want to book a new time?" with "Reschedule" and the no-show fee line from Legion's current flow. NPS is asked later in the portal, not here
+- **Events:** `portal.visit.completed` with whether the check-in was done (the north-star event); `portal.visit.no_show`
 
 ## Side paths
 
-- **Screened out kindly:** from step 2 (under 18, outside Texas, Medicaid or Medicare, or a hospital stay in the past year). One calm screen with the right resources for the reason. Logs the reason, which the north star's denominator needs
-- **Crisis path:** from step 2 ("Yes"), or in any free-text step when the word list or the AI flag catches it. Stops immediately and shows 988 and crisis resources and a person. The AI can only escalate, never decide it's fine to continue. The patient continues only after confirming they're safe, labelled "Confirm with Legion's clinical team"
-- **AI down or wrong:** steps 4, 5 and 13 fall back to a plain form. Corrections and fallback use are tracked
-- **Email already has an account:** from step 8. Offer sign-in and keep progress
+- **Screened out kindly:** from screen 1 (under 18, not in Texas, Medicaid or Medicare, or a hospital stay in the past year). One calm screen with the right resources for the reason. Logs the reason, which the north star's denominator needs
+- **Crisis path:** from screen 1 ("Yes"), or in any free-text step when the word list or the AI flag catches it. Stops immediately. On phones, one-tap "Call 988", "Text 988" and "Call 911", with 988 most prominent; on desktop the numbers are shown clearly. "Talk to a person" at Legion (who answers and when, to confirm with Legion). The AI can only escalate. The patient continues only after confirming they're safe (confirm with Legion's clinical team)
+- **Eligibility surprise:** in "What's going on?", a calm double-check and the fit check rules run again. In the check-in, a flag for a person and a calm note
+- **AI down or wrong:** screens 2, 3 and 9 fall back to a plain form. Corrections and fallback use are tracked
+- **Email already has an account:** from screen 5. Offer sign-in and keep progress
 - **Talk to a person:** the help link on every screen. Logs `portal.help.clicked` with the screen
+
+## Comparing with Legion's funnel
+
+Legion's milestone names are kept and recorded where the same thing happens: start, fit check, conditions, needs, match, provider selected, reservation, details, account created and payment. The order of the questions has changed (insurance is now on screen 1), so step-to-step comparisons with Legion's funnel only hold at milestones both flows share in the same order: start, provider selected, account created and payment page.
 
 ## Open questions
 
-- **The virtual-care question** is dropped. The start screen says "All visits are by video" instead, labelled "Confirm with Legion" in case they use the answer for something
-- **The hospital-stay question** stays, labelled "Confirm with Legion's clinical team"
+- **"All visits are by video"**, the hospital-stay question, the condition policy lines, the check-in questions, the clinician summary sections, the consent and notices, and who answers "Talk to a person": all to confirm with Legion or Legion's clinical team
+- **Spanish-speaking patients:** confirm with Legion whether they support them
 - **Event names** above are proposals in Legion's portal.* style, fixed in the build brief
-- **Spanish-speaking patients:** chips show in the patient's language (step 5). Confirm with Legion whether they support Spanish-speaking patients
