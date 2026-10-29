@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { Button } from "@/components/Button";
 import { Checkbox } from "@/components/Checkbox";
 import { copy } from "@/copy";
-import { loadAnswers, saveAnswers } from "@/lib/fit/stored-answers";
+import { getAnswers, saveAnswers } from "@/lib/fit/stored-answers";
 
 // "I'm safe right now and want to keep going", on its own at the bottom of the
 // crisis screen. Continuing goes back to screen 1 with the answers kept, and
@@ -16,12 +16,22 @@ export function SafeToContinue() {
   const [safe, setSafe] = useState(false);
   const [error, setError] = useState(false);
 
+  // Next keeps this page alive in the background. Untick the box as it's
+  // hidden, so coming back to the crisis screen never finds it already ticked
+  useLayoutEffect(
+    () => () => {
+      setSafe(false);
+      setError(false);
+    },
+    [],
+  );
+
   const onContinue = () => {
     if (!safe) {
       setError(true);
       return;
     }
-    saveAnswers({ ...loadAnswers(), safeConfirmed: true });
+    saveAnswers({ ...getAnswers(), safeConfirmed: true });
     router.push("/join");
   };
 

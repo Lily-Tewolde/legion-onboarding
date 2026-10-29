@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState, useSyncExternalStore, type FormEvent } from "react";
+import { useLayoutEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
 import { Button } from "@/components/Button";
 import { TalkToPersonButton } from "@/components/HelpPanel";
 import { SegmentedControl } from "@/components/SegmentedControl";
@@ -12,7 +12,7 @@ import { copy } from "@/copy";
 import { findPlan, plans } from "@/data";
 import { todayInCentral } from "@/lib/central-time";
 import { type FieldErrors, type FitAnswers, validateFacts, type YesNo } from "@/lib/fit/rules";
-import { loadAnswers, saveAnswers } from "@/lib/fit/stored-answers";
+import { getAnswers, getServerAnswers, saveAnswers, subscribeAnswers } from "@/lib/fit/stored-answers";
 
 // The quick facts on screen 1. Errors show on Continue, next to each question.
 // "Yes" to the safety question goes straight to the crisis screen, and "Yes"
@@ -35,15 +35,13 @@ const planOptions = [
   { value: NOT_LISTED, label: copy.join.planNotListed },
 ];
 
-// The saved answers live in this browser tab, so the form renders in the
-// browser only, with a skeleton until then
+// The answers live in this browser tab's storage, so the form renders in the
+// browser only, with a skeleton until then. Reading them from the store (not
+// component state) means they're current when Next shows this page again
+// after "Go back" or "I'm safe right now"
 export function FactsForm() {
-  const inBrowser = useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-  return inBrowser ? <Form /> : <FormSkeleton />;
+  const answers = useSyncExternalStore(subscribeAnswers, getAnswers, getServerAnswers);
+  return answers ? <Form answers={answers} /> : <FormSkeleton />;
 }
 
 function FormSkeleton() {
@@ -59,18 +57,26 @@ function FormSkeleton() {
   );
 }
 
-function Form() {
+function Form({ answers }: { answers: FitAnswers }) {
   const router = useRouter();
-  // Answers come back after "Go back" or "I'm safe right now"
-  const [answers, setAnswers] = useState<FitAnswers>(loadAnswers);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [failed, setFailed] = useState(false);
   const started = useRef(false);
 
+  // Next keeps this page alive when people move on. Clear what was in
+  // progress as it's hidden, so it isn't still "submitting" when they come back
+  useLayoutEffect(
+    () => () => {
+      setSubmitting(false);
+      setFailed(false);
+      setErrors({});
+    },
+    [],
+  );
+
   const update = (patch: FitAnswers) => {
     const next = { ...answers, ...patch };
-    setAnswers(next);
     saveAnswers(next);
     setErrors((current) => {
       const rest = { ...current };
