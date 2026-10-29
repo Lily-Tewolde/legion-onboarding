@@ -12,13 +12,17 @@ import slotsJson from "./slots.json";
 // Checked when the module loads, so a typo in the JSON fails loudly
 
 // Standard English labels: the starter chips plus one from the golden set.
-// Legion's full conditions list is still to confirm with Legion
+// Legion's full conditions list is still to confirm with Legion.
+// "Not sure" isn't something a provider treats: someone who only picks it is
+// matched to the first provider who takes their plan (anyone, if self-pay),
+// at the earliest time, so they never land on the no-times screen by accident
 export const CONCERN_LABELS = [
   "ADHD",
   "Anxiety",
   "Depression",
   "Sleep",
   "Bipolar disorder",
+  "Not sure",
 ] as const;
 export type ConcernLabel = (typeof CONCERN_LABELS)[number];
 
@@ -63,7 +67,10 @@ export const findProvider = (id: string) =>
   providers.find((provider) => provider.id === id);
 
 // Slots are stored as "this many business days from today, at this Central
-// time", so the demo always shows times in the near future
+// time", so the demo always shows times in the near future. The earliest is
+// 3 business days out, as on Lily's walk of Legion's flow (Wednesday Oct 28,
+// earliest Monday Nov 2), so the demo doesn't look faster than Legion is.
+// Oscar + Sleep has no provider on purpose, to show the no-times screen
 export function slotsFor(providerId: string, now: Date = new Date()): Slot[] {
   const today = todayInCentral(now);
   return slotsJson

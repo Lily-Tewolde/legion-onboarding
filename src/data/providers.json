@@ -18,7 +18,7 @@
     "fullName": "Jordan Ellis",
     "credential": "PMHNP",
     "concerns": ["ADHD", "Sleep"],
-    "plans": ["bcbs", "cigna", "oscar"]
+    "plans": ["bcbs", "cigna"]
   },
   {
     "id": "daniel-kim",
