@@ -1,27 +1,35 @@
-// The one progress style for the whole flow: a thin bar, no step text.
-// The label is for screen readers and comes from src/copy.ts
+import { copy, fillCopy } from "@/copy";
+
+// The one progress style, on the booking screens only, ending at
+// "You're booked": "Step 2 of 4" above a thin bar. The same text is the
+// screen reader label, so the visible copy is hidden from screen readers
 export type ProgressBarProps = {
-  label: string;
-  value: number;
-  max: number;
+  step: number;
+  total: number;
 };
 
-export function ProgressBar({ label, value, max }: ProgressBarProps) {
-  const percent = Math.min(100, Math.max(0, (value / max) * 100));
+export function ProgressBar({ step, total }: ProgressBarProps) {
+  const text = fillCopy(copy.progress.step, { step, total });
+  const percent = Math.min(100, Math.max(0, (step / total) * 100));
 
   return (
-    <div
-      role="progressbar"
-      aria-label={label}
-      aria-valuemin={0}
-      aria-valuemax={max}
-      aria-valuenow={value}
-      className="h-1.5 w-full overflow-hidden rounded-full bg-wash"
-    >
+    <div className="flex flex-col gap-2">
+      <p aria-hidden="true" className="text-sm font-medium text-slate">
+        {text}
+      </p>
       <div
-        className="h-full rounded-full bg-action transition-[width] duration-200 motion-reduce:transition-none"
-        style={{ width: `${percent}%` }}
-      />
+        role="progressbar"
+        aria-label={text}
+        aria-valuemin={0}
+        aria-valuemax={total}
+        aria-valuenow={step}
+        className="h-1.5 w-full overflow-hidden rounded-full bg-wash"
+      >
+        <div
+          className="h-full rounded-full bg-action transition-[width] duration-200 motion-reduce:transition-none"
+          style={{ width: `${percent}%` }}
+        />
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 // Every user-facing string, from docs/copy-draft.md (Lily's edited version,
 // Oct 29). One file so the readability check can read them all. Later PRs
-// add each screen's strings here
+// add each screen's strings here. {curly braces} are filled in by the app
 
 export const copy = {
   shell: {
@@ -16,4 +16,15 @@ export const copy = {
     crisis: "If you're in crisis, call or text 988 any time.",
     close: "Close",
   },
+  progress: {
+    step: "Step {step} of {total}",
+  },
 } as const;
+
+export const fillCopy = (
+  template: string,
+  values: Record<string, string | number>,
+) =>
+  template.replace(/\{(\w+)\}/g, (match, key: string) =>
+    key in values ? String(values[key]) : match,
+  );
