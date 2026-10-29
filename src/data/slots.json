@@ -1,0 +1,15 @@
+[
+  { "providerId": "alex-rivera", "businessDaysOut": 3, "time": "10:00" },
+  { "providerId": "alex-rivera", "businessDaysOut": 3, "time": "14:00" },
+  { "providerId": "alex-rivera", "businessDaysOut": 5, "time": "09:00" },
+  { "providerId": "alex-rivera", "businessDaysOut": 6, "time": "16:00" },
+  { "providerId": "priya-shah", "businessDaysOut": 4, "time": "11:00" },
+  { "providerId": "priya-shah", "businessDaysOut": 4, "time": "15:00" },
+  { "providerId": "priya-shah", "businessDaysOut": 7, "time": "10:00" },
+  { "providerId": "jordan-ellis", "businessDaysOut": 3, "time": "16:00" },
+  { "providerId": "jordan-ellis", "businessDaysOut": 6, "time": "10:00" },
+  { "providerId": "jordan-ellis", "businessDaysOut": 8, "time": "13:00" },
+  { "providerId": "daniel-kim", "businessDaysOut": 5, "time": "12:00" },
+  { "providerId": "daniel-kim", "businessDaysOut": 7, "time": "09:00" },
+  { "providerId": "daniel-kim", "businessDaysOut": 9, "time": "15:00" }
+]

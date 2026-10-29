@@ -1,0 +1,30 @@
+[
+  {
+    "id": "alex-rivera",
+    "fullName": "Alex Rivera",
+    "credential": "PMHNP",
+    "concerns": ["ADHD", "Anxiety", "Depression"],
+    "plans": ["aetna", "bcbs", "cigna", "unitedhealthcare", "oscar"]
+  },
+  {
+    "id": "priya-shah",
+    "fullName": "Priya Shah",
+    "credential": "MD",
+    "concerns": ["Anxiety", "Depression", "Sleep", "Bipolar disorder"],
+    "plans": ["aetna", "bcbs", "unitedhealthcare"]
+  },
+  {
+    "id": "jordan-ellis",
+    "fullName": "Jordan Ellis",
+    "credential": "PMHNP",
+    "concerns": ["ADHD", "Sleep"],
+    "plans": ["bcbs", "cigna"]
+  },
+  {
+    "id": "daniel-kim",
+    "fullName": "Daniel Kim",
+    "credential": "MD",
+    "concerns": ["Anxiety", "Depression", "Bipolar disorder"],
+    "plans": ["cigna", "unitedhealthcare", "oscar"]
+  }
+]
