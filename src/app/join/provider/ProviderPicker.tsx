@@ -11,11 +11,21 @@ import { bookLabel, type ProviderOption } from "@/lib/provider/present";
 
 // The recommended provider and their times, with "See more providers" for
 // everyone else who treats one of their concerns. The earliest time starts
-// chosen. "Book {day} at {time}" holds it in the session and opens the checkout
+// chosen. "Book {day} at {time}" holds it in the session and opens the checkout.
+// When rescheduling, the new time books straight away, so Legion's 48-hour
+// policy shows above the button first, the same as "Cancel visit" (Lily, PR 16)
 
 type Choice = { providerId: string; slotStart: string };
 
-export function ProviderPicker({ recommended, others }: { recommended: ProviderOption; others: ProviderOption[] }) {
+export function ProviderPicker({
+  recommended,
+  others,
+  rescheduling = false,
+}: {
+  recommended: ProviderOption;
+  others: ProviderOption[];
+  rescheduling?: boolean;
+}) {
   const router = useRouter();
   const [choice, setChoice] = useState<Choice>({ providerId: recommended.id, slotStart: recommended.slots[0].start });
   const [earlier, setEarlier] = useState(false);
@@ -111,6 +121,12 @@ export function ProviderPicker({ recommended, others }: { recommended: ProviderO
           <div role="alert" className="flex flex-col gap-1">
             <p className="text-error">{copy.common.somethingWentWrong}</p>
             <p>{copy.common.keepsHappening}</p>
+          </div>
+        )}
+        {rescheduling && (
+          <div className="flex flex-col items-start gap-1">
+            <p>{copy.checkout.cancelPolicy}</p>
+            <Tag>{copy.common.fromLegion}</Tag>
           </div>
         )}
         <Button onClick={book} disabled={pending}>

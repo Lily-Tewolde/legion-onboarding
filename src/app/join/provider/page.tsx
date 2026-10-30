@@ -38,6 +38,7 @@ async function Recommended() {
     <ProviderPicker
       recommended={providerOption(result.recommended, payMethod)}
       others={result.others.map((other) => providerOption(other, payMethod))}
+      rescheduling={Boolean(session.booked_at)}
     />
   );
 }
