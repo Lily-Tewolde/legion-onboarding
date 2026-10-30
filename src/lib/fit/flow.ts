@@ -74,4 +74,7 @@ export function currentScreenFor(outcome: FitOutcome): string {
 // screen-out or the crisis screen. Later PRs add their screens here
 export const RESUME_PATHS: Record<string, string> = {
   whats_going_on: "/join/whats-going-on",
+  your_provider: "/join/provider",
+  book: "/join/book",
+  booked: "/join/booked",
 };
