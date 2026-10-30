@@ -27,9 +27,9 @@ import {
   validateFields,
   type YesNo,
 } from "@/lib/fit/rules";
-import { TrackEvent, TrackPageview, track, trackPageview } from "@/lib/analytics/track";
+import { TrackEvent, TrackPageview, trackPageview } from "@/lib/analytics/track";
 import { getAnswers, getServerAnswers, saveAnswers, subscribeAnswers } from "@/lib/fit/stored-answers";
-import { useLeave } from "@/lib/fit/use-leave";
+import { trackFitOutcome, useLeave } from "@/lib/fit/use-leave";
 
 // One step of screen 1. Errors show on Continue, next to each question. Every
 // one-tap answer acts the moment it's tapped, by its own rule: "Yes" to safety
@@ -169,9 +169,7 @@ function StepForm({ step, answers, intro }: { step: FitStep; answers: FitAnswers
       });
       if (!response.ok) throw new Error(`fit check failed: ${response.status}`);
       const { outcome, path } = await response.json();
-      track("portal.fit.submitted", { result: outcome.result });
-      if (outcome.result === "screened_out") track("portal.fit.screened_out", { reason: outcome.reason });
-      if (outcome.result === "crisis") track("portal.crisis.shown", { source: "safety_question", kind: null, step: "fit" });
+      trackFitOutcome(outcome);
       router.push(path);
     } catch {
       setFailed(true);

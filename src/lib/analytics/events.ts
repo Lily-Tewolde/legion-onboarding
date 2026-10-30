@@ -1,9 +1,14 @@
 import type { ConcernLabel } from "@/data";
+import type { FitOutcome } from "@/lib/fit/rules";
 
 // Every event from the build brief (section 5), with its properties typed so
 // only fixed values, numbers and booleans can be sent: never anything the
 // patient typed or said. Legion's names are kept where the same thing happens.
-// portal.visit.rated is Lily's addition (PR 16): the score only
+// portal.visit.rated is Lily's addition (PR 16): the score only.
+// portal.fit.submitted fires on every fit outcome, with the reason for a
+// screen-out, so screen-outs can come out of the one metric's denominator.
+// portal.onboarding.signedIn is the details step for someone who signs in
+// instead of saving new details (both Oct 30)
 
 export type LegionPath =
   | "/portal/join"
@@ -20,8 +25,8 @@ export type AiStep = "whats_going_on" | "check_in" | "check_in_summary";
 
 export type EventProperties = {
   "portal.coverage.shown": { pay_method: "insurance" | "self_pay" };
-  "portal.fit.submitted": { result: "eligible" | "screened_out" | "crisis" };
-  "portal.fit.screened_out": { reason: "under_18" | "not_in_texas" | "medicaid_medicare" | "hospital_stay" };
+  "portal.fit.submitted": FitOutcome;
+  "portal.fit.screened_out": { reason: Extract<FitOutcome, { result: "screened_out" }>["reason"] };
   "portal.crisis.shown": { source: CrisisSource; kind: string | null; step: CrisisStep };
   "portal.concern.retry_shown": Record<string, never>;
   "portal.someone_else.flagged": Record<string, never>;
@@ -31,6 +36,7 @@ export type EventProperties = {
   "portal.provider.reservation.created": Record<string, never>;
   "portal.earlier_time.requested": Record<string, never>;
   "portal.onboarding.userCreated": Record<string, never>;
+  "portal.onboarding.signedIn": Record<string, never>;
   "portal.payment.method_added": { simulated: true };
   "portal.appointment.confirmed": { days_to_visit: number };
   "portal.calendar.added": { calendar: "google" | "apple" | "outlook" };

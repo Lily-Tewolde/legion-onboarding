@@ -970,3 +970,16 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
     - **The clinician photo on "Care that takes your plan"** is 176px tall on phones (was 128), cropped from 30% down there and 17% down on desktop, so her head isn't cut off
 - **Why:** Lily's round-two findings. Nothing was decided for how to fix them
 
+## 2026-10-30 · Every fit outcome is tracked, with its reason, and sign-in counts as the details step
+
+- **What:** `portal.fit.submitted` fires on every fit outcome, not only the last step's submit: one-tap answers, a step's Continue, under 18 and the double-checks on confirm. It carries `result`, and `reason` for a screen-out. Someone who signs in instead of saving new details fires a new event, `portal.onboarding.signedIn`. The PostHog funnel's details step is an action that matches it or `portal.onboarding.userCreated`. Code review finding 7
+- **Why:** Screen-outs come out of the one metric's denominator. Before this, tap screen-outs and under 18 never fired `portal.fit.submitted`, so `result` was always "eligible" and the data couldn't take them out. People who signed in fell out of the funnel at the details step even when they went on to complete a visit
+- **Rejected:** Firing `portal.onboarding.userCreated` for sign-ins, which would count people as created who weren't
+
+## 2026-10-30 · The last fit outcome decides who's screened out
+
+- **What:** The last fit outcome decides it, not "ever screened out". Only people whose last fit outcome was a screen-out leave the one metric's denominator. A saved SQL insight in PostHog computes the metric this way, and the funnel stays as the step-by-step view
+- **Why:** Someone who mistypes their date of birth gets screened out, then corrects it and completes. They were never ineligible, so removing their completion hides a real success
+- **Rejected:** Ever screened out, because it drops people who corrected an answer, and because in production anything that briefly shows a screen-out would quietly delete the completions after it
+- **Revisit when:** Real patients correct answers at a different rate than Lily's test runs
+

@@ -105,6 +105,8 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
       });
       if (!response.ok) throw new Error(`sign-in failed: ${response.status}`);
       identify((await response.json()).personId);
+      // Signing in is this person's details step, so they stay in the funnel
+      track("portal.onboarding.signedIn");
       savedKey.current = keyOf(details);
       setSaveState("saved");
       router.push(PAYMENT_PATH);
