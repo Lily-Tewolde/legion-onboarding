@@ -66,7 +66,7 @@ The flow goes from "Let's get you care" to a completed first visit, in 12 screen
 2. **What's going on?** One answer in the patient's own words, typed, spoken or tapped as chips. It replaces Legion's conditions and needs pages
 3. **Here's what we understood:** the AI restates it as chips for the patient to fix, and asks only what we don't know
 4. **Your provider:** one recommended provider first, with a short reason
-5. **Book your visit:** the full cost and cancellation policy before the card, on one page
+5. **Book your visit:** two steps, your details and then payment, with the full cost and cancellation policy before the card
 6. **You're booked**, then a portal with Visit, Inbox and Profile tabs, an **AI pre-visit check-in**, a **clinician view** that leads with what a doctor scans first, reminders, demo controls to finish the visit, and an NPS question only after the visit
 
 | Step | The patient | The AI | Rules decide | A person |
@@ -75,7 +75,7 @@ The flow goes from "Let's get you care" to a completed first visit, in 12 screen
 | What's going on? | Types, speaks or taps chips | Restates it as concerns, with at most one clarifying question. A separate flag checks for crisis | A word list runs first. Over a limit, or if the AI fails, it's a simple form | 988, 911 and Legion's number on the crisis screen |
 | Here's what we understood | Fixes the chips, says what's been diagnosed | Its restatement, never a diagnosis | Anything that contradicts screen 1 runs screen 1's rules again | |
 | Your provider | Picks a time | Nothing | The recommended provider, from the concern, the plan and the earliest time | "Talk to a person" when there are no times |
-| Book your visit | Details, consent and a made-up card | Nothing | Field checks. An email that's already used offers sign-in | |
+| Book your visit | Details and consent, then a made-up card on the payment step | Nothing | Field checks. An email that's already used offers sign-in | |
 | Portal | Adds it to a calendar, reads the inbox, reschedules or cancels | Nothing | When each message arrives (72 hours, 24 hours, 1 hour), and the late fee | |
 | Pre-visit check-in (optional) | Answers 5 to 8 questions, typed or spoken, and confirms medications | Writes each next question, then a summary for the clinician. The crisis flag runs on every answer | 5 to 8 questions, no repeats, no doses, under 18 stops it. Medication names are matched in code | Crisis or being hurt goes to resources and a person |
 | Clinician view | | The summary, with every line linked to the answer it came from | Flags are only ever shown to the clinician | The clinician reads it before the visit |
@@ -132,6 +132,22 @@ From `docs/next.md`:
 - **Evals before prompts ship:** a 70-case golden set and `npm run eval`. I scored 10 grader cases blind before seeing the grader's results. It agreed with me on 9 of 10 at first, and the miss was the answer key, which I corrected and logged
 - **Every decision is mine,** and I edited or approved every line of copy. Where I changed an AI draft, the doc says so (for example, "Changes from the AI draft" in `docs/data-read.md`)
 - **The AI history, unedited, with its index:** [fill in]
+
+
+## Credits
+
+Components adapted from my own design library (Inspo Book 01).
+
+**Photos:** from Pexels, free for personal and commercial use under the Pexels license (`public/photos/CREDITS.md`).
+
+| File | Shows | Used on |
+|---|---|---|
+| `about-you.webp` | An older man laughing on a phone call | Desktop panel, "About you" |
+| `whats-going-on.webp` | A woman resting on a sofa with a laptop | Desktop panel, "What's going on" |
+| `your-provider.webp` | A clinician smiling at a laptop | Desktop panel, "Your provider", and "Care that takes your plan" |
+| `book.webp` | A woman with a coffee in morning light | Desktop panel, "Book", and "You're booked" |
+
+**Logos:** Legion Health's own logo, from legionhealth.com. The insurer logos (Aetna, Blue Cross Blue Shield, Cigna, UnitedHealthcare and Oscar) are each insurer's own, from its website, and belong to their owners. All are used only in this prototype for Legion.
 
 ---
 
