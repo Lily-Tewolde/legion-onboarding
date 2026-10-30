@@ -7,7 +7,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 // like Firefox, get no mic button. Each finished phrase is handed to onText;
 // the words heard so far in the current phrase are in `interim`, for live
 // dictation. `problem` says why listening stopped early: the mic is blocked,
-// or nothing was heard (copy audit, Oct 29)
+// or nothing was heard (copy audit, Oct 29). It stops by itself after a pause
+// once someone has spoken, or if nothing is heard at the start (Lily's
+// testing notes, Oct 30), and anything still mid-phrase is kept
 
 type Recognition = {
   lang: string;
@@ -24,6 +26,11 @@ export type SpeechProblem = "blocked" | "nothing_heard";
 
 type RecognitionConstructor = new () => Recognition;
 
+// Stop after this long without a new word, once something has been heard
+const PAUSE_MS = 4000;
+// Stop with "We didn't hear anything" if nothing is heard this soon
+const NOTHING_MS = 8000;
+
 function recognitionConstructor(): RecognitionConstructor | null {
   const speechWindow = window as unknown as {
     SpeechRecognition?: RecognitionConstructor;
@@ -38,61 +45,84 @@ export function useSpeech(onText: (text: string) => void) {
   const [problem, setProblem] = useState<SpeechProblem | null>(null);
   const recognition = useRef<Recognition | null>(null);
   const handler = useRef(onText);
+  const timer = useRef<number | undefined>(undefined);
+  // Words heard in the current phrase that aren't final yet
+  const pending = useRef("");
 
   useEffect(() => {
     handler.current = onText;
   }, [onText]);
 
   // Stop listening when the screen is left
-  useEffect(() => () => recognition.current?.stop(), []);
+  useEffect(
+    () => () => {
+      window.clearTimeout(timer.current);
+      recognition.current?.stop();
+    },
+    [],
+  );
+
+  // Ends listening on our side. Words still mid-phrase are handed on, since
+  // a browser may never send them as final once it's stopped
+  const finish = useCallback((nextProblem: SpeechProblem | null) => {
+    window.clearTimeout(timer.current);
+    const instance = recognition.current;
+    recognition.current = null;
+    if (instance) {
+      instance.onresult = null;
+      instance.onend = null;
+      instance.onerror = null;
+      instance.stop();
+    }
+    if (pending.current) handler.current(pending.current);
+    pending.current = "";
+    if (nextProblem) setProblem(nextProblem);
+    setListening(false);
+    setInterim("");
+  }, []);
 
   const start = useCallback(() => {
     const Constructor = recognitionConstructor();
     if (!Constructor) return;
     const instance = new Constructor();
-    let heard = false;
-    let failed = false;
     setProblem(null);
+    pending.current = "";
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => finish("nothing_heard"), NOTHING_MS);
     instance.lang = navigator.language || "en-US";
     instance.continuous = true;
     instance.interimResults = true;
     instance.onresult = (event) => {
-      let pending = "";
+      let words = "";
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const result = event.results[i];
-        heard = true;
         if (result.isFinal) handler.current(result[0].transcript.trim());
-        else pending += result[0].transcript;
+        else words += result[0].transcript;
       }
-      setInterim(pending.trim());
+      pending.current = words.trim();
+      setInterim(pending.current);
+      // A new word: wait for the next pause
+      window.clearTimeout(timer.current);
+      timer.current = window.setTimeout(() => finish(null), PAUSE_MS);
     };
-    instance.onend = () => {
-      if (!heard && !failed) setProblem("nothing_heard");
-      setListening(false);
-      setInterim("");
-    };
+    // The browser ended it (its own timeout, or a dropped connection)
+    instance.onend = () => finish(null);
     instance.onerror = (event) => {
-      failed = true;
       if (event.error === "not-allowed" || event.error === "service-not-allowed" || event.error === "audio-capture") {
-        setProblem("blocked");
+        finish("blocked");
       } else if (event.error === "no-speech") {
-        setProblem("nothing_heard");
+        finish("nothing_heard");
+      } else {
+        finish(null);
       }
-      setListening(false);
-      setInterim("");
     };
     recognition.current = instance;
     instance.start();
     setListening(true);
-  }, []);
+  }, [finish]);
 
-  const stop = useCallback(() => {
-    // Stopped on purpose, so not "nothing heard"
-    if (recognition.current) recognition.current.onend = null;
-    recognition.current?.stop();
-    setListening(false);
-    setInterim("");
-  }, []);
+  // Stopped on purpose, so not "nothing heard"
+  const stop = useCallback(() => finish(null), [finish]);
 
   const clearProblem = useCallback(() => setProblem(null), []);
 

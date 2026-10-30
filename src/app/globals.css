@@ -243,16 +243,6 @@ html.live .expand {
   }
 }
 
-/* Each dictated word fades in */
-@keyframes word {
-  from {
-    opacity: 0;
-  }
-}
-.word {
-  animation: word 0.35s ease both;
-}
-
 /* Sheets (mobile) and dialogs (desktop) */
 @keyframes sheet-in {
   from {
