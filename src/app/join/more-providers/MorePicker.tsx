@@ -11,7 +11,7 @@ import { copy } from "@/copy";
 import { bookLabel, type ProviderOption } from "@/lib/provider/present";
 import { visitShortDate } from "@/lib/visit-time";
 import { Availability, ProviderPhoto } from "../provider/Availability";
-import { PROVIDER_FLOW } from "../provider/ProviderPicker";
+import { PROVIDER_FLOW } from "../provider/flow";
 import { useBook } from "../provider/useBook";
 
 const PAGE = 3;

@@ -14,16 +14,19 @@ export function Photo({
   photo,
   alt,
   className,
+  crop = "object-center",
   priority = false,
 }: {
   photo: keyof typeof PHOTOS;
   alt: string;
   className?: string;
+  // Which part of the photo stays in the box, as an object-position class
+  crop?: string;
   priority?: boolean;
 }) {
   return (
     <div className={cx("relative flex-none overflow-hidden", className)}>
-      <Image src={PHOTOS[photo]} alt={alt} fill sizes="(min-width: 1024px) 600px, 100vw" priority={priority} placeholder="blur" className="object-cover" />
+      <Image src={PHOTOS[photo]} alt={alt} fill sizes="(min-width: 1024px) 600px, 100vw" priority={priority} placeholder="blur" className={cx("object-cover", crop)} />
       <svg viewBox="0 0 320 28" preserveAspectRatio="none" aria-hidden="true" className="absolute -bottom-px left-0 h-6 w-full">
         <path d="M0 28 C70 4 250 4 320 24 V28 Z" fill="#FFFFFF" />
       </svg>

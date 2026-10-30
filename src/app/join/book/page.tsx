@@ -3,7 +3,9 @@ import { Suspense } from "react";
 import { Screen } from "@/components/Screen";
 import { Skeleton } from "@/components/Skeleton";
 import { VisitCard } from "@/components/VisitCard";
+import { VisitToggle } from "@/components/VisitToggle";
 import { copy } from "@/copy";
+import { visitShortDate, visitTime } from "@/lib/visit-time";
 import { missingFor, providerName } from "@/server/booking";
 import { getSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
@@ -38,6 +40,7 @@ async function Checkout() {
 
   const insured = session.pay_method === "insurance";
   const provider = providerName(session.provider_id);
+  const when = copy.visitCard.whenValue.replace("{date}", visitShortDate(session.slot_start)).replace("{time}", visitTime(session.slot_start));
   return (
     <DetailsForm
       flow={{ ...FLOW, provider: { name: provider, slotStart: session.slot_start } }}
@@ -46,15 +49,26 @@ async function Checkout() {
           <h1 id="your-visit" className="display text-page-title lg:text-question lg:tracking-normal">
             {copy.checkout.yourVisit}
           </h1>
-          {/* Phones: two rows and the cost; desktop: three rows with icons, cost in the panel */}
-          <div className="lg:hidden">
-            <VisitCard slotStart={session.slot_start} provider={provider} rows={2}>
-              <p className="text-body">{insured ? copy.checkout.insuredCost : copy.checkout.selfPayCost}</p>
+          {/* Phones: the visit collapsed to when, who and the cost, so the
+              fields and the consent fit above the pinned button; it opens to
+              when they're charged and the cancel policy. Desktop: three rows
+              with icons, cost in the panel */}
+          <VisitToggle
+            className="lg:hidden"
+            summary={
+              <>
+                <span className="text-body font-semibold text-ink">{`${when} · ${copy.visitCard.videoShort}`}</span>
+                <span className="text-body text-ink">{provider}</span>
+                <span className="text-body text-slate">{insured ? copy.checkout.insuredCost : copy.checkout.selfPayCost}</span>
+              </>
+            }
+          >
+            <div className="flex flex-col items-start gap-1 border-t border-line pt-3">
               <p className="text-body">{insured ? copy.checkout.insuredCharged : copy.checkout.selfPayCharged}</p>
               <p className="text-body">{copy.checkout.freeToCancel}</p>
               <WhatIfCancel />
-            </VisitCard>
-          </div>
+            </div>
+          </VisitToggle>
           <div className="hidden lg:block">
             <VisitCard slotStart={session.slot_start} provider={provider} icons bare>
               <p className="text-body">{copy.checkout.freeToCancel}</p>

@@ -89,6 +89,10 @@
   }
 }
 
+/* Short phones (under 768px wide and 760px tall, like 390 x 700): tighter
+   spacing so each screen clears the pinned button. 390 x 844 is unchanged */
+@custom-variant short (@media (width < 48rem) and (height <= 760px));
+
 /* A white card behind anything people read */
 @utility card {
   background: var(--color-white);

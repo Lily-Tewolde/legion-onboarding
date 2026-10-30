@@ -6,7 +6,7 @@ import { TalkToPersonButton } from "@/components/HelpPanel";
 import { CalendarCheck } from "@/components/icons";
 import { DemoLine, PageTitle, Screen } from "@/components/Screen";
 import { copy } from "@/copy";
-import { PROVIDER_FLOW } from "./ProviderPicker";
+import { PROVIDER_FLOW } from "./flow";
 
 // No provider has times for their plan and concerns (in the demo, Oscar +
 // Sleep). "Tell me when times open" is simulated, like the earlier-time box

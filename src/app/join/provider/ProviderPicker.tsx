@@ -11,14 +11,13 @@ import { track } from "@/lib/analytics/track";
 import { bookLabel, type ProviderOption } from "@/lib/provider/present";
 import { Availability, ProviderPhoto } from "./Availability";
 import { useBook } from "./useBook";
+import { PROVIDER_FLOW } from "./flow";
 
 // Screen 4: the recommended provider with the reason, built from the made-up
 // data, and their own day strip of times. The earliest time starts chosen.
 // "See more providers" is its own screen. When rescheduling, the new time
 // books straight away, so Legion's 48-hour policy shows above the button
 // first, the same as "Cancel visit" (Lily, PR 16)
-
-export const PROVIDER_FLOW = { phase: "your_provider" as const, part: 1, parts: 1, back: "/join/confirm" };
 
 export function ProviderHeading({ summary }: { summary: string }) {
   return (

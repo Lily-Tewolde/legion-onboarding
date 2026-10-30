@@ -1,6 +1,6 @@
 "use client";
 
-import type { InputHTMLAttributes, ReactNode } from "react";
+import type { InputHTMLAttributes, ReactNode, Ref } from "react";
 import { cx } from "./cx";
 import { CheckCircleFilled } from "./icons";
 import { FieldError } from "./SegmentedControl";
@@ -8,9 +8,11 @@ import { FieldError } from "./SegmentedControl";
 // The spec's input: 52px, 12px radius, a 1.5px border, and the label inside
 // at the top (14px semibold). A valid typed answer gets the check at the
 // right; an error gets a 2px red border and a message with an icon under it.
-// With labelOutside, the label is a card's question above the field instead
+// With labelOutside, the label is a card's question above the field instead.
+// With an icon, the label and the text both start after it
 export type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
   id: string;
+  ref?: Ref<HTMLInputElement>;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -24,6 +26,7 @@ export type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "onChan
 
 export function TextField({
   id,
+  ref,
   label,
   value,
   onChange,
@@ -55,12 +58,16 @@ export function TextField({
       )}
       <div className={cx("relative", labelOutside && "mt-1")}>
         {!labelOutside && (
-          <label htmlFor={id} className="pointer-events-none absolute top-1.5 left-4 text-label leading-4 font-semibold text-slate">
+          <label
+            htmlFor={id}
+            className={cx("pointer-events-none absolute top-1.5 text-label leading-4 font-semibold text-slate", icon ? "left-11" : "left-4")}
+          >
             {label}
           </label>
         )}
         {icon && <span className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-slate">{icon}</span>}
         <input
+          ref={ref}
           id={id}
           value={value}
           onChange={(event) => onChange(event.target.value)}

@@ -1,9 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { type FocusEvent, type FormEvent, useLayoutEffect, useRef, useState } from "react";
+import { type FocusEvent, type FormEvent, type ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@/components/Button";
 import { Checkbox } from "@/components/Checkbox";
+import { cx } from "@/components/cx";
 import { Card, DemoLine, Screen } from "@/components/Screen";
 import { FieldError } from "@/components/SegmentedControl";
 import { TextField } from "@/components/TextField";
@@ -15,9 +16,9 @@ import type { Flow } from "@/components/Screen";
 // The checkout's first step, "Your details" (Claude Design's 07-Details). The
 // details are saved as soon as the section is complete and left, so progress
 // is kept even if the card step isn't finished; an email that's already used
-// offers the simulated sign-in instead. Consent stays here (Lily, Oct 29),
-// because the made-up person is saved with it at this step; the terms notice
-// is on payment, right before "Book my visit"
+// offers the simulated sign-in instead. The terms notice and consent are
+// here, before the details are saved (Lily, Oct 29), because the made-up
+// person is saved with the time they consented at this step
 
 type SaveState = "idle" | "saving" | "saved" | "email_taken" | "failed";
 
@@ -145,7 +146,7 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
       <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:items-start lg:gap-6">
         <div className="contents lg:order-2 lg:block">{visit}</div>
         <div ref={section} onBlur={onBlur} className="lg:order-1">
-          <Card className="gap-3 max-lg:border-0 max-lg:bg-transparent max-lg:p-0 max-lg:shadow-none">
+          <Card className="gap-3 max-lg:border-0 max-lg:bg-transparent max-lg:p-0! max-lg:shadow-none">
             <div className="flex flex-col gap-1">
               <h2 id="your-details" className="display text-card-question md:text-card-question-lg">
                 {copy.checkout.yourDetails}
@@ -183,9 +184,17 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
                 valid={!valid.phone && details.phone !== ""}
                 autoComplete="tel-national"
               />
+              <TermsNotice />
               <div id="consent" tabIndex={-1}>
                 <Checkbox
-                  label={copy.checkout.consent}
+                  label={
+                    <>
+                      {copy.checkout.consent}{" "}
+                      <TabLink href="/consent" className="after:-inset-y-2.5">
+                        {copy.checkout.readConsent}
+                      </TabLink>
+                    </>
+                  }
                   checked={details.consent}
                   onChange={(consent) => update({ consent })}
                   error={errors.consent ? copy.checkout.errors.consent : undefined}
@@ -199,6 +208,40 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
         </div>
       </div>
     </Screen>
+  );
+}
+
+// The one-line notice before the consent, with Legion's published terms and
+// privacy pages as links
+function TermsNotice() {
+  const [beforeTerms, rest] = copy.checkout.notice.split("{terms}");
+  const [beforePrivacy, after] = rest.split("{privacy}");
+  return (
+    <p className="pt-1 text-label text-slate">
+      {beforeTerms}
+      <TabLink href="https://www.legionhealth.com/terms-of-service">{copy.checkout.noticeTerms}</TabLink>
+      {beforePrivacy}
+      <TabLink href="https://www.legionhealth.com/privacy-policy">{copy.checkout.noticePrivacy}</TabLink>
+      {after}
+    </p>
+  );
+}
+
+// Opens in a new tab, so the details typed so far stay put. The pseudo-element
+// gives the short link a 44px tap area without changing the line height
+function TabLink({ href, className = "after:-inset-y-3", children }: { href: string; className?: string; children: ReactNode }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cx(
+        "focus-ring relative rounded-sm font-medium text-action underline underline-offset-4 hover:text-action-hover after:absolute after:-inset-x-2 after:content-['']",
+        className,
+      )}
+    >
+      {children}
+    </a>
   );
 }
 

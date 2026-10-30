@@ -50,8 +50,8 @@ export const copy = {
       "A clinician smiling at a laptop",
       "A woman with a coffee in morning light, relaxed",
     ],
-    quote: "[A short quote from a real Legion patient]",
-    quoteNote: "Placeholder: Legion to supply",
+    quote: "“I got an appointment within a week and the doctor was really nice and professional.”",
+    quoteNote: "Chris Slate, Google review",
   },
   common: {
     back: "Back",
@@ -300,10 +300,13 @@ export const copy = {
     name: "First and last name",
     email: "Email",
     phone: "Mobile phone",
-    // To confirm with Legion; the links need pages that don't exist yet
-    notice:
-      "By continuing, you agree to our Terms of Service and Privacy Policy. You can read our HIPAA Notice of Privacy Practices and how we use AI.",
+    // Lily's one-line notice (Oct 30). "terms" and "privacy notice" link to
+    // Legion's published pages; "Read the consent" opens the placeholder page
+    notice: "By continuing, you agree to the {terms} and {privacy}.",
+    noticeTerms: "terms",
+    noticePrivacy: "privacy notice",
     consent: "I consent to treatment by Legion Health providers.",
+    readConsent: "Read the consent",
     emailTaken: "There's already an account with this email.",
     signIn: "Sign in to continue",
     differentEmail: "Use a different email",
@@ -336,6 +339,12 @@ export const copy = {
     whenValue: "{date} at {time}",
     video: "Video visit",
     videoShort: "Video",
+  },
+  // Where "Read the consent" goes. Lily's wording (Oct 30): the real consent
+  // is Legion's, so this says so and holds no consent language
+  consentPage: {
+    title: "Consent to treatment",
+    body: "Legion's consent to treatment is a document their clinical and legal teams own. It isn't written for this prototype, so there's nothing to show here yet. In the real product, this is where the full text would open before you agree.",
   },
   // Screen 6
   booked: {
@@ -544,6 +553,8 @@ export const copy = {
     switchLabel: "View",
     patientPortal: "Patient portal",
     clinicianView: "Clinician view",
+    // Lily's wording (Oct 30): clears the session and goes back to screen 1
+    startOver: "Start over",
   },
   // After the visit is marked completed, never during onboarding (decided).
   // Claude Design's wording, with the review ask after a 9 or 10
@@ -578,7 +589,6 @@ export const copy = {
     call911: "Call 911",
     talkToPerson: "Talk to a person",
     safeNow: "I'm safe right now and want to keep going",
-    safeNowError: "Please check the box to continue.",
     // The label on the "I'm safe right now" section, for screen readers (from the board)
     keepGoing: "Keep going",
     // When someone may be in danger right now. To confirm with Legion's clinical team

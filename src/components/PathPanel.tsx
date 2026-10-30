@@ -110,7 +110,7 @@ export function PathPanel({
             )}
           </div>
         )}
-        <figure className="mt-auto rounded-tile border border-dashed border-muted-line bg-white p-3">
+        <figure className="mt-auto rounded-tile border border-muted-line bg-white p-3">
           <blockquote className="text-body text-navy italic">{copy.panel.quote}</blockquote>
           <figcaption className="mt-1 text-label text-slate">{copy.panel.quoteNote}</figcaption>
         </figure>

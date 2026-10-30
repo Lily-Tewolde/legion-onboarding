@@ -32,6 +32,12 @@ export function identify(personId: string) {
   posthog.identify(personId);
 }
 
+// "Start over" in Demo controls: the next run is a new person in the funnel
+export function forget() {
+  if (!enabled()) return;
+  posthog.reset();
+}
+
 // Fires each time the screen is shown. Next keeps visited pages alive, and
 // their effects run again when they're shown again
 export function useTrackOnShow(fire: () => void) {
