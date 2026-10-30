@@ -72,21 +72,26 @@ export function Availability({
   );
 }
 
-// A provider's photo placeholder: a soft gradient circle
+// A provider's initials in a soft circle (decided Oct 29), in place of a
+// photo. The name is always beside it, so screen readers skip it
 export function ProviderPhoto({ name, large = false }: { name: string; large?: boolean }) {
+  const initials = name
+    .split(",")[0]
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
   return (
     <span
-      role="img"
-      aria-label={copy.provider.photoFor.replace("{name}", name)}
+      aria-hidden="true"
       className={cx(
-        "flex flex-none items-center justify-center rounded-full bg-[linear-gradient(135deg,#f5d58a,#b6d3ea)] text-navy/60",
-        large ? "size-14" : "size-12",
+        "flex flex-none items-center justify-center rounded-full bg-wash font-semibold text-action",
+        large ? "size-14 text-question" : "size-12 text-body-lg",
       )}
     >
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-        <circle cx="12" cy="8" r="4" />
-        <path d="M4 21a8 8 0 0 1 16 0" />
-      </svg>
+      {initials}
     </span>
   );
 }

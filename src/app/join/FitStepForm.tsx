@@ -6,7 +6,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "@/components/Button";
 import { cx } from "@/components/cx";
-import { CheckCircleFilled, ImageIcon, Search, Sparkle, Video } from "@/components/icons";
+import { CheckCircleFilled, Search, Sparkle, Video } from "@/components/icons";
 import { Card, DemoLine, PageTitle, Screen } from "@/components/Screen";
 import { FieldError, SegmentedControl } from "@/components/SegmentedControl";
 import { Skeleton } from "@/components/Skeleton";
@@ -362,7 +362,6 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
             <>
               <div className="flex items-center gap-2">
                 <div className="flex min-h-field flex-1 items-center gap-3 rounded-field border-2 border-action bg-wash px-4 text-body-lg font-bold whitespace-nowrap text-ink">
-                  <LogoPlaceholder selected />
                   {plan.name}
                 </div>
                 <Button variant="text" onClick={() => update({ planId: undefined })}>
@@ -395,7 +394,6 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
                     error("planId") ? "border-error" : "border-line-control",
                   )}
                 >
-                  <LogoPlaceholder />
                   {option.name}
                 </button>
               ))}
@@ -438,21 +436,6 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
 const [coveredFirst, ...coveredParts] = copy.coverage.covered.split(". ");
 const coveredLead = `${coveredFirst}.`;
 const coveredRest = coveredParts.join(". ");
-
-// Insurer logo placeholders until Lily adds the logos
-export function LogoPlaceholder({ selected = false }: { selected?: boolean }) {
-  return (
-    <span
-      aria-hidden="true"
-      className={cx(
-        "flex size-[34px] flex-none items-center justify-center rounded-[9px] border border-dashed border-muted-line text-line-control",
-        selected ? "bg-white" : "bg-[#f1f3f8]",
-      )}
-    >
-      <ImageIcon size={18} />
-    </span>
-  );
-}
 
 // Moves focus to the step's first question with an error, so keyboard and
 // screen reader users land on it

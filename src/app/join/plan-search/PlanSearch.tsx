@@ -16,7 +16,7 @@ import { searchPlanList } from "@/lib/fit/plan-search";
 import { tapOutcome } from "@/lib/fit/rules";
 import { getAnswers, saveAnswers } from "@/lib/fit/stored-answers";
 import { useLeave } from "@/lib/fit/use-leave";
-import { LogoPlaceholder, PROOF_PATH } from "../FitStepForm";
+import { PROOF_PATH } from "../FitStepForm";
 
 const SHOWN = 5;
 
@@ -142,13 +142,12 @@ export function PlanSearch() {
                   aria-checked={on}
                   onClick={() => pick(item.name, item.planId)}
                   className={cx(
-                    "focus-ring flex min-h-12 w-full cursor-pointer items-center gap-3 rounded-field py-1.5 pr-3.5 pl-2.5 text-left text-body-lg",
+                    "focus-ring flex min-h-12 w-full cursor-pointer items-center gap-3 rounded-field px-4 py-1.5 text-left text-body-lg",
                     on
                       ? "border-2 border-action bg-wash font-bold text-ink"
                       : "border-[1.5px] border-line-control bg-white font-medium text-navy hover:border-action",
                   )}
                 >
-                  <LogoPlaceholder selected={on} />
                   <span>{item.name}</span>
                 </button>
               );
