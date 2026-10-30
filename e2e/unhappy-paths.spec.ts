@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./test";
 import { copy } from "@/copy";
 import {
   aboutYou,
@@ -16,6 +16,7 @@ import {
   toWhatsGoingOn,
   understood,
 } from "./helpers";
+import { blockAnalytics } from "./test";
 
 // Every unhappy path in the design handoff (boards U01 to U16). The ones that
 // depend on what the AI says get the AI step's answer from a mock in the
@@ -207,6 +208,7 @@ test("U14 the email is already used", async ({ browser, page }, testInfo) => {
 
   // A second visitor with the same email
   const other = await browser.newContext({ viewport: page.viewportSize() ?? undefined });
+  await blockAnalytics(other);
   const second = await other.newPage();
   await mockWhatsGoingOn(second, understood());
   await toWhatsGoingOn(second, testInfo);

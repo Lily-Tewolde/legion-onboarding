@@ -6,7 +6,8 @@ import { defineConfig } from "@playwright/test";
 // design pass), and 1440 x 900 for desktop.
 //
 // By default this builds the app and serves it on port 3300 with .env.local,
-// so the AI, Supabase and PostHog calls are real. BASE_URL points the tests at
+// so the AI and Supabase calls are real; PostHog is blocked (e2e/test.ts), so
+// test runs never reach the funnel. BASE_URL points the tests at
 // a running app instead, like a preview. Uses the installed Chrome, so there's
 // no browser download
 
@@ -20,7 +21,8 @@ export default defineConfig({
   fullyParallel: true,
   // Each test is a new visitor, but the AI limits are shared, so not too many at once
   workers: 3,
-  retries: 0,
+  // One retry, for the odd slow Chrome start; a retried pass shows as "flaky"
+  retries: 1,
   reporter: [["list"]],
   use: {
     baseURL,

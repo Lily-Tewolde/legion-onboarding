@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "./test";
 import { copy } from "@/copy";
 import { book, checkScreen, confirm, describe, toWhatsGoingOn } from "./helpers";
 
