@@ -18,7 +18,7 @@ import { type CardErrors, cardErrors } from "@/lib/checkout/validate";
 // visit summary sits collapsed above it and opens inside the same card. The
 // card is checked in the browser only and never sent anywhere: payment is
 // simulated. It's cleared as soon as the screen is hidden. Each field gets
-// its own error (copy audit), and the terms notice sits right before the button
+// its own error (copy audit). The terms notice and consent are on details
 
 const EMPTY_CARD = { number: "", expiry: "", securityCode: "", zip: "" };
 
@@ -143,8 +143,6 @@ export function PaymentForm({ flow, whenShort, summary }: { flow: Flow; whenShor
               <TextField id="card-code" label={copy.checkout.securityCode} value={card.securityCode} onChange={(v) => set("securityCode", v)} inputMode="numeric" autoComplete="cc-csc" inputClassName="pr-2" error={errors.securityCode ? copy.checkout.errors.securityCode : undefined} />
               <TextField id="card-zip" label={copy.checkout.zip} value={card.zip} onChange={(v) => set("zip", v)} inputMode="numeric" autoComplete="postal-code" inputClassName="pr-2" error={errors.zip ? copy.checkout.errors.zip : undefined} />
             </div>
-            {/* Moved here from the details step (copy audit). Consent stays on details */}
-            <p className="pt-1 text-label text-slate">{copy.checkout.notice}</p>
           </form>
         </section>
       </Card>
