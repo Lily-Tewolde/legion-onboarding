@@ -31,7 +31,7 @@ export const whatsGoingOnStore = createSessionStore<WhatsGoingOnState>("lh_whats
 
 // Where the crisis screen was reached from, for "I'm safe right now" and the
 // free-text line
-export type CrisisFrom = { from: "safety_question" | "whats_going_on" };
+export type CrisisFrom = { from: "safety_question" | "whats_going_on" | "check_in" };
 
 export const crisisFromStore = createSessionStore<CrisisFrom>("lh_crisis_from", { from: "safety_question" });
 
