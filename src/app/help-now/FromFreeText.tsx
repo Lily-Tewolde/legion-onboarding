@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { NoticeText } from "@/components/Notice";
 import { copy } from "@/copy";
 import { crisisFromStore } from "@/lib/whats-going-on/stored";
 
@@ -8,5 +9,5 @@ import { crisisFromStore } from "@/lib/whats-going-on/stored";
 // something the patient typed or said, not from the safety question
 export function FromFreeText() {
   const crisis = useSyncExternalStore(crisisFromStore.subscribe, crisisFromStore.get, crisisFromStore.getServer);
-  return crisis && crisis.from !== "safety_question" ? <p>{copy.crisis.fromText}</p> : null;
+  return crisis && crisis.from !== "safety_question" ? <NoticeText>{copy.crisis.fromText}</NoticeText> : null;
 }
