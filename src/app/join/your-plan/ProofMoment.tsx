@@ -44,7 +44,15 @@ export function ProofMoment() {
       }
     >
       <section aria-labelledby="proof-title" className="rise card overflow-hidden">
-        <Photo photo="yourProvider" alt={copy.coverage.proofPhoto} className="h-32 md:h-40" priority />
+        {/* Her head starts about 11% down the photo: anchored near the top so
+            it isn't cut off, with room on phones for her hands too */}
+        <Photo
+          photo="yourProvider"
+          alt={copy.coverage.proofPhoto}
+          className="h-44 md:h-40"
+          crop="object-[50%_30%] md:object-[50%_17%]"
+          priority
+        />
         <div className="flex flex-col gap-3 px-4 pb-4 md:px-6 md:pb-6">
           <h1 id="proof-title" className="display text-[22px] leading-7 md:text-[28px] md:leading-9">
             {copy.coverage.proofTitle}
