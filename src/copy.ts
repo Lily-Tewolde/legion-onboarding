@@ -119,6 +119,8 @@ export const copy = {
     stillNotListed: "I still don’t see my plan",
     choosePlan: "Please choose your plan.",
     searchAgain: "Search again",
+    // Beside an insurer Legion doesn't take, in the plan search (Lily, Oct 30)
+    selfPayOnly: "Self-pay only",
     notListed:
       "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan.",
     // Claude Design's wording

@@ -176,6 +176,7 @@ Shown under the plan field once a plan is picked. Not its own screen.
     - When more plans match than show: "Keep typing to see {n} more"
     - Link: "I still don't see my plan"
     - Error: "Please choose your plan."
+    - In the logo slot of an insurer Legion doesn't take (no logo, on purpose): "Self-pay only" **[decided Oct 30]**
     - Button: "Search again"
 - Only if their plan still isn't there: "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan."
 - Buttons: "Continue as self-pay", "Talk to a person"
