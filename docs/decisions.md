@@ -166,7 +166,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · Five claims are tests, not facts
 
-- **What:** Treated as tests: that the new fit check recovers the 1,912, that the recommended provider fixes the 36.6%, that mobile is worse, that removing testimonials helps, and that the cost surprise loses people. Each has a test in `analysis/test-plan.md`
+- **What:** Treated as tests: that the new fit check recovers the 1,912, that the recommended provider fixes the 36.6%, that mobile is worse, that one small quote does better than Legion's big testimonial panel *(reworded Oct 29)*, and that the cost surprise loses people. Each has a test in `analysis/test-plan.md`
 - **Why:** They come from one walk and the funnel data, which show where people drop but not why
 - **Rejected:** Stating them as findings in the readout
 - **Revisit when:** A test reads out
@@ -236,7 +236,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · Use Legion's real prices and cancellation fees, labelled
 
-- **What:** The copy uses Legion's prices from the current flow's payment page: self-pay $250 for the first visit and $150 for follow-ups; late cancellation (within 48 hours) or no-show $250 for first visits and $100 for follow-ups; most insured patients pay $0 to $40. Each is labelled "From Legion's current flow"
+- **What:** The copy uses Legion's prices from the current flow's payment page: self-pay $250 for the first visit and $150 for follow-ups; late cancellation (within 48 hours) or no-show $250 for first visits and $100 for follow-ups; most insured patients pay $0 to $40. Each is labelled "From Legion's current flow" *(updated Oct 29: credited in the README instead of on screen; see below)*
 - **Why:** Real numbers make the cost screen honest and show the change is about when the cost is shown, not what it is
 - **Rejected:** Made-up demo prices
 - **Revisit when:** Legion's prices change
@@ -749,7 +749,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 ## 2026-10-29 · Design: photos, the desktop panel and placeholders
 
 - **What:**
-    - **Desktop panel:** a photo instead of the sunrise drawing, slightly taller, changing per phase or every couple of steps. The patient quote shows on every desktop panel screen, as a placeholder for now. No panel on the crisis screens and screen-outs. Updates the build brief's "no split screen, no testimonial panel"
+    - **Desktop panel:** a photo instead of the sunrise drawing, slightly taller, changing per phase or every couple of steps. The patient quote shows on every desktop panel screen, as a placeholder for now: one small quote, not Legion's big testimonial panel, which is what Lily rejected. No panel on the crisis screens and screen-outs. Updates the build brief's "no split screen, no testimonial panel"
     - **Photos:** clearly labelled placeholders, each with a note of what kind of photo goes there: people looking happy and supported, mental health as a priority, like the front of Legion's portal. Lily sources free commercial-licence photos. A photo inside a card on the in-between screens, like the proof moment and booked, with a soft curved edge between the photo and the content below it
     - **Logo:** a small placeholder at the top, sized for Legion's real logo. Claude Code drops in the real logo, the insurer logos and the photos
     - **Reviews:** asked for in the portal after the first visit, not inside the flow
@@ -823,6 +823,11 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 ## 2026-10-29 · Design: the handoff spec
 
 - **What:** Claude Design's two style boards are the handoff spec for Claude Code: the colour tokens, the type scale, the spacing scale, radius and shadows, the motion values, and every component in each of its states (default, hover, pressed, focus, selected, disabled and error) for buttons, chips, inputs, cards and sheets, with a short note on how the layout changes between mobile and desktop. After the final round, the design goes to Claude Code to build, and nothing outside the final list is redesigned
+
+## 2026-10-29 · Demo labels at the bottom of the screen; Legion's current flow credited in the README
+
+- **What:** Demo labels stay, but only as one small line at the bottom of a screen where something is made up or simulated, plus the banner at the top. "From Legion's current flow" comes off the screens and goes in the README instead. The copy draft still marks those lines, so the source stays clear. Updates "Use Legion's real prices and cancellation fees, labelled" above
+- **Why:** The banner at the top already says it's a demo, so one small line at the bottom of a page is enough
 
 ---
 

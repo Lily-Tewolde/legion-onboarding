@@ -43,7 +43,9 @@ The flow goes from "Let's get you care" to a completed first visit, in 12 screen
 
 **Safety:** a word list and a separate AI flag check every free-text answer. Either one can send the patient to crisis resources and a person, and neither can clear the other. The AI never diagnoses or gives medical advice.
 
-All data is made up. Coverage, payment, messages and the visit are simulated and labelled on screen.
+All data is made up. Coverage, payment, messages and the visit are simulated, with one small demo line at the bottom of each screen where it applies.
+
+**From Legion's current flow:** the prices (self-pay $250 for the first visit and $150 for follow-ups, and most insured patients paying $0 to $40 a visit), the cancellation and no-show policy (free up to 48 hours before; otherwise $250 for a first visit and $100 for a follow-up, and a no-show means not joining within 10 minutes), when insured patients are charged (about 5 days after the visit), the 60-minute first visit, the hospital-stay question and the three needs options in the simple form. They're credited here instead of on screen.
 
 ## Key decisions and tradeoffs
 
