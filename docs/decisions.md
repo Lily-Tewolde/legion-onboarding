@@ -893,6 +893,13 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Why:** A separate project keeps the funnel and the readout's numbers clean and easy to reproduce
 - **Rejected:** The shared project, where another app's events sit next to the prototype's
 
+## 2026-10-29 · Body text stays at 16px on mobile; space comes from layout
+
+- **What:** Body text, inputs and chip labels stay at 16px on mobile, the build brief's minimum. Headings can get smaller on mobile. When a screen feels crowded, the fix is layout: Continue pinned to the bottom, content within about 700px, tighter spacing on the 8px grid, and fewer chips per row or two columns
+- **Why:** Patients go up to about 65, so readability comes first. On an iPhone, Safari zooms the page when someone taps a field with text under 16px, which is jarring in the middle of a form. Lily already decided chip labels stay at 16px rather than 15px
+- **Rejected:** Smaller body text on mobile to fit more on each screen
+- **Revisit when:** Mobile still feels crowded after the design pass. Then Lily names it as a tradeoff in the README: readability over density
+
 ---
 
 # Spoken defence (fill before the review call)
