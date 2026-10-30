@@ -24,6 +24,7 @@ import {
   validateFields,
   type YesNo,
 } from "@/lib/fit/rules";
+import { TrackEvent, TrackPageview, track, trackPageview } from "@/lib/analytics/track";
 import { searchPlans } from "@/lib/fit/plan-search";
 import { getAnswers, getServerAnswers, saveAnswers, subscribeAnswers } from "@/lib/fit/stored-answers";
 import { useLeave } from "@/lib/fit/use-leave";
@@ -116,6 +117,7 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
   const startSession = () => {
     if (started.current) return;
     started.current = true;
+    if (step === "about") trackPageview("/portal/join/fit");
     fetch("/api/session", { method: "POST" }).catch(() => {});
   };
 
@@ -161,7 +163,10 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
         body: JSON.stringify({ mode: "submit", answers }),
       });
       if (!response.ok) throw new Error(`fit check failed: ${response.status}`);
-      const { path } = await response.json();
+      const { outcome, path } = await response.json();
+      track("portal.fit.submitted", { result: outcome.result });
+      if (outcome.result === "screened_out") track("portal.fit.screened_out", { reason: outcome.reason });
+      if (outcome.result === "crisis") track("portal.crisis.shown", { source: "safety_question", kind: null, step: "fit" });
       router.push(path);
     } catch {
       setFailed(true);
@@ -178,6 +183,7 @@ function StepForm({ step, answers }: { step: FitStep; answers: FitAnswers }) {
 
   return (
     <form noValidate onSubmit={onSubmit} className="flex flex-col gap-8">
+      {step === "about" && <TrackPageview path="/portal/join" />}
       {step === "about" && (
         <>
           <TextField
@@ -303,6 +309,7 @@ function InsuranceQuestions({
           />
           {plan && !plan.screensOut && (
             <div className="flex flex-col gap-2">
+              <TrackEvent event="portal.coverage.shown" properties={{ pay_method: "insurance" }} />
               <p>{copy.coverage.covered}</p>
               <div>
                 <Tag>{copy.common.fromLegion}</Tag>
@@ -325,6 +332,7 @@ function InsuranceQuestions({
 
       {answers.payMethod === "self_pay" && (
         <div className="flex flex-col gap-6">
+          <TrackEvent event="portal.coverage.shown" properties={{ pay_method: "self_pay" }} />
           <div className="flex flex-col gap-2">
             <p>{copy.join.selfPayPrice}</p>
             <div>

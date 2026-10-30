@@ -9,6 +9,7 @@ import type { CheckInTurn } from "@/lib/ai/check-in";
 import { type CheckInState, checkInStore, nextMessageId } from "@/lib/check-in/stored";
 import { slowStage } from "@/lib/whats-going-on/flow";
 import { useSpeech } from "@/app/join/whats-going-on/useSpeech";
+import { track } from "@/lib/analytics/track";
 import { finishCheckIn, sendTurns } from "./actions";
 import { MedicationCheck } from "./MedicationCheck";
 
@@ -232,7 +233,13 @@ function InlineNoteText({ note }: { note: NonNullable<CheckInState["note"]> }) {
 // never blocks the visit
 function SkipCheckIn() {
   return (
-    <ButtonLink href="/visit" variant="text" size="small" className="self-start text-sm">
+    <ButtonLink
+      href="/visit"
+      variant="text"
+      size="small"
+      className="self-start text-sm"
+      onClick={() => track("portal.intake.skipped")}
+    >
       {copy.checkIn.skipCheckIn}
     </ButtonLink>
   );

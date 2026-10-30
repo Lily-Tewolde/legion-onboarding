@@ -15,6 +15,7 @@ import { getAnswers, saveAnswers } from "@/lib/fit/stored-answers";
 import { useLeave } from "@/lib/fit/use-leave";
 import { diagnosisRows, knownDiagnoses, type RecheckType, recheckRows, toggleChip } from "@/lib/whats-going-on/flow";
 import { type WhatsGoingOnState, whatsGoingOnStore } from "@/lib/whats-going-on/stored";
+import { track } from "@/lib/analytics/track";
 
 // Screen 3. The patient checks what we understood: removes what's wrong, adds
 // what we missed, answers "Have you been diagnosed with {item}?" for each
@@ -152,6 +153,9 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
       });
       if (!response.ok) throw new Error(`saving concerns failed: ${response.status}`);
       const { path } = await response.json();
+      const original = understanding.chips.map((chip) => chip.label);
+      const corrected = original.length !== labels.length || original.some((label) => !labels.includes(label));
+      track("portal.concern.confirmed", { corrected, labels });
       router.push(path);
     } catch {
       setErrors({ save: true });

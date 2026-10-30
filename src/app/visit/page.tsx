@@ -8,9 +8,11 @@ import { visitLine } from "@/lib/provider/present";
 import { VISIT_MINUTES, visitDay, visitTime } from "@/lib/visit-time";
 import { providerName } from "@/server/booking";
 import { bookedSessionOrRedirect, type BookedSession, messageContext, portalInbox } from "@/server/portal";
+import { TrackEvent } from "@/lib/analytics/track";
 import { DemoSkip } from "./DemoSkip";
 import { Message } from "./Message";
 import { NpsDialog } from "./NpsDialog";
+import { TrackInvite } from "./PortalTracking";
 import { VisitActions } from "./VisitActions";
 
 // Screen 7: "Your first visit", a simple patient portal page. The check-in
@@ -38,6 +40,8 @@ async function Visit() {
 
   return (
     <div className="flex flex-col gap-8">
+      <TrackEvent event="portal.visit_page.viewed" />
+      {messages.some((message) => message.kind === "invite") && <TrackInvite slotStart={session.slot_start} />}
       <Milestones session={session} />
 
       <section className="flex flex-col gap-3 rounded-lg border border-line p-4">

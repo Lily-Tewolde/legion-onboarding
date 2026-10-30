@@ -4,12 +4,13 @@ import { useRouter } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 import { Button, ButtonLink } from "@/components/Button";
 import { copy } from "@/copy";
+import { track } from "@/lib/analytics/track";
 
 // "Mark visit completed" and "Mark no-show". Either can be changed afterwards,
 // since it's a demo
 type Outcome = "completed" | "no_show";
 
-export function DemoControls() {
+export function DemoControls({ intakeDone }: { intakeDone: boolean }) {
   const router = useRouter();
   const [marked, setMarked] = useState<Outcome | null>(null);
   const [busy, setBusy] = useState(false);
@@ -35,6 +36,9 @@ export function DemoControls() {
         body: JSON.stringify({ outcome }),
       });
       if (!response.ok) throw new Error(`outcome failed: ${response.status}`);
+      // The north-star event, with whether the check-in was done
+      if (outcome === "completed") track("portal.visit.completed", { intake_done: intakeDone });
+      else track("portal.visit.no_show");
       setMarked(outcome);
       router.refresh();
     } catch {
