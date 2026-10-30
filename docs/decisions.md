@@ -907,6 +907,13 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Rejected:** The notice and consent on payment, right before "Book my visit", as the copy audit first had it
 - **Revisit when:** Legion's counsel says where the notice and consent have to sit
 
+## 2026-10-29 · Insurer logos in the plan cards, to match Legion's current flow
+
+- **What:** Lily switched the plan cards from text only to text with logos, to match Legion's current flow. Aetna, Blue Cross Blue Shield, Cigna, UnitedHealthcare and Oscar each show their own logo, small, beside the plan name, in the plan list, the picked plan and plan search. Medicaid, Medicare and plans found only by search have no logo and keep the same space, so the names line up. Each logo comes from the insurer's own website and is credited in `CREDITS.md`. Updates "Photos for the design pass, initials for providers, no insurer logos" above; provider initials stay
+- **Why:** Patients recognise their insurer's logo faster than its name, and Legion's current flow already shows them
+- **Rejected:** Text only. Logo placeholders
+- **Revisit if:** Legion would rather use logos from its own brand files, or an insurer's guidelines ask for different use
+
 ## 2026-10-30 · Content clears the pinned footer at 390 x 700, not 844
 
 - **What:** On phones under 760px tall, spacing tightens so each screen's content clears the pinned button on first view: gaps 12 to 8px, card padding 16 to 12px, the primary button 54 to 48px, a slimmer progress row and footer, the same on the crisis screens and screen-outs. 390 x 844 and desktop are unchanged. On phones, details shows the visit collapsed to when, who and the cost, and it opens to when they're charged and the cancel policy, like payment. Lily's call after the PR 23 design audit (PR 32)

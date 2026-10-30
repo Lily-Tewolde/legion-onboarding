@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 import { Button } from "@/components/Button";
 import { cx } from "@/components/cx";
 import { CheckCircleFilled, Search, Sparkle, Video } from "@/components/icons";
+import { InsurerLogo } from "@/components/InsurerLogo";
 import { Card, DemoLine, PageTitle, Screen } from "@/components/Screen";
 import { FieldError, SegmentedControl } from "@/components/SegmentedControl";
 import { Skeleton } from "@/components/Skeleton";
@@ -362,6 +363,7 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
             <>
               <div className="flex items-center gap-2">
                 <div className="flex min-h-field flex-1 items-center gap-3 rounded-field border-2 border-action bg-wash px-4 text-body-lg font-bold whitespace-nowrap text-ink">
+                  <InsurerLogo planId={plan.id} />
                   {plan.name}
                 </div>
                 <Button variant="text" onClick={() => update({ planId: undefined })}>
@@ -389,11 +391,12 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
                   aria-checked={answers.planId === option.id}
                   onClick={() => tap("planId", { planId: option.id })}
                   className={cx(
-                    "focus-ring flex min-h-[46px] w-full cursor-pointer items-center gap-3 rounded-field px-4 text-left text-body-lg whitespace-nowrap",
+                    "focus-ring flex min-h-[46px] w-full cursor-pointer items-center gap-3 rounded-field px-4 text-left text-body-lg whitespace-nowrap md:py-1.5 md:leading-tight md:whitespace-normal",
                     "border-[1.5px] bg-white font-medium text-navy hover:border-action",
                     error("planId") ? "border-error" : "border-line-control",
                   )}
                 >
+                  <InsurerLogo planId={option.id} />
                   {option.name}
                 </button>
               ))}

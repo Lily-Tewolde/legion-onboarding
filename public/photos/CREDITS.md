@@ -9,3 +9,15 @@ Photos are from Pexels, free for personal and commercial use under the Pexels li
 | your-provider.jpg | Clinician smiling at a laptop | Desktop panel, "Your provider", and the screen after insurance | Pexels, free for personal and commercial use under the Pexels license |
 | book.jpg | Woman with a coffee in morning light, relaxed | Desktop panel, "Book", and "You're booked" | Pexels, free for personal and commercial use under the Pexels license |
 | legion-logo.png | Legion Health logo | Header on every screen | Legion Health's own logo, from legionhealth.com. Used only in this prototype for Legion |
+
+## Insurer logos
+
+Each insurer's own logo, downloaded from its own website on Oct 29, 2026, and used only in this prototype for Legion, next to the plan name, the way Legion's current flow shows them. The logos belong to their owners.
+
+| File | Shows | Used on | Source |
+|---|---|---|---|
+| insurers/aetna.svg | Aetna logo | Plan cards on screen 1 and plan search | aetna.com, the site header logo: https://www.aetna.com/content/dam/aetna/images/logos/Aetna_Logo_ss_Violet_RGB_Coated.svg |
+| insurers/bcbs.svg | Blue Cross Blue Shield logo | Plan cards on screen 1 and plan search | bcbs.com, the site header logo (served from https://www.bcbs.com/dA/cec184ec-9008-4a98-bd75-b5d2304fb861/85q) |
+| insurers/cigna.svg | Cigna Healthcare logo | Plan cards on screen 1 and plan search | cigna.com, the inline SVG logo in the site header |
+| insurers/unitedhealthcare.svg | UnitedHealthcare logo | Plan cards on screen 1 and plan search | uhc.com, the site header logo: https://www.uhc.com/content/dam/uhcdotcom/website-assets/logo-blue.svg |
+| insurers/oscar.svg | Oscar logo | Plan cards on screen 1 and plan search | hioscar.com, the inline SVG logo in the site header, in the site's own colour (#4F50FF) |

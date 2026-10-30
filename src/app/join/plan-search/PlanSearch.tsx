@@ -16,6 +16,7 @@ import { searchPlanList } from "@/lib/fit/plan-search";
 import { tapOutcome } from "@/lib/fit/rules";
 import { getAnswers, saveAnswers } from "@/lib/fit/stored-answers";
 import { useLeave } from "@/lib/fit/use-leave";
+import { InsurerLogo } from "@/components/InsurerLogo";
 import { PROOF_PATH } from "../FitStepForm";
 
 const SHOWN = 5;
@@ -148,6 +149,7 @@ export function PlanSearch() {
                   : "border-[1.5px] border-line-control bg-white font-medium text-navy hover:border-action",
               )}
             >
+              <InsurerLogo planId={item.planId} />
               <span>{item.name}</span>
             </button>
           );
