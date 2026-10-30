@@ -1,6 +1,6 @@
 # Decision log
 
-One entry per decision, written the same session it's made. This becomes the spoken defence.
+One entry per decision, written the same session it's made: what, why, what we rejected, and what would make us revisit it.
 
 ## 2026-10-28 · The repo holds only assignment material
 
