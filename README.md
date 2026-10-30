@@ -4,6 +4,30 @@
 
 **Live:** [fill in] · **Repo:** [fill in] · **PRs:** [fill in] · **Walkthrough:** [fill in] · **AI history:** [fill in]
 
+## How to try it
+
+> [fill in after the design pass: anything below that changes, like where Demo controls sit and the booking steps]
+
+**Live:** [fill in]. Use made-up details only. The banner on every screen says so.
+
+**The happy path, about 3 minutes:**
+
+1. **Let's get you care:** any date of birth over 18, "Yes" to Texas, "Yes" to insurance, then pick a plan like Aetna. Answer "No" to the safety and hospital questions
+2. **What's going on?:** type "I was diagnosed with ADHD and my medication ran out", or tap a chip
+3. **Here's what we understood:** tap "Looks right"
+4. **Your provider:** keep the recommended provider and time, and book it
+5. **Book your visit:** a made-up name, email and phone, the consent box, and card 4242 4242 4242 4242 with any future expiry, any 3-digit code and any 5-digit ZIP
+6. **Your visit:** "Demo: skip to 72 hours", then "Start check-in" and answer a few questions
+7. **Finish:** in Demo controls, open the clinician view, then mark the visit completed and rate it
+
+**Demo controls:** [fill in: where they sit after the design pass]. They mark the visit completed or a no-show, and switch between the patient portal and the clinician view.
+
+**The crisis screen:** type "I don't want to be here anymore" in "What's going on?".
+
+**The clinician view:** open it from Demo controls, in the same browser tab as the check-in, since the answers stay in that tab. With no check-in, "Load a sample check-in" shows a labelled example.
+
+**Simulated:** the coverage check, payment, sign-in, the providers and their times, the inbox messages (nothing is sent) and the visit itself. The AI is real.
+
 ## The problem and the data
 
 A Texas adult looking for psychiatric care has to get from "I need help" to a completed first visit. In Legion's last 30 days of data (to Aug 29, 2026), 5,898 sessions start onboarding and 1,403 reach the payment page (23.8%). Nothing after the payment page is measured, so no one knows how many of them end in a first visit, which is where onboarding ends.
