@@ -294,7 +294,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 ## 2026-10-29 · Roll out the AI intake the way Legion rolls out Utah renewals
 
 - **What:** Clinicians check every summary against the full conversation for the first 250 intakes, then audit 10% of the next 1,000. The AI pauses and the intake goes back to the form immediately on any missed crisis or any made-up statement that could affect care, and also if more than 2% of audited summaries have an error. It resumes only after a fix, a passing eval run and sign-off from Legion's clinical lead. Clinician time savings are measured from the audit phase, since full checks add time at first. All numbers are proposals for Legion's clinical team
-- **Why:** It mirrors how Legion already introduces AI (Utah renewals: the first 250 with human and AI agreement, then a human audit of the next 1,000), so the clinical team knows the pattern
+- **Why:** It mirrors how Legion already introduces AI (Utah renewals: the first 250 with human and AI agreement, then a human audit of the next 1,000; sources in `docs/research.md`, question 6), so the clinical team knows the pattern
 - **Rejected:** A smaller first phase of 50, too small a sample to trust. Full checks until sign-off with no set numbers, which has no end point and uses up the clinician minutes the intake is meant to save
 - **Revisit when:** Legion's clinical team sets different numbers
 

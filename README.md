@@ -54,7 +54,7 @@ The full log, with what I rejected and when I'd revisit each one, is in `docs/de
 1. **The fit check asks facts, not six yes / no cards.** Fewer taps and coverage much earlier. The tradeoff: a typed date of birth can be mistyped, so the age rule is tested at its edges
 2. **One "What's going on?" question instead of the conditions and needs pages.** It gives the recommended provider a real reason. Those two pages lose few sessions today, so I didn't build a full chat in booking
 3. **Card at booking, charged after the visit.** There's no evidence payment is where people drop, and a card protects against no-shows. Reserve-first is in what's next, to test once payment is tracked
-4. **The AI check-in rolls out the way Legion rolls out Utah renewals:** clinicians check every summary for the first 250, then audit 10% of the next 1,000, with clear pause rules. The numbers are proposals for Legion's clinical team
+4. **The AI check-in rolls out the way Legion rolls out Utah renewals:** clinicians check every summary for the first 250, then audit 10% of the next 1,000, with clear pause rules. The 250 and 1,000 come from Legion's Utah pilot (`docs/research.md`, question 6); the 10% and the pause rules are proposals for Legion's clinical team
 5. **Tell patients about AI once, at the start,** with a "Talk to a person" link on every screen
 
 ## How I'd measure it through the first visit
@@ -86,10 +86,10 @@ From `docs/next.md`:
 
 ## How I used AI
 
-- **Three tools, one spec:** a Cowork session for the research, the data read, the spec, the docs and reviewing every PR; Claude Design for the visual design, over rounds of my feedback; and Claude Code for the build, in small PRs, each checked against the spec before I merged it
-- **Evals before prompts ship:** a 70-case golden set and `npm run eval`. I scored 10 grader cases blind before seeing the grader's results, and it agrees with me on all 10
+- **Two Cowork sessions, Claude Design and Claude Code, one spec:** one Cowork session for the work (the research, the data read, the spec, the docs and reviewing every PR) and one for the competitor research; Claude Design for the visual design, over rounds of my feedback; and Claude Code for the build, in small PRs, each checked against the spec before I merged it
+- **Evals before prompts ship:** a 70-case golden set and `npm run eval`. I scored 10 grader cases blind before seeing the grader's results. It agreed with me on 9 of 10 at first, and the miss was the answer key, which I corrected and logged
 - **Every decision is mine,** and I edited or approved every line of copy. Where I changed an AI draft, the doc says so (for example, "Changes from the AI draft" in `docs/data-read.md`)
-- **The full, unedited AI history,** with its index: [fill in]
+- **The AI history, unedited, with its index:** [fill in]
 
 ---
 

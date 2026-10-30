@@ -71,6 +71,15 @@ Added for the fit check rework (idea F3). Lily found these sources; the Legion C
 
 **What it means for us:** Rula screens with facts (age, state, insurance) and shows in-network providers right away, then collects the rest after booking. Talkiatry's pre-visit questionnaire is a precedent for a check-in before each visit. Rula's first step also asks for name, email and phone, so it's short but not only facts.
 
+## 6. How Legion rolls out AI today: Utah renewals
+
+Added Oct 29 to source the rollout decision ("Roll out the AI intake the way Legion rolls out Utah renewals").
+
+- **What Legion told Lily:** Yash Patel (CEO), Oct 27: for stable patients on a scoped formulary, AI can renew without a human. The first 250 need human plus AI concordance, then the next 1,000 get a human audit (`Legion Health - Take-Home Context Pack.md`, outside the repo)
+- **What Utah's Department of Commerce publishes:** a 12-month pilot that only renews existing, non-controlled prescriptions for stable patients, and "does not diagnose, prescribe new medications, or adjust doses." Phased validation: the "first 250 requests: reviewed by a licensed clinician before completion", the "next 1,000 requests: undergo intensive retrospective review to confirm accuracy", then "monthly randomized sampling and auditing of cases", with monthly reporting to Utah's Office of Artificial Intelligence Policy ([Utah Department of Commerce: Legion Health agreement](https://commerce.utah.gov/ai/agreements/ai-legion-health/))
+
+**What it means for us:** the 250 and 1,000 phases are Legion's own pattern, so the check-in rollout mirrors it. The 10% audit of the next 1,000 and the pause rules are our proposal for Legion's clinical team; Utah's page describes an intensive review of all 1,000.
+
 - [NN/g: Hierarchy of Trust](https://www.nngroup.com/articles/commitment-levels/)
 - [NN/g: Social Proof in the User Experience](https://www.nngroup.com/articles/social-proof-ux/)
 - [Baymard: Enclosed checkout design](https://baymard.com/guidelines/606-enclosed-checkout-design)
@@ -88,3 +97,4 @@ Added for the fit check rework (idea F3). Lily found these sources; the Legion C
 - [Federal Register: Fourth temporary extension of telemedicine flexibilities](https://www.federalregister.gov/documents/2025/12/31/2025-24123/fourth-temporary-extension-of-covid-19-telemedicine-flexibilities-for-prescription-of-controlled)
 - [Texas HB 149 (enrolled)](https://capitol.texas.gov/tlodocs/89R/billtext/pdf/HB00149F.pdf)
 - [Texas Health & Safety Code §183.005](https://law.justia.com/codes/texas/health-and-safety-code/title-2/subtitle-i/chapter-183/section-183-005/)
+- [Utah Department of Commerce: Legion Health agreement](https://commerce.utah.gov/ai/agreements/ai-legion-health/)
