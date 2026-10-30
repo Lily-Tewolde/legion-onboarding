@@ -37,7 +37,7 @@ The flow goes from "Let's get you care" to a completed first visit, in 12 screen
 3. **Here's what we understood:** the AI restates it as chips for the patient to fix, and asks only what we don't know
 4. **Your provider:** one recommended provider first, with a short reason
 5. **Book your visit:** the full cost and cancellation policy before the card, on one page
-6. **You're booked**, then the portal, an in-app inbox, an **AI pre-visit check-in**, a **clinician view** with a one-page summary, reminders, and demo controls to finish the visit
+6. **You're booked**, then a portal with Visit, Inbox and Profile tabs, an **AI pre-visit check-in**, a **clinician view** that leads with what a doctor scans first, reminders, demo controls to finish the visit, and an NPS question only after the visit
 
 **Built fully:** the AI pre-visit check-in and the clinician summary. That's where AI does real clinical data-collection work, and it sits in the stretch from booked to first visit that Legion doesn't measure today. **Built simply:** the booking screens, which are mostly layout fixes to the measured drops.
 
@@ -84,7 +84,7 @@ From `docs/next.md`:
 
 ## How I used AI
 
-- **Two sessions:** a Cowork session for the research, the data read, the spec, the docs and reviewing every PR, and Claude Code for the build, in small PRs, each checked against the spec before I merged it
+- **Three tools, one spec:** a Cowork session for the research, the data read, the spec, the docs and reviewing every PR; Claude Design for the visual design, over rounds of my feedback; and Claude Code for the build, in small PRs, each checked against the spec before I merged it
 - **Evals before prompts ship:** a 70-case golden set and `npm run eval`. I scored 10 grader cases blind before seeing the grader's results, and it agrees with me on all 10
 - **Every decision is mine,** and I edited or approved every line of copy. Where I changed an AI draft, the doc says so (for example, "Changes from the AI draft" in `docs/data-read.md`)
 - **The full, unedited AI history,** with its index: [fill in]
