@@ -38,7 +38,8 @@ export async function POST(request: Request) {
     });
     if (!rescheduling) return NextResponse.json({ path: "/join/book" });
     await resetDemoClock();
-    return NextResponse.json({ path: "/join/booked" });
+    // Back to the visit page, which says "Your visit is now {day} at {time}."
+    return NextResponse.json({ path: "/visit?rescheduled=1" });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "unavailable" }, { status: 500 });

@@ -7,6 +7,7 @@ import { TrackPageview } from "@/lib/analytics/track";
 import { providerOption } from "@/lib/provider/present";
 import { missingFor, recommendationFor } from "@/server/booking";
 import { providerSummary } from "@/server/provider-summary";
+import { lessThan48Hours } from "@/server/portal";
 import { getSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
 import { NoTimes } from "./NoTimes";
@@ -49,6 +50,7 @@ async function Recommended() {
       summary={summary}
       hasOthers={result.others.length > 0}
       rescheduling={Boolean(session.booked_at)}
+      late={session.booked_at && session.slot_start && !session.visit_outcome ? await lessThan48Hours(session.slot_start) : false}
     />
   );
 }

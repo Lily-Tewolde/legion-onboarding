@@ -10,9 +10,9 @@ import { Tag } from "@/components/Tag";
 import { VisitCard } from "@/components/VisitCard";
 import { copy } from "@/copy";
 import { TrackEvent } from "@/lib/analytics/track";
-import { visitShortDate } from "@/lib/visit-time";
+import { visitDay, visitShortDate, visitTime } from "@/lib/visit-time";
 import { providerName } from "@/server/booking";
-import { bookedSessionOrRedirect, type BookedSession, portalInbox } from "@/server/portal";
+import { bookedSessionOrRedirect, type BookedSession, lessThan48Hours, portalInbox } from "@/server/portal";
 import { DemoSkip } from "./DemoSkip";
 import { NpsDialog } from "./NpsDialog";
 import { PortalScreen } from "./PortalScreen";
@@ -22,10 +22,10 @@ import { VisitActions, WhatToExpect } from "./VisitActions";
 // Screen 7: "Your first visit", a simple patient portal page (Claude Design's
 // 10-Visit, 15-After and U16-NoShow). The check-in opens any time after
 // booking; the 72-hour invite is a nudge, not a lock
-export default function VisitPage() {
+export default function VisitPage({ searchParams }: PageProps<"/visit">) {
   return (
     <Suspense fallback={<VisitSkeleton />}>
-      <Visit />
+      <Visit searchParams={searchParams} />
     </Suspense>
   );
 }
@@ -38,8 +38,11 @@ function VisitSkeleton() {
   );
 }
 
-async function Visit() {
+async function Visit({ searchParams }: { searchParams: PageProps<"/visit">["searchParams"] }) {
   const session = await bookedSessionOrRedirect();
+  // Back here after rescheduling: "Your visit is now {day} at {time}."
+  const rescheduled = (await searchParams).rescheduled !== undefined;
+  const late = await lessThan48Hours(session.slot_start);
   const provider = providerName(session.provider_id);
   const { messages, nextPoint } = await portalInbox(session);
   const outcome = session.visit_outcome;
@@ -54,6 +57,12 @@ async function Visit() {
     >
       <TrackEvent event="portal.visit_page.viewed" />
       {messages.some((message) => message.kind === "invite") && <TrackInvite slotStart={session.slot_start} />}
+      {rescheduled && !outcome && (
+        <p role="status" className="flex items-center gap-2 rounded-field bg-tint px-4 py-2.5 text-body font-semibold text-ink">
+          <Check size={18} className="text-action" />
+          {copy.visit.rescheduled.replace("{day}", visitDay(session.slot_start)).replace("{time}", visitTime(session.slot_start))}
+        </p>
+      )}
       {outcome && (
         <p role="status" className="flex items-center gap-2 rounded-field border-[1.5px] border-dashed border-line-control bg-tint px-4 py-2.5 text-body font-semibold text-ink">
           <Check size={18} className="text-action" />
@@ -102,7 +111,7 @@ async function Visit() {
               <WhatToExpect aside={nextPoint && <DemoSkip to={nextPoint} className="md:hidden" />} />
             </div>
             <div className="max-md:order-1">
-              <VisitActions />
+              <VisitActions late={late} />
             </div>
           </Card>
           {!session.intake_done && (

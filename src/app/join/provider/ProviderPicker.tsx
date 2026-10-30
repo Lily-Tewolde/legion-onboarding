@@ -5,6 +5,7 @@ import { Button, ButtonLink } from "@/components/Button";
 import { Checkbox } from "@/components/Checkbox";
 import { Card, DemoLine, PageTitle, Screen } from "@/components/Screen";
 import { FieldError } from "@/components/SegmentedControl";
+import { Info } from "@/components/icons";
 import { copy } from "@/copy";
 import { track } from "@/lib/analytics/track";
 import { bookLabel, type ProviderOption } from "@/lib/provider/present";
@@ -33,15 +34,18 @@ export function ProviderPicker({
   summary,
   hasOthers,
   rescheduling = false,
+  late = false,
 }: {
   recommended: ProviderOption;
   summary: string;
   hasOthers: boolean;
   rescheduling?: boolean;
+  // Rescheduling less than 48 hours before the visit has a fee
+  late?: boolean;
 }) {
   const [slotStart, setSlotStart] = useState(recommended.slots[0].start);
   const [earlier, setEarlier] = useState(false);
-  const { book, pending, failed } = useBook(recommended.id);
+  const { book, pending, failed, taken } = useBook(recommended.id);
   const slot = recommended.slots.find((s) => s.start === slotStart) ?? recommended.slots[0];
   const [lead, ...rest] = recommended.reason.split(": ");
 
@@ -51,13 +55,19 @@ export function ProviderPicker({
       width="wide"
       footer={
         <div className="flex flex-col items-stretch gap-1">
+          {taken && (
+            <div role="alert">
+              <FieldError>{copy.provider.timeTaken}</FieldError>
+            </div>
+          )}
           {failed && (
             <div role="alert" className="flex flex-col gap-1">
               <FieldError>{copy.common.somethingWentWrong}</FieldError>
               <p className="text-body text-slate">{copy.common.keepsHappening}</p>
             </div>
           )}
-          {rescheduling && <p className="text-body text-navy">{copy.checkout.cancelPolicy}</p>}
+          {/* The short fee line stays by the button; the full policy is above it on the page */}
+          {rescheduling && late && <p className="text-body font-semibold text-ink">{copy.visit.lateReschedule}</p>}
           <Button onClick={() => book(recommended.id, slot.start)} disabled={pending} className="w-full md:w-auto md:self-start">
             {failed ? copy.common.tryAgain : bookLabel(slot)}
           </Button>
@@ -100,6 +110,12 @@ export function ProviderPicker({
           )}
         </div>
       </Card>
+      {rescheduling && (
+        <p className="flex items-start gap-2 text-body text-navy">
+          <Info size={18} className="mt-[3px] flex-none text-action" />
+          {copy.checkout.cancelPolicy}
+        </p>
+      )}
     </Screen>
   );
 }

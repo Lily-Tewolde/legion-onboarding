@@ -12,12 +12,15 @@ import { copy } from "@/copy";
 // "Reschedule" and "Cancel visit" as text-style buttons (decided Oct 29).
 // Reschedule opens the provider screen, which shows Legion's 48-hour policy
 // before the new time books. Cancel asks first, with the same policy, in a
-// sheet on phones and a dialog on desktop
-export function VisitActions() {
+// sheet on phones and a dialog on desktop. Less than 48 hours before, both
+// say the $250 fee first. Once cancelled, the sheet says so and offers "Book
+// a new time" (copy audit, Oct 29)
+export function VisitActions({ late = false }: { late?: boolean }) {
   const router = useRouter();
   const sheet = useRef<SheetHandle>(null);
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [cancelled, setCancelled] = useState(false);
 
   const cancel = async () => {
     setBusy(true);
@@ -29,9 +32,8 @@ export function VisitActions() {
         body: "{}",
       });
       if (!response.ok) throw new Error(`cancel failed: ${response.status}`);
-      const { path } = await response.json();
-      sheet.current?.close();
-      router.push(path);
+      setCancelled(true);
+      setBusy(false);
     } catch {
       setFailed(true);
       setBusy(false);
@@ -46,21 +48,42 @@ export function VisitActions() {
       <Button variant="text" onClick={() => sheet.current?.open()}>
         {copy.visit.cancel}
       </Button>
-      <Sheet ref={sheet} title={copy.visit.cancelCheck} titleId="cancel-check-title" onClose={() => setBusy(false)}>
-        <p className="text-body-lg">{copy.checkout.cancelPolicy}</p>
-        {failed && (
-          <div role="alert">
-            <FieldError>{copy.common.somethingWentWrong}</FieldError>
-          </div>
+      <Sheet
+        ref={sheet}
+        title={cancelled ? copy.visit.cancelled : copy.visit.cancelCheck}
+        titleId="cancel-check-title"
+        onClose={() => {
+          setBusy(false);
+          // The visit is gone, so the visit page can't show it any more
+          if (cancelled) router.push("/join/provider");
+        }}
+      >
+        <p role="status" className="sr-only">
+          {cancelled ? copy.visit.cancelled : ""}
+        </p>
+        {cancelled ? (
+          <ButtonLink href="/join/provider" className="w-full">
+            {copy.visit.bookNewTime}
+          </ButtonLink>
+        ) : (
+          <>
+            {late && <p className="text-body-lg font-semibold text-ink">{copy.visit.lateCancel}</p>}
+            <p className="text-body-lg">{copy.checkout.cancelPolicy}</p>
+            {failed && (
+              <div role="alert">
+                <FieldError>{copy.common.somethingWentWrong}</FieldError>
+              </div>
+            )}
+            <div className="flex flex-col gap-1">
+              <Button onClick={cancel} disabled={busy} className="w-full">
+                {copy.visit.cancelYes}
+              </Button>
+              <Button variant="text" onClick={() => sheet.current?.close()}>
+                {copy.visit.keep}
+              </Button>
+            </div>
+          </>
         )}
-        <div className="flex flex-col gap-1">
-          <Button onClick={cancel} disabled={busy} className="w-full">
-            {copy.visit.cancelYes}
-          </Button>
-          <Button variant="text" onClick={() => sheet.current?.close()}>
-            {copy.visit.keep}
-          </Button>
-        </div>
       </Sheet>
     </div>
   );
