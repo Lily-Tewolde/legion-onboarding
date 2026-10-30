@@ -5,30 +5,35 @@ import { Button } from "@/components/Button";
 import { Checkbox } from "@/components/Checkbox";
 import { Chip } from "@/components/Chip";
 import { List } from "@/components/List";
-import { Progress } from "@/components/Progress";
+import { ConcernIcon } from "@/components/concernIcons";
+import { Card, PageTitle, Screen } from "@/components/Screen";
 import { SegmentedControl } from "@/components/SegmentedControl";
-import { Switch } from "@/components/Switch";
+import { Skeleton } from "@/components/Skeleton";
 import { Tag } from "@/components/Tag";
+import { TextField } from "@/components/TextField";
 import { copy } from "@/copy";
 
 // Section names here are for Lily, not patients, so they stay in this file
 // rather than src/copy.ts. Sample strings are from docs/copy-draft.md
 
 const colours = [
-  { name: "ink", hex: "#000614", use: "Main text" },
-  { name: "navy", hex: "#061B4D", use: "Deep accents" },
-  { name: "brand", hex: "#3E70F7", use: "Legion's blue, decoration only" },
+  { name: "ink", hex: "#000614", use: "Headings and main text" },
+  { name: "navy", hex: "#061B4D", use: "Body text, Leave this page" },
+  { name: "slate", hex: "#4F5D72", use: "Secondary text, demo lines" },
   { name: "action", hex: "#2F5FE0", use: "Buttons, links, selected" },
-  { name: "action-hover", hex: "#244CC0", use: "Hover" },
-  { name: "slate", hex: "#607086", use: "Secondary text" },
-  { name: "wash", hex: "#EEF2FC", use: "Soft panels" },
-  { name: "pale", hex: "#B6D3EA", use: "Decoration only" },
-  { name: "line", hex: "#DCE2EA", use: "Dividers" },
-  { name: "line-control", hex: "#7D879A", use: "Borders of things you tap" },
-  { name: "error", hex: "#DC2626", use: "Errors and the crisis path only" },
+  { name: "action-hover", hex: "#234BB8", use: "Hover and pressed" },
+  { name: "brand", hex: "#3E70F7", use: "Legion's blue, icons and decoration" },
+  { name: "wash", hex: "#EEF2FC", use: "Selected fills, icon circles" },
+  { name: "tag", hex: "#DCE6FA", use: "Tags" },
+  { name: "card-line", hex: "#E3E9F5", use: "Card borders" },
+  { name: "line", hex: "#E3E8F2", use: "Dividers" },
+  { name: "line-control", hex: "#8590A2", use: "Borders of things you tap" },
+  { name: "error", hex: "#C42B2B", use: "Error borders, the crisis icons" },
+  { name: "error-text", hex: "#A32020", use: "Error messages" },
+  { name: "error-tint", hex: "#FDECEC", use: "Crisis icon circles, safety flags" },
 ];
 
-const concerns = ["ADHD", "Anxiety", "Depression", "Sleep", "Not sure"];
+const concerns = ["ADHD", "Anxiety", "Depression", "Sleep"] as const;
 
 const plans = [
   "Aetna",
@@ -53,36 +58,29 @@ export function DesignReference() {
   const [pay, setPay] = useState<string>();
   const [earlier, setEarlier] = useState(false);
   const [consent, setConsent] = useState(false);
-  const [setting, setSetting] = useState(true);
+  const [name, setName] = useState("Maria");
   const [plan, setPlan] = useState<string>("Cigna");
 
   return (
-    <div className="flex flex-col gap-12 pt-8">
+    <Screen width="wide" className="gap-12! pb-12">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl">Design reference</h1>
-        <p className="text-slate">
-          Tokens and components for checking on the live link. Not part of the
-          patient flow. Rules and contrast ratios are in docs/design.md.
+        <PageTitle>Design reference</PageTitle>
+        <p className="text-body text-slate">
+          Tokens and components for checking on the live link. Not part of the patient flow. The spec is Claude
+          Design&apos;s Style &amp; Components board.
         </p>
       </div>
 
-      <Section title="Progress">
-        <Progress phase="whats_going_on" />
-      </Section>
-
       <Section title="Type">
-        <h1 className="text-3xl">Heading 1 · Let&apos;s get you care</h1>
-        <h2 className="text-2xl">Heading 2 · Talk to a person</h2>
-        <h3 className="text-xl">Heading 3 · Your visit</h3>
-        <p className="text-lg font-medium">
-          Question · Will you be in Texas for your visits?
+        <h1 className="display text-page-title-lg text-ink">Page title · Let&apos;s get you care</h1>
+        <p className="display text-notice-title font-semibold text-ink">Notice title · Help is available right now</p>
+        <p className="text-card-question-lg font-semibold text-ink">Card question · Will you be in Texas?</p>
+        <p className="text-question font-semibold text-ink">Question · Do you have health insurance?</p>
+        <p className="text-body-lg text-navy">
+          Body large · Answer a few quick questions, and you&apos;ll see a provider who&apos;s right for you.
         </p>
-        <p>
-          Body · Answer a few quick questions, and you&apos;ll see a provider
-          who&apos;s right for you. It takes a few minutes.
-        </p>
-        <p className="text-slate">Hint · MM / DD / YYYY</p>
-        <p className="text-sm">Fine print · Demo prototype</p>
+        <p className="text-body text-navy">Body · It takes a few minutes.</p>
+        <p className="text-label font-semibold text-slate">Label · What&apos;s going on</p>
       </Section>
 
       <Section title="Colour">
@@ -90,14 +88,14 @@ export function DesignReference() {
           {colours.map((colour) => (
             <li key={colour.name} className="flex items-center gap-3">
               <span
-                className="size-10 flex-none rounded-md border border-line"
+                className="size-10 flex-none rounded-field border border-line"
                 style={{ background: colour.hex }}
               />
               <span className="flex flex-col">
-                <span className="font-medium">
+                <span className="text-body font-semibold text-ink">
                   {colour.name} · {colour.hex}
                 </span>
-                <span className="text-sm text-slate">{colour.use}</span>
+                <span className="text-label text-slate">{colour.use}</span>
               </span>
             </li>
           ))}
@@ -107,11 +105,9 @@ export function DesignReference() {
       <Section title="Button">
         <div className="flex flex-wrap items-center gap-3">
           <Button>Continue</Button>
-          <Button variant="secondary">Start over</Button>
-          <Button size="small">Continue</Button>
-          <Button size="small" variant="secondary">
-            Talk to a person
-          </Button>
+          <Button variant="secondary">Continue as self-pay</Button>
+          <Button variant="text">Start over</Button>
+          <Button size="small">9</Button>
           <Button disabled>Book my visit</Button>
         </div>
       </Section>
@@ -122,6 +118,7 @@ export function DesignReference() {
             <Chip
               key={concern}
               label={concern}
+              icon={<ConcernIcon label={concern} />}
               selected={Boolean(chips[concern])}
               onToggle={(next) => setChips({ ...chips, [concern]: next })}
             />
@@ -175,12 +172,9 @@ export function DesignReference() {
         />
       </Section>
 
-      <Section title="Switch (settings only)">
-        <Switch
-          label="Sample setting"
-          checked={setting}
-          onChange={setSetting}
-        />
+      <Section title="Text field">
+        <TextField id="design-name" label="First name" value={name} onChange={setName} valid={name.length > 1} />
+        <TextField id="design-email" label="Email" value="" onChange={() => {}} error="Please enter your email." />
       </Section>
 
       <Section title="List">
@@ -193,19 +187,27 @@ export function DesignReference() {
         />
       </Section>
 
+      <Section title="Card and loading">
+        <Card>
+          <p className="text-question font-semibold text-ink">A card behind anything people read</p>
+          <p className="text-body text-navy">16px padding on phones, 24px on desktop.</p>
+        </Card>
+        <Skeleton rows={2} />
+      </Section>
+
       <Section title="Tag">
         <div className="flex flex-wrap gap-2">
           <Tag>Demo: coverage check simulated</Tag>
           <Tag>From Legion&apos;s current flow</Tag>
         </div>
       </Section>
-    </div>
+    </Screen>
   );
 }
 
 const Section = ({ title, children }: { title: string; children: ReactNode }) => (
   <section className="flex flex-col gap-4">
-    <h2 className="border-b border-line pb-2 text-xl">{title}</h2>
+    <h2 className="border-b border-line pb-2 text-card-question font-semibold text-ink">{title}</h2>
     {children}
   </section>
 );
