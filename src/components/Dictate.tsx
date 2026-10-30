@@ -108,7 +108,7 @@ export function Dictate({
           }}
           style={{ minHeight: min }}
           className={cx(
-            "focus-ring block w-full resize-none rounded-tile bg-transparent text-question leading-[26px] text-navy outline-none placeholder:text-line-control",
+            "focus-ring block w-full resize-none rounded-tile bg-transparent text-question leading-[26px] text-navy outline-none placeholder:text-slate",
             large ? "py-4 pr-[72px] pl-4" : "py-3 pr-16 pl-4",
           )}
         />

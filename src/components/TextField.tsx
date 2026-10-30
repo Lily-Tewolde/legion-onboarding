@@ -77,7 +77,7 @@ export function TextField({
             "focus-ring h-field w-full rounded-field bg-white pr-11 text-body-lg text-navy",
             labelOutside ? "px-4" : "pt-[22px] pb-1 pl-4",
             Boolean(icon) && "pl-11",
-            "placeholder:text-line-control disabled:border-dashed disabled:border-muted-line disabled:bg-muted",
+            "placeholder:text-slate disabled:border-dashed disabled:border-muted-line disabled:bg-muted",
             error ? "border-2 border-error" : "border-[1.5px] border-line-control hover:border-slate",
             inputClassName,
           )}
