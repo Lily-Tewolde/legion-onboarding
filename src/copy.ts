@@ -273,6 +273,101 @@ export const copy = {
     // The calendar event, from the confirmation line
     calendarTitle: "{provider} · Video visit",
   },
+  // Screen 9, the pre-visit check-in. The six starting questions are to
+  // confirm with Legion's clinical team; the AI writes the follow-ups
+  checkIn: {
+    title: "Pre-visit check-in",
+    intro: "A few questions so your provider can prepare. Answer as much as you'd like.",
+    questions: [
+      "What would you most like help with at your visit?",
+      "How have you been feeling lately?",
+      "What medications are you taking right now, including any you've stopped recently?",
+      "Have you had mental health care before? What helped, and what didn't?",
+      "How have you been sleeping lately?",
+      "Is there anything else about your health your provider should know, like allergies or other conditions?",
+    ],
+    placeholder: "Type your answer, or tap the mic",
+    speak: "Speak",
+    next: "Next",
+    skipQuestion: "Skip this question",
+    skipCheckIn: "Skip the check-in",
+    formNote: "We're using a simple form for the check-in.",
+    submitForm: "Send my answers",
+    twoSkips: "That's okay. A few answers help your provider spend more of your visit on you.",
+    cannotAnswer: "We can't answer that here. For cost or coverage, talk to a person.",
+    medicationQuestion: "We'll pass your question to your provider.",
+    // After an eligibility surprise other than age. Placeholder, waiting for Lily's OK
+    eligibilityNote: "Thanks for telling us. Someone from our team may reach out before your visit.",
+    under18: "Thanks for telling us. Someone from our team will reach out before your visit.",
+    // The stepper's name for screen readers. Placeholder, waiting for Lily's OK
+    progress: "Check-in progress",
+    answerLabel: "Your answer",
+    // The medication check at the end
+    medsTitle: "Did we get your medications right?",
+    medsYes: "Yes, that's right",
+    medsFix: "Fix something",
+    medsNone: "You didn't mention any medications.",
+    medsNoneYes: "That's right",
+    medsAdd: "Add one",
+    didYouMean: "Did you mean {drug}?",
+    didYouMeanYes: "Yes",
+    didYouMeanNo: "No, keep what I said",
+    checkName: "Can you check the name of this medication?",
+    // Placeholders, waiting for Lily's OK
+    medicationField: "Medication",
+    removeMedication: "Remove",
+    done: "Thanks. Your provider will see your answers before your visit.",
+    backToVisit: "Back to my visit page",
+  },
+  // Screen 10, for the clinician. Not patient-facing, so it isn't held to the
+  // reading level. Lines marked as placeholders wait for Lily's OK
+  clinician: {
+    title: "Pre-visit summary for {provider}",
+    // Placeholder, for when no visit is known on this device
+    titleNoProvider: "Pre-visit summary",
+    label: "AI summary for clinician review. Not a diagnosis.",
+    safetyFlag: "A safety flag was raised during the check-in. See the answers.",
+    sections: {
+      main_concern: "Main concern (in the patient's words)",
+      whats_been_happening: "What's been happening",
+      past_care: "Past mental health care",
+      medications: "Medications (current and recently stopped)",
+      sleep: "Sleep",
+      other_health: "Other health and allergies",
+      goals: "Goals for the visit",
+      unclear: "Unclear answers",
+    },
+    allAnswers: "All answers",
+    noCheckIn: "No check-in on this device yet.",
+    loadSample: "Load a sample check-in",
+    sample: "Sample: a made-up check-in for demo purposes",
+    // Placeholders
+    flagsTitle: "Flags",
+    source: "Answer {number}",
+    skippedAll: "Patient skipped the check-in questions.",
+    skipped: "Skipped",
+    asHeard: "As heard: '{name}' (unclear)",
+    confirmedByPatient: "confirmed by the patient",
+    noSummary: "The AI summary isn't available. The answers are below.",
+    statuses: { taking: "Taking", stopped: "Stopped", as_needed: "As needed", unclear: "Unclear" },
+    saidAs: "said '{name}'",
+    // The demo panel's switch between the two views. Placeholders until Claude
+    // Design's wording is copied in
+    openClinician: "Open the clinician view (demo)",
+    openPortal: "Back to the patient portal (demo)",
+    flagKinds: {
+      self_harm: "Safety: possible risk of self-harm",
+      harm_to_others: "Safety: possible risk of harm to others",
+      being_harmed: "Safety: may be being hurt by someone else",
+      immediate_danger: "Safety: may be in immediate danger",
+      past_risk: "Safety: past risk mentioned",
+      age: "Eligibility: says they're under 18",
+      state: "Eligibility: may not be in Texas",
+      insurance: "Eligibility: mentions Medicaid or Medicare",
+      hospital_stay: "Eligibility: mentions a recent hospital stay",
+      someone_else: "Eligibility: may be for someone else",
+    },
+  },
   // The portal's tabs (decided Oct 29). Profile is only an entry point for now
   portal: {
     nav: "Your portal",

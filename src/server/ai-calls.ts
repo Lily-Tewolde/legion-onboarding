@@ -2,17 +2,20 @@ import "server-only";
 import { centralToUtc, todayInCentral } from "@/lib/central-time";
 import { supabase } from "./supabase";
 
-// The AI limits (build brief, section 4): 30 "What's going on?" calls per
-// visitor per hour, and a daily spending cap for the whole demo, estimated
-// from the token counts each call returns. The crisis flag never counts toward
-// the hourly limit and is never blocked, but its cost counts toward the daily
-// cap (Lily, PR 5). Each call is logged with its route and cost only, never text
+// The AI limits (build brief, section 4): 30 AI step calls per visitor per
+// hour ("What's going on?" and the check-in), and a daily spending cap for the
+// whole demo, estimated from the token counts each call returns. The crisis
+// flag never counts toward the hourly limit and is never blocked, but its cost
+// counts toward the daily cap (Lily, PR 5). Each call is logged with its route
+// and cost only, never text
 
 const TABLE = "ai_calls";
 const VISITOR_LIMIT_PER_HOUR = 30;
 const DEFAULT_DAILY_CAP_USD = 10;
 
-export type AiRoute = "whats_going_on" | "crisis_flag";
+export type AiRoute = "whats_going_on" | "check_in" | "check_in_summary" | "crisis_flag";
+
+const LIMITED_ROUTES: AiRoute[] = ["whats_going_on", "check_in", "check_in_summary"];
 
 export type LimitCheck = { ok: true } | { ok: false; reason: "visitor_limit" | "daily_cap" };
 
@@ -29,7 +32,7 @@ export async function checkLimits(anonId: string, now: Date = new Date()): Promi
     .from(TABLE)
     .select("id", { count: "exact", head: true })
     .eq("anon_id", anonId)
-    .eq("route", "whats_going_on")
+    .in("route", LIMITED_ROUTES)
     .gte("created_at", hourAgo);
   if (countError) throw new Error(`Couldn't count AI calls: ${countError.message}`);
   if ((count ?? 0) >= VISITOR_LIMIT_PER_HOUR) return { ok: false, reason: "visitor_limit" };
