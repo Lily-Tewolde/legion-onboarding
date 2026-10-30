@@ -21,7 +21,7 @@ export function MorePicker({ title, summary, providers }: { title: string; summa
   const [shown, setShown] = useState(PAGE);
   const [open, setOpen] = useState<string | null>(recommended.id);
   const [choice, setChoice] = useState({ providerId: recommended.id, slotStart: recommended.slots[0].start });
-  const { book, pending, failed } = useBook(recommended.id);
+  const { book, pending, failed, taken } = useBook(recommended.id);
 
   const chosen = providers.find((p) => p.id === choice.providerId) ?? recommended;
   const slot = chosen.slots.find((s) => s.start === choice.slotStart) ?? chosen.slots[0];
@@ -32,6 +32,11 @@ export function MorePicker({ title, summary, providers }: { title: string; summa
       width="wide"
       footer={
         <div className="flex flex-col items-stretch gap-1">
+          {taken && (
+            <div role="alert">
+              <FieldError>{copy.provider.timeTaken}</FieldError>
+            </div>
+          )}
           {failed && (
             <div role="alert">
               <FieldError>{copy.common.somethingWentWrong}</FieldError>

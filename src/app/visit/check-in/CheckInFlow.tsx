@@ -20,7 +20,7 @@ import { MedicationCheck } from "./MedicationCheck";
 // (src/lib/check-in/stored.ts), so it survives the crisis screen and the
 // clinician view can read it on the same device
 
-const MAX_TEXT = 2000;
+const MAX_TEXT = 1000;
 
 const save = (patch: Partial<CheckInState>) => checkInStore.save({ ...checkInStore.get(), ...patch });
 

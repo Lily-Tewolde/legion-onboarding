@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useState, useSyncExternalStore, type FormEv
 import { Button } from "@/components/Button";
 import { ConcernIcon } from "@/components/concernIcons";
 import { cx } from "@/components/cx";
-import { Close, Info } from "@/components/icons";
+import { Close, Info, Plus } from "@/components/icons";
 import { Card, PageTitle, Screen } from "@/components/Screen";
 import { FieldError, SegmentedControl } from "@/components/SegmentedControl";
 import { Skeleton } from "@/components/Skeleton";
@@ -241,9 +241,12 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
                 type="button"
                 aria-expanded={adding}
                 onClick={() => setAdding(!adding)}
-                className="focus-ring inline-flex min-h-control-sm cursor-pointer items-center rounded-full border-[1.5px] border-dashed border-line-control bg-white px-4 text-body font-semibold text-action hover:border-action"
+                className="focus-ring inline-flex min-h-control-sm cursor-pointer items-center justify-center rounded-full border-[1.5px] border-dashed border-line-control bg-white text-body font-semibold text-action hover:border-action max-md:size-control-sm md:px-4"
               >
-                {copy.confirm.add}
+                {/* On phones a round + that screen readers hear as "Add something we missed" */}
+                <Plus size={20} className="md:hidden" />
+                <span className="sr-only md:hidden">{copy.confirm.addLabel}</span>
+                <span className="max-md:hidden">{copy.confirm.add}</span>
               </button>
             </li>
           </ul>

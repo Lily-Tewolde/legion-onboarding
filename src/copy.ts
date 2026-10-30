@@ -173,6 +173,10 @@ export const copy = {
     // {link} is "use a simple form instead"
     notUnderstood: "We didn't quite catch that. Try again, or {link}.",
     notUnderstoodLink: "use a simple form instead",
+    // The mic and the length limit (copy audit, Oct 29). The same lines show in the check-in
+    micBlocked: "We can't use your mic. You can type instead.",
+    nothingHeard: "We didn't hear anything. Try again, or type instead.",
+    atLimit: "That's the limit here. You can tell your provider the rest at your visit.",
     formNote: "We're using a simple form for this step.",
     formConditions: "What would you like help with? Choose any that fit.",
     formNeed: "How can we help you?",
@@ -210,6 +214,8 @@ export const copy = {
     intro: "Remove anything that's wrong, or add anything we missed.",
     remove: "Remove {item}",
     add: "+ Add",
+    // The round + button on phones, for screen readers
+    addLabel: "Add something we missed",
     // One line, only for the concern it applies to. To confirm with Legion
     policy: {
       Anxiety: "We don't prescribe benzodiazepines over 1 mg a day.",
@@ -257,12 +263,12 @@ export const copy = {
     book: "Book {day} at {time}",
     slot: "{day}, {date} at {time}",
     noTimes: "We don't have open times for your plan right now.",
+    timeTaken: "That time was just taken. Please pick another time.",
     talkToPerson: "Talk to a person",
     tellMeWhenTimesOpen: "Tell me when times open",
     // Claude Design's wording (no-times copy approved as written)
     timesOpenOn: "We'll let you know when times open.",
-    // The summary under the title (decided Oct 29). Self-pay and "Not sure"
-    // versions are placeholders, waiting for Lily's OK
+    // The summary under the title (decided Oct 29, copy audit)
     summary: "{plan} providers in Texas for {concern}",
     summarySelfPay: "Providers in Texas for {concern}",
     summaryNoConcern: "{plan} providers in Texas",
@@ -271,7 +277,6 @@ export const copy = {
     showMore: "Show more providers",
     recommended: "Recommended",
     next: "Next: {date} at {time}",
-    photoFor: "Photo placeholder for {name}",
     days: "Days with open times",
     times: "Times on {day}",
   },
@@ -308,14 +313,18 @@ export const copy = {
     expiry: "Expiry (MM/YY)",
     securityCode: "Security code",
     zip: "ZIP code",
-    paymentLabel: "Demo: payment simulated. Use any made-up card number.",
+    paymentLabel: "Demo: payment simulated. Any made-up card works.",
     bookMyVisit: "Book my visit",
     errors: {
-      name: "Please enter your first and last name.",
+      name: "Please enter your full name.",
       email: "Please enter an email like name@example.com.",
       phone: "Please enter a 10-digit US phone number.",
       consent: "Please check the box to continue.",
       card: "We couldn't save this card. Please check the details and try again.",
+      cardNumber: "Please enter your card number.",
+      expiry: "Please check the expiry date.",
+      securityCode: "Please enter the 3 or 4 digit code on your card.",
+      zip: "Please enter a 5-digit ZIP code.",
     },
   },
   // The visit card on the checkout, "You're booked" and the visit page: two or
@@ -381,7 +390,7 @@ export const copy = {
     medsYes: "Yes, that's right",
     medsFix: "Fix something",
     medsNone: "You didn't mention any medications.",
-    medsNoneYes: "That's right",
+    medsNoneYes: "Yes, that's right",
     medsAdd: "Add one",
     didYouMean: "Did you mean {drug}?",
     didYouMeanYes: "Yes",
@@ -400,7 +409,7 @@ export const copy = {
     // Placeholder, for when no visit is known on this device
     titleNoProvider: "Pre-visit summary",
     label: "AI summary for clinician review. Not a diagnosis.",
-    safetyFlag: "A safety flag was raised during the check-in. See the answers.",
+    safetyFlag: "A safety flag was raised during the check-in.",
     // Claude Design's wording: the small label, the flag card, and the
     // source chip ("Q2") with what screen readers hear
     viewLabel: "Clinician view",
@@ -488,13 +497,19 @@ export const copy = {
     skippedTag: "Skipped",
     missedTag: "Missed",
     milestoneBooked: "Visit booked",
-    milestoneCheckIn: "Check-in done",
+    milestoneCheckIn: "Check-in",
     milestoneFirstVisit: "First visit",
     // After the visit (Claude Design's wording)
     done: "Your provider will send your next steps to your inbox.",
     goToInbox: "Go to my inbox",
     cancelCheck: "Cancel this visit?",
     cancelYes: "Yes, cancel it",
+    // Within 48 hours, before acting (copy audit)
+    lateCancel: "Your visit is less than 48 hours away, so cancelling now has a $250 fee.",
+    lateReschedule: "Your visit is less than 48 hours away, so rescheduling now has a $250 fee.",
+    cancelled: "Your visit is cancelled.",
+    bookNewTime: "Book a new time",
+    rescheduled: "Your visit is now {day} at {time}.",
     keep: "Keep my visit",
     demoControls: "Demo controls",
   },

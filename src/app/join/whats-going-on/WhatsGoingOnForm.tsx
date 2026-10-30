@@ -42,7 +42,7 @@ const STARTER_CHIPS: ConcernLabel[] = [
 const chipName = (label: ConcernLabel) => (label === "Not sure" ? copy.whatsGoingOn.notSureChip : copy.conditions[label]);
 
 const FLOW = { phase: "whats_going_on" as const, part: 1, parts: 2, back: "/join/safety" };
-const MAX_TEXT = 2000;
+const MAX_TEXT = 1000;
 
 export function WhatsGoingOnForm() {
   const state = useSyncExternalStore(whatsGoingOnStore.subscribe, whatsGoingOnStore.get, whatsGoingOnStore.getServer);
