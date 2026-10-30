@@ -24,11 +24,11 @@ Each insurer's own logo, downloaded from its own website on Oct 29, 2026, and us
 
 ## Calendar icons
 
-Each calendar's own product icon, downloaded from its owner's site on Oct 30, 2026, and used only in this prototype for Legion, on the "Add to calendar" buttons. The icons belong to their owners. Apple doesn't publish an SVG of its Calendar icon, so the Apple button uses the Apple logo Lily supplied.
+Each brand's own mark, used only in this prototype for Legion, on the "Add to calendar" buttons. The marks belong to their owners. Outlook's was downloaded from Microsoft's site on Oct 30, 2026. Google's and Apple's were supplied by Lily.
 
 | File | Shows | Used on | Source |
 |---|---|---|---|
-| ../icons/google-calendar.svg | Google Calendar icon | "Add to calendar" on "You're booked" and the visit page | Google's own: https://www.gstatic.com/images/branding/productlogos/calendar_2026/v2/web/192px.svg (the icon on workspace.google.com/products/calendar). Unchanged except for an added `viewBox` so it scales |
+| ../icons/google.png | Google logo | "Add to calendar" on "You're booked" and the visit page | Supplied by Lily (transparent PNG, 125 x 128) |
 | ../icons/outlook.svg | Microsoft Outlook icon | "Add to calendar" on "You're booked" and the visit page | Microsoft's Office brand icons: https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/outlook_48x1.svg, unchanged |
 | ../icons/apple.png | Apple logo | "Add to calendar" on "You're booked" and the visit page | Supplied by Lily (transparent PNG, 107 x 128) |
 
