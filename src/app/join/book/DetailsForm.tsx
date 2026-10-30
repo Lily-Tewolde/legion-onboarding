@@ -30,6 +30,9 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [busy, setBusy] = useState(false);
   const savedKey = useRef("");
+  // Leaving the section and pressing Continue can both save at once; the
+  // second waits for the first, or it would find the email it just saved
+  const inFlight = useRef<{ key: string; saving: Promise<boolean> } | null>(null);
   const section = useRef<HTMLDivElement>(null);
   useTrackInView(section, () => trackPageview("/portal/join/patient"));
 
@@ -38,7 +41,17 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
   const keyOf = (d: Details) => `${d.name}\n${d.email}\n${d.phone}`;
   const valid = validateDetails(details);
 
-  const saveDetails = async (): Promise<boolean> => {
+  const saveDetails = (): Promise<boolean> => {
+    const key = keyOf(details);
+    if (inFlight.current?.key === key) return inFlight.current.saving;
+    const saving = postDetails().finally(() => {
+      if (inFlight.current?.saving === saving) inFlight.current = null;
+    });
+    inFlight.current = { key, saving };
+    return saving;
+  };
+
+  const postDetails = async (): Promise<boolean> => {
     if (Object.keys(validateDetails(details)).length > 0) return false;
     if (savedKey.current === keyOf(details) && saveState === "saved") return true;
     setSaveState("saving");
