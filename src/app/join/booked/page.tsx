@@ -1,11 +1,10 @@
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { buttonClasses, ButtonLink } from "@/components/Button";
+import { AddToCalendar } from "@/components/AddToCalendar";
+import { ButtonLink } from "@/components/Button";
 import { Progress } from "@/components/Progress";
 import { Skeleton } from "@/components/Skeleton";
 import { copy } from "@/copy";
-import { googleCalendarUrl } from "@/lib/calendar";
 import { visitLine } from "@/lib/provider/present";
 import { missingFor, providerName } from "@/server/booking";
 import { getSession } from "@/server/sessions";
@@ -32,30 +31,11 @@ async function Booked() {
   if (!session || missing || !session.slot_start || !session.provider_id) redirect(missing ?? "/join");
 
   const provider = providerName(session.provider_id);
-  const host = (await headers()).get("host") ?? "";
-  const google = googleCalendarUrl({
-    title: copy.booked.calendarTitle.replace("{provider}", provider),
-    start: session.slot_start,
-    details: copy.shell.banner,
-    url: `https://${host}/visit`,
-  });
-
   return (
     <div className="flex flex-col gap-6">
       <p className="rounded-lg border border-line p-4 font-medium">{visitLine(session.slot_start, provider)}</p>
       <p>{copy.booked.reminder}</p>
-      <div className="flex flex-col items-start gap-1">
-        <p className="font-medium">{copy.booked.addToCalendar}</p>
-        <a href={google} target="_blank" rel="noopener noreferrer" className={buttonClasses("text")}>
-          {copy.booked.google}
-        </a>
-        <a href="/api/visit/calendar" download="legion-visit.ics" className={buttonClasses("text")}>
-          {copy.booked.apple}
-        </a>
-        <a href="/api/visit/calendar" download="legion-visit.ics" className={buttonClasses("text")}>
-          {copy.booked.outlook}
-        </a>
-      </div>
+      <AddToCalendar slotStart={session.slot_start} provider={provider} />
       <ButtonLink href="/visit" className="self-start">
         {copy.booked.goToVisit}
       </ButtonLink>

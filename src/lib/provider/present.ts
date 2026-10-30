@@ -17,7 +17,7 @@ export type ProviderOption = {
   slots: SlotOption[];
 };
 
-const fill = (template: string, values: Record<string, string>) =>
+export const fill = (template: string, values: Record<string, string>) =>
   template.replace(/\{(\w+)\}/g, (match, key: string) => values[key] ?? match);
 
 export const concernName = (label: ConcernLabel) =>
