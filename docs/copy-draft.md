@@ -216,7 +216,7 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - Title: "Here's what we understood"
 - "Remove anything that's wrong, or add anything we missed."
 - Chip remove (for screen readers): "Remove {item}"
-- Add: "+ Add"
+- Add: "+ Add". On mobile, a round + button that screen readers hear as "Add something we missed" **[decided]**
 - Policy line, only for the concern it applies to **[Confirm with Legion]**. For example, for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." For now, Anxiety's is the only one
 - "This only repeats what you told us. It isn't a diagnosis."
 - For each concern where we don't know whether it's been diagnosed (for example, only a chip was tapped): one row under the chips, "Have you been diagnosed with {concern}?" For example: "Have you been diagnosed with anxiety?" Options: "Yes", "No", "Not sure". Concerns we already know about get no row **[decided]**
@@ -282,7 +282,7 @@ One page, like a one-page checkout when you shop online.
 - "You won't be charged now."
 - Above the payment fields, a collapsed visit summary (date, provider, video visit) that opens inside the same card **[decided]**
 - Fields, with labels inside the inputs: "Card number" on its own row, then "Expiry (MM/YY)", "Security code", "ZIP code" **[decided]**
-- Demo line at the bottom: "Demo: payment simulated. Use any made-up card number."
+- Demo line at the bottom: "Demo: payment simulated. Any made-up card works." **[decided]**
 
 **Button:** "Book my visit"
 
@@ -337,7 +337,7 @@ One page, like a one-page checkout when you shop online.
 - Check-in card: "Optional: pre-visit check-in". "About 5 minutes. Your provider can spend more of your visit on you. You can skip it."
 - "Do it any time before your visit. Earlier gives your provider time to read it."
 - Button: "Start check-in"
-- Messages: the "Inbox" tab (see screens 12 and 15)
+- Messages: the "Inbox" tab (see screens 12 and 15). Newest first. A long message shows three lines, then "Show all" **[decided]**
 - Demo control, beside the visit card: "Demo: skip to 72 hours" **[decided]**. It then moves on to "Demo: skip to 24 hours" and "Demo: skip to 1 hour", so the reminders and "Join visit" can be shown **[drafted]**
 - After the visit is marked completed, a small dialog in the corner. Never during onboarding **[decided]**:
     - "How was your first visit?" 0 to 10, with "0 = Not good" and "10 = Great"
@@ -400,7 +400,7 @@ One page, like a one-page checkout when you shop online.
 - Label: "AI summary for clinician review. Not a diagnosis."
 - Leads with what a doctor scans first: the safety flag if there is one (with the quote and the link to the answer), the concern in one line with its source link, and current medications. Everything else is behind "All answers" **[decided]**
 - Flags at the top: safety and eligibility
-- **[REVIEW]** If a safety flag was raised: "A safety flag was raised during the check-in. See the answers."
+- If a safety flag was raised, two lines: "A safety flag was raised during the check-in." then "Kept going after “I'm safe”" **[decided]**
 - **[Confirm with Legion's clinical team]** Sections: "Main concern (in the patient's words)", "What's been happening", "Past mental health care", "Medications (current and recently stopped)", "Sleep", "Other health and allergies", "Goals for the visit", "Unclear answers"
 - Each line links to the answer it came from
 - Text-style button: "All answers" (the other sections, and the questions and answers). One way to reach the answers, not two **[decided]**
