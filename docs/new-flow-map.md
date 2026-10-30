@@ -106,7 +106,7 @@ Lily merged three screens into screen 1 and three into screen 5, so the copy dra
 - **Events:** `portal.reminder.viewed`; `portal.visit.joined`
 
 ### 12. Demo controls
-- **Shows:** a small "Demo controls" button pinned in a corner of every portal and clinician screen (bottom left on desktop; clear of the tab bar on mobile). It opens a panel, a sheet on mobile, with "Mark visit completed", "Mark no-show" and switching between the patient portal and the clinician view. A no-show shows the unhappy path on the visit page: "You missed your visit. Want to book a new time?" with "Reschedule" and the no-show fee line from Legion's current flow. The no-show fee line follows Legion's policy: $250 for a first visit, $100 for a follow-up
+- **Shows:** a small "Demo controls" button pinned in a corner of every portal and clinician screen (bottom left on desktop; clear of the tab bar on mobile). It opens a panel, a sheet on mobile, with "Mark visit completed", "Mark no-show" and switching between the patient portal and the clinician view. A no-show shows the unhappy path on the visit page: "You missed your visit. Want to book a new time?" with "Reschedule" and the no-show fee line from Legion's current flow. The no-show screen shows the $250 fee for a missed first visit, since the demo visit is a first visit
 - **NPS:** once the visit is marked completed, a small dialog in the corner of the portal: "How was your first visit?" 0 to 10. Never during onboarding. A high score can lead into asking for a review
 - **Events:** `portal.visit.completed` with whether the check-in was done (the north-star event); `portal.visit.no_show`
 

@@ -197,7 +197,7 @@ Shown under the plan field once a plan is picked. Not its own screen.
 
 **Form fallback (if the AI is down or the patient chooses it)**
 - Note: "We're using a simple form for this step."
-- "What would you like help with? Choose any that fit." Options, from Legion's conditions list as built in PR 12 **[Confirm with Legion]**: "ADHD", "Anxiety", "Depression", "Insomnia & sleep", "PTSD", "OCD", "Panic disorder", "Bipolar disorder", "Other", "I'm not sure". The same list is offered by "+ Add" on screen 5
+- "What would you like help with? Choose any that fit." Options, from Legion's conditions page in the current flow (eight condition cards with icons) *(from Legion's current flow; credited in the README, not on screen)*: "ADHD", "Anxiety", "Depression", "Insomnia & sleep", "PTSD", "OCD", "Panic disorder", "Bipolar disorder", "Other", "I'm not sure". The same list is offered by "+ Add" on screen 5
 - "How can we help you?" Legion's three options: "I already have a diagnosis and need medication support", "I'm looking for a new diagnosis or medication", "I'm not sure, but I need help"
 
 **Lily's notes**
@@ -419,7 +419,7 @@ One page, like a one-page checkout when you shop online.
 - Buttons: "Mark visit completed", "Mark no-show", and a switch between the patient portal and the clinician view (wording as in Claude Design's final design) **[decided]**
 - "Demo only. This records how the visit went, so the funnel runs from start to finish."
 - After marking completed: "Visit marked completed (demo)"
-- After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee line from the cancellation policy: $250 for a first visit, $100 for a follow-up *(from Legion's current flow; credited in the README, not on screen)*
+- After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee for a missed first visit, $250, since the demo visit is a first visit **[decided]** *(from Legion's current flow; credited in the README, not on screen)*. Where the full cancellation policy is shown, it keeps both amounts
 
 **Lily's notes**
 - A separate demo panel

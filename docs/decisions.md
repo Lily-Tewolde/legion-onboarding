@@ -697,7 +697,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-29 · Legion's conditions list, and labels that match it
 
-- **What:** The simple form and "+ Add" use Legion's conditions list as built in PR 12: ADHD, Anxiety, Depression, Insomnia & sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other and I'm not sure. PTSD, OCD, Panic disorder and Other are new concern labels, and the made-up providers now cover PTSD, OCD and Panic disorder. "Insomnia & sleep" keeps the label Sleep, so matching, the golden set and the AI line up. Anxiety's is the only policy line for now. Updates the made-up providers decision above
+- **What:** The simple form and "+ Add" use Legion's conditions list, from the conditions page in its current flow (eight condition cards with icons; Lily has a screenshot): ADHD, Anxiety, Depression, Insomnia & sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other and I'm not sure. PTSD, OCD, Panic disorder and Other are new concern labels, and the made-up providers now cover PTSD, OCD and Panic disorder. "Insomnia & sleep" keeps the label Sleep, so matching, the golden set and the AI line up. Anxiety's is the only policy line for now. Updates the made-up providers decision above
 - **Why:** Patients choose from the same list they'd see in Legion's flow, and every condition on it can be matched to a provider
 - **Rejected:** Renaming the Sleep label, which would mean changing the golden set and matching for no gain to the patient
 - **Revisit when:** Legion confirms its conditions list or adds policy lines
@@ -792,7 +792,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **What:**
     - **Portal:** the visit page and the inbox are one portal. On mobile, a bottom tab bar with Visit, Inbox and Profile; on desktop, the same three in a left sidebar. Profile is only an entry point, not built out. Milestone cards with a small "Completed" tag (for example booked, check-in done, first visit), all the same height. "Demo: skip to 72 hours" sits beside the visit card, condensed on mobile. Reschedule and Cancel visit look like text-style buttons. Reschedule, Cancel, Join, the calendar logos and the legal links can stay inert
     - **NPS:** a small dialog in the corner, "How was your first visit?" with 0 to 10. It only shows after the visit is marked completed, never during onboarding. A high score can lead into asking for a review. Claude Design's visit rating, review ask and after-the-visit copy are approved as written
-    - **No-show fee:** $100 for a missed follow-up. $150 is the follow-up visit price
+    - **No-show fee:** $100 for a missed follow-up. $150 is the follow-up visit price. The demo's no-show screen shows $250, since the demo visit is a first visit; where the full policy is shown, it keeps both amounts *(Lily, later the same day)*
     - **Check-in:** one stepper, so it feels lighter. On the medication check, "Yes, that's right" is the primary button, "Fix something" sits under it, and "Skip the check-in" is the small link at the bottom
 - **Why:** The portal page was boring as it was
 - **Rejected:** Three stacked buttons on the medication check

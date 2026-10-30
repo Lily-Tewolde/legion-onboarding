@@ -45,7 +45,7 @@ The flow goes from "Let's get you care" to a completed first visit, in 12 screen
 
 All data is made up. Coverage, payment, messages and the visit are simulated, with one small demo line at the bottom of each screen where it applies.
 
-**From Legion's current flow:** the prices (self-pay $250 for the first visit and $150 for follow-ups, and most insured patients paying $0 to $40 a visit), the cancellation and no-show policy (free up to 48 hours before; otherwise $250 for a first visit and $100 for a follow-up, and a no-show means not joining within 10 minutes), when insured patients are charged (about 5 days after the visit), the 60-minute first visit, the hospital-stay question and the three needs options in the simple form. They're credited here instead of on screen.
+**From Legion's current flow:** the prices (self-pay $250 for the first visit and $150 for follow-ups, and most insured patients paying $0 to $40 a visit), the cancellation and no-show policy (free up to 48 hours before; otherwise $250 for a first visit and $100 for a follow-up, and a no-show means not joining within 10 minutes), when insured patients are charged (about 5 days after the visit), the 60-minute first visit, the hospital-stay question, the conditions list (Legion's conditions page, with eight condition cards) and the three needs options in the simple form. They're credited here instead of on screen.
 
 ## Key decisions and tradeoffs
 
