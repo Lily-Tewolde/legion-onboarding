@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { type FormEvent, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Button, ButtonLink } from "@/components/Button";
+import { cx } from "@/components/cx";
 import { Dictate } from "@/components/Dictate";
 import { Card } from "@/components/Screen";
 import { FieldError } from "@/components/SegmentedControl";
@@ -71,6 +72,10 @@ function QuestionStep({ state }: { state: CheckInState }) {
   const [pending, setPending] = useState(false);
   const [elapsed, setElapsed] = useState(0);
   const [failed, setFailed] = useState(false);
+  // How tall the question was, so its loading shimmer keeps the card the
+  // same height until the next question arrives
+  const [questionHeight, setQuestionHeight] = useState<number | null>(null);
+  const question = useRef<HTMLLabelElement>(null);
   const request = useRef<AbortController | null>(null);
 
   // Next keeps this page alive when people move on. Stop what was in
@@ -121,6 +126,7 @@ function QuestionStep({ state }: { state: CheckInState }) {
   };
 
   const submit = (skipped: boolean) => {
+    if (question.current) setQuestionHeight(question.current.offsetHeight);
     const text = answer.trim();
     const turn = { id: nextMessageId(state.turns), question: state.question, answer: skipped ? "" : text, skipped: skipped || !text };
     void send([...state.turns, turn]);
@@ -171,10 +177,10 @@ function QuestionStep({ state }: { state: CheckInState }) {
       <Card className="gap-3">
         <form id="check-in-form" noValidate onSubmit={onSubmit} className="flex flex-col gap-3">
           {pending ? (
-            <div aria-hidden="true" className="shimmer h-7 w-3/4 rounded-full" />
+            <QuestionShimmer height={questionHeight} />
           ) : (
             // The AI's question, shown as plain text
-            <label htmlFor="check-in-answer" className="text-question font-semibold text-ink md:text-card-question">
+            <label ref={question} htmlFor="check-in-answer" className="text-question font-semibold text-ink md:text-card-question">
               {state.question}
             </label>
           )}
@@ -197,6 +203,21 @@ function QuestionStep({ state }: { state: CheckInState }) {
         </form>
       </Card>
     </CheckInScreen>
+  );
+}
+
+// One shimmer line per line of the question it stands in for, at the same
+// height, so the card doesn't shrink and grow back between questions
+const QUESTION_LINE = 28;
+
+function QuestionShimmer({ height }: { height: number | null }) {
+  const lines = Math.max(1, Math.round((height ?? QUESTION_LINE) / QUESTION_LINE));
+  return (
+    <div aria-hidden="true" className="flex flex-col justify-center gap-2" style={{ minHeight: height ?? undefined }}>
+      {Array.from({ length: lines }, (_, line) => (
+        <div key={line} className={cx("shimmer h-5 rounded-full", line === lines - 1 ? "w-1/2" : "w-full")} />
+      ))}
+    </div>
   );
 }
 
