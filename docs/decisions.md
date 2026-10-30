@@ -927,7 +927,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Why:** They aren't plans, they're screen-outs, so they shouldn't sit in the same list as the commercial plans. Splitting them out fixes the height and matches what they are
 - **Rejected:** Shorter rows (they're already near the 44px tap floor). Two columns on phones, which don't fit the logos. Accepting the scroll
 
-## 2026-10-30 · A real Legion review in the desktop panel
+## 2026-10-30 · A real Legion review in the desktop panel *(removed later the same day; see below)*
 
 - **What:** The panel quote is "I got an appointment within a week and the doctor was really nice and professional." credited "Chris Slate, Google review", a review on legionhealth.com. It replaces the placeholder, and its box has a solid border, since dashed means placeholder. Lily supplied it (PR 29)
 - **Why:** The quote shows on every desktop panel screen, so a placeholder there would be in the submission
@@ -1018,4 +1018,9 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Why:** Ending there is right when the trigger is right, but the classifier is sometimes wrong, and a screen you can't leave assumes it never is. The other crisis screens already had this way back
 - **Rejected:** A plain Back link, which would skip the tick that slows someone down
 - **Revisit when:** Legion's clinical team sets what the immediate-danger screen must do
+
+## 2026-10-30 · No quote in the desktop panel
+
+- **What:** The review quote ("I got an appointment within a week…", Chris Slate, Google review) is taken out of the desktop panel, with nothing in its place. The panel keeps the photo, the line, the phases, the typical cost and the earliest visit. Lily's call. Updates "A real Legion review in the desktop panel" above and the quote in "Design: photos, the desktop panel and placeholders"
+- **Rejected:** Replacing it with another quote or anything else
 

@@ -27,7 +27,7 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - Demo line: one small line at the bottom of a screen where something is made up or simulated, plus the banner. No demo tags in the body text **[decided]**
 - Nothing on screen says "From Legion's current flow". The README credits what comes from it **[decided]**
 - Desktop panel line: "Take it one step at a time. We'll help you find the right care." **[decided]**
-- Desktop panel quote: "I got an appointment within a week and the doctor was really nice and professional." Credit: "Chris Slate, Google review" (a review on legionhealth.com) **[decided]**
+- ~~Desktop panel quote~~ Removed Oct 30: no quote in the panel **[decided]**
 - Back: "Back"
 - Loading: skeleton screens, no loading text
 - When an AI step takes more than 5 seconds: "Still working on it…". At 10 seconds, the "Use a simple form instead" link is offered, and what they typed is kept **[decided]**

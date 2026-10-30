@@ -18,9 +18,9 @@ import { PHASE_LABEL, PHASE_ORDER } from "./phase";
 // PathPanel). A labelled photo placeholder that changes with the phase, the
 // panel line, the four phases (a ring around the current one that fills
 // through its steps, a check and a one-line summary on each finished one),
-// then the typical cost and the earliest visit, and the patient quote at the
-// bottom. Summaries come from this tab's answers; the provider and time from
-// the server, once chosen
+// then the typical cost and the earliest visit. No quote (Lily, Oct 30).
+// Summaries come from this tab's answers; the provider and time from the
+// server, once chosen
 
 export type PanelProvider = { name: string; slotStart: string };
 
@@ -110,10 +110,6 @@ export function PathPanel({
             )}
           </div>
         )}
-        <figure className="mt-auto rounded-tile border border-muted-line bg-white p-3">
-          <blockquote className="text-body text-navy italic">{copy.panel.quote}</blockquote>
-          <figcaption className="mt-1 text-label text-slate">{copy.panel.quoteNote}</figcaption>
-        </figure>
       </div>
     </aside>
   );
