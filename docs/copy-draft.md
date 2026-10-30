@@ -169,7 +169,13 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - How many Texas clinicians take their plan, the earliest visit and the typical cost, with demo numbers, as written in Claude Design's final design **[decided]**
 
 **"I don't see my plan"**
-- First, the full plan list with search, as written in Claude Design's final design **[decided]**
+- First, the full plan list with search **[decided]**:
+    - Title: "Search for your plan"
+    - Field label: "Plan name"
+    - When more plans match than show: "Keep typing to see {n} more"
+    - Link: "I still don't see my plan"
+    - Error: "Please choose your plan."
+    - Button: "Search again"
 - Only if their plan still isn't there: "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan."
 - Buttons: "Continue as self-pay", "Talk to a person"
 
@@ -333,7 +339,11 @@ One page, like a one-page checkout when you shop online.
 - Button: "Start check-in"
 - Messages: the "Inbox" tab (see screens 12 and 15)
 - Demo control, beside the visit card: "Demo: skip to 72 hours" **[decided]**. It then moves on to "Demo: skip to 24 hours" and "Demo: skip to 1 hour", so the reminders and "Join visit" can be shown **[drafted]**
-- After the visit is marked completed, a small dialog in the corner: "How was your first visit?" 0 to 10. Never during onboarding. A high score can lead into asking for a review. Claude Design's visit rating, review ask and after-the-visit copy are approved as written **[decided]**. The exact strings, with plan search's, are to be added here from the design **[pending: strings from Lily]**
+- After the visit is marked completed, a small dialog in the corner. Never during onboarding **[decided]**:
+    - "How was your first visit?" 0 to 10, with "0 = Not good" and "10 = Great"
+    - After a 9 or 10: "Thank you! Would you share a short review? It helps other people find care." Buttons: "Write a review", "Not now"
+    - After a lower score: "Thanks for telling us. It helps us get better."
+- After the visit: "Your provider will send your next steps to your inbox." Button: "Go to my inbox" **[decided]**
 
 **Lily's notes**
 - This is a simple version of a patient portal page
