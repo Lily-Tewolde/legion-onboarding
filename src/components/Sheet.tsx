@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode, type RefObject, useImperativeHandle, useRef, useState } from "react";
+import { type ReactNode, type RefObject, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import { copy } from "@/copy";
 import { Close } from "./icons";
 
@@ -46,6 +46,14 @@ export function Sheet({
     setClosing(true);
     window.setTimeout(finish, CLOSE_MS);
   };
+
+  // Next keeps a screen you've left alive but hidden. A sheet left open there
+  // stays modal, and nothing on the next screen can be clicked, so it closes
+  // when its screen is hidden or goes away
+  useLayoutEffect(() => {
+    const node = dialog.current;
+    return () => node?.close();
+  }, []);
 
   useImperativeHandle(ref, () => ({
     open: () => {
