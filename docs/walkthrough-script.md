@@ -45,7 +45,7 @@ Before recording: the desktop Step 1 clip shows my real details from 2:45 on (pa
 
 **On screen, about 15 seconds:** `npm run eval` running to "Result: PASS".
 
-**Say:** "And no prompt ships without this. Seventy test cases, every crisis case at 100%, run before anything merges."
+**Say:** "And no prompt ships without this. Seventy test cases, every crisis case at 100%, run before any prompt change ships."
 
 ## 5. How I'd measure it (4:30 to 5:00)
 

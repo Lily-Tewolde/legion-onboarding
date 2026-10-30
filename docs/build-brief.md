@@ -161,7 +161,8 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 - `POST /api/ai/whats-going-on`: Sonnet, structured output per `docs/evals.md`
 - `POST /api/ai/check-in/next`: Sonnet, returns the next question or done
 - `POST /api/ai/check-in/summary`: Sonnet, the clinician summary with citations
-- `POST /api/ai/crisis-flag`: Haiku, run on every patient message, in parallel with the word list
+- The crisis flag (Haiku) runs inside each AI step's route, on every patient message, in parallel with the word list. There's no separate crisis-flag route
+- `POST /api/visit/check-in-done`: records only `intake_done`. The check-in's answers and summary stay in the browser tab
 
 Models: `claude-sonnet-5-5` for both AI steps, `claude-haiku-5-5` for the crisis flag, `claude-opus-5-5` for the eval grader (current IDs on Anthropic's models page, Oct 29). If the Haiku flag misses any crisis case in the evals, switch it to `claude-sonnet-5-5` and log the result in `docs/decisions.md`.
 

@@ -395,6 +395,8 @@ Two steps: details, then payment **[decided]**. The visit card stays on both.
 - Small link at the bottom, always visible: "Skip the check-in" **[decided]**
 - While the next question loads: skeleton
 - Form fallback note: "We're using a simple form for the check-in."
+- After an eligibility surprise other than age: "Thanks for telling us. Someone from our team may reach out before your visit." **[drafted]**
+- Fixing medications: field label "Medication", button "Remove" **[drafted]**
 - After two skips in a row, shown once, never as a warning: "That's okay. A few answers help your provider spend more of your visit on you." **[decided]**
 - When the patient asks something we can't answer here (for example, about cost or coverage), a soft note in line, and the check-in keeps going: "We can't answer that here. For cost or coverage, talk to a person." **[decided]**
 - When the patient asks a medication question (for example, about a dose): "We'll pass your question to your provider." The check-in keeps going **[decided]**
@@ -422,6 +424,7 @@ Two steps: details, then payment **[decided]**. The visit card stays on both.
 - Text-style button: "All answers" (the other sections, and the questions and answers). One way to reach the answers, not two **[decided]**
 - No check-in on this device: "No check-in on this device yet." Button: "Load a sample check-in"
 - Demo line at the bottom, for the sample: "Sample: a made-up check-in for demo purposes"
+- Clinician view lines **[drafted]**: "Flags", "Answer {number}", "Patient skipped the check-in questions.", "Skipped", "As heard: '{name}' (unclear)", "said '{name}'", "confirmed by the patient", "The AI summary isn't available. The answers are below.", plus the flag labels and status words in `src/copy.ts`
 
 **Lily's notes**
 - A one-page structured summary, like a clipboard, not a conversation
@@ -447,6 +450,7 @@ Two steps: details, then payment **[decided]**. The visit card stays on both.
 - Buttons: "Mark visit completed", "Mark no-show", and a switch between the patient portal and the clinician view (wording as in Claude Design's final design) **[decided]**
 - "Demo only. This records how the visit went, so the funnel runs from start to finish."
 - "Join visit" opens the demo controls, since there's no real video visit **[decided]**
+- The switch: "Open the clinician view (demo)" and "Back to the patient portal (demo)" **[drafted]**
 - After marking completed: "Visit marked completed (demo)"
 - After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee for a missed first visit, $250, since the demo visit is a first visit **[decided]**: "The fee for a missed first visit is $250." **[decided]** *(from Legion's current flow; credited in the README, not on screen)*. Where the full cancellation policy is shown, it keeps both amounts
 
