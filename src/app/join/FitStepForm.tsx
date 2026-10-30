@@ -380,7 +380,7 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
               </div>
             </>
           ) : (
-            <div role="radiogroup" aria-labelledby="plan-label" aria-describedby={error("planId") ? "plan-error" : undefined} className="flex flex-col gap-1">
+            <div role="radiogroup" aria-labelledby="plan-label" aria-describedby={error("planId") ? "plan-error" : undefined} className="flex flex-col gap-1 md:grid md:grid-cols-2 md:gap-2">
               {plans.map((option) => (
                 <button
                   key={option.id}
