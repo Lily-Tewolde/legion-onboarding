@@ -15,6 +15,7 @@ import { type CheckInFlag, type CheckInState, checkInStore } from "@/lib/check-i
 import { ageOn, parseDateOfBirth } from "@/lib/fit/rules";
 import { getAnswers } from "@/lib/fit/stored-answers";
 import { todayInCentral } from "@/lib/central-time";
+import { BackLink } from "@/components/MobileProgress";
 
 // Screen 10, the clinician view (Claude Design's 13-Clinician): it leads with
 // what a doctor scans first, the safety flag if there is one (with the quote
@@ -26,7 +27,8 @@ const SAFETY_KINDS = new Set(["self_harm", "harm_to_others", "being_harmed", "im
 
 export type Patient = { name: string; when: string } | null;
 
-export function ClinicianView({ patient, demo }: { patient: Patient; demo?: ReactNode }) {
+// back: where "Back" goes, the visit page with a booking, otherwise the start
+export function ClinicianView({ patient, demo, back }: { patient: Patient; demo?: ReactNode; back: string }) {
   const stored = useSyncExternalStore(checkInStore.subscribe, checkInStore.get, checkInStore.getServer);
   const [sample, setSample] = useState(false);
 
@@ -43,7 +45,7 @@ export function ClinicianView({ patient, demo }: { patient: Patient; demo?: Reac
   if (!record) {
     return (
       <Screen width="picker" footer={<div className="flex items-center justify-between gap-2">{demo}</div>}>
-        <Header provider={stored.provider} />
+        <Header provider={stored.provider} back={back} />
         <Card className="items-start gap-3">
           <p className="text-body-lg">{copy.clinician.noCheckIn}</p>
           <Button onClick={() => setSample(true)}>{copy.clinician.loadSample}</Button>
@@ -51,12 +53,17 @@ export function ClinicianView({ patient, demo }: { patient: Patient; demo?: Reac
       </Screen>
     );
   }
-  return <Summary record={record} sample={sample} patient={sample ? SAMPLE_PATIENT : patient} demo={demo} />;
+  return <Summary record={record} sample={sample} patient={sample ? SAMPLE_PATIENT : patient} demo={demo} back={back} />;
 }
 
-function Header({ provider, line }: { provider: string; line?: string }) {
+// "Back" first, so the clinician view is never a dead end (Lily's testing
+// notes, Oct 30)
+function Header({ provider, line, back }: { provider: string; line?: string; back: string }) {
   return (
     <>
+      <div className="flex min-h-control-sm items-center">
+        <BackLink href={back} />
+      </div>
       <p className="-mb-2 text-label font-semibold text-slate">{copy.clinician.viewLabel}</p>
       <div className="flex flex-col gap-1.5">
         <PageTitle>{provider ? copy.clinician.title.replace("{provider}", provider) : copy.clinician.titleNoProvider}</PageTitle>
@@ -72,11 +79,13 @@ function Summary({
   sample,
   patient,
   demo,
+  back,
 }: {
   record: CheckInState;
   sample: boolean;
   patient: { name: string; when: string; age?: number } | null;
   demo?: ReactNode;
+  back: string;
 }) {
   const summary = record.summary ?? null;
   const sheet = useRef<SheetHandle>(null);
@@ -143,7 +152,7 @@ function Summary({
         </div>
       }
     >
-      <Header provider={record.provider} line={line} />
+      <Header provider={record.provider} line={line} back={back} />
 
       {safety.map((flag) => (
         <SafetyCard key={`${flag.kind}-${flag.messageId}`} flag={flag} quote={answerText(flag.messageId)} keptGoing={number(flag.messageId) < record.turns.length} source={<Source cites={[flag.messageId]} />} />
