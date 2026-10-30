@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
 
-// Adapted from Inspo Book 01's tag: sentence case instead of all caps, and
-// 14px instead of 9px, for the on-screen labels like "Demo: payment simulated"
+// The spec's tag: a pill on the tag blue, 14px semibold, for things like the
+// "Completed" milestone and "Recommended"
 export const Tag = ({ children }: { children: ReactNode }) => (
-  <span className="inline-block rounded-full bg-wash px-2.5 py-0.5 text-sm font-medium text-action">
+  <span className="inline-flex items-center rounded-full bg-tag px-2.5 py-0.5 text-label font-semibold whitespace-nowrap text-navy">
     {children}
   </span>
 );

@@ -18,3 +18,7 @@ export function visitTime(iso: string): string {
   const period = part(iso, { hour: "numeric", hour12: true }).endsWith("AM") ? "am" : "pm";
   return minute === "00" ? `${hourText} ${period}` : `${hourText}:${minute} ${period}`;
 }
+
+// The short date, "Mon, Nov 2", wherever the long one would wrap
+export const visitShortDate = (iso: string) =>
+  `${part(iso, { weekday: "short" })}, ${part(iso, { month: "short", day: "numeric" })}`;
