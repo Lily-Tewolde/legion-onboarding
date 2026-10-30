@@ -553,6 +553,8 @@ export const copy = {
     switchLabel: "View",
     patientPortal: "Patient portal",
     clinicianView: "Clinician view",
+    // Lily's wording (Oct 30): clears the session and goes back to screen 1
+    startOver: "Start over",
   },
   // After the visit is marked completed, never during onboarding (decided).
   // Claude Design's wording, with the review ask after a 9 or 10

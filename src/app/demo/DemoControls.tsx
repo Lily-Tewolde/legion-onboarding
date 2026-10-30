@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 import { Button, ButtonLink } from "@/components/Button";
 import { FieldError } from "@/components/SegmentedControl";
+import { StartOver } from "@/components/StartOver";
 import { copy } from "@/copy";
 import { track } from "@/lib/analytics/track";
 
@@ -72,6 +73,7 @@ export function DemoControls({ intakeDone }: { intakeDone: boolean }) {
       <ButtonLink href="/clinician" variant="text">
         {copy.demo.clinicianView}
       </ButtonLink>
+      <StartOver />
     </div>
   );
 }

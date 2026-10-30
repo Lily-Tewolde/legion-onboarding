@@ -10,12 +10,13 @@ import { cx } from "./cx";
 import { FieldError } from "./SegmentedControl";
 import { Sliders } from "./icons";
 import { Sheet, type SheetHandle } from "./Sheet";
+import { StartOver } from "./StartOver";
 
 // Claude Design's DemoControls: a small "Demo controls" button on every
 // portal and clinician screen (in the title row on phones, pinned bottom left
 // on desktop), opening a sheet on phones and a dialog on desktop with "Mark
-// visit completed", "Mark no-show" and a switch between the patient portal
-// and the clinician view. Demo only
+// visit completed", "Mark no-show", a switch between the patient portal and
+// the clinician view, and "Start over" at the bottom. Demo only
 
 type Outcome = "completed" | "no_show";
 
@@ -117,6 +118,7 @@ export function DemoControls({ intakeDone, view = "patient" }: { intakeDone: boo
             </Link>
           ))}
         </nav>
+        <StartOver />
       </Sheet>
     </>
   );
