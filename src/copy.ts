@@ -68,7 +68,7 @@ export const copy = {
       "This helps us make sure we can offer the right level of care.",
     errors: {
       dateOfBirth: "Please enter your date of birth as MM / DD / YYYY.",
-      payMethod: "Please choose yes or no.",
+      payMethod: "Please choose Yes or No.",
       required: "Please answer this question.",
       planNotListed: "Choose ‘Continue as self-pay’ or talk to a person to keep going",
     },
@@ -166,6 +166,18 @@ export const copy = {
     },
     notDiagnosis: "This only repeats what you told us. It isn't a diagnosis.",
     diagnosed: "Have you been diagnosed with {item}?",
+    // {item} in the diagnosis question, a fixed name for each label. Never
+    // asked for "Other" or "Not sure"
+    diagnosisNames: {
+      ADHD: "ADHD",
+      Anxiety: "anxiety",
+      Depression: "depression",
+      Sleep: "insomnia",
+      PTSD: "PTSD",
+      OCD: "OCD",
+      "Panic disorder": "panic disorder",
+      "Bipolar disorder": "bipolar disorder",
+    },
     notSure: "Not sure",
     looksRight: "Looks right",
     startOver: "Start over",

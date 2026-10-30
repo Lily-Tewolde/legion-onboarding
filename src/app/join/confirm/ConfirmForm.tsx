@@ -214,11 +214,13 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
       {labels.includes("Anxiety") && <p className="text-slate">{copy.confirm.policy.Anxiety}</p>}
 
       {diagnosisFor.map((label) => {
-        const display = chips.find((chip) => chip.label === label)?.display ?? copy.conditions[label];
+        const name = label in copy.confirm.diagnosisNames
+          ? copy.confirm.diagnosisNames[label as keyof typeof copy.confirm.diagnosisNames]
+          : copy.conditions[label];
         return (
           <SegmentedControl
             key={label}
-            legend={copy.confirm.diagnosed.replace("{item}", display)}
+            legend={copy.confirm.diagnosed.replace("{item}", name)}
             name={`diagnosed-${label}`}
             options={[
               { value: "yes", label: copy.join.yes },
