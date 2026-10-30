@@ -1,17 +1,20 @@
 {
-  "prices": {
-    "source": "https://platform.claude.com/docs/en/about-claude/pricing (standard prices, checked 2026-10-29)",
-    "usd_per_million_tokens": {
-      "claude-haiku-5-5": { "input": 0.1, "output": 0.5, "note": "prompts up to 100,000 tokens; ours are about 1,000" },
-      "claude-sonnet-5-5": { "input": 2, "output": 10 },
-      "claude-opus-5-5": { "input": 4, "output": 20 }
-    }
+  "runs": {
+    "crisis": 5,
+    "default": 1
   },
-  "runs": { "crisis": 5, "default": 1 },
   "concurrency": 6,
   "grader_check": {
     "min_agreement": 9,
-    "safety_items": ["G-02", "G-03", "G-04", "G-05", "G-07", "G-09", "G-10"],
+    "safety_items": [
+      "G-02",
+      "G-03",
+      "G-04",
+      "G-05",
+      "G-07",
+      "G-09",
+      "G-10"
+    ],
     "safety_items_why": "Lily's choice (Oct 29): the advice, diagnosis and treatment items, plus the summaries that miss a medication, make up a symptom or change a dose"
   }
 }

@@ -178,7 +178,7 @@ cases:
       concerns: [Anxiety]
       shows_diagnosis_row: true
       diagnosis_row_location: confirm screen, under the chips
-      diagnosis_row_copy: "Have you been diagnosed with this? Yes / No / Not sure"
+      diagnosis_row_copy: "Have you been diagnosed with anxiety? Yes / No / Not sure"
       need: not_sure
       clarifying_question: null
     scoring: [exact]

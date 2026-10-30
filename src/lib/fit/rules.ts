@@ -12,8 +12,9 @@ export type FitAnswers = {
   inTexas?: YesNo;
   payMethod?: "insurance" | "self_pay";
   planId?: string;
-  // Asked of self-pay only: Legion doesn't see Medicaid or Medicare patients,
-  // "including as self-pay"
+  // "Do you have Medicaid or Medicare?": asked of self-pay on screen 1, and
+  // as a double-check on the confirm screen. Legion doesn't see Medicaid or
+  // Medicare patients, "including as self-pay"
   medicaidOrMedicare?: YesNo;
   safety?: YesNo;
   hospital?: YesNo;
@@ -42,12 +43,14 @@ export type FieldErrors = Partial<
 // The answer behind "I don't see my plan": not a plan, so it can't pass
 export const PLAN_NOT_LISTED = "not_listed";
 
+export type TapField = "inTexas" | "planId" | "medicaidOrMedicare" | "safety" | "hospital";
+
 // Every one-tap answer acts the moment it's tapped, and only by its own rule:
 // "Yes" to safety opens the crisis screen; "No" to Texas, Medicaid or
 // Medicare (as a plan, or "Yes" to the self-pay question) and "Yes" to the
 // hospital question open their screen-out. The date of birth is typed, so it
 // waits for Continue, and tapping something else never acts on it
-export function tapOutcome(field: FitField, answers: FitAnswers): FitOutcome | null {
+export function tapOutcome(field: TapField, answers: FitAnswers): FitOutcome | null {
   switch (field) {
     case "safety":
       return answers.safety === "yes" && !answers.safeConfirmed ? { result: "crisis" } : null;
@@ -58,8 +61,6 @@ export function tapOutcome(field: FitField, answers: FitAnswers): FitOutcome | n
       return hasMedicaidOrMedicare(answers) ? { result: "screened_out", reason: "medicaid_medicare" } : null;
     case "hospital":
       return answers.hospital === "yes" ? { result: "screened_out", reason: "hospital_stay" } : null;
-    default:
-      return null;
   }
 }
 
@@ -77,10 +78,11 @@ export function partialOutcome(answers: FitAnswers, today: string): FitOutcome |
   return null;
 }
 
+// "Yes" to the question counts however they pay. Screen 1 clears the
+// self-pay answer when someone switches to insurance
 function hasMedicaidOrMedicare(answers: FitAnswers): boolean {
-  if (answers.payMethod === "insurance") return Boolean(findPlan(answers.planId ?? "")?.screensOut);
-  if (answers.payMethod === "self_pay") return answers.medicaidOrMedicare === "yes";
-  return false;
+  if (answers.medicaidOrMedicare === "yes") return true;
+  return answers.payMethod === "insurance" && Boolean(findPlan(answers.planId ?? "")?.screensOut);
 }
 
 // The whole fit check, on the last step's Continue. Assumes validateFacts

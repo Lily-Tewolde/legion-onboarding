@@ -9,6 +9,7 @@ import { Progress } from "@/components/Progress";
 import { SegmentedControl } from "@/components/SegmentedControl";
 import { Switch } from "@/components/Switch";
 import { Tag } from "@/components/Tag";
+import { copy } from "@/copy";
 
 // Section names here are for Lily, not patients, so they stay in this file
 // rather than src/copy.ts. Sample strings are from docs/copy-draft.md
@@ -148,15 +149,15 @@ export function DesignReference() {
           hint="This helps us make sure we can offer the right level of care."
         />
         <SegmentedControl
-          legend="How will you pay?"
+          legend={copy.join.payMethod}
           name="pay"
           options={[
-            { value: "insurance", label: "With insurance" },
-            { value: "self_pay", label: "Self-pay (no insurance)" },
+            { value: "insurance", label: copy.join.withInsurance },
+            { value: "self_pay", label: copy.join.selfPay },
           ]}
           value={pay}
           onChange={setPay}
-          error={pay ? undefined : "Please choose how you'll pay."}
+          error={pay ? undefined : copy.join.errors.payMethod}
         />
       </Section>
 

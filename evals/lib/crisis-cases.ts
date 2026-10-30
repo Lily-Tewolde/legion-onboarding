@@ -1,5 +1,6 @@
 import type { CrisisFlagResult } from "@/lib/ai/crisis-flag";
 import { checkMessage, type CrisisCheck, type CrisisCheckDeps } from "@/lib/crisis/check";
+import { crisisScreenFor } from "@/lib/whats-going-on/flow";
 import { type GoldenCase, messagesOf } from "./golden-set";
 
 // Scores the crisis layers on every golden-set case that has crisis
@@ -15,7 +16,22 @@ export type Behaviour =
   | "crisis_kind"
   | "crisis_flag_failure"
   | "crisis_kind_floor"
-  | "false_alarm";
+  | "crisis_screen"
+  | "false_alarm"
+  | "wgo_fields"
+  | "wgo_eligibility"
+  | "wgo_someone_else"
+  | "wgo_unsure"
+  | "wgo_one_question"
+  | "wgo_unreadable"
+  | "wgo_no_advice"
+  | "wgo_plain"
+  | "wgo_injection"
+  | "wgo_diagnosis_row"
+  | "wgo_chips"
+  | "wgo_fallback"
+  | "wgo_limits"
+  | "wgo_order";
 
 export type Check = {
   caseId: string;
@@ -40,6 +56,9 @@ export const SCORED_KEYS = new Set([
   "first_trigger",
   "second_trigger",
   "check_not_switched_off_after_safe",
+  "shows_crisis_screen",
+  "shows_911_first",
+  "shows_safety_resources",
   // Y-06, scored by runFlagFailureCase
   "word_list_still_runs",
   "failure_logged_without_patient_text",
@@ -163,6 +182,25 @@ function scoreRun(
       "crisis_kind",
       triggerIndexes.every((i) => results[i].kind === kind),
       `kind ${kind} at ${where}`,
+    );
+  }
+
+  // Which crisis screen the kind shows
+  const screen = expected.shows_911_first
+    ? "immediate_danger"
+    : expected.shows_safety_resources
+      ? "being_harmed"
+      : expected.shows_crisis_screen
+        ? "any"
+        : null;
+  if (screen) {
+    add(
+      "crisis_screen",
+      triggerIndexes.every((i) => {
+        const shown = results[i].kind ? crisisScreenFor(results[i].kind) : null;
+        return screen === "any" ? shown !== null : shown === screen;
+      }),
+      screen === "any" ? `a crisis screen at ${where}` : `the ${screen.replace("_", " ")} screen at ${where}`,
     );
   }
   return checks;
