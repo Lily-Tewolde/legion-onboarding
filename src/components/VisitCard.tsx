@@ -35,14 +35,16 @@ export function VisitCard({
       <dl className={cx("grid gap-x-4 gap-y-1.5", icons ? "grid-cols-1" : "grid-cols-[auto_1fr]")}>
         {items.map(({ label, value, Icon }) =>
           icons ? (
-            <div key={label} className="flex items-start gap-3">
-              <span aria-hidden="true" className="mt-0.5 flex size-8 flex-none items-center justify-center rounded-full bg-wash text-brand">
-                <Icon size={16} />
-              </span>
-              <div className="flex flex-col">
-                <dt className="text-label text-slate">{label}</dt>
-                <dd className="text-body font-semibold text-ink">{value}</dd>
-              </div>
+            // Only a term and its value inside each row, so the list reads
+            // right to screen readers; the icon sits inside the term
+            <div key={label} className="relative flex min-h-9 flex-col pl-11">
+              <dt className="text-label text-slate">
+                <span aria-hidden="true" className="absolute top-0.5 left-0 flex size-8 items-center justify-center rounded-full bg-wash text-brand">
+                  <Icon size={16} />
+                </span>
+                {label}
+              </dt>
+              <dd className="text-body font-semibold text-ink">{value}</dd>
             </div>
           ) : (
             <div key={label} className="contents">
