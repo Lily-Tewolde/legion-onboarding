@@ -166,7 +166,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · Five claims are tests, not facts
 
-- **What:** Treated as tests: that the new fit check recovers the 1,912, that the recommended provider fixes the 36.6%, that mobile is worse, that removing testimonials helps, and that the cost surprise loses people. Each has a test in `analysis/test-plan.md`
+- **What:** Treated as tests: that the new fit check recovers the 1,912, that the recommended provider fixes the 36.6%, that mobile is worse, that one small quote does better than Legion's big testimonial panel *(reworded Oct 29)*, and that the cost surprise loses people. Each has a test in `analysis/test-plan.md`
 - **Why:** They come from one walk and the funnel data, which show where people drop but not why
 - **Rejected:** Stating them as findings in the readout
 - **Revisit when:** A test reads out
@@ -236,7 +236,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-28 · Use Legion's real prices and cancellation fees, labelled
 
-- **What:** The copy uses Legion's prices from the current flow's payment page: self-pay $250 for the first visit and $150 for follow-ups; late cancellation (within 48 hours) or no-show $250 for first visits and $100 for follow-ups; most insured patients pay $0 to $40. Each is labelled "From Legion's current flow"
+- **What:** The copy uses Legion's prices from the current flow's payment page: self-pay $250 for the first visit and $150 for follow-ups; late cancellation (within 48 hours) or no-show $250 for first visits and $100 for follow-ups; most insured patients pay $0 to $40. Each is labelled "From Legion's current flow" *(updated Oct 29: credited in the README instead of on screen; see below)*
 - **Why:** Real numbers make the cost screen honest and show the change is about when the cost is shown, not what it is
 - **Rejected:** Made-up demo prices
 - **Revisit when:** Legion's prices change
@@ -665,7 +665,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **What:** Progress shows four named phases instead of step numbers: "About you", "What's going on", "Your provider" and "Book", ending at "You're booked" (replacing "Step 2 of 4" from PR #5). Screen 1 is now three steps, at `/join`, `/join/insurance` and `/join/safety`, all in "About you": date of birth and Texas; then insurance on its own; then the safety and hospital questions. Medicaid or Medicare goes straight to its screen-out when tapped, like the hospital question. Continue with "I don't see my plan" still selected shows "Choose ‘Continue as self-pay’ or talk to a person to keep going". "Answered by mistake? Go back" returns to the step with that answer, and "I'm safe right now" returns to the safety step. Lily's calls, PR #10
 - **Why:** Nothing should scroll on a phone, and phase names say where people are without making a long flow look long. Once insurance is its own step, Medicaid or Medicare can act like the hospital question
 - **Rejected:** "Step n of n", which made people count. One long screen 1, which scrolls on a phone. A general error for "I don't see my plan", when the two ways forward are on screen
-- **Revisit when:** The redesign changes how progress looks
+- **Revisit when:** The redesign changes how progress looks *(updated Oct 29: one bar in four segments, with the phase name as a label above the heading; see "Design: one progress bar" below)*
 
 ## 2026-10-29 · Self-pay patients are asked about Medicaid or Medicare; one-tap screen-outs act on tap
 
@@ -697,7 +697,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-29 · Legion's conditions list, and labels that match it
 
-- **What:** The simple form and "+ Add" use Legion's conditions list as built in PR 12: ADHD, Anxiety, Depression, Insomnia & sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other and I'm not sure. PTSD, OCD, Panic disorder and Other are new concern labels, and the made-up providers now cover PTSD, OCD and Panic disorder. "Insomnia & sleep" keeps the label Sleep, so matching, the golden set and the AI line up. Anxiety's is the only policy line for now. Updates the made-up providers decision above
+- **What:** The simple form and "+ Add" use Legion's conditions list, from the conditions page in its current flow (eight condition cards with icons; Lily has a screenshot): ADHD, Anxiety, Depression, Insomnia & sleep, PTSD, OCD, Panic disorder, Bipolar disorder, Other and I'm not sure. PTSD, OCD, Panic disorder and Other are new concern labels, and the made-up providers now cover PTSD, OCD and Panic disorder. "Insomnia & sleep" keeps the label Sleep, so matching, the golden set and the AI line up. Anxiety's is the only policy line for now. Updates the made-up providers decision above
 - **Why:** Patients choose from the same list they'd see in Legion's flow, and every condition on it can be matched to a provider
 - **Rejected:** Renaming the Sleep label, which would mean changing the golden set and matching for no gain to the patient
 - **Revisit when:** Legion confirms its conditions list or adds policy lines
@@ -719,6 +719,115 @@ One entry per decision, written the same session it's made. This becomes the spo
 - **Why:** Counting the crisis flag cut the limit to about 15 submits an hour (PR 12). Keeping it in the daily cap still bounds the total cost
 - **Rejected:** Counting every AI call, the crisis flag included (PR 12 as first built)
 - **Revisit when:** Later AI steps (the check-in and summary) are built and need their own limit, or the daily cap is reached
+
+## 2026-10-29 · Design: the phone frame, fit and colour
+
+From Lily's design feedback to Claude Design (round 2 and final round). This entry and the design entries after it log only what she decided there. Where the feedback gives no reason or alternative, that line is left out.
+
+- **What:** The mobile frame is 390 × 844, with Continue (and the portal tab bar) pinned to the bottom, safe area included, so there's no gap under it. The content above it still fits when Safari's bars take the screen down to about 700 px, so nothing important sits below that line. Desktop at 1440 × 900 scrolls slightly at most. One primary button with the secondary as a text-style button under it, 4.5:1 contrast, 44px targets, and never colour alone. The page stays white and the blue stays in the background only (soft shapes in a corner, a section, the desktop panel), with a white card behind anything people read. The demo banner is never covered. The layout changes between mobile and desktop, for example around 768 and 1024 px
+- **Why:** Safari on an iPhone shows only about 660 to 750 px of the 844 once its bars are on screen. Legion's landing page is white, and the blue was hiding the tags, the demo banner and text people read on mobile
+- **Rejected:** A hard 700 px cap on the frame, which left a white band under Continue and the tab bar. Blue behind readable content
+
+## 2026-10-29 · Design: one way of doing each thing
+
+- **What:**
+    - **Checks:** a check shows on a typed field once it's valid (date of birth, name, email, card). Choices (Yes / No, a plan, a time chip, a condition chip) show only the selected state, with no check inside
+    - **Order:** Yes then No everywhere
+    - **Spacing:** one spacing scale on an 8px grid, the same padding inside every card, the same gap between a heading and what's under it, and the same corner radius for each kind of thing. Every chip and option has at least 12px of padding inside. Chip labels stay at 16px, with fewer per row or two columns instead of smaller text
+    - **Alignment:** avatars and icons line up with the first line of text next to them. Cards side by side are the same height and line up at the top
+    - **Wrapping:** no label wraps to two lines (for example "Blue Cross Blue Shield" and "I don't see my plan"). The short date ("Mon, Nov 2") wherever the full one would wrap. Phone numbers stay on one line. A short reason never leaves one word alone on its last line
+    - **Copy length:** the intro is two lines at most on mobile. The panel line "Take it one step at a time. We'll help you find the right care." stays
+- **Why:** "Uniformity is the biggest thing. I want one way of doing each thing and that's it." Every screen should look cosmetically finished
+- **Rejected:** Checkmarks in some places and not others, the step label moving from side to side, Yes / No flipping order, and chip labels at 15px
+
+## 2026-10-29 · Design: one progress bar, and a ring on the desktop panel
+
+- **What:** On mobile, progress is one row: the back arrow, then a single bar split into four segments, one per phase (About you, What's going on, Your provider, Book). The current segment fills as people move through that phase's steps, and finished phases are full. The phase name is a small label above the question heading, in the same spot on every screen, desktop too. Screen readers hear, for example, "About you, part 2 of 3". On the desktop panel, a ring around each phase number closes as they move through the phase, then turns into a check; the current phase keeps its highlight if it still looks clean. Under each finished phase, a one-line summary (for example "Born 1968 · Texas · Aetna" or "Anxiety · Depression", with "+2 more" when there are a lot), and "Typical cost" and "Earliest visit" once we know them, each on one line with a short date. The check-in has one stepper only. Updates "Four named phases, and screen 1 in three steps" above
+- **Why:** There were too many progress bars at once on mobile
+- **Rejected:** Round 2's phase name, dots, plain bar and "About N min left", which is retired everywhere, desktop included. "Step x of 4". The check-in's 7 dots plus a bar
+
+## 2026-10-29 · Design: photos, the desktop panel and placeholders
+
+- **What:**
+    - **Desktop panel:** a photo instead of the sunrise drawing, slightly taller, changing per phase or every couple of steps. The patient quote shows on every desktop panel screen, as a placeholder for now: one small quote, not Legion's big testimonial panel, which is what Lily rejected. No panel on the crisis screens and screen-outs. Updates the build brief's "no split screen, no testimonial panel"
+    - **Photos:** clearly labelled placeholders, each with a note of what kind of photo goes there: people looking happy and supported, mental health as a priority, like the front of Legion's portal. Lily sources free commercial-licence photos. A photo inside a card on the in-between screens, like the proof moment and booked, with a soft curved edge between the photo and the content below it
+    - **Logo:** a small placeholder at the top, sized for Legion's real logo. Claude Code drops in the real logo, the insurer logos and the photos
+    - **Reviews:** asked for in the portal after the first visit, not inside the flow
+    - **From the inspiration photos, only these patterns:** the curved photo edge, the single thin progress bar with a back arrow, line icons on a soft filled circle for the condition chips, a photo inside a card on the in-between screens, field labels inside the inputs on details and payment, and milestone cards with a small "Completed" tag in the portal. Not that brand's yellow, serif or line drawings, and the current layout, screens, colours, components and Inter stay
+- **Why:** The quote has to be consistent: on every desktop panel screen or not at all
+- **Rejected:** The sunrise drawing. A quote that disappears after a while. Redesigning around the inspiration photos
+
+## 2026-10-29 · Design: insurance, plan search and the proof moment
+
+- **What:** Each plan card has the insurer's logo inside it, as in Legion's current flow (placeholders for now). No check inside Yes / No. The check and "You're covered" line stay after a plan is picked. "I don't see my plan" opens the full plan list with search first; only if their plan still isn't there do they get "Continue as self-pay" or "Talk to a person". The self-pay card holds the "Do you have Medicaid or Medicare?" row, so nothing scrolls. Right after "You're covered", the proof moment: how many Texas clinicians take their plan, the earliest visit and the typical cost, with demo numbers. Claude Design's plan search copy is approved as written
+- **Why:** The logos look much more appealing
+- **Rejected:** Going straight to self-pay or a person from "I don't see my plan"
+
+## 2026-10-29 · Design: "What's going on?" and the confirm screen
+
+- **What:** The starter chips are Legion's full list, each with an icon: ADHD, Anxiety, Depression, Insomnia & sleep, PTSD, OCD, Panic disorder and Bipolar disorder, with "Not sure" as the last chip. Simple line icons on a soft filled shape, and the chips still fit without scrolling on mobile. "Speak" shows live dictation the way Claude does: "Listening..." in placeholder colour first, then each word as it's heard. The check-in uses the same mic UI. The text box grows gently as they type and pushes what's below it down, on both sizes; on the check-in it opens to about 6 or 7 lines, then stops growing and scrolls inside. The confirm screen stays as it is: one diagnosis row per concern, the line that it only repeats what they told us, and "Start over" going back one step, not the whole flow. The double-checks are one small row each on the confirm screen, not a screen of their own (see the double-check entry above)
+- **Why:** Legion's own icons mix filled and outline, and some don't fit (a warning sign for PTSD, a magic wand for panic, a broken heart for depression). These should feel calmer and more personal
+- **Rejected:** Legion's icon set. A separate screen for the age double-check
+
+## 2026-10-29 · Design: the provider screen and "See more providers"
+
+- **What:** A one-sentence summary at the top, like "Aetna providers in Texas for anxiety". No check inside the selected time chip, just highlighted or not. Tapping any provider, on the provider screen or on "See more providers", expands it to show that provider's own availability: a short day strip with their times. "See more providers" is a screen on desktop and mobile: a short list of provider cards, each with a reason line and the next available time, with the recommended one pinned at the top. Long lists show three, then "Show more providers". Claude Design's no-times copy is approved as written
+- **Rejected:** One "Book Monday at 10" button as the only way to book a provider
+
+## 2026-10-29 · Design: checkout and booked
+
+- **What:**
+    - **Visit card:** two or three clearly labelled rows (date and time, who they're seeing, video visit), smaller on mobile, on a white card. On Details, "What if I cancel?" sits inside the visit box. The cancel policy and the payment summary are trimmed so they fit when opened
+    - **Fields:** labels sit inside the inputs on details and payment
+    - **Payment, like Shopify:** a collapsed visit summary above the payment card. Opened, it shows the two or three labelled rows inside the same white card. The card number has its own full row, then expiry, security code and ZIP
+    - **Cost, once per layout:** in the panel on desktop, on the Details step on mobile. The payment summary is just the date, the provider and video visit
+    - **Email already used:** a summary row (Claude Design's layout, approved)
+    - **Booked:** the path-to-care panel slides away so the booked moment has the full screen, and comes back when they move on. One photo placeholder, not two
+    - **Add to calendar:** "Add to calendar" with the Google, Apple and Outlook logos in one row under it. Icons only on mobile, icon and name on desktop, never wrapped
+- **Why:** The visit card was hard to read, and the "Your visit" card sat too far down on payment
+- **Rejected:** A second card inside the opened summary. The card number sharing a row, which cut it off behind the check
+
+## 2026-10-29 · Design: the portal, NPS and the check-in
+
+- **What:**
+    - **Portal:** the visit page and the inbox are one portal. On mobile, a bottom tab bar with Visit, Inbox and Profile; on desktop, the same three in a left sidebar. Profile is only an entry point, not built out. Milestone cards with a small "Completed" tag (for example booked, check-in done, first visit), all the same height. "Demo: skip to 72 hours" sits beside the visit card, condensed on mobile. Reschedule and Cancel visit look like text-style buttons. Reschedule, Cancel, Join, the calendar logos and the legal links can stay inert
+    - **NPS:** a small dialog in the corner, "How was your first visit?" with 0 to 10. It only shows after the visit is marked completed, never during onboarding. A high score can lead into asking for a review. Claude Design's visit rating, review ask and after-the-visit copy are approved as written
+    - **No-show fee:** $100 for a missed follow-up. $150 is the follow-up visit price. The demo's no-show screen shows $250, since the demo visit is a first visit; where the full policy is shown, it keeps both amounts *(Lily, later the same day)*
+    - **Check-in:** one stepper, so it feels lighter. On the medication check, "Yes, that's right" is the primary button, "Fix something" sits under it, and "Skip the check-in" is the small link at the bottom
+- **Why:** The portal page was boring as it was
+- **Rejected:** Three stacked buttons on the medication check
+
+## 2026-10-29 · Design: the clinician view and demo controls
+
+- **What:** The clinician view leads with what a doctor scans first: the safety flag if there is one, with the quote and the link, cleaned up so it reads at a glance; the concern in one line with its source link; and current medications. Everything else sits behind "All answers", a text-style button, and there's one way to reach the answers, not two. The Q badges sit the same way everywhere, and the page is centred. A small "Demo controls" button is pinned in a corner of every portal and clinician screen: bottom left on desktop, and on mobile somewhere it doesn't block the tab bar or crowd the heading. It opens a panel with "Mark visit completed", "Mark no-show" and switching between the patient portal and the clinician view
+- **Why:** The clinician view was too busy on both sizes, and there has to be a way to get around in the demo
+- **Rejected:** "All answers" styled as the main button. Two links that do the same thing
+
+## 2026-10-29 · Design: help, unhappy paths and demo notes
+
+- **What:**
+    - **Help:** "Talk to a person" opens the help panel everywhere, including where it's the main button, like the screen-outs
+    - **Unhappy paths:** built at both sizes and linked from where each one would happen: the screen-outs (under 18, not in Texas, Medicaid or Medicare, a recent hospital stay), the crisis screen and its versions, being hurt by someone, booking for someone else, the eligibility double-check, plan not listed, AI slow or down with the simple form, the retry for mashed keys, email already used, card error, no-show, no times and loading. On mobile, the simple form asks one question at a time
+    - **Being hurt:** "Leave this page" opens google.com, as built, and is its own filled button at the top as the quick exit
+    - **Demo notes:** "From Legion's current flow" doesn't appear on patient screens. The banner says it's a demo, plus one small line at the bottom of a page where something is simulated. No "Demo number" tags in the body text
+    - **Copy approved as written in the design:** the crisis checkbox line and "Back to the first question"
+- **Why:** The banner at the top already says it's a demo
+- **Rejected:** "Demo:" notes on every screen. "Talk to a person" going nowhere
+
+## 2026-10-29 · Design: motion
+
+- **What:** Apple-like. Springs with no bounce, about 0.4 to 0.5 seconds, and a little bounce only at the end of a gesture like swiping a sheet closed. The pressed state shows the moment a finger lands. Forward slides the next screen in from the right, and Back returns to the right. On a new screen the heading comes in first, then the cards, with a small fade and lift a split second apart. Exits are a bit quicker than entrances, and anything can be interrupted mid-animation. On mobile, the help panel, demo controls, NPS and the cancel policy come up from the bottom as sheets you can swipe away; on desktop they fade in and grow slightly. Buttons and chips press in a little, selected colours fade in instead of snapping, expanding sections animate their height, the phase segment fills, dictated words fade in, and loading uses a soft shimmer. Nothing animates on first load, and Reduce Motion turns it all into gentle fades
+- **Why:** Motion matters a lot to Lily
+- **Rejected:** Only a fade and rise and a pulsing skeleton
+
+## 2026-10-29 · Design: the handoff spec
+
+- **What:** Claude Design's two style boards are the handoff spec for Claude Code: the colour tokens, the type scale, the spacing scale, radius and shadows, the motion values, and every component in each of its states (default, hover, pressed, focus, selected, disabled and error) for buttons, chips, inputs, cards and sheets, with a short note on how the layout changes between mobile and desktop. After the final round, the design goes to Claude Code to build, and nothing outside the final list is redesigned
+
+## 2026-10-29 · Demo labels at the bottom of the screen; Legion's current flow credited in the README
+
+- **What:** Demo labels stay, but only as one small line at the bottom of a screen where something is made up or simulated, plus the banner at the top. "From Legion's current flow" comes off the screens and goes in the README instead. The copy draft still marks those lines, so the source stays clear. Updates "Use Legion's real prices and cancellation fees, labelled" above
+- **Why:** The banner at the top already says it's a demo, so one small line at the bottom of a page is enough
 
 ---
 
