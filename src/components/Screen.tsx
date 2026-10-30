@@ -70,8 +70,9 @@ export function Screen({
           >
             {flow && (
               <>
-                <div className="hidden min-h-control-sm items-center lg:flex">{flow.back && <BackLink href={flow.back} />}</div>
-                <p className="-mb-2 text-label leading-[18px] font-semibold text-slate md:leading-5">{PHASE_LABEL[flow.phase]}</p>
+                {/* Part of the frame: same spot on every screen, so they don't move */}
+                <div className="still hidden min-h-control-sm items-center lg:flex">{flow.back && <BackLink href={flow.back} />}</div>
+                <p className="still -mb-2 text-label leading-[18px] font-semibold text-slate md:leading-5">{PHASE_LABEL[flow.phase]}</p>
               </>
             )}
             {children}
