@@ -938,3 +938,35 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
     - **Demo controls closes after marking the visit on the portal,** since the portal shows the outcome and the rating comes up after a completed visit. On the clinician view it stays open with its status line, as that page shows neither
 - **Why:** Nothing was decided for these, so Claude Code picked what keeps the happy path working
 
+## 2026-10-30 · The terms and privacy notice moves to details
+
+- **What:** The notice sits on details, right before the consent checkbox, and is gone from payment. It makes the build match "The privacy notice and consent stay on the details step" above (PR 36)
+- **Why:** In PR 23 consent was on details but the notice was still on payment, the opposite of the log
+- **Revisit when:** Details needs to fit 390 x 700 without scrolling. With the notice, the consent box sits about 40px under Continue there
+
+## 2026-10-30 · Continue on the crisis screen stays off until "I'm safe right now" is ticked
+
+- **What:** Continue is disabled until the box is ticked, everywhere the crisis screen shows: the safety question, "What's going on?" and the check-in. The error line "Please check the box to continue." is gone. "Call 988" stays the one filled primary button and Continue a text-style button. Lily's call from her round-two pass (PR 37) **[Confirm with Legion's clinical team]**
+- **Why:** The screen exists to slow someone down. A Continue that looks ready before the tick doesn't
+- **Rejected:** Making "I'm safe right now" the primary action. Someone said they're at risk, so the call is the loud thing
+
+## 2026-10-30 · Start over in Demo controls
+
+- **What:** "Start over" at the bottom of Demo controls on every portal and clinician screen, and on the demo page. It gives the browser a new anonymous visitor and session, clears the tab's answers, makes the next run a new person in PostHog, and loads screen 1. Old sessions stay in the database. Lily's call (PR 39)
+- **Why:** Once a visit was booked there was no way back to the beginning, and a reviewer will want to run the flow more than once
+- **Rejected:** Deleting the old session's rows, which would take real runs out of the data. An "Are you sure?" step
+- **Revisit when:** Reviewers need to start over before booking. Demo controls only show from the portal on
+
+## 2026-10-30 · The plan search keeps its field
+
+- **What:** The search field never goes away. "We couldn't find your plan" shows under it: for an insurer Legion doesn't take, for "I still don't see my plan", or when nothing matches once typing pauses for 400ms. Picking a plan puts its name in the field. Lily's round-two pass (PR 38)
+- **Why:** A name with no match partway through ("Mo" on the way to "Molina") swapped the whole screen out, so you couldn't type a whole word
+
+## 2026-10-30 · Smaller calls from round two
+
+- **What:** Claude Code's choices in PRs 40 to 42:
+    - **The provider screens' progress lives outside the "use client" files,** so their loading screen has a phase and the bar doesn't empty and refill going into provider
+    - **The check-in's loading shimmer keeps the height of the question it replaces,** one line per line, so the card doesn't shrink between questions
+    - **The clinician photo on "Care that takes your plan"** is 176px tall on phones (was 128), cropped from 30% down there and 17% down on desktop, so her head isn't cut off
+- **Why:** Lily's round-two findings. Nothing was decided for how to fix them
+

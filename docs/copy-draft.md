@@ -131,7 +131,7 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - Primary button: "Call 988" **[decided]**
 - Text-style buttons underneath: "Text 988", "Call 911", "Talk to a person" **[decided]**
 - On phones, these open the dialer or messages in one tap. On desktop, the numbers are shown clearly
-- **[Confirm with Legion's clinical team]** On its own at the bottom: checkbox "I'm safe right now and want to keep going", then button "Continue". The crisis check stays on for the rest of the session
+- **[Confirm with Legion's clinical team]** On its own at the bottom: checkbox "I'm safe right now and want to keep going", then button "Continue". The crisis check stays on for the rest of the session. "Continue" stays off until the box is ticked, so there's no error line **[decided]**
 
 **Added from the golden-set review (Oct 29). Lines first drafted in the Legion Cowork Session; Lily approved them as written on Oct 29.**
 
@@ -447,6 +447,7 @@ Two steps: details, then payment **[decided]**. The visit card stays on both.
 ## 16. Demo controls
 
 - A small "Demo controls" button pinned in a corner of every portal and clinician screen: bottom left on desktop, and on mobile clear of the tab bar and the heading. It opens a panel, a sheet on mobile **[decided]**
+- At the bottom of the Demo controls panel: "Start over", which clears the session and goes back to screen 1 **[decided]**
 - Title: "Demo controls"
 - Buttons: "Mark visit completed", "Mark no-show", and a switch between the patient portal and the clinician view (wording as in Claude Design's final design) **[decided]**
 - "Demo only. This records how the visit went, so the funnel runs from start to finish."
