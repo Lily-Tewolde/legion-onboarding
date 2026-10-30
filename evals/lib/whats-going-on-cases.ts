@@ -205,7 +205,10 @@ export async function runWhatsGoingOnCase(testCase: GoldenCase, deps: WgoDeps): 
     fieldChecks.push([asked.length > 0, "a diagnosis question shows for each concern we don't know"]);
     if (typeof e.diagnosis_row_copy === "string") {
       const shown = asked
-        .map((label) => `${copy.confirm.diagnosed.replace("{item}", u?.chips.find((c) => c.label === label)?.display ?? label)} ${copy.join.yes} / ${copy.join.no} / ${copy.confirm.notSure}`)
+        .map((label) => {
+          const names: Partial<Record<string, string>> = copy.confirm.diagnosisNames;
+          return `${copy.confirm.diagnosed.replace("{item}", names[label] ?? label)} ${copy.join.yes} / ${copy.join.no} / ${copy.confirm.notSure}`;
+        })
         .join(" | ");
       fieldChecks.push([shown === e.diagnosis_row_copy, `wording: "${e.diagnosis_row_copy}"`]);
     }
