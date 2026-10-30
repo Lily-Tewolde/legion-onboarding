@@ -6,8 +6,6 @@
 
 ## How to try it
 
-> [fill in after the design pass: anything below that changes, like where Demo controls sit and the booking steps]
-
 **Live:** [fill in]. Use made-up details only. The banner on every screen says so.
 
 **The happy path, about 3 minutes:**
@@ -16,13 +14,14 @@
 2. **What's going on?:** type "I was diagnosed with ADHD and my medication ran out", or tap a chip
 3. **Here's what we understood:** tap "Looks right"
 4. **Your provider:** keep the recommended provider and time, and book it
-5. **Book your visit:** a made-up name, email and phone, the consent box, and card 4242 4242 4242 4242 with any future expiry, any 3-digit code and any 5-digit ZIP
-6. **Your visit:** "Demo: skip to 72 hours", then "Start check-in" and answer a few questions
-7. **Finish:** in Demo controls, open the clinician view, then mark the visit completed and rate it
+5. **Your details:** a made-up name, email and phone, and the consent box
+6. **Payment:** card 4242 4242 4242 4242 with any future expiry, any 3-digit code and any 5-digit ZIP, then "Book my visit"
+7. **Your visit:** "Demo: skip to 72 hours", then "Start check-in" and answer a few questions
+8. **Finish:** in Demo controls, open the clinician view, then mark the visit completed and rate it
 
-**Demo controls:** [fill in: where they sit after the design pass]. They mark the visit completed or a no-show, and switch between the patient portal and the clinician view.
+**Demo controls:** on desktop, the "Demo controls" button pinned bottom left on every portal and clinician screen. On a phone, "Demo" at the top right of the portal screens, and bottom left on the clinician view. They mark the visit completed or a no-show, and switch between the patient portal and the clinician view.
 
-**The crisis screen:** type "I don't want to be here anymore" in "What's going on?".
+**The crisis screen:** type "I don't want to be here anymore" in "What's going on?". The call and text buttons on the crisis screen are real links to 988 and 911, so look but don't tap them.
 
 **The clinician view:** open it from Demo controls, in the same browser tab as the check-in, since the answers stay in that tab. With no check-in, "Load a sample check-in" shows a labelled example.
 
