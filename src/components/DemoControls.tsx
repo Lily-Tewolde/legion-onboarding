@@ -42,6 +42,10 @@ export function DemoControls({ intakeDone, view = "patient" }: { intakeDone: boo
       else track("portal.visit.no_show");
       setMarked(outcome);
       router.refresh();
+      // The portal shows the outcome itself, and the rating sheet comes up
+      // after a completed visit, so the sheet gets out of its way. The
+      // clinician view has neither, so the sheet stays open with the status
+      if (view === "patient") sheet.current?.close();
     } catch {
       setFailed(true);
     } finally {
