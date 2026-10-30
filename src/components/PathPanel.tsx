@@ -18,9 +18,10 @@ import { PHASE_LABEL, PHASE_ORDER } from "./phase";
 // PathPanel). A labelled photo placeholder that changes with the phase, the
 // panel line, the four phases (a ring around the current one that fills
 // through its steps, a check and a one-line summary on each finished one),
-// then the typical cost and the earliest visit, and the patient quote at the
-// bottom. Summaries come from this tab's answers; the provider and time from
-// the server, once chosen
+// then the typical cost and the earliest visit. No quote, and the panel is
+// only as tall as what's in it (Lily, Oct 30).
+// Summaries come from this tab's answers; the provider and time from the
+// server, once chosen
 
 export type PanelProvider = { name: string; slotStart: string };
 
@@ -63,7 +64,7 @@ export function PathPanel({
   const photoIndex = Math.min(current, PANEL_PHOTOS.length - 1);
 
   return (
-    <aside aria-label={copy.panel.title} className="card flex min-h-full w-full flex-col overflow-hidden rounded-card">
+    <aside aria-label={copy.panel.title} className="card flex w-full flex-col overflow-hidden rounded-card">
       <Photo photo={PANEL_PHOTOS[photoIndex]} alt={copy.panel.photos[photoIndex]} className="h-42" priority />
       <div className="flex flex-1 flex-col gap-4 px-5 pb-5">
         <p className="display text-card-question font-semibold text-ink">{copy.panel.line}</p>
@@ -110,10 +111,6 @@ export function PathPanel({
             )}
           </div>
         )}
-        <figure className="mt-auto rounded-tile border border-muted-line bg-white p-3">
-          <blockquote className="text-body text-navy italic">{copy.panel.quote}</blockquote>
-          <figcaption className="mt-1 text-label text-slate">{copy.panel.quoteNote}</figcaption>
-        </figure>
       </div>
     </aside>
   );
