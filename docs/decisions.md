@@ -849,7 +849,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 
 - **What:** Lily's copy audit of the copy draft:
     - **Yes then No** on the safety and hospital questions, like everywhere else
-    - **Booking is two steps:** details, then payment. The Terms notice and the consent checkbox move to payment, right before "Book my visit". Updates the one-page checkout in "Fewer screens" above
+    - **Booking is two steps:** details, then payment. The Terms notice and the consent checkbox move to payment, right before "Book my visit" *(reversed the same day: they stay on details; see below)*. Updates the one-page checkout in "Fewer screens" above
     - **Provider screen:** with only "Not sure" or "Other", the reason line leaves out "treats {concern}". The summary for self-pay is "Providers in Texas for {concern}", and with only "Not sure" or "Other" it's "{plan} providers in Texas". "That time was just taken. Please pick another time." when a time goes
     - **Mic:** hidden when the browser can't do speech-to-text. "We can't use your mic. You can type instead." when it's blocked, and "We didn't hear anything. Try again, or type instead." when nothing was heard
     - **Limits:** free-text answers are up to 1,000 characters (was 2,000), with "That's the limit here. You can tell your provider the rest at your visit." at the limit. Names are up to 100 characters, one word is accepted, and the error is "Please enter your full name."
@@ -899,6 +899,12 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Why:** Patients go up to about 65, so readability comes first. On an iPhone, Safari zooms the page when someone taps a field with text under 16px, which is jarring in the middle of a form. Lily already decided chip labels stay at 16px rather than 15px
 - **Rejected:** Smaller body text on mobile to fit more on each screen
 - **Revisit when:** Mobile still feels crowded after the design pass. Then Lily names it as a tradeoff in the README: readability over density
+
+## 2026-10-29 · The privacy notice and consent stay on the details step
+
+- **What:** The Terms and privacy notice and the consent checkbox stay at the end of the details step, before the patient's details are saved, not on payment. Lily reversed this point from her copy audit after PR 23
+- **Why:** The privacy notice and consent should come before we save their details. Details is where the person is saved, with the time they consented, so consent has to come first. Claude Code's reason in PR 23, which Lily agreed with
+- **Rejected:** Moving them to payment, right before "Book my visit", which would save someone's details before they've seen the notice or consented
 
 ---
 

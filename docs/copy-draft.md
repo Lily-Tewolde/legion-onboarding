@@ -282,15 +282,15 @@ Two steps: details, then payment **[decided]**. The visit card stays on both.
 - "So your provider knows who you are, and we can send you your visit details."
 - Fields: "First and last name" (up to 100 characters; one word is accepted), "Email", "Mobile phone"
 - Email already used: "There's already an account with this email." Buttons: "Sign in to continue", "Use a different email". Demo line at the bottom: "Demo: sign-in simulated"
+- At the end of the details step, before their details are saved **[decided]**:
+    - **[Confirm with Legion]** Notice: "By continuing, you agree to our Terms of Service and Privacy Policy. You can read our HIPAA Notice of Privacy Practices and how we use AI." (Each is a link. A proposed pattern; what's required is for Legion's counsel.)
+    - **[Confirm with Legion]** Checkbox: "I consent to treatment by Legion Health providers." Link: "Read the consent"
 
 **Payment**
 - "You won't be charged now."
 - Above the payment fields, a collapsed visit summary (date, provider, video visit) that opens inside the same card **[decided]**
 - Fields, with labels inside the inputs: "Card number" on its own row, then "Expiry (MM/YY)", "Security code", "ZIP code" **[decided]**
 - Demo line at the bottom: "Demo: payment simulated. Any made-up card works." **[decided]**
-- Right before the button, moved here from the details step **[decided]**:
-    - **[Confirm with Legion]** Notice: "By continuing, you agree to our Terms of Service and Privacy Policy. You can read our HIPAA Notice of Privacy Practices and how we use AI." (Each is a link. A proposed pattern; what's required is for Legion's counsel.)
-    - **[Confirm with Legion]** Checkbox: "I consent to treatment by Legion Health providers." Link: "Read the consent"
 
 **Button:** "Book my visit"
 
