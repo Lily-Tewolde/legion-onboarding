@@ -78,6 +78,14 @@ export const copy = {
       "You're covered. Your plan is in network. Most patients pay $0 to $40 a visit.",
     fullCostLater: "You'll see your full cost before you book.",
     simulated: "Demo: coverage check simulated",
+    // The plan search (decided Oct 29), Claude Design's wording
+    searchTitle: "Search for your plan",
+    searchLabel: "Plan name",
+    // {count} more plans match than are shown
+    searchMore: "Keep typing to see {count} more",
+    stillNotListed: "I still don’t see my plan",
+    choosePlan: "Please choose your plan.",
+    searchAgain: "Search again",
     notListed:
       "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan.",
     continueSelfPay: "Continue as self-pay",
@@ -264,6 +272,91 @@ export const copy = {
     goToVisit: "Go to my visit page",
     // The calendar event, from the confirmation line
     calendarTitle: "{provider} · Video visit",
+  },
+  // The portal's tabs (decided Oct 29). Profile is only an entry point for now
+  portal: {
+    nav: "Your portal",
+    visit: "Visit",
+    inbox: "Inbox",
+    profile: "Profile",
+  },
+  // Screen 7
+  visit: {
+    title: "Your first visit",
+    expectTitle: "What to expect",
+    expect:
+      "Your provider will ask about what's going on, your history and any medications. Plan for about 60 minutes somewhere quiet and private.",
+    reschedule: "Reschedule",
+    cancel: "Cancel visit",
+    checkInTitle: "Optional: pre-visit check-in",
+    checkInBody: "About 5 minutes. Your provider can spend more of your visit on you. You can skip it.",
+    checkInWhen: "Do it any time before your visit. Earlier gives your provider time to read it.",
+    startCheckIn: "Start check-in",
+    // "72 hours" is decided; the next two follow it, waiting for Lily's OK
+    skipTo: {
+      "72h": "Demo: skip to 72 hours",
+      "24h": "Demo: skip to 24 hours",
+      "1h": "Demo: skip to 1 hour",
+    },
+    // After "Mark no-show". The demo visit is a first visit, so only its fee
+    // shows (decided Oct 29); the wording of the fee line waits for Lily's OK
+    missed: "You missed your visit. Want to book a new time?",
+    missedFee: "The fee for a missed first visit is $250.",
+    // Milestone cards (decided). The milestone names
+    // and the cancel check are placeholders, waiting for Lily's OK
+    completedTag: "Completed",
+    milestoneBooked: "Visit booked",
+    milestoneCheckIn: "Check-in done",
+    milestoneFirstVisit: "First visit",
+    // After the visit (Claude Design's wording)
+    done: "Your provider will send your next steps to your inbox.",
+    goToInbox: "Go to my inbox",
+    cancelCheck: "Cancel this visit?",
+    cancelYes: "Yes, cancel it",
+    keep: "Keep my visit",
+    demoControls: "Demo controls",
+  },
+  // Screens 8 and 11, in the Inbox tab. {firstName}, {provider}, {day} and
+  // {time} are filled in; {link} is the link in the message
+  inbox: {
+    title: "Inbox",
+    label: "Also sent to your email and phone (demo)",
+    inviteSubject: "Your visit on {day}: a 5-minute check-in",
+    invite:
+      "Hi {firstName}, your visit with {provider} is on {day} at {time}. Want to save time in your visit? Do a 5-minute check-in: {link}. We use AI to help with some steps. You can talk to a person any time.",
+    reminder24h: "Reminder: your visit with {provider} is tomorrow at {time}. Need to change it? {link}",
+    reminder1h: "Your visit starts in 1 hour. Join here: {link}",
+    joinVisit: "Join visit",
+    // Placeholder, waiting for Lily's OK
+    empty: "No messages yet.",
+  },
+  // Screen 12
+  demo: {
+    title: "Demo controls",
+    markCompleted: "Mark visit completed",
+    markNoShow: "Mark no-show",
+    note: "Demo only. This records how the visit went, so the funnel runs from start to finish.",
+    markedCompleted: "Visit marked completed (demo)",
+    markedNoShow: "Visit marked as a no-show (demo)",
+  },
+  // After the visit is marked completed, never during onboarding (decided).
+  // Claude Design's wording, with the review ask after a 9 or 10
+  nps: {
+    question: "How was your first visit?",
+    low: "Not good",
+    high: "Great",
+    reviewAsk: "Thank you! Would you share a short review? It helps other people find care.",
+    writeReview: "Write a review",
+    notNow: "Not now",
+    thanks: "Thanks for telling us. It helps us get better.",
+    // Placeholder: there's no real review page in the prototype
+    reviewDemo: "Demo: this would open Legion's review page.",
+    close: "Close",
+  },
+  // Placeholder screen, waiting for Lily's OK
+  profile: {
+    title: "Profile",
+    notBuilt: "Demo: changing your details isn't part of this prototype.",
   },
   crisis: {
     title: "Help is available right now",

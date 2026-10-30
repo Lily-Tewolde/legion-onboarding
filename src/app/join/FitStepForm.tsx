@@ -24,6 +24,7 @@ import {
   validateFields,
   type YesNo,
 } from "@/lib/fit/rules";
+import { searchPlans } from "@/lib/fit/plan-search";
 import { getAnswers, getServerAnswers, saveAnswers, subscribeAnswers } from "@/lib/fit/stored-answers";
 import { useLeave } from "@/lib/fit/use-leave";
 
@@ -298,7 +299,7 @@ function InsuranceQuestions({
             options={planOptions}
             value={answers.planId}
             onChange={(value) => tap("planId", { planId: value })}
-            error={error("planId")}
+            error={answers.planId === PLAN_NOT_LISTED ? undefined : error("planId")}
           />
           {plan && !plan.screensOut && (
             <div className="flex flex-col gap-2">
@@ -313,16 +314,11 @@ function InsuranceQuestions({
             </div>
           )}
           {answers.planId === PLAN_NOT_LISTED && (
-            <div className="flex flex-col items-start gap-2">
-              <p>{copy.coverage.notListed}</p>
-              <Button
-                variant="secondary"
-                onClick={() => update({ payMethod: "self_pay", planId: undefined })}
-              >
-                {copy.coverage.continueSelfPay}
-              </Button>
-              <TalkToPersonButton label={copy.coverage.talkToPerson} />
-            </div>
+            <PlanSearch
+              onPick={(planId) => tap("planId", { planId })}
+              onSelfPay={() => update({ payMethod: "self_pay", planId: undefined })}
+              showError={Boolean(error("planId"))}
+            />
           )}
         </div>
       )}
@@ -360,4 +356,85 @@ function focusFirstError(fields: readonly FitField[], errors: FieldErrors) {
   const target =
     document.getElementById(field) ?? document.querySelector<HTMLInputElement>(`input[name="${field}"]`);
   target?.focus();
+}
+
+// "I don't see my plan": the full plan list with a search first. Only when
+// their plan still isn't there do they get self-pay or a person. Picking a
+// plan here works like picking it from the field, so Medicaid or Medicare
+// still screens out on tap. At most five plans show at a time
+const SHOWN_PLANS = 5;
+
+function PlanSearch({
+  onPick,
+  onSelfPay,
+  showError,
+}: {
+  onPick: (planId: string) => void;
+  onSelfPay: () => void;
+  // Continue was pressed without a plan
+  showError: boolean;
+}) {
+  const [query, setQuery] = useState("");
+  const [stillNotListed, setStillNotListed] = useState(false);
+  const results = searchPlans(query);
+  const notFound = stillNotListed || results.length === 0;
+  const hidden = results.length - SHOWN_PLANS;
+
+  if (notFound) {
+    return (
+      <div aria-live="polite" className="flex flex-col items-start gap-2">
+        <p>{copy.coverage.notListed}</p>
+        <Button variant="secondary" onClick={onSelfPay}>
+          {copy.coverage.continueSelfPay}
+        </Button>
+        <TalkToPersonButton label={copy.coverage.talkToPerson} />
+        <Button
+          variant="text"
+          onClick={() => {
+            setQuery("");
+            setStillNotListed(false);
+          }}
+        >
+          {copy.coverage.searchAgain}
+        </Button>
+        {showError && (
+          <p role="alert" className="text-error">
+            {copy.join.errors.planNotListed}
+          </p>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <section aria-labelledby="plan-search-title" className="flex flex-col gap-3">
+      <h2 id="plan-search-title" className="text-lg font-medium">
+        {copy.coverage.searchTitle}
+      </h2>
+      <TextField
+        id="planSearch"
+        type="search"
+        autoComplete="off"
+        label={copy.coverage.searchLabel}
+        value={query}
+        onChange={setQuery}
+        error={showError ? copy.coverage.choosePlan : undefined}
+      />
+      <ul aria-labelledby="plan-search-title" className="flex flex-col gap-2">
+        {results.slice(0, SHOWN_PLANS).map((plan) => (
+          <li key={plan.id}>
+            <Button variant="secondary" className="w-full justify-start" onClick={() => onPick(plan.id)}>
+              {plan.name}
+            </Button>
+          </li>
+        ))}
+      </ul>
+      <div aria-live="polite" className="flex flex-col items-start gap-2">
+        {hidden > 0 && <p className="text-slate">{copy.coverage.searchMore.replace("{count}", String(hidden))}</p>}
+        <Button variant="text" onClick={() => setStillNotListed(true)}>
+          {copy.coverage.stillNotListed}
+        </Button>
+      </div>
+    </section>
+  );
 }

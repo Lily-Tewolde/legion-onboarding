@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { missingFor, recommendationFor } from "@/server/booking";
+import { resetDemoClock } from "@/server/portal";
 import { getSession, updateSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
 
 // "Book {day} at {time}" on screen 4: holds the chosen provider and time in
-// the session. Only a time the screen actually offered can be chosen
+// the session. Only a time the screen actually offered can be chosen. From
+// "Reschedule" (the visit is already booked, the details and card done), the
+// new time is booked straight away and any no-show is cleared
 const Body = z.object({ providerId: z.string().max(60), slotStart: z.string().max(40) }).strict();
 
 export async function POST(request: Request) {
@@ -25,12 +28,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "slot_unavailable" }, { status: 409 });
     }
 
+    const rescheduling = Boolean(session.booked_at);
     await updateSession(visitorId, {
       provider_id: chosen.provider.id,
       slot_start: parsed.data.slotStart,
-      current_screen: "book",
+      ...(rescheduling
+        ? { booked_at: new Date().toISOString(), visit_outcome: null, current_screen: "booked" }
+        : { current_screen: "book" }),
     });
-    return NextResponse.json({ path: "/join/book" });
+    if (!rescheduling) return NextResponse.json({ path: "/join/book" });
+    await resetDemoClock();
+    return NextResponse.json({ path: "/join/booked" });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "unavailable" }, { status: 500 });
