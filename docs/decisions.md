@@ -906,3 +906,67 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Why:** The privacy notice and consent come before we save their details. The details step is where the person is saved, with the time they consented, and payment comes after that save. Putting the notice and consent on payment would store someone's name, email and phone before they'd seen the notice or agreed. Claude Code raised this in PR 23
 - **Rejected:** The notice and consent on payment, right before "Book my visit", as the copy audit first had it
 - **Revisit when:** Legion's counsel says where the notice and consent have to sit
+
+## 2026-10-30 · Content clears the pinned footer at 390 x 700, not 844
+
+- **What:** On phones under 760px tall, spacing tightens so each screen's content clears the pinned button on first view: gaps 12 to 8px, card padding 16 to 12px, the primary button 54 to 48px, a slimmer progress row and footer, the same on the crisis screens and screen-outs. 390 x 844 and desktop are unchanged. On phones, details shows the visit collapsed to when, who and the cost, and it opens to when they're charged and the cancel policy, like payment. Lily's call after the PR 23 design audit (PR 32)
+- **Why:** The screens were sized for 844, so at 700 content sat under the pinned footer on first view, from 18px over on safety to 269px over on details. The footer itself worked. Lily decided earlier that content stays within about 700px and space comes from layout, not smaller text
+- **Rejected:** Tightening only, which left details and insurance over. Unpinning the button when a screen doesn't fit, which puts Continue below the fold
+- **Revisit when:** Details or payment with errors needs to fit without scrolling. Both still scroll a little at 700
+
+## 2026-10-30 · Medicaid, Medicare and "I don't see my plan" sit in their own block under the plans
+
+- **What:** On the insurance screen, the five real plans keep the single column with logos. Medicaid, Medicare and "I don't see my plan" sit in a short block of their own under a line, so they stay above the pinned Continue at 390 x 700. Lily's call (PR 33)
+- **Why:** They aren't plans, they're screen-outs, so they shouldn't sit in the same list as the commercial plans. Splitting them out fixes the height and matches what they are
+- **Rejected:** Shorter rows (they're already near the 44px tap floor). Two columns on phones, which don't fit the logos. Accepting the scroll
+
+## 2026-10-30 · A real Legion review in the desktop panel
+
+- **What:** The panel quote is "I got an appointment within a week and the doctor was really nice and professional." credited "Chris Slate, Google review", a review on legionhealth.com. It replaces the placeholder, and its box has a solid border, since dashed means placeholder. Lily supplied it (PR 29)
+- **Why:** The quote shows on every desktop panel screen, so a placeholder there would be in the submission
+- **Rejected:** Taking the quote off
+
+## 2026-10-30 · `/design` comes off the site
+
+- **What:** The `/design` reference page is deleted. Lily's call (PR 31). `/demo` stays
+- **Why:** It was a page for checking the design on the live link, not part of the patient flow or a deliverable
+
+## 2026-10-30 · Smaller calls from the design audit fixes
+
+- **What:** Claude Code's choices in PRs 28 and 30:
+    - **A sheet closes when its screen is hidden or goes away.** Next keeps a screen you've left alive but hidden, and an open sheet there stayed modal, so the clinician view couldn't be clicked after switching to it from Demo controls
+    - **Demo controls closes after marking the visit on the portal,** since the portal shows the outcome and the rating comes up after a completed visit. On the clinician view it stays open with its status line, as that page shows neither
+- **Why:** Nothing was decided for these, so Claude Code picked what keeps the happy path working
+
+## 2026-10-30 · The terms and privacy notice moves to details
+
+- **What:** The notice sits on details, right before the consent checkbox, and is gone from payment. It makes the build match "The privacy notice and consent stay on the details step" above (PR 36)
+- **Why:** In PR 23 consent was on details but the notice was still on payment, the opposite of the log
+- **Revisit when:** Details needs to fit 390 x 700 without scrolling. With the notice, the consent box sits about 40px under Continue there
+
+## 2026-10-30 · Continue on the crisis screen stays off until "I'm safe right now" is ticked
+
+- **What:** Continue is disabled until the box is ticked, everywhere the crisis screen shows: the safety question, "What's going on?" and the check-in. The error line "Please check the box to continue." is gone. "Call 988" stays the one filled primary button and Continue a text-style button. Lily's call from her round-two pass (PR 37) **[Confirm with Legion's clinical team]**
+- **Why:** The screen exists to slow someone down. A Continue that looks ready before the tick doesn't
+- **Rejected:** Making "I'm safe right now" the primary action. Someone said they're at risk, so the call is the loud thing
+
+## 2026-10-30 · Start over in Demo controls
+
+- **What:** "Start over" at the bottom of Demo controls on every portal and clinician screen, and on the demo page. It gives the browser a new anonymous visitor and session, clears the tab's answers, makes the next run a new person in PostHog, and loads screen 1. Old sessions stay in the database. Lily's call (PR 39)
+- **Why:** Once a visit was booked there was no way back to the beginning, and a reviewer will want to run the flow more than once
+- **Rejected:** Deleting the old session's rows, which would take real runs out of the data. An "Are you sure?" step
+- **Revisit when:** Reviewers need to start over before booking. Demo controls only show from the portal on
+
+## 2026-10-30 · The plan search keeps its field
+
+- **What:** The search field never goes away. "We couldn't find your plan" shows under it: for an insurer Legion doesn't take, for "I still don't see my plan", or when nothing matches once typing pauses for 400ms. Picking a plan puts its name in the field. Lily's round-two pass (PR 38)
+- **Why:** A name with no match partway through ("Mo" on the way to "Molina") swapped the whole screen out, so you couldn't type a whole word
+
+## 2026-10-30 · Smaller calls from round two
+
+- **What:** Claude Code's choices in PRs 40 to 42:
+    - **The provider screens' progress lives outside the "use client" files,** so their loading screen has a phase and the bar doesn't empty and refill going into provider
+    - **The check-in's loading shimmer keeps the height of the question it replaces,** one line per line, so the card doesn't shrink between questions
+    - **The clinician photo on "Care that takes your plan"** is 176px tall on phones (was 128), cropped from 30% down there and 17% down on desktop, so her head isn't cut off
+- **Why:** Lily's round-two findings. Nothing was decided for how to fix them
+

@@ -80,7 +80,7 @@ Every screen, from the root layout (`src/app/layout.tsx`):
 - **Task column:** one centred column, 40rem wide, 16px side gutters. No split screen
 - **Progress** (`Progress.tsx`): the one progress style, on the booking screens only, ending at "You're booked". Four named phases, "About you", "What's going on", "Your provider" and "Book", each with its own segment of a thin bar: `action` for done and current phases, `wash` for the rest. The current phase's name is `navy` and medium weight, and marked `aria-current="step"` for screen readers. No step numbers. Screens place it at the top of the column
 - **Tab title and icon:** "Legion Health · Prototype". The favicon is a plain neutral mark (a white dot on `slate`), not Legion's logo
-- **`/design`:** a reference page with every token and component, for checking on the live link. Not part of the patient flow and not indexed
+- **`/design`:** a reference page with every token and component, for checking on the live link. Taken off the site on Oct 30, 2026, as it isn't part of the submission
 
 All shell strings live in `src/copy.ts`.
 
