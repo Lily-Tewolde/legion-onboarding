@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useSyncExternalStore } from "react";
 import { copy } from "@/copy";
 import { cx } from "./cx";
 import { Info, Mic } from "./icons";
@@ -18,6 +18,19 @@ import { useSpeech } from "./useSpeech";
 // (copy audit, Oct 29)
 
 const LINE = 26;
+
+// Short phones, the same breakpoint as the `short` variant in globals.css:
+// the box stops growing at 4 lines there and scrolls inside, so a long
+// answer doesn't push the pinned button over the screen (Lily, Oct 30)
+const SHORT_PHONE = "(width < 48rem) and (height <= 760px)";
+const SHORT_MAX_ROWS = 4;
+
+function subscribeShort(onChange: () => void) {
+  const query = window.matchMedia(SHORT_PHONE);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+const isShort = () => window.matchMedia(SHORT_PHONE).matches;
 
 export function Dictate({
   id,
@@ -56,9 +69,10 @@ export function Dictate({
   useLayoutEffect(() => {
     latest.current = value;
   }, [value]);
+  const short = useSyncExternalStore(subscribeShort, isShort, () => false);
   const pad = large ? 16 : 12;
   const min = minRows * LINE + pad * 2;
-  const max = maxRows * LINE + pad * 2;
+  const max = (short ? Math.min(maxRows, SHORT_MAX_ROWS) : maxRows) * LINE + pad * 2;
 
   const speech = useSpeech((spoken) => {
     const joined = [latest.current.trim(), spoken].filter(Boolean).join(" ").slice(0, maxLength);
