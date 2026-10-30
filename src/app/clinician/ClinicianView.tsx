@@ -224,6 +224,8 @@ function SafetyCard({ flag, quote, keptGoing, source }: { flag: CheckInFlag; quo
         </h2>
         {source}
       </div>
+      {/* The two lines from the copy draft: raised, then kept going after "I'm safe" */}
+      <p className="text-body">{copy.clinician.safetyFlag}</p>
       <p className="text-label font-semibold">{copy.clinician.flagKinds[flag.kind]}</p>
       {quote && <p className="text-body-lg font-bold">“{quote}”</p>}
       {keptGoing && <p className="text-body">{copy.clinician.keptGoing}</p>}

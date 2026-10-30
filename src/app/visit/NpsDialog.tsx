@@ -74,6 +74,9 @@ export function NpsDialog() {
             <span>{copy.nps.low}</span>
             <span>{copy.nps.high}</span>
           </p>
+          <Button variant="text" onClick={close} className="self-center">
+            {copy.nps.notNow}
+          </Button>
         </>
       )}
 
