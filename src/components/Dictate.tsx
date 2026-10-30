@@ -7,10 +7,13 @@ import { Info, Mic } from "./icons";
 import { useSpeech } from "./useSpeech";
 
 // The text box with live dictation (Claude Design's Dictate): it grows gently
-// as they type, from minRows to maxRows lines, then scrolls inside. The mic
-// sits inside the box. While listening, the border turns blue, "Listening…
-// Tap to stop." shows in placeholder colour, then each word fades in as it's
-// heard; finished phrases are added to what they typed. Under the box: the
+// as they type or speak, from minRows to maxRows lines, then scrolls inside.
+// The mic sits inside the box. While listening, the border turns blue, the
+// line under the box says "Listening… Tap to stop." with a pulsing dot from
+// the first tap, and the words being heard run on from what's already there,
+// in the box itself, so it grows with them and nothing sits on top of the
+// text. The box is read-only until listening stops, by tapping the mic or
+// after a pause (Lily's testing notes, Oct 30). Under the box otherwise: the
 // mic blocked or nothing heard, and the note at the 1,000-character limit
 // (copy audit, Oct 29)
 
@@ -63,6 +66,9 @@ export function Dictate({
     onSpoken?.(joined);
   });
 
+  // While listening, the words heard so far run on from the text
+  const shown = speech.listening && speech.interim ? [value.trim(), speech.interim].filter(Boolean).join(" ") : value;
+
   // Grow with the text, between the minimum and maximum heights
   useLayoutEffect(() => {
     const element = field.current;
@@ -71,9 +77,10 @@ export function Dictate({
     const height = Math.max(min, Math.min(max, element.scrollHeight));
     element.style.height = `${height}px`;
     element.style.overflowY = element.scrollHeight > max + 1 ? "auto" : "hidden";
-  }, [value, min, max, speech.listening]);
+    // Keep the newest words in view once it scrolls
+    if (speech.listening) element.scrollTop = element.scrollHeight;
+  }, [shown, min, max, speech.listening]);
 
-  const words = speech.interim ? speech.interim.split(/\s+/) : [];
   const note =
     speech.problem === "blocked"
       ? copy.whatsGoingOn.micBlocked
@@ -99,7 +106,8 @@ export function Dictate({
           aria-describedby={describedBy}
           aria-invalid={invalid || undefined}
           placeholder={speech.listening ? "" : placeholder}
-          value={value}
+          value={shown}
+          readOnly={speech.listening}
           maxLength={maxLength}
           disabled={disabled}
           onChange={(event) => {
@@ -112,19 +120,6 @@ export function Dictate({
             large ? "py-4 pr-[72px] pl-4" : "py-3 pr-16 pl-4",
           )}
         />
-        {speech.listening && (
-          <div aria-hidden="true" className={cx("pointer-events-none absolute right-0 bottom-0 left-0 text-question leading-[26px]", large ? "px-4 pb-4" : "px-4 pb-3")}>
-            {words.length === 0 ? (
-              <span className="text-slate">{copy.whatsGoingOn.listening}</span>
-            ) : (
-              words.map((word, i) => (
-                <span key={`${i}-${word}`} className="word">
-                  {word}{" "}
-                </span>
-              ))
-            )}
-          </div>
-        )}
         {speech.supported && (
           <button
             type="button"
@@ -140,16 +135,20 @@ export function Dictate({
             <Mic size={22} />
           </button>
         )}
-        <span role="status" className="sr-only">
-          {speech.listening ? copy.whatsGoingOn.listening : ""}
-        </span>
       </div>
       <p role="status" className="flex items-start gap-2 text-body text-slate empty:hidden">
-        {note && (
+        {speech.listening ? (
           <>
-            <Info size={18} className="mt-[3px] flex-none text-action" />
-            {note}
+            <span aria-hidden="true" className="mt-[7px] size-2.5 flex-none animate-pulse rounded-full bg-action motion-reduce:animate-none" />
+            <span className="font-semibold text-action">{copy.whatsGoingOn.listening}</span>
           </>
+        ) : (
+          note && (
+            <>
+              <Info size={18} className="mt-[3px] flex-none text-action" />
+              {note}
+            </>
+          )
         )}
       </p>
     </div>
