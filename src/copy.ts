@@ -50,8 +50,8 @@ export const copy = {
       "A clinician smiling at a laptop",
       "A woman with a coffee in morning light, relaxed",
     ],
-    quote: "[A short quote from a real Legion patient]",
-    quoteNote: "Placeholder: Legion to supply",
+    quote: "“I got an appointment within a week and the doctor was really nice and professional.”",
+    quoteNote: "Chris Slate, Google review",
   },
   common: {
     back: "Back",
