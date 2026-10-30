@@ -189,7 +189,7 @@ Shown under the plan field once a plan is picked. Not its own screen.
 
 **Form fallback (if the AI is down or the patient chooses it)**
 - Note: "We're using a simple form for this step."
-- "What would you like help with? Choose any that fit." Options to match Legion's conditions list **[Confirm with Legion]**, plus "Other" and "I'm not sure"
+- "What would you like help with? Choose any that fit." Options, from Legion's conditions list as built in PR 12 **[Confirm with Legion]**: "ADHD", "Anxiety", "Depression", "Insomnia & sleep", "PTSD", "OCD", "Panic disorder", "Bipolar disorder", "Other", "I'm not sure". The same list is offered by "+ Add" on screen 5
 - "How can we help you?" Legion's three options: "I already have a diagnosis and need medication support", "I'm looking for a new diagnosis or medication", "I'm not sure, but I need help"
 
 **Lily's notes**
@@ -203,9 +203,16 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - "Remove anything that's wrong, or add anything we missed."
 - Chip remove (for screen readers): "Remove {item}"
 - Add: "+ Add"
-- Policy line, only for the concern it applies to **[Confirm with Legion]**. For example, for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day."
+- Policy line, only for the concern it applies to **[Confirm with Legion]**. For example, for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." For now, Anxiety's is the only one
 - "This only repeats what you told us. It isn't a diagnosis."
-- When we don't know whether it's been diagnosed (for example, only a chip was tapped): one row under the chips, "Have you been diagnosed with this?" Options: "Yes", "No", "Not sure" **[decided]**
+- For each concern where we don't know whether it's been diagnosed (for example, only a chip was tapped): one row under the chips, "Have you been diagnosed with {concern}?" For example: "Have you been diagnosed with anxiety?" Options: "Yes", "No", "Not sure". Concerns we already know about get no row **[decided]**
+- How each concern reads in that question, with acronyms in capitals: "ADHD", "anxiety", "depression", "insomnia", "PTSD", "OCD", "panic disorder", "bipolar disorder". No row for "Other" or "I'm not sure" **[decided]**
+- Double-checks, when the answer mentions something that doesn't match screen 1: one small row each, under the chips **[decided]**
+    - Another state: "You mentioned another state. Will you be in Texas for your visits?" Options: "Yes", "No"
+    - Medicaid or Medicare: "You mentioned Medicaid or Medicare. Do you have Medicaid or Medicare?" Options: "Yes", "No"
+    - A hospital stay: "You mentioned a hospital stay. Have you been in the hospital for mental health or substance use in the past year?" Options: "Yes", "No"
+    - Age: "Can you check your date of birth?" Hint: "MM / DD / YYYY"
+    - Same rules as screen 1: "No" to Texas, "Yes" to Medicaid or Medicare and "Yes" to the hospital question go straight to their screen-out when tapped. The date of birth is checked on "Looks right"
 - Buttons: "Looks right", "Start over"
 
 **Lily's notes**
