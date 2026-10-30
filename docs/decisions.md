@@ -990,3 +990,18 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Rejected:** Ever screened out, because it drops people who corrected an answer, and because in production anything that briefly shows a screen-out would quietly delete the completions after it
 - **Revisit when:** Real patients correct answers at a different rate than Lily's test runs
 
+## 2026-10-30 · A one-line notice, and "Read the consent" opens a placeholder
+
+- **What:** The notice on details is one line, "By continuing, you agree to the terms and privacy notice.", with "terms" and "privacy notice" linking to Legion's published pages. "Read the consent" sits right after the consent checkbox and opens `/consent`, a placeholder in Lily's wording that says the real consent is Legion's and holds no consent language. All three open in a new tab. Lily's call (PR 36)
+- **Why:** The long notice pushed the consent box under Continue on phones. Shortening the notice gets the space back without trimming any consent language. Legion's consent to treatment isn't published, so there's nothing real to link to
+- **Rejected:** "You agree to the terms and privacy notice.", which fits one line on a phone. Lily kept "By continuing," on two lines. Linking "Read the consent" to Legion's terms of service, which isn't a consent document
+- **Revisit when:** Legion's counsel supplies the consent text, or says what the notice must say
+
+## 2026-10-30 · Smaller calls from the code review fixes
+
+- **What:** Claude Code's choices in PRs 46 to 48:
+    - **The quick exit** clears the tab's storage, hides the page as it goes, and reloads the page if a browser shows it again from memory. Every page is sent `Cache-Control: no-store` from the proxy, which Lily asked for. The reload is a backstop, since recent Chrome can keep even no-store pages in memory
+    - **Arrow keys on the Yes/No questions** still move the selection and record the answer, so the form and keyboard users stay in step. Only a tap or click, Space or Enter on the option, or Continue runs a screen-out or the crisis screen
+    - **Placeholders** use slate, the colour hints already use, so no new colour joins the palette
+- **Why:** Code review findings 1, 2 and 12. Nothing was decided for how to fix them
+

@@ -284,8 +284,11 @@ Two steps: details, then payment **[decided]**. The visit card stays on both.
 - Fields: "First and last name" (up to 100 characters; one word is accepted), "Email", "Mobile phone"
 - Email already used: "There's already an account with this email." Buttons: "Sign in to continue", "Use a different email". Demo line at the bottom: "Demo: sign-in simulated"
 - At the end of the details step, before their details are saved **[decided]**:
-    - **[Confirm with Legion]** Notice: "By continuing, you agree to our Terms of Service and Privacy Policy. You can read our HIPAA Notice of Privacy Practices and how we use AI." (Each is a link. A proposed pattern; what's required is for Legion's counsel.)
-    - **[Confirm with Legion]** Checkbox: "I consent to treatment by Legion Health providers." Link: "Read the consent"
+    - **[Confirm with Legion]** Notice, one line, right before the consent: "By continuing, you agree to the terms and privacy notice." "terms" links to Legion's terms of service and "privacy notice" to Legion's privacy policy, both on legionhealth.com, opening in a new tab **[decided Oct 30]**. A proposed pattern; what's required is for Legion's counsel
+    - **[Confirm with Legion]** Checkbox: "I consent to treatment by Legion Health providers." Link right after it: "Read the consent", opening in a new tab **[decided]**
+    - "Read the consent" opens a placeholder page, since Legion's consent isn't published **[decided Oct 30]**:
+        - Title: "Consent to treatment"
+        - "Legion's consent to treatment is a document their clinical and legal teams own. It isn't written for this prototype, so there's nothing to show here yet. In the real product, this is where the full text would open before you agree."
 
 **Payment**
 - "You won't be charged now."
