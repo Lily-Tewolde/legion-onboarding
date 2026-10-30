@@ -88,11 +88,12 @@ test.describe("crisis", () => {
     await expect(page.getByRole("heading", { name: copy.crisis.title })).toBeVisible();
     await expect(page.getByRole("link", { name: copy.crisis.call988 })).toHaveAttribute("href", "tel:988");
     await checkScreen(page, testInfo, "Crisis");
-    // Continue needs the box ticked, then goes back with the answers kept
-    await page.getByRole("button", { name: copy.common.continue }).click();
-    await expect(page.getByText(copy.crisis.safeNowError)).toBeVisible();
+    // Continue stays off until the box is ticked, then goes back with the answers kept
+    const keepGoing = page.getByRole("button", { name: copy.common.continue });
+    await expect(keepGoing).toBeDisabled();
     await page.getByLabel(copy.crisis.safeNow).check();
-    await page.getByRole("button", { name: copy.common.continue }).click();
+    await expect(keepGoing).toBeEnabled();
+    await keepGoing.click();
     await expect(page).toHaveURL(/\/join\/safety$/);
   });
 
