@@ -382,33 +382,39 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
               </div>
             </>
           ) : (
-            <div role="radiogroup" aria-labelledby="plan-label" aria-describedby={error("planId") ? "plan-error" : undefined} className="flex flex-col gap-1 md:grid md:grid-cols-2 md:gap-2">
-              {plans.map((option) => (
-                <button
-                  key={option.id}
-                  type="button"
-                  role="radio"
-                  aria-checked={answers.planId === option.id}
-                  onClick={() => tap("planId", { planId: option.id })}
-                  className={cx(
-                    "focus-ring flex min-h-[46px] w-full cursor-pointer items-center gap-3 rounded-field px-4 text-left text-body-lg whitespace-nowrap md:py-1.5 md:leading-tight md:whitespace-normal",
-                    "border-[1.5px] bg-white font-medium text-navy hover:border-action",
-                    error("planId") ? "border-error" : "border-line-control",
-                  )}
+            // The real plans, with their logos, then Medicaid, Medicare and "I
+            // don't see my plan" in their own short block under them (Lily,
+            // Oct 30): they aren't plans we take, so they're kept apart, and
+            // stay above the pinned Continue on short phones
+            <div role="radiogroup" aria-labelledby="plan-label" aria-describedby={error("planId") ? "plan-error" : undefined} className="flex flex-col gap-3 short:gap-2">
+              <div className="flex flex-col gap-1 md:grid md:grid-cols-2 md:gap-2">
+                {plans
+                  .filter((option) => !option.screensOut)
+                  .map((option) => (
+                    <PlanOption key={option.id} checked={answers.planId === option.id} invalid={Boolean(error("planId"))} onClick={() => tap("planId", { planId: option.id })}>
+                      <InsurerLogo planId={option.id} />
+                      {option.name}
+                    </PlanOption>
+                  ))}
+              </div>
+              <div className="grid grid-cols-2 gap-1 border-t border-line pt-3 short:pt-2 md:gap-2">
+                {plans
+                  .filter((option) => option.screensOut)
+                  .map((option) => (
+                    <PlanOption key={option.id} checked={answers.planId === option.id} invalid={Boolean(error("planId"))} onClick={() => tap("planId", { planId: option.id })}>
+                      {option.name}
+                    </PlanOption>
+                  ))}
+                <Link
+                  href="/join/plan-search"
+                  className="focus-ring col-span-2 flex min-h-[46px] items-center gap-3 rounded-field border-[1.5px] border-line-control bg-white px-4 text-body-lg font-medium whitespace-nowrap text-navy hover:border-action short:min-h-control-sm"
                 >
-                  <InsurerLogo planId={option.id} />
-                  {option.name}
-                </button>
-              ))}
-              <Link
-                href="/join/plan-search"
-                className="focus-ring flex min-h-[46px] items-center gap-3 rounded-field border-[1.5px] border-line-control bg-white px-4 text-body-lg font-medium whitespace-nowrap text-navy hover:border-action"
-              >
-                <span aria-hidden="true" className="flex size-[34px] flex-none items-center justify-center rounded-[9px] bg-wash text-action">
-                  <Search size={18} />
-                </span>
-                {copy.join.planNotListed}
-              </Link>
+                  <span aria-hidden="true" className="flex size-[34px] flex-none items-center justify-center rounded-[9px] bg-wash text-action short:size-7">
+                    <Search size={18} />
+                  </span>
+                  {copy.join.planNotListed}
+                </Link>
+              </div>
               {error("planId") && <FieldError id="plan-error">{error("planId")}</FieldError>}
             </div>
           )}
@@ -448,4 +454,23 @@ function focusFirstError(fields: readonly FitField[], errors: FieldErrors) {
   const target =
     document.getElementById(field) ?? document.querySelector<HTMLInputElement>(`input[name="${field}"]`);
   target?.focus();
+}
+
+// One option in the plan list: a radio that acts on tap
+function PlanOption({ checked, invalid, onClick, children }: { checked: boolean; invalid: boolean; onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      role="radio"
+      aria-checked={checked}
+      onClick={onClick}
+      className={cx(
+        "focus-ring flex min-h-[46px] w-full cursor-pointer items-center gap-3 rounded-field px-4 text-left text-body-lg whitespace-nowrap short:min-h-control-sm md:py-1.5 md:leading-tight md:whitespace-normal",
+        "border-[1.5px] bg-white font-medium text-navy hover:border-action",
+        invalid ? "border-error" : "border-line-control",
+      )}
+    >
+      {children}
+    </button>
+  );
 }
