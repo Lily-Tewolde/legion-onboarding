@@ -27,9 +27,11 @@ export async function sendTurns(
   turns: CheckInTurn[],
   options: { afterSafe?: boolean; form?: boolean; signal?: AbortSignal } = {},
 ): Promise<FlowEffect> {
+  // Answers already checked earlier in the check-in aren't checked again
+  const checkFrom = options.form ? checkInStore.get().turns.length : undefined;
   const response = await post<CheckInResponse>(
     "/api/ai/check-in/next",
-    { turns, afterSafe: options.afterSafe ?? false, form: options.form ?? false },
+    { turns, afterSafe: options.afterSafe ?? false, form: options.form ?? false, checkFrom },
     options.signal,
   );
   const { state, effect } = afterAnswer(checkInStore.get(), turns, response);

@@ -24,7 +24,11 @@ const Turn = z
   .strict();
 
 const Body = z
-  .object({ turns: z.array(Turn).min(1).max(MAX_TURNS), afterSafe: z.boolean().optional(), form: z.boolean().optional() })
+  .object({ turns: z.array(Turn).min(1).max(MAX_TURNS),
+    afterSafe: z.boolean().optional(),
+    form: z.boolean().optional(),
+    // The simple form's first answer; earlier ones were already checked
+    checkFrom: z.number().int().min(0).max(MAX_TURNS).optional(), })
   .strict();
 
 export async function POST(request: Request) {

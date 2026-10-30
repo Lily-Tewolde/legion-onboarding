@@ -34,13 +34,15 @@ export type CheckInResponse =
 const DONE: NextQuestion = { status: "done", question: null, inlineNote: null, eligibilityFlags: [] };
 
 // In the AI check-in, only the latest answer is new. The simple form sends
-// all its answers at once (form: true): each is checked, and nothing goes to
+// all its answers at once (form: true), after any the AI check-in already
+// checked (from checkFrom on): each new one is checked, and nothing goes to
 // the AI step
 export async function runCheckInTurn(
-  input: { turns: CheckInTurn[]; afterSafe?: boolean; form?: boolean },
+  input: { turns: CheckInTurn[]; afterSafe?: boolean; form?: boolean; checkFrom?: number },
   deps: CheckInDeps,
 ): Promise<CheckInResponse> {
-  const fresh = (input.form ? input.turns : input.turns.slice(-1)).filter((turn) => !turn.skipped && turn.answer.trim());
+  const newTurns = input.form ? input.turns.slice(input.checkFrom ?? 0) : input.turns.slice(-1);
+  const fresh = newTurns.filter((turn) => !turn.skipped && turn.answer.trim());
 
   if (!input.afterSafe) {
     for (const turn of fresh) {
