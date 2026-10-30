@@ -6,7 +6,7 @@ Every screen has a "Talk to a person" help link and the banner "Demo prototype: 
 
 ## Fewer screens, fewer questions before value
 
-Counts are for an insured patient. Self-pay is one question fewer, because there's no plan to choose.
+Counts are for an insured patient. Self-pay patients answer the same number: "Do you have Medicaid or Medicare?" takes the plan's place.
 
 | Moment | Today (walk) | New flow |
 |---|---|---|
@@ -39,10 +39,11 @@ Lily merged three screens into screen 1 and three into screen 5, so the copy dra
 
 ### 1. Let's get you care (start, quick facts and coverage)
 - **Shows at the top:** "Let's get you care", "All visits are by video" (confirm with Legion) and the one AI notice: "We use AI to help with some steps. You can talk to a person any time." No testimonial panel. Returning on the same device: "Welcome back. Pick up where you left off."
-- **Asks:** date of birth; "Will you be in Texas for your visits?" (yes or no); "How will you pay?" (insurance or self-pay); the plan, if insured; then two direct questions: "Are you thinking about harming yourself or others?" and the hospital-stay question (confirm with Legion's clinical team). Explanations are hint text under each question, not expanding cards
+- **Three steps, so nothing scrolls on a phone:** date of birth and Texas; then insurance on its own; then the safety and hospital questions. Progress shows four named phases across the booking screens: About you, What's going on, Your provider and Book
+- **Asks:** date of birth; "Will you be in Texas for your visits?" (yes or no); "Do you have health insurance?" (yes or no; "No" is self-pay); the plan, if insured, or "Do you have Medicaid or Medicare?" (yes or no), if self-pay; then two direct questions: "Are you thinking about harming yourself or others?" and the hospital-stay question (confirm with Legion's clinical team). Explanations are hint text under each question, not expanding cards
 - **Coverage inline:** once a plan is picked, "You're covered. Your plan is in network. Most patients pay $0 to $40 a visit." shows under the field (from Legion's current flow; coverage check simulated). Self-pay sees the price inline: $250 for the first visit, $150 for follow-ups. "I don't see my plan" offers self-pay or a person
-- **Rules, not AI:** under 18, "No" to Texas, or Medicaid or Medicare screen out kindly. "Yes" to the safety question goes straight to the crisis path. "Yes" to the hospital stay screens out with specialized treatment resources, right after that question
-- **Questions so far:** 6 (self-pay: 5)
+- **Rules, not AI:** every one-tap answer acts as soon as it's tapped: "No" to Texas, Medicaid or Medicare (from the plan list or the self-pay question) and "Yes" to the hospital stay go straight to their kind screen-out; "Yes" to the safety question goes straight to the crisis path. Under 18 is checked on Continue
+- **Questions so far:** 6
 - **Fixes:** the 34.8% drop (a test, not a fact)
 - **Events:** page view on /portal/join on load; /portal/join/fit recorded when the first fact is answered; `portal.coverage.shown` with insured or self-pay; `portal.fit.submitted` with the result; `portal.fit.screened_out` with the reason; `portal.crisis.shown` with where it came from
 

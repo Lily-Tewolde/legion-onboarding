@@ -113,11 +113,13 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 
 **Rules (plain code, unit-tested, never AI)**
 
-- Under 18 from the date of birth, on today's date in Central time → screen out `under_18`
-- "Will you be in Texas for your visits?" No → `not_in_texas`
-- Plan is Medicaid or Medicare → `medicaid_medicare`
-- Hospital stay Yes → `hospital_stay`
-- Safety question Yes → crisis screen
+- Under 18 from the date of birth, on today's date in Central time → screen out `under_18`, checked on Continue
+- "Will you be in Texas for your visits?" No → `not_in_texas`, as soon as it's tapped
+- Plan is Medicaid or Medicare → `medicaid_medicare`, as soon as it's tapped
+- Self-pay, "Do you have Medicaid or Medicare?" Yes → `medicaid_medicare`, as soon as it's tapped, with the same screen-out copy. Legion doesn't see Medicaid or Medicare patients even as self-pay
+- Hospital stay Yes → `hospital_stay`, as soon as it's tapped
+- Safety question Yes → crisis screen, as soon as it's tapped
+- Every rule has a unit test, including the self-pay question
 
 **Behaviour added from Lily's golden-set review (Oct 29)** (each one has cases in `evals/golden-set.yaml`)
 
