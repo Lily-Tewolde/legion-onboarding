@@ -37,6 +37,27 @@ export async function createPerson(
   return { status: "created", person: data };
 }
 
+// Changing the details after they were saved updates the same person, so
+// editing them never leaves a second record behind
+export async function updatePerson(id: string, details: NewPerson): Promise<CreatePersonResult> {
+  const { data, error } = await supabase
+    .from(TABLE)
+    .update({ ...details, email: normaliseEmail(details.email) })
+    .eq("id", id)
+    .select("*")
+    .single<Person>();
+
+  if (error?.code === UNIQUE_VIOLATION) return { status: "email_taken" };
+  if (error) throw new Error(`Couldn't update the details: ${error.message}`);
+  return { status: "created", person: data };
+}
+
+export async function findPersonById(id: string): Promise<Person | null> {
+  const { data, error } = await supabase.from(TABLE).select("*").eq("id", id).maybeSingle<Person>();
+  if (error) throw new Error(`Couldn't read the person: ${error.message}`);
+  return data;
+}
+
 export async function findPersonByEmail(email: string): Promise<Person | null> {
   const { data, error } = await supabase
     .from(TABLE)
