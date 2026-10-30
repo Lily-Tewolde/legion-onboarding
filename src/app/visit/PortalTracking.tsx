@@ -1,7 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import { ButtonLink } from "@/components/Button";
+import { cx } from "@/components/cx";
+import { VideoCall } from "@/components/icons";
 import { copy } from "@/copy";
 import { track, useTrackInView, useTrackOnShow } from "@/lib/analytics/track";
 
@@ -31,8 +33,24 @@ export function TrackReminderSeen({ hoursBefore }: { hoursBefore: 24 | 1 }) {
 
 export function JoinVisitLink() {
   return (
-    <ButtonLink href="/demo" variant="secondary" className="self-start" onClick={() => track("portal.visit.joined")}>
+    <ButtonLink href="/demo" className="mt-1 w-full" onClick={() => track("portal.visit.joined")}>
+      <VideoCall size={20} />
       {copy.inbox.joinVisit}
     </ButtonLink>
+  );
+}
+
+// A long message shows three lines, then "Show all"
+export function ShowAll({ children }: { children: ReactNode }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <p className={cx("text-body", !open && "line-clamp-3")}>{children}</p>
+      {!open && (
+        <button type="button" onClick={() => setOpen(true)} className="focus-ring -ml-1 self-start rounded-lg px-1 text-body font-semibold text-action hover:underline">
+          {copy.inbox.showAll}
+        </button>
+      )}
+    </>
   );
 }

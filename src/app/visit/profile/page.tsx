@@ -1,25 +1,34 @@
 import { Suspense } from "react";
+import { DemoControls } from "@/components/DemoControls";
+import { Card, DemoLine } from "@/components/Screen";
 import { Skeleton } from "@/components/Skeleton";
 import { copy } from "@/copy";
 import { findPersonById } from "@/server/people";
-import { bookedSessionOrRedirect } from "@/server/portal";
+import { bookedSessionOrRedirect, portalInbox } from "@/server/portal";
+import { PortalScreen } from "../PortalScreen";
 
-// The Profile tab: a placeholder. It shows the made-up details from the
-// checkout and nothing can be changed here yet
+// The Profile tab: only an entry point (decided). It shows the made-up details
+// from the checkout; nothing can be changed here
 export default function ProfilePage() {
   return (
-    <div className="flex flex-col gap-8 pt-6">
-      <h1 className="text-3xl">{copy.profile.title}</h1>
-      <Suspense fallback={<Skeleton rows={3} />}>
-        <Profile />
-      </Suspense>
-    </div>
+    <Suspense
+      fallback={
+        <PortalScreen active="profile" title={copy.profile.title} inboxCount={0}>
+          <Skeleton rows={3} />
+        </PortalScreen>
+      }
+    >
+      <Profile />
+    </Suspense>
   );
 }
 
 async function Profile() {
   const session = await bookedSessionOrRedirect();
-  const person = session.person_id ? await findPersonById(session.person_id).catch(() => null) : null;
+  const [person, { messages }] = await Promise.all([
+    session.person_id ? findPersonById(session.person_id).catch(() => null) : null,
+    portalInbox(session),
+  ]);
   const rows = person
     ? [
         { label: copy.checkout.name, value: person.full_name },
@@ -29,16 +38,23 @@ async function Profile() {
     : [];
 
   return (
-    <div className="flex flex-col gap-6">
-      <dl className="flex flex-col gap-4">
-        {rows.map((row) => (
-          <div key={row.label} className="flex flex-col">
-            <dt className="text-slate">{row.label}</dt>
-            <dd className="font-medium">{row.value}</dd>
-          </div>
-        ))}
-      </dl>
-      <p className="text-slate">{copy.profile.notBuilt}</p>
-    </div>
+    <PortalScreen
+      active="profile"
+      title={copy.profile.title}
+      inboxCount={messages.length}
+      demo={<DemoControls intakeDone={session.intake_done} />}
+    >
+      <Card className="gap-0">
+        <dl className="flex flex-col divide-y divide-line">
+          {rows.map((row) => (
+            <div key={row.label} className="flex flex-col py-3 first:pt-0 last:pb-0">
+              <dt className="text-label font-semibold text-slate">{row.label}</dt>
+              <dd className="text-body-lg font-semibold break-all text-ink">{row.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </Card>
+      <DemoLine>{copy.profile.notBuilt}</DemoLine>
+    </PortalScreen>
   );
 }

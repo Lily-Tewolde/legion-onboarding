@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 import { Button, ButtonLink } from "@/components/Button";
+import { FieldError } from "@/components/SegmentedControl";
 import { copy } from "@/copy";
 import { track } from "@/lib/analytics/track";
 
@@ -49,29 +50,27 @@ export function DemoControls({ intakeDone }: { intakeDone: boolean }) {
   };
 
   return (
-    <div className="flex flex-col items-start gap-3">
-      <Button onClick={() => mark("completed")} disabled={busy}>
+    <div className="flex flex-col items-stretch gap-2">
+      <Button onClick={() => mark("completed")} disabled={busy} className="w-full">
         {copy.demo.markCompleted}
       </Button>
-      <Button variant="text" onClick={() => mark("no_show")} disabled={busy}>
+      <Button variant="secondary" onClick={() => mark("no_show")} disabled={busy} className="w-full">
         {copy.demo.markNoShow}
       </Button>
-      <p role="status" className="font-medium">
+      <p role="status" className="text-body font-semibold text-ink">
         {marked === "completed" && copy.demo.markedCompleted}
         {marked === "no_show" && copy.demo.markedNoShow}
       </p>
       {failed && (
-        <p role="alert" className="text-error">
-          {copy.common.somethingWentWrong}
-        </p>
+        <div role="alert">
+          <FieldError>{copy.common.somethingWentWrong}</FieldError>
+        </div>
       )}
-      {marked && (
-        <ButtonLink href="/visit" variant="secondary">
-          {copy.booked.goToVisit}
-        </ButtonLink>
-      )}
+      <ButtonLink href="/visit" variant="text">
+        {copy.demo.patientPortal}
+      </ButtonLink>
       <ButtonLink href="/clinician" variant="text">
-        {copy.clinician.openClinician}
+        {copy.demo.clinicianView}
       </ButtonLink>
     </div>
   );

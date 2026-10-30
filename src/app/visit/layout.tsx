@@ -1,11 +1,5 @@
-import { PortalTabs } from "./PortalTabs";
-
-// The patient portal after booking: the visit, the inbox and the profile
+// The patient portal after booking. Each screen lays itself out with
+// <PortalScreen>; the check-in has its own layout, without the tabs
 export default function PortalLayout({ children }: LayoutProps<"/visit">) {
-  return (
-    <>
-      <PortalTabs />
-      {children}
-    </>
-  );
+  return children;
 }

@@ -1,32 +1,40 @@
-import { type ReactNode, Suspense } from "react";
+import { Suspense } from "react";
 import { AddToCalendar } from "@/components/AddToCalendar";
 import { ButtonLink } from "@/components/Button";
+import { cx } from "@/components/cx";
+import { DemoControls } from "@/components/DemoControls";
+import { Check } from "@/components/icons";
+import { Card } from "@/components/Screen";
 import { Skeleton } from "@/components/Skeleton";
 import { Tag } from "@/components/Tag";
+import { VisitCard } from "@/components/VisitCard";
 import { copy } from "@/copy";
-import { visitLine } from "@/lib/provider/present";
-import { VISIT_MINUTES, visitDay, visitTime } from "@/lib/visit-time";
-import { providerName } from "@/server/booking";
-import { bookedSessionOrRedirect, type BookedSession, messageContext, portalInbox } from "@/server/portal";
 import { TrackEvent } from "@/lib/analytics/track";
+import { visitShortDate } from "@/lib/visit-time";
+import { providerName } from "@/server/booking";
+import { bookedSessionOrRedirect, type BookedSession, portalInbox } from "@/server/portal";
 import { DemoSkip } from "./DemoSkip";
-import { Message } from "./Message";
 import { NpsDialog } from "./NpsDialog";
+import { PortalScreen } from "./PortalScreen";
 import { TrackInvite } from "./PortalTracking";
-import { VisitActions } from "./VisitActions";
+import { VisitActions, WhatToExpect } from "./VisitActions";
 
-// Screen 7: "Your first visit", a simple patient portal page. The check-in
-// opens any time after booking; the 72-hour invite is a nudge, not a lock.
-// After a no-show, the reschedule prompt and the first-visit fee; after the
-// visit, the rating. Layout only for now
+// Screen 7: "Your first visit", a simple patient portal page (Claude Design's
+// 10-Visit, 15-After and U16-NoShow). The check-in opens any time after
+// booking; the 72-hour invite is a nudge, not a lock
 export default function VisitPage() {
   return (
-    <div className="flex flex-col gap-8 pt-6">
-      <h1 className="text-3xl">{copy.visit.title}</h1>
-      <Suspense fallback={<Skeleton rows={5} />}>
-        <Visit />
-      </Suspense>
-    </div>
+    <Suspense fallback={<VisitSkeleton />}>
+      <Visit />
+    </Suspense>
+  );
+}
+
+function VisitSkeleton() {
+  return (
+    <PortalScreen active="visit" title={copy.visit.title} inboxCount={0}>
+      <Skeleton rows={3} />
+    </PortalScreen>
   );
 }
 
@@ -34,122 +42,117 @@ async function Visit() {
   const session = await bookedSessionOrRedirect();
   const provider = providerName(session.provider_id);
   const { messages, nextPoint } = await portalInbox(session);
-  const upcoming = session.visit_outcome === null;
-  const latestReminder = messages.find((message) => message.kind !== "invite");
-  const context = await messageContext(session, provider);
+  const outcome = session.visit_outcome;
 
   return (
-    <div className="flex flex-col gap-8">
+    <PortalScreen
+      active="visit"
+      title={copy.visit.title}
+      inboxCount={messages.length}
+      wide
+      demo={<DemoControls intakeDone={session.intake_done} />}
+    >
       <TrackEvent event="portal.visit_page.viewed" />
       {messages.some((message) => message.kind === "invite") && <TrackInvite slotStart={session.slot_start} />}
+      {outcome && (
+        <p role="status" className="flex items-center gap-2 rounded-field border-[1.5px] border-dashed border-line-control bg-tint px-4 py-2.5 text-body font-semibold text-ink">
+          <Check size={18} className="text-action" />
+          {outcome === "completed" ? copy.demo.markedCompleted : copy.demo.markedNoShow}
+        </p>
+      )}
       <Milestones session={session} />
 
-      <section className="flex flex-col gap-3 rounded-lg border border-line p-4">
-        <p className="font-medium">{visitLine(session.slot_start, provider)}</p>
-        {upcoming && nextPoint && <DemoSkip to={nextPoint} />}
-      </section>
-
-      {session.visit_outcome === "no_show" && (
-        <section className="flex flex-col items-start gap-3">
-          <p className="text-lg font-medium">{copy.visit.missed}</p>
-          <ButtonLink href="/join/provider">{copy.visit.reschedule}</ButtonLink>
-          <p>{copy.visit.missedFee}</p>
-        </section>
+      {outcome === "no_show" && (
+        <Card className="gap-3">
+          <h2 className="display text-card-question">{copy.visit.missed}</h2>
+          <VisitCard slotStart={session.slot_start} provider={provider} bare />
+          <p className="text-body text-slate">{copy.visit.missedFee}</p>
+          <ButtonLink href="/join/provider" className="w-full md:w-auto md:self-start">
+            {copy.visit.reschedule}
+          </ButtonLink>
+        </Card>
       )}
 
-      {session.visit_outcome === "completed" && (
-        <section className="flex flex-col items-start gap-3">
-          <p className="text-lg font-medium">{copy.visit.done}</p>
-          <ButtonLink href="/visit/inbox">{copy.visit.goToInbox}</ButtonLink>
+      {outcome === "completed" && (
+        <Card className="gap-3">
+          <VisitCard slotStart={session.slot_start} provider={provider} bare />
+          <p className="text-body">{copy.visit.done}</p>
+          <ButtonLink href="/visit/inbox" className="w-full md:w-auto md:self-start">
+            {copy.visit.goToInbox}
+          </ButtonLink>
           <NpsDialog />
-        </section>
+        </Card>
       )}
 
-      {upcoming && (
-        <>
-          <CalendarPreview slotStart={session.slot_start} provider={provider}>
-            {latestReminder && <Message kind={latestReminder.kind} context={context} />}
-          </CalendarPreview>
-          <AddToCalendar slotStart={session.slot_start} provider={provider} />
-
-          <section aria-labelledby="expect" className="flex flex-col gap-2">
-            <h2 id="expect" className="text-xl">
-              {copy.visit.expectTitle}
-            </h2>
-            <p>{copy.visit.expect}</p>
-          </section>
-
-          <VisitActions />
-
+      {!outcome && (
+        <div className="flex flex-col gap-3 md:gap-4 lg:grid lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:items-start">
+          {/* On phones the card opens up (board 10-Visit-M): the visit tile, then
+              Reschedule and Cancel, then "What to expect" beside the demo skip */}
+          <Card className="gap-3 max-md:contents">
+            <div className="flex items-center justify-between gap-2 max-md:hidden">
+              <h2 className="text-question font-semibold">{copy.checkout.yourVisit}</h2>
+              {nextPoint && <DemoSkip to={nextPoint} />}
+            </div>
+            <VisitCard slotStart={session.slot_start} provider={provider} className="md:hidden" />
+            <VisitCard slotStart={session.slot_start} provider={provider} icons bare className="max-md:hidden" />
+            <div className="max-md:hidden">
+              <AddToCalendar slotStart={session.slot_start} provider={provider} compact />
+            </div>
+            <div className="max-md:order-2">
+              <WhatToExpect aside={nextPoint && <DemoSkip to={nextPoint} className="md:hidden" />} />
+            </div>
+            <div className="max-md:order-1">
+              <VisitActions />
+            </div>
+          </Card>
           {!session.intake_done && (
-            <section aria-labelledby="check-in" className="flex flex-col items-start gap-3 rounded-lg border border-line p-4">
-              <h2 id="check-in" className="text-xl">
-                {copy.visit.checkInTitle}
-              </h2>
-              <p>{copy.visit.checkInBody}</p>
-              <p>{copy.visit.checkInWhen}</p>
-              <ButtonLink href="/visit/check-in">{copy.visit.startCheckIn}</ButtonLink>
-            </section>
+            <Card className="gap-2 max-md:order-3">
+              <h2 className="text-question font-semibold">{copy.visit.checkInTitle}</h2>
+              <p className="text-body">{copy.visit.checkInBody}</p>
+              <p className="text-body text-slate max-md:hidden">{copy.visit.checkInWhen}</p>
+              <ButtonLink href="/visit/check-in" className="mt-1 w-full">
+                {copy.visit.startCheckIn}
+              </ButtonLink>
+            </Card>
           )}
-        </>
+        </div>
       )}
-
-      <ButtonLink href="/demo" variant="text" className="self-start">
-        {copy.visit.demoControls}
-      </ButtonLink>
-    </div>
+    </PortalScreen>
   );
 }
 
-// Milestone cards with a small "Completed" tag (decided Oct 29)
+// Milestone cards with a small tag (decided Oct 29): Completed, or what's next
 function Milestones({ session }: { session: BookedSession }) {
+  const noShow = session.visit_outcome === "no_show";
   const milestones = [
-    { label: copy.visit.milestoneBooked, done: true },
-    { label: copy.visit.milestoneCheckIn, done: session.intake_done },
-    { label: copy.visit.milestoneFirstVisit, done: session.visit_outcome === "completed" },
+    { label: copy.visit.milestoneBooked, tag: copy.visit.completedTag, done: true },
+    {
+      label: copy.visit.milestoneCheckIn,
+      tag: session.intake_done ? copy.visit.completedTag : session.visit_outcome ? copy.visit.skippedTag : copy.visit.optionalTag,
+      done: session.intake_done,
+      current: !session.intake_done && !session.visit_outcome,
+    },
+    {
+      label: copy.visit.milestoneFirstVisit,
+      tag: session.visit_outcome === "completed" ? copy.visit.completedTag : noShow ? copy.visit.missedTag : visitShortDate(session.slot_start),
+      done: session.visit_outcome === "completed",
+    },
   ];
   return (
-    <ul className="flex flex-col gap-2">
+    <ol aria-label={copy.visit.milestones} className="grid grid-cols-3 gap-2">
       {milestones.map((milestone) => (
-        <li key={milestone.label} className="flex items-center justify-between gap-3 rounded-lg border border-line px-4 py-3">
-          <span>{milestone.label}</span>
-          {milestone.done && <Tag>{copy.visit.completedTag}</Tag>}
+        <li
+          key={milestone.label}
+          aria-current={milestone.current ? "step" : undefined}
+          className={cx(
+            "flex min-w-0 flex-col items-start gap-1 rounded-tile bg-white px-2 py-2.5 shadow-card md:p-3",
+            milestone.current ? "border-2 border-action" : "border border-card-line",
+          )}
+        >
+          <span className="text-label leading-tight font-semibold text-ink md:text-body">{milestone.label}</span>
+          {milestone.done ? <Tag>{milestone.tag}</Tag> : <span className="text-label text-slate">{milestone.tag}</span>}
         </li>
       ))}
-    </ul>
-  );
-}
-
-// A small calendar page for the visit: the month and day, then the weekday
-// and the hour it runs, in Central time
-function CalendarPreview({
-  slotStart,
-  provider,
-  children,
-}: {
-  slotStart: string;
-  provider: string;
-  children?: ReactNode;
-}) {
-  const end = new Date(new Date(slotStart).getTime() + VISIT_MINUTES * 60_000).toISOString();
-  const part = (options: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", ...options }).format(new Date(slotStart));
-
-  return (
-    <div className="flex flex-col gap-3 rounded-lg border border-line p-4">
-      <div className="flex items-center gap-4">
-        <div aria-hidden="true" className="flex w-16 flex-col items-center rounded-md border border-line py-1">
-          <span className="text-sm font-medium text-action">{part({ month: "short" })}</span>
-          <span className="text-2xl font-semibold">{part({ day: "numeric" })}</span>
-        </div>
-        <div className="flex flex-col">
-          <span className="font-medium">{copy.booked.calendarTitle.replace("{provider}", provider)}</span>
-          <span className="text-slate">
-            {visitDay(slotStart)}, {visitTime(slotStart)} – {visitTime(end)}
-          </span>
-        </div>
-      </div>
-      {children}
-    </div>
+    </ol>
   );
 }

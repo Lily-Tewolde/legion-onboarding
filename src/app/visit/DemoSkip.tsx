@@ -2,13 +2,14 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "@/components/Button";
+import { FieldError } from "@/components/SegmentedControl";
+import { cx } from "@/components/cx";
 import { copy } from "@/copy";
 import type { DemoPoint } from "@/lib/portal/inbox";
 
 // "Demo: skip to 72 hours", then 24 hours and 1 hour: moves the inbox's clock
 // so the invite and the reminders arrive. Demo only
-export function DemoSkip({ to }: { to: DemoPoint }) {
+export function DemoSkip({ to, className }: { to: DemoPoint; className?: string }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -32,14 +33,19 @@ export function DemoSkip({ to }: { to: DemoPoint }) {
   };
 
   return (
-    <div className="flex flex-col items-start gap-1">
-      <Button variant="text" onClick={skip} disabled={busy}>
+    <div className={cx("flex flex-col items-end gap-1", className)}>
+      <button
+        type="button"
+        onClick={skip}
+        disabled={busy}
+        className="focus-ring inline-flex min-h-9 cursor-pointer items-center rounded-full border-[1.5px] border-dashed border-line-control bg-white px-3 text-label font-semibold whitespace-nowrap text-navy hover:border-action disabled:opacity-60"
+      >
         {copy.visit.skipTo[to]}
-      </Button>
+      </button>
       {failed && (
-        <p role="alert" className="text-error">
-          {copy.common.somethingWentWrong}
-        </p>
+        <div role="alert">
+          <FieldError>{copy.common.somethingWentWrong}</FieldError>
+        </div>
       )}
     </div>
   );

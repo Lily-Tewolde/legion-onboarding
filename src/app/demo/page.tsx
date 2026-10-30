@@ -1,31 +1,39 @@
 import { Suspense } from "react";
+import { Card, PageTitle, Screen } from "@/components/Screen";
 import { Skeleton } from "@/components/Skeleton";
+import { VisitCard } from "@/components/VisitCard";
 import { copy } from "@/copy";
-import { visitLine } from "@/lib/provider/present";
 import { providerName } from "@/server/booking";
 import { bookedSessionOrRedirect } from "@/server/portal";
 import { DemoControls } from "./DemoControls";
 
-// Screen 12: the demo panel, separate from the portal and the clinician view.
-// It records how the visit went, so the funnel runs to a completed first visit
+// Screen 12 as a page: where "Join visit" lands, since there's no real video
+// visit. The same controls as the demo panel on every portal screen
 export default function DemoPage() {
   return (
-    <div className="flex flex-col gap-8 pt-6">
-      <h1 className="text-3xl">{copy.demo.title}</h1>
-      <Suspense fallback={<Skeleton rows={3} />}>
-        <Demo />
-      </Suspense>
-    </div>
+    <Suspense
+      fallback={
+        <Screen>
+          <PageTitle>{copy.demo.title}</PageTitle>
+          <Skeleton rows={2} />
+        </Screen>
+      }
+    >
+      <Demo />
+    </Suspense>
   );
 }
 
 async function Demo() {
   const session = await bookedSessionOrRedirect();
   return (
-    <div className="flex flex-col gap-6">
-      <p className="font-medium">{visitLine(session.slot_start, providerName(session.provider_id))}</p>
-      <p>{copy.demo.note}</p>
-      <DemoControls intakeDone={session.intake_done} />
-    </div>
+    <Screen>
+      <PageTitle>{copy.demo.title}</PageTitle>
+      <Card className="gap-3">
+        <VisitCard slotStart={session.slot_start} provider={providerName(session.provider_id)} bare />
+        <p className="text-body text-slate">{copy.demo.note}</p>
+        <DemoControls intakeDone={session.intake_done} />
+      </Card>
+    </Screen>
   );
 }
