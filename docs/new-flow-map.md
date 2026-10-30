@@ -84,7 +84,7 @@ Lily merged three screens into screen 1 and three into screen 5, so the copy dra
 
 ### 7. Your first visit (portal)
 - **Portal:** the visit page and the inbox are one portal, with Visit, Inbox and Profile as a bottom tab bar on mobile and a left sidebar on desktop. Profile is only an entry point. Milestone cards with a small "Completed" tag (for example booked, check-in done, first visit)
-- **Shows:** the visit with a calendar preview and "Add to calendar", what to expect (about 60 minutes, somewhere quiet and private), reschedule, cancel, and an inbox. The optional pre-visit check-in card: "About 5 minutes. Your provider can spend more of your visit on you. You can skip it." It opens any time after booking. The 72-hour reminder is a nudge, not a lock. "Demo: skip to 72 hours" sits beside the visit card. Reschedule and Cancel are text-style buttons
+- **Shows:** the visit with a calendar preview and "Add to calendar", what to expect (about 60 minutes, somewhere quiet and private), reschedule, cancel, and an inbox. The optional pre-visit check-in card: "About 5 minutes. Your provider can spend more of your visit on you. You can skip it." It opens any time after booking. The 72-hour reminder is a nudge, not a lock. "Demo: skip to 72 hours" sits beside the visit card, then moves on to 24 hours and 1 hour. Reschedule and Cancel are text-style buttons, and both show Legion's 48-hour policy first. Reschedule books the new time straight away, since the details and card are done
 - **Events:** `portal.visit_page.viewed`
 
 ### 8. Inbox: check-in invite
@@ -107,7 +107,7 @@ Lily merged three screens into screen 1 and three into screen 5, so the copy dra
 
 ### 12. Demo controls
 - **Shows:** a small "Demo controls" button pinned in a corner of every portal and clinician screen (bottom left on desktop; clear of the tab bar on mobile). It opens a panel, a sheet on mobile, with "Mark visit completed", "Mark no-show" and switching between the patient portal and the clinician view. A no-show shows the unhappy path on the visit page: "You missed your visit. Want to book a new time?" with "Reschedule" and the no-show fee line from Legion's current flow. The no-show screen shows the $250 fee for a missed first visit, since the demo visit is a first visit
-- **NPS:** once the visit is marked completed, a small dialog in the corner of the portal: "How was your first visit?" 0 to 10. Never during onboarding. A high score can lead into asking for a review
+- **NPS:** once the visit is marked completed, a small dialog in the corner of the portal: "How was your first visit?" 0 to 10. Never during onboarding. A high score can lead into asking for a review. `portal.visit.rated` with the score only
 - **Events:** `portal.visit.completed` with whether the check-in was done (the north-star event); `portal.visit.no_show`
 
 ## Side paths

@@ -319,19 +319,21 @@ One page, like a one-page checkout when you shop online.
 
 ## 11. Your first visit
 
-- Portal tabs: "Visit", "Inbox", "Profile". A bottom tab bar on mobile, a left sidebar on desktop. Profile is only an entry point **[decided]**
-- Milestone cards with a small "Completed" tag, for example booked, check-in done, first visit **[decided]**
+- Portal tabs: "Visit", "Inbox", "Profile". A bottom tab bar on mobile, a left sidebar on desktop. Profile is only an entry point **[decided]**. It shows the made-up name, email and phone from checkout, with the demo line at the bottom: "Demo: changing your details isn't part of this prototype." **[drafted]**
+- Milestone cards with a small "Completed" tag, for example booked, check-in done, first visit **[decided]**. Names: "Visit booked", "Check-in done", "First visit" **[drafted]**
 - Title: "Your first visit"
 - The visit card, with the same labelled rows
 - Calendar preview of the visit, with "Add to calendar": "Google", "Apple", "Outlook"
 - What to expect: "Your provider will ask about what's going on, your history and any medications. Plan for about 60 minutes somewhere quiet and private." (60 minutes is from Legion's current flow)
 - Text-style buttons: "Reschedule", "Cancel visit" **[decided]**
+- "Reschedule" and "Cancel visit" both show Legion's 48-hour policy first, then act **[decided]**
+- Cancel asks first: "Cancel this visit?" Buttons: "Yes, cancel it", "Keep my visit" **[drafted]**
 - Check-in card: "Optional: pre-visit check-in". "About 5 minutes. Your provider can spend more of your visit on you. You can skip it."
 - "Do it any time before your visit. Earlier gives your provider time to read it."
 - Button: "Start check-in"
 - Messages: the "Inbox" tab (see screens 12 and 15)
-- Demo control, beside the visit card: "Demo: skip to 72 hours" **[decided]**
-- After the visit is marked completed, a small dialog in the corner: "How was your first visit?" 0 to 10. Never during onboarding. A high score can lead into asking for a review. Claude Design's visit rating, review ask and after-the-visit copy are approved as written **[decided]**
+- Demo control, beside the visit card: "Demo: skip to 72 hours" **[decided]**. It then moves on to "Demo: skip to 24 hours" and "Demo: skip to 1 hour", so the reminders and "Join visit" can be shown **[drafted]**
+- After the visit is marked completed, a small dialog in the corner: "How was your first visit?" 0 to 10. Never during onboarding. A high score can lead into asking for a review. Claude Design's visit rating, review ask and after-the-visit copy are approved as written **[decided]**. The exact strings, with plan search's, are to be added here from the design **[pending: strings from Lily]**
 
 **Lily's notes**
 - This is a simple version of a patient portal page
@@ -418,8 +420,9 @@ One page, like a one-page checkout when you shop online.
 - Title: "Demo controls"
 - Buttons: "Mark visit completed", "Mark no-show", and a switch between the patient portal and the clinician view (wording as in Claude Design's final design) **[decided]**
 - "Demo only. This records how the visit went, so the funnel runs from start to finish."
+- "Join visit" opens the demo controls, since there's no real video visit **[drafted]**
 - After marking completed: "Visit marked completed (demo)"
-- After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee for a missed first visit, $250, since the demo visit is a first visit **[decided]** *(from Legion's current flow; credited in the README, not on screen)*. Where the full cancellation policy is shown, it keeps both amounts
+- After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee for a missed first visit, $250, since the demo visit is a first visit **[decided]**: "The fee for a missed first visit is $250." **[drafted]** *(from Legion's current flow; credited in the README, not on screen)*. Where the full cancellation policy is shown, it keeps both amounts
 
 **Lily's notes**
 - A separate demo panel
