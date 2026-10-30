@@ -39,5 +39,13 @@ async function Clinician() {
         }
       : null;
   const booked = Boolean(session?.booked_at);
-  return <ClinicianView patient={patient} demo={booked ? <DemoControls intakeDone={session?.intake_done ?? false} view="clinician" /> : undefined} />;
+  // Demo controls are always here; without a booking they only switch views
+  // and start over, since there's no visit to mark
+  return (
+    <ClinicianView
+      patient={patient}
+      back={booked ? "/visit" : "/join"}
+      demo={<DemoControls intakeDone={session?.intake_done ?? false} view="clinician" booked={booked} />}
+    />
+  );
 }

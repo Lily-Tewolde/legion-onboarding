@@ -20,7 +20,17 @@ import { StartOver } from "./StartOver";
 
 type Outcome = "completed" | "no_show";
 
-export function DemoControls({ intakeDone, view = "patient" }: { intakeDone: boolean; view?: "patient" | "clinician" }) {
+// Without a booking (the clinician view opened before booking, or after
+// Start over) there's no visit to mark, so only the switch and Start over show
+export function DemoControls({
+  intakeDone,
+  view = "patient",
+  booked = true,
+}: {
+  intakeDone: boolean;
+  view?: "patient" | "clinician";
+  booked?: boolean;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const sheet = useRef<SheetHandle>(null);
@@ -79,23 +89,27 @@ export function DemoControls({ intakeDone, view = "patient" }: { intakeDone: boo
       {trigger("lg:hidden", copy.demo.button)}
       {trigger("fixed bottom-6 left-6 z-30 max-lg:hidden shadow-card", copy.demo.title)}
       <Sheet ref={sheet} title={copy.demo.title} titleId="demo-controls-title">
-        <p className="text-body text-slate">{copy.demo.note}</p>
-        <div className="flex flex-col gap-2">
-          <Button onClick={() => mark("completed")} disabled={busy} className="w-full">
-            {copy.demo.markCompleted}
-          </Button>
-          <Button variant="secondary" onClick={() => mark("no_show")} disabled={busy} className="w-full">
-            {copy.demo.markNoShow}
-          </Button>
-        </div>
-        <p role="status" className="text-body font-semibold text-ink">
-          {marked === "completed" && copy.demo.markedCompleted}
-          {marked === "no_show" && copy.demo.markedNoShow}
-        </p>
-        {failed && (
-          <div role="alert">
-            <FieldError>{copy.common.somethingWentWrong}</FieldError>
-          </div>
+        {booked && (
+          <>
+            <p className="text-body text-slate">{copy.demo.note}</p>
+            <div className="flex flex-col gap-2">
+              <Button onClick={() => mark("completed")} disabled={busy} className="w-full">
+                {copy.demo.markCompleted}
+              </Button>
+              <Button variant="secondary" onClick={() => mark("no_show")} disabled={busy} className="w-full">
+                {copy.demo.markNoShow}
+              </Button>
+            </div>
+            <p role="status" className="text-body font-semibold text-ink">
+              {marked === "completed" && copy.demo.markedCompleted}
+              {marked === "no_show" && copy.demo.markedNoShow}
+            </p>
+            {failed && (
+              <div role="alert">
+                <FieldError>{copy.common.somethingWentWrong}</FieldError>
+              </div>
+            )}
+          </>
         )}
         <nav aria-label={copy.demo.switchLabel} className="grid grid-cols-2 gap-1 rounded-field bg-tint p-1">
           {(
