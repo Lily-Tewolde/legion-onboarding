@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { missingFor } from "@/server/booking";
+import { resetDemoClock } from "@/server/portal";
 import { getSession, updateSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
 
@@ -19,6 +20,7 @@ export async function POST(request: Request) {
     if (!session || missing) return NextResponse.json({ error: "not_ready", path: missing }, { status: 409 });
 
     await updateSession(visitorId, { booked_at: new Date().toISOString(), current_screen: "booked" });
+    await resetDemoClock();
     return NextResponse.json({ path: "/join/booked" });
   } catch (error) {
     console.error(error);
