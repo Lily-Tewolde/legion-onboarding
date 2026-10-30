@@ -43,3 +43,7 @@ next-env.d.ts
 
 # script outputs are regenerated, so they stay out of the repo
 analysis/output/
+
+# Playwright
+/test-results/
+/playwright-report/
