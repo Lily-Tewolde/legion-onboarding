@@ -55,7 +55,7 @@ export function Screen({
           </div>
         )}
         {flow && (
-          <div className="hidden w-panel flex-none lg:flex">
+          <div className="hidden w-panel flex-none self-start lg:flex">
             <PathPanel phase={flow.phase} part={flow.part} parts={flow.parts} provider={flow.provider} booked={flow.booked} />
           </div>
         )}
