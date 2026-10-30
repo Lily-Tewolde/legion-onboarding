@@ -1,6 +1,6 @@
 # [Title]: Lily Tewolde
 
-**Live:** [link] · **Repo:** [link] · **PRs:** [count, link to the list] · **Loom:** [link]
+**Live:** https://legion-onboarding-omega.vercel.app · **Repo:** https://github.com/Lily-Tewolde/legion-onboarding · **PRs:** https://github.com/Lily-Tewolde/legion-onboarding/pulls?q=is%3Apr
 
 Use the brief's own sections and order if it gives them. Otherwise:
 

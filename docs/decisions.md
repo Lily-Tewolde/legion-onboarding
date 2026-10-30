@@ -1,6 +1,6 @@
 # Decision log
 
-One entry per decision, written the same session it's made. This becomes the spoken defence.
+One entry per decision, written the same session it's made: what, why, what we rejected, and what would make us revisit it.
 
 ## 2026-10-28 · The repo holds only assignment material
 
@@ -849,7 +849,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 
 - **What:** Lily's copy audit of the copy draft:
     - **Yes then No** on the safety and hospital questions, like everywhere else
-    - **Booking is two steps:** details, then payment. The Terms notice and the consent checkbox move to payment, right before "Book my visit" *(reversed the same day: they stay on details; see below)*. Updates the one-page checkout in "Fewer screens" above
+    - **Booking is two steps:** details, then payment. Updates the one-page checkout in "Fewer screens" above. The Terms notice and the consent checkbox stay on details, before the details are saved. The audit first moved them to payment; Lily reversed that the same day (see "The privacy notice and consent stay on the details step" below)
     - **Provider screen:** with only "Not sure" or "Other", the reason line leaves out "treats {concern}". The summary for self-pay is "Providers in Texas for {concern}", and with only "Not sure" or "Other" it's "{plan} providers in Texas". "That time was just taken. Please pick another time." when a time goes
     - **Mic:** hidden when the browser can't do speech-to-text. "We can't use your mic. You can type instead." when it's blocked, and "We didn't hear anything. Try again, or type instead." when nothing was heard
     - **Limits:** free-text answers are up to 1,000 characters (was 2,000), with "That's the limit here. You can tell your provider the rest at your visit." at the limit. Names are up to 100 characters, one word is accepted, and the error is "Please enter your full name."
@@ -902,26 +902,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 
 ## 2026-10-29 · The privacy notice and consent stay on the details step
 
-- **What:** The Terms and privacy notice and the consent checkbox stay at the end of the details step, before the patient's details are saved, not on payment. Lily reversed this point from her copy audit after PR 23
-- **Why:** The privacy notice and consent should come before we save their details. Details is where the person is saved, with the time they consented, so consent has to come first. Claude Code's reason in PR 23, which Lily agreed with
-- **Rejected:** Moving them to payment, right before "Book my visit", which would save someone's details before they've seen the notice or consented
-
----
-
-# Spoken defence (fill before the review call)
-
-## Strengths
-
-- [strength]: [one line on why it holds]
-
-## Weaknesses, each with its trigger
-
-- [weakness]. Fix: [what]. Trigger: [when it would matter]
-
-## Questions they'll probably ask
-
-- Why this stack?
-- Why this slice first?
-- What would you change with another week?
-- Walk me through [main file]
-- How would you know it worked?
+- **What:** Lily reversed one point from her copy audit. The Terms and privacy notice and the consent checkbox stay at the end of the details step, before the patient's details are saved. They don't move to payment
+- **Why:** The privacy notice and consent come before we save their details. The details step is where the person is saved, with the time they consented, and payment comes after that save. Putting the notice and consent on payment would store someone's name, email and phone before they'd seen the notice or agreed. Claude Code raised this in PR 23
+- **Rejected:** The notice and consent on payment, right before "Book my visit", as the copy audit first had it
+- **Revisit when:** Legion's counsel says where the notice and consent have to sit
