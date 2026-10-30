@@ -20,6 +20,13 @@ Every figure reproduces from Legion's data with `python3 analysis/size_funnel.py
 I walked the Texas flow by hand on Oct 28, on desktop and on my phone, in incognito, and stopped before reserving a real provider. Full notes are in `docs/flow-map.md` and `docs/step-1-findings.md`.
 
 - I answered 7 questions before learning I was covered, 9 before seeing a provider, and 20 before seeing the full cost, fees and card requirement
+
+| Questions answered before... | Legion today | My flow |
+|---|---|---|
+| Knowing I'm covered | 7 | 4 (self-pay sees the price after 3) |
+| Seeing a provider | 9 | 8 |
+| Seeing the full cost and cancellation policy | 20 | 10 |
+
 - The fit check is six identical yes / no cards, and screen-out answers turn the card red
 - The patient quote takes half the page on every step, even after someone has started
 - The recommended provider wasn't first, and I had to scroll past a loading box to reach anyone
@@ -38,6 +45,18 @@ The flow goes from "Let's get you care" to a completed first visit, in 12 screen
 4. **Your provider:** one recommended provider first, with a short reason
 5. **Book your visit:** the full cost and cancellation policy before the card, on one page
 6. **You're booked**, then a portal with Visit, Inbox and Profile tabs, an **AI pre-visit check-in**, a **clinician view** that leads with what a doctor scans first, reminders, demo controls to finish the visit, and an NPS question only after the visit
+
+| Step | The patient | The AI | Rules decide | A person |
+|---|---|---|---|---|
+| Let's get you care | Date of birth, Texas, insurance, and two direct safety questions | Nothing | Under 18, outside Texas, Medicaid or Medicare, and a recent hospital stay screen out. "Yes" to safety opens the crisis screen | "Talk to a person" on every screen |
+| What's going on? | Types, speaks or taps chips | Restates it as concerns, with at most one clarifying question. A separate flag checks for crisis | A word list runs first. Over a limit, or if the AI fails, it's a simple form | 988, 911 and Legion's number on the crisis screen |
+| Here's what we understood | Fixes the chips, says what's been diagnosed | Its restatement, never a diagnosis | Anything that contradicts screen 1 runs screen 1's rules again | |
+| Your provider | Picks a time | Nothing | The recommended provider, from the concern, the plan and the earliest time | "Talk to a person" when there are no times |
+| Book your visit | Details, consent and a made-up card | Nothing | Field checks. An email that's already used offers sign-in | |
+| Portal | Adds it to a calendar, reads the inbox, reschedules or cancels | Nothing | When each message arrives (72 hours, 24 hours, 1 hour), and the late fee | |
+| Pre-visit check-in (optional) | Answers 5 to 8 questions, typed or spoken, and confirms medications | Writes each next question, then a summary for the clinician. The crisis flag runs on every answer | 5 to 8 questions, no repeats, no doses, under 18 stops it. Medication names are matched in code | Crisis or being hurt goes to resources and a person |
+| Clinician view | | The summary, with every line linked to the answer it came from | Flags are only ever shown to the clinician | The clinician reads it before the visit |
+| First visit | Joins, then rates the visit | Nothing | NPS only after the visit is marked completed | The provider runs the visit (simulated, with demo controls) |
 
 **Built fully:** the AI pre-visit check-in and the clinician summary. That's where AI does real clinical data-collection work, and it sits in the stretch from booked to first visit that Legion doesn't measure today. **Built simply:** the booking screens, which are mostly layout fixes to the measured drops.
 
