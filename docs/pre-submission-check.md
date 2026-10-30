@@ -140,3 +140,51 @@ git for-each-ref --format='%(refname)' refs/remotes/origin/pr | xargs -n1 git up
 ### Not checked
 - GitHub-side settings: repo secrets, Actions logs, and whether Vercel preview deployments are protected once the repo is public.
 - The contents of PR descriptions and review comments beyond the open PRs read earlier. They become public with the repo.
+
+## Part 3: Final secrets scan on finished main
+
+Checked on Oct 30, 2026, against `origin/main` at **72dcd9b** (`72dcd9b37b5bf6ee79ca81be5eef555afae456d0`, "Merge pull request #56 from Lily-Tewolde/fix/dictate-short-phones", 12:32 PM). No PRs are open.
+
+**Scope:**
+- tracked files in a snapshot of main;
+- the full history of all 279 commits across every remote branch and all 56 PR refs;
+- commit messages and author metadata.
+
+The PR refs were re-fetched into local `refs/remotes/origin/pr/*`. Nothing was pushed.
+
+### Result: no secrets
+- **Keys and tokens:** nothing matched, in files, history or commit messages, for `sk-ant-…`, `sk-…`, `sb_secret_…`, `sb_publishable_…`, `phc_…`, JWTs, GitHub, Slack and AWS tokens, private key blocks, `vercel_…` tokens, `postgres://` URLs, or a service-role key value.
+  - The only hits are this report naming its own search patterns.
+- **Assignments with a value** (`KEY=`, `TOKEN=`, `SECRET=`, `PASSWORD=`): only `const KEY = "lh_fit_answers"` and this report.
+  - No password appears anywhere.
+- **`.env` files:**
+  - `.env.example` is the only env-style file ever committed, and every value in it is empty.
+  - No file is both ignored and tracked.
+- **Service role key:** read only from `process.env`, in `src/server/supabase.ts:9` and `scripts/check-db-access.mjs:9`.
+- **Personal paths:** none.
+  - The only match is `~/Projects/legion-onboarding` in `docs/build-brief.md:9`, plus this report quoting it. No `/Users/…`, `/home/…`, temp or `file://` paths in files, history or commit messages.
+- **Phone numbers:** all made up or public:
+  - the demo number `(555) 010-0123` and `tel:+15550100123` (`src/copy.ts:16, 586`; `src/components/HelpPanel.tsx:42`);
+  - test numbers `512-555-0142` and `512-555-0177`;
+  - the National Domestic Violence Hotline `1-800-799-7233`, the SAMHSA Helpline `tel:+18006624357`, 988 and 911.
+- **Emails in files:** `name@example.com` and `sam@example.com` in the app and tests, and `lilyatewolde@gmail.com` only in this report (Part 2, item 4).
+- **Emails in commit messages:** only `noreply@anthropic.com` in the co-author lines (217).
+
+### Unchanged since Part 2 (your call, as before)
+- **Legion's funnel data:** still on main, in `analysis/data/legion_funnel_30d_to_2026-08-29.csv`.
+- **Your email:** `lilyatewolde@gmail.com` is the author or committer on all 279 commits.
+- **Private session link:** 20 commits on main still carry the trailer `Claude-Session: https://claude.ai/code/session_01Dtv1Prc86ojGsjQofcJYGp`.
+- **Tool names in docs:**
+  - "Cowork Session" appears 104 times in `docs/work-log.md`, plus in `README.md`, `docs/brainstorm.md`, `docs/decisions.md`, `docs/research.md`, `docs/copy-draft.md`, `docs/final-pr-description.md` and `evals/grader-check-key.yaml`.
+  - "Station B" is in 34 commits of history.
+
+### New since Part 2
+- **Tool name in code comments:** "Claude Design" is in comments across `src/` (13 in `src/copy.ts`, and one each in about 20 components and pages), and in `README.md`, `docs/decisions.md`, `docs/work-log.md`, `docs/copy-draft.md`, `docs/design-audit.md` and `docs/build-brief.md`. Like "Cowork", it reads as the intended record of how the build was made.
+- **Three review documents are now on main:**
+  - `docs/code-review.md` (came in through #50, ab32139) lists the app's weaknesses at the time of the review, including the sign-in that links any email's person. Some of those may since be fixed.
+  - `docs/pre-submission-check.md` (this file).
+  - `docs/my-testing-notes.md`.
+  - They contain no secrets, but they'll be public with the repo, so check that they say what you want a reviewer to read.
+- **No other project names.**
+  - The `github.com/...` links in history are package sponsor URLs in `package-lock.json`, plus `github.com/Lily-Tewolde/legion-onboarding` and `github.com/vercel/next.js`.
+  - "Other projects" and "other interviews" appear once, in `docs/decisions.md:7`, in the rule saying none are committed.
