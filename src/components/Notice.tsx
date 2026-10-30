@@ -8,7 +8,8 @@ import { Glow } from "./Screen";
 // need. On phones the actions are pinned to the bottom; from 768px up the
 // whole notice sits in one card, 632px wide, with the actions inside it.
 // "Keep going" (the crisis screens' "I'm safe right now") is pinned on phones
-// under a line, and its own card on desktop
+// under a line, and its own card on desktop. Spacing tightens on short
+// phones, like <Screen>
 export function Notice({
   icon,
   urgent = false,
@@ -37,7 +38,7 @@ export function Notice({
       <Glow />
       {top}
       <div className="relative z-[1] mx-auto flex w-full max-w-notice flex-1 flex-col md:flex-none md:gap-4 md:px-6 md:pt-10 md:pb-8">
-        <main className="screen-body flex flex-1 flex-col gap-3 px-4 pt-2 pb-2 md:flex-none md:rounded-card md:border md:border-card-line md:bg-white md:p-6 md:shadow-notice">
+        <main className="screen-body flex flex-1 flex-col gap-3 px-4 pt-2 pb-2 short:gap-2 short:pt-1 md:flex-none md:rounded-card md:border md:border-card-line md:bg-white md:p-6 md:shadow-notice">
           <span
             aria-hidden="true"
             className={cx(
@@ -54,6 +55,7 @@ export function Notice({
         <div
           className={cx(
             "sticky bottom-0 z-10 flex flex-col gap-1 bg-white px-4 pt-2 pb-[calc(12px+env(safe-area-inset-bottom))]",
+            "short:pt-1.5 short:pb-[calc(8px+env(safe-area-inset-bottom))]",
             "md:static md:bg-transparent md:p-0",
             !keepGoing && "md:hidden",
           )}

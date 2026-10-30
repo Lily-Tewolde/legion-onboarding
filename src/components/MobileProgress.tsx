@@ -37,7 +37,7 @@ export function MobileProgress({ phase, part, parts, back }: { phase: Phase; par
   const total = Math.round(fills.reduce((a, b) => a + b, 0) / fills.length);
 
   return (
-    <div className="relative z-[1] mx-auto flex h-9 w-full max-w-form items-center gap-2 px-4 md:hidden">
+    <div className="relative z-[1] mx-auto flex h-9 w-full max-w-form items-center gap-2 px-4 short:h-7 md:hidden">
       {back && (
         <Link
           href={back}
