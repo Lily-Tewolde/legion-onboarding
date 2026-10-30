@@ -587,7 +587,6 @@ export const copy = {
     call911: "Call 911",
     talkToPerson: "Talk to a person",
     safeNow: "I'm safe right now and want to keep going",
-    safeNowError: "Please check the box to continue.",
     // The label on the "I'm safe right now" section, for screen readers (from the board)
     keepGoing: "Keep going",
     // When someone may be in danger right now. To confirm with Legion's clinical team
