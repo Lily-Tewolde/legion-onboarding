@@ -8,7 +8,7 @@ import { missingFor, recommendationFor } from "@/server/booking";
 import { providerSummary } from "@/server/provider-summary";
 import { getSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
-import { PROVIDER_FLOW } from "../provider/ProviderPicker";
+import { PROVIDER_FLOW } from "../provider/flow";
 import { MorePicker } from "./MorePicker";
 
 // "See more providers", as its own screen (decided Oct 29): provider cards

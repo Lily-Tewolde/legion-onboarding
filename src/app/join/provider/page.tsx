@@ -11,7 +11,8 @@ import { lessThan48Hours } from "@/server/portal";
 import { getSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
 import { NoTimes } from "./NoTimes";
-import { PROVIDER_FLOW, ProviderHeading, ProviderPicker } from "./ProviderPicker";
+import { PROVIDER_FLOW } from "./flow";
+import { ProviderHeading, ProviderPicker } from "./ProviderPicker";
 
 // Screen 4: "Recommended for you". One recommended provider first, with the
 // reason built from the made-up data
