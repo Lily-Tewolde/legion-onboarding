@@ -1,18 +1,22 @@
 "use client";
 
-import { useId } from "react";
+import { type KeyboardEvent, useId, useRef } from "react";
 import { cx } from "./cx";
 
 // Two or more options side by side (Yes then No), on native radio inputs so
 // arrow keys and form semantics come for free. Each option is 52px with a
 // 12px radius; selected is a 2px blue border, the soft fill and bold. The
-// question sits in the legend, with optional hint and error text
+// question sits in the legend, with optional hint and error text.
+// onChange says whether the choice was explicit: a tap or click, or Space or
+// Enter on the option. Arrow keys only move the selection, so a question
+// that acts on its answer (a screen-out, the crisis screen) waits for an
+// explicit choice or Continue (code review finding 2, WCAG 3.2.2)
 export type SegmentedControlProps = {
   legend: string;
   name: string;
   options: { value: string; label: string }[];
   value: string | undefined;
-  onChange: (value: string) => void;
+  onChange: (value: string, how: { explicit: boolean }) => void;
   hint?: string;
   error?: string;
   // The question sits on its own as a card's heading
@@ -23,6 +27,22 @@ export function SegmentedControl({ legend, name, options, value, onChange, hint,
   const id = useId();
   const hintId = hint ? `${id}-hint` : undefined;
   const errorId = error ? `${id}-error` : undefined;
+  // Set when an arrow key is what's changing the selection
+  const arrowed = useRef(false);
+
+  const onKeyDown = (event: KeyboardEvent<HTMLInputElement>, option: string) => {
+    if (event.key.startsWith("Arrow")) {
+      arrowed.current = true;
+      return;
+    }
+    // Space on an unselected option selects it natively, and that change is
+    // explicit. On the selected one, or with Enter, nothing changes natively,
+    // so it's chosen here (Enter would otherwise submit the form)
+    if ((event.key === " " && event.currentTarget.checked) || event.key === "Enter") {
+      event.preventDefault();
+      onChange(option, { explicit: true });
+    }
+  };
 
   return (
     <fieldset aria-describedby={cx(hintId, errorId) || undefined} className="flex flex-col gap-3">
@@ -40,7 +60,12 @@ export function SegmentedControl({ legend, name, options, value, onChange, hint,
               name={name}
               value={option.value}
               checked={value === option.value}
-              onChange={() => onChange(option.value)}
+              onKeyDown={(event) => onKeyDown(event, option.value)}
+              onChange={() => {
+                const explicit = !arrowed.current;
+                arrowed.current = false;
+                onChange(option.value, { explicit });
+              }}
               className="peer sr-only"
             />
             <span

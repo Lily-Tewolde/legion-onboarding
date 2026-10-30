@@ -120,12 +120,15 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
     });
   };
 
-  const tap = (type: Exclude<RecheckType, "age">, value: YesNo) => {
+  // An arrow key only records the answer; leaving needs a tap, Space, Enter
+  // or "Looks right"
+  const tap = (type: Exclude<RecheckType, "age">, value: YesNo, explicit = true) => {
     const field = RECHECK_FIELD[type];
     setRechecks((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [type]: false }));
     const nextFit = { ...getAnswers(), [field]: value };
     saveAnswers(nextFit);
+    if (!explicit) return;
     const outcome = tapOutcome(field, nextFit);
     if (outcome) leave(outcome, nextFit, field);
   };
@@ -327,7 +330,7 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
                 name={`recheck-${row}`}
                 options={YES_NO}
                 value={rechecks[RECHECK_FIELD[row]]}
-                onChange={(value) => tap(row, value as YesNo)}
+                onChange={(value, { explicit }) => tap(row, value as YesNo, explicit)}
                 error={errors[row] ? copy.join.errors.required : undefined}
               />
             )}
