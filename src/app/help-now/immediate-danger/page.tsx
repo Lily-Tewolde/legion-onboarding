@@ -3,10 +3,14 @@ import { Bold } from "@/components/Bold";
 import { AlertTriangle } from "@/components/icons";
 import { Notice, NoticeText } from "@/components/Notice";
 import { copy } from "@/copy";
+import { SafeToContinue } from "../SafeToContinue";
 
 // The crisis screen when someone may be in danger right now (board U07), for
 // example "I took a bunch of my pills an hour ago": 911 first, with 988 under
-// it, and no "I'm safe" checkbox. To confirm with Legion's clinical team
+// it. "I'm safe right now" with Continue (off until it's ticked) sits at the
+// bottom, like the other crisis screens: a classifier is sometimes wrong, so
+// the screen can be left (Lily's testing notes, Oct 30). In the check-in, the
+// clinician still sees the flag. To confirm with Legion's clinical team
 export default function ImmediateDangerPage() {
   return (
     <Notice
@@ -23,6 +27,7 @@ export default function ImmediateDangerPage() {
           </ButtonLink>
         </>
       }
+      keepGoing={<SafeToContinue />}
     >
       <NoticeText>
         <Bold text={copy.crisis.immediate.body} words={["911"]} />
