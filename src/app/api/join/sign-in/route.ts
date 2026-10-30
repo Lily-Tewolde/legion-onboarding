@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const person = await findPersonByEmail(parsed.data.email);
     if (!person) return NextResponse.json({ error: "not_found" }, { status: 404 });
     await updateSession(visitorId, { person_id: person.id });
-    return NextResponse.json({ status: "signed_in" });
+    return NextResponse.json({ status: "signed_in", personId: person.id });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "unavailable" }, { status: 500 });

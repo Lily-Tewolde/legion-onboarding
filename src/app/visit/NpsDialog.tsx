@@ -3,13 +3,14 @@
 import { useSyncExternalStore } from "react";
 import { Button } from "@/components/Button";
 import { copy } from "@/copy";
+import { track } from "@/lib/analytics/track";
 import { createSessionStore } from "@/lib/session-store";
 
 // "How was your first visit?" 0 to 10, in a small dialog in the corner, only
 // after the visit is marked completed and never during onboarding (decided
 // Oct 29). Not a modal: the page stays usable. A 9 or 10 leads into asking
 // for a review; a lower score gets a thank-you. The score stays in this
-// browser tab for now; PR 9 sends it as portal.visit.rated (the score only)
+// browser tab, and goes to PostHog as portal.visit.rated (the score only)
 
 type Rating = { score: number | null; review: "asked" | "writing" | null; closed: boolean };
 
@@ -41,7 +42,10 @@ export function NpsDialog() {
                 variant="secondary"
                 size="small"
                 className="px-0"
-                onClick={() => store.save({ score, review: score >= 9 ? "asked" : null, closed: false })}
+                onClick={() => {
+                  track("portal.visit.rated", { score });
+                  store.save({ score, review: score >= 9 ? "asked" : null, closed: false });
+                }}
               >
                 {score}
               </Button>

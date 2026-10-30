@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
+import { track } from "@/lib/analytics/track";
 import { crisisFromStore } from "@/lib/whats-going-on/stored";
 import { outcomePath } from "./flow";
 import type { FitAnswers, FitOutcome, TapField } from "./rules";
@@ -14,7 +15,11 @@ export function useLeave() {
   const router = useRouter();
   return useCallback(
     (outcome: FitOutcome, answers: FitAnswers, field?: TapField) => {
-      if (outcome.result === "crisis") crisisFromStore.save({ from: "safety_question" });
+      if (outcome.result === "crisis") {
+        crisisFromStore.save({ from: "safety_question" });
+        track("portal.crisis.shown", { source: "safety_question", kind: null, step: "fit" });
+      }
+      if (outcome.result === "screened_out") track("portal.fit.screened_out", { reason: outcome.reason });
       fetch("/api/join/fit", {
         method: "POST",
         keepalive: true,

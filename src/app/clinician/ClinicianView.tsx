@@ -5,6 +5,7 @@ import { Button, ButtonLink } from "@/components/Button";
 import { Tag } from "@/components/Tag";
 import { copy } from "@/copy";
 import type { ClinicianSummary, SummaryMedication } from "@/lib/ai/check-in-summary";
+import { track, useTrackOnShow } from "@/lib/analytics/track";
 import { SAMPLE_CHECK_IN } from "@/lib/check-in/sample";
 import { type CheckInFlag, type CheckInState, checkInStore } from "@/lib/check-in/stored";
 
@@ -42,6 +43,7 @@ export function ClinicianView() {
 
 function Summary({ record, sample }: { record: CheckInState; sample: boolean }) {
   const summary = record.summary ?? null;
+  useTrackOnShow(() => track("portal.intake.summary_viewed", { sample }));
   const [open, setOpen] = useState(summary === null);
   const answerText = (id: string) => record.turns.find((turn) => turn.id === id)?.answer ?? "";
   const safety = record.flags.filter((flag) => SAFETY_KINDS.has(flag.kind));
