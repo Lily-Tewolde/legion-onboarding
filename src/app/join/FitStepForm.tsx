@@ -24,6 +24,7 @@ import {
   validateFields,
   type YesNo,
 } from "@/lib/fit/rules";
+import { searchPlans } from "@/lib/fit/plan-search";
 import { getAnswers, getServerAnswers, saveAnswers, subscribeAnswers } from "@/lib/fit/stored-answers";
 import { useLeave } from "@/lib/fit/use-leave";
 
@@ -313,16 +314,10 @@ function InsuranceQuestions({
             </div>
           )}
           {answers.planId === PLAN_NOT_LISTED && (
-            <div className="flex flex-col items-start gap-2">
-              <p>{copy.coverage.notListed}</p>
-              <Button
-                variant="secondary"
-                onClick={() => update({ payMethod: "self_pay", planId: undefined })}
-              >
-                {copy.coverage.continueSelfPay}
-              </Button>
-              <TalkToPersonButton label={copy.coverage.talkToPerson} />
-            </div>
+            <PlanSearch
+              onPick={(planId) => tap("planId", { planId })}
+              onSelfPay={() => update({ payMethod: "self_pay", planId: undefined })}
+            />
           )}
         </div>
       )}
@@ -360,4 +355,58 @@ function focusFirstError(fields: readonly FitField[], errors: FieldErrors) {
   const target =
     document.getElementById(field) ?? document.querySelector<HTMLInputElement>(`input[name="${field}"]`);
   target?.focus();
+}
+
+// "I don't see my plan": the full plan list with a search first. Only when
+// their plan still isn't there do they get self-pay or a person. Picking a
+// plan here works like picking it from the field, so Medicaid or Medicare
+// still screens out on tap
+function PlanSearch({ onPick, onSelfPay }: { onPick: (planId: string) => void; onSelfPay: () => void }) {
+  const [query, setQuery] = useState("");
+  const [stillNotListed, setStillNotListed] = useState(false);
+  const results = searchPlans(query);
+  const notFound = stillNotListed || results.length === 0;
+
+  return (
+    <div className="flex flex-col gap-3">
+      <TextField
+        id="planSearch"
+        type="search"
+        autoComplete="off"
+        label={copy.coverage.searchLabel}
+        hint={copy.coverage.searchHint}
+        value={query}
+        onChange={(value) => {
+          setQuery(value);
+          setStillNotListed(false);
+        }}
+      />
+      {results.length > 0 && (
+        <ul aria-label={copy.coverage.searchResults} className="flex flex-col gap-2">
+          {results.map((plan) => (
+            <li key={plan.id}>
+              <Button variant="secondary" className="w-full justify-start" onClick={() => onPick(plan.id)}>
+                {plan.name}
+              </Button>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div aria-live="polite" className="flex flex-col items-start gap-2">
+        {notFound ? (
+          <>
+            <p>{copy.coverage.notListed}</p>
+            <Button variant="secondary" onClick={onSelfPay}>
+              {copy.coverage.continueSelfPay}
+            </Button>
+            <TalkToPersonButton label={copy.coverage.talkToPerson} />
+          </>
+        ) : (
+          <Button variant="text" onClick={() => setStillNotListed(true)}>
+            {copy.coverage.stillNotListed}
+          </Button>
+        )}
+      </div>
+    </div>
+  );
 }
