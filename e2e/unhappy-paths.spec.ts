@@ -110,8 +110,14 @@ test.describe("crisis", () => {
     await describe(page, "I took too many pills an hour ago.");
     await expect(page).toHaveURL(/\/help-now\/immediate-danger$/);
     await expect(page.getByRole("link", { name: copy.crisis.immediate.call911 })).toHaveAttribute("href", "tel:911");
-    await expect(page.getByLabel(copy.crisis.safeNow)).toHaveCount(0);
     await checkScreen(page, testInfo, "Call 911 now");
+    // A way back, in case the classifier is wrong: Continue stays off until
+    // "I'm safe right now" is ticked, then goes back with the words kept
+    const keepGoing = page.getByRole("button", { name: copy.common.continue });
+    await expect(keepGoing).toBeDisabled();
+    await page.getByLabel(copy.crisis.safeNow).check();
+    await keepGoing.click();
+    await expect(page).toHaveURL(/\/join\/whats-going-on$/);
   });
 
   test("U08 being hurt by someone else", async ({ page }, testInfo) => {

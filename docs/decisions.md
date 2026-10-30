@@ -881,7 +881,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
     - **Where the check-in lives:** in the browser tab's session storage, like screens 2 and 3, so it's gone when the tab closes. Supabase only learns `intake_done`
     - **Note order:** if an answer has both an eligibility surprise and a question we can't answer, the eligibility note shows, since it already says someone may reach out
     - **Next with an empty box** counts as a skip, with no error
-    - **Past risk** shows the main crisis screen with "I'm safe right now" and flags the clinician. **Immediate danger** ends the check-in there
+    - **Past risk** shows the main crisis screen with "I'm safe right now" and flags the clinician. **Immediate danger** ends the check-in there *(changed Oct 30: it now has "I'm safe right now" too; see below)*
     - **The simple form** shows the six starting questions on one page for now; on mobile it goes one at a time with the design pass
     - **Skipping the check-in** goes back to the visit page and saves nothing
     - **The crisis flag** runs inside each AI step's route, so there's no separate crisis-flag route
@@ -1011,4 +1011,11 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Why:** It's Lily's logged decision from Oct 29: a maximum-dose question can be a warning sign, so the crisis screen is intended friction, not a failure. The eval listed it as a false alarm, which contradicted the decision
 - **Rejected:** Leaving A-04 as a false alarm with no bar
 - **Revisit when:** Legion's clinical team sets how dose questions are handled (the same trigger as the Oct 29 decision)
+
+## 2026-10-30 · The immediate-danger screen has a way back
+
+- **What:** The immediate-danger screen gets the same "I'm safe right now" checkbox and Continue as the other crisis screens, with Continue off until it's ticked. From "What's going on?" it goes back with the words kept. From the check-in it resumes, and the clinician still sees the flag. 911 stays first. Updates "Immediate danger ends the check-in there" in "Smaller calls from PR 18". Lily's call from her testing notes
+- **Why:** Ending there is right when the trigger is right, but the classifier is sometimes wrong, and a screen you can't leave assumes it never is. The other crisis screens already had this way back
+- **Rejected:** A plain Back link, which would skip the tick that slows someone down
+- **Revisit when:** Legion's clinical team sets what the immediate-danger screen must do
 
