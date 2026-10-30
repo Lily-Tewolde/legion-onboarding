@@ -34,5 +34,5 @@ Legion's funnel has about 197 starters a day, so about 98 per arm.
 | The new fit check recovers part of the 1,912 lost there | The 50/50 test above, with screen-out events by reason in both arms | Fit check to next step, excluding screen-outs; screen-out rate |
 | One recommended provider fixes part of the 36.6% drop | Within the new flow: recommended provider first vs. a list, 50/50 | Match page to provider selected; share who book the recommended provider |
 | Mobile is worse than desktop | Split each step's conversion by device type, in both arms | Step conversion by device |
-| Removing testimonials helps | Within the new flow: no quote panel vs. a small quote, 50/50 | Start to booked |
+| One small quote does better than Legion's big testimonial panel | Within the new flow: Legion's big testimonial panel vs. one small quote in the desktop panel, 50/50 | Start to booked |
 | The cost surprise loses people | Compare drop at the card step in the current flow (cost shown late) vs. the new flow (cost shown before the card); add a one-question exit prompt | Drop at the card step; exit prompt answers |

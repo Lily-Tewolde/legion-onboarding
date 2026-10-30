@@ -9,7 +9,7 @@ It's three months from now and this failed. Why? Each failure has its fix and wh
 | 3 | The AI is slow or down, and the patient leaves before the fallback appears | "Still working on it…" at 5 seconds; the simple form offered at 10 seconds with what they typed kept; an automatic switch only on a real error | Decided |
 | 4 | The intake raises no-shows because it feels like homework | Optional, 5 to 8 questions, "Skip the check-in" always there, and skipping never blocks the visit. No-show rate is a guardrail | Decided |
 | 5 | A real person types real health details into the public prototype | One banner on every screen: "Demo prototype: don't enter real information". Free text stays out of Supabase | Decided |
-| 6 | Anyone with the link calls the AI over and over and runs up costs | About 30 AI calls per visitor per hour, plus a daily spending cap for the whole demo | Decided |
+| 6 | Anyone with the link calls the AI over and over and runs up costs | About 30 "What's going on?" calls per visitor per hour (the crisis flag never counts), plus a daily spending cap for the whole demo | Decided |
 | 7 | The quick facts screen out the wrong person, for example a date-of-birth mistake makes someone look under 18 | Screen-outs are rules, not AI. The Step 5 test checklist covers each rule at its edges | Test checklist (Step 5) |
 | 8 | The north star can't be calculated because an event doesn't fire or a session never links to the person | Every event checked two ways, on screen and in PostHog, before submission | Test checklist (Step 5) |
 | 9 | A returning patient never sees the AI notice because they resume past the start screen | Accepted risk for now: the notice shows once, at the start | Decided; revisit trigger in the decision |
