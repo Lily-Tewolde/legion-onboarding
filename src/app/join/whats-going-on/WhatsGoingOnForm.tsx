@@ -14,6 +14,8 @@ import { nextAction, slowStage, toggleChip } from "@/lib/whats-going-on/flow";
 import type { StepResponse } from "@/lib/whats-going-on/step";
 import { crisisFromStore, safeKey, type WhatsGoingOnState, whatsGoingOnStore } from "@/lib/whats-going-on/stored";
 import { useSpeech } from "./useSpeech";
+import { fallbackReason } from "@/lib/analytics/events";
+import { track } from "@/lib/analytics/track";
 
 // Screen 2. The patient types, speaks or taps starter chips, or a mix. On
 // Continue the server runs the word list, then the crisis flag and the AI in
@@ -105,6 +107,10 @@ function TypedStep({ state }: { state: WhatsGoingOnState }) {
     request.current = controller;
     const key = safeKey(state.text, answer);
 
+    const words = Boolean(state.text.trim());
+    const mode = words && state.chips.length ? "mixed" : words ? (state.spoken ? "spoken" : "typed") : "chips";
+    track("portal.concern.submitted", { mode });
+
     let response: StepResponse;
     try {
       const result = await fetch("/api/ai/whats-going-on", {
@@ -130,14 +136,19 @@ function TypedStep({ state }: { state: WhatsGoingOnState }) {
     const action = nextAction(response, { retried: !!current.retried, forThemselves: !!current.forThemselves });
     switch (action.to) {
       case "crisis":
+        if (response.result === "crisis") {
+          track("portal.crisis.shown", { source: response.source, kind: response.kind, step: "whats_going_on" });
+        }
         crisisFromStore.save({ from: "whats_going_on" });
         save(current, { safeText: undefined });
         router.push(action.path);
         return;
       case "form":
+        track("portal.ai.fallback_used", { step: "whats_going_on", reason: fallbackReason(action.reason) });
         openForm("fallback");
         return;
       case "retry":
+        track("portal.concern.retry_shown");
         save(current, { retried: true });
         setMessage("retry");
         return;
@@ -145,6 +156,7 @@ function TypedStep({ state }: { state: WhatsGoingOnState }) {
         save(current, { clarifyingQuestion: action.question });
         return;
       case "someone_else":
+        track("portal.someone_else.flagged");
         router.push("/join/someone-else");
         return;
       case "confirm":
@@ -308,6 +320,7 @@ function SimpleForm({ state }: { state: WhatsGoingOnState }) {
       eligibility_flags: [],
       chips: form.conditions.map((label) => ({ label, display: copy.conditions[label] })),
     };
+    track("portal.concern.submitted", { mode: "form" });
     save(state, { understanding, confirmChips: understanding.chips, diagnoses: {} });
     router.push("/join/confirm");
   };

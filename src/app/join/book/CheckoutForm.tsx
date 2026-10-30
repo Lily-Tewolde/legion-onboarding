@@ -8,6 +8,8 @@ import { Tag } from "@/components/Tag";
 import { TextField } from "@/components/TextField";
 import { copy } from "@/copy";
 import { todayInCentral } from "@/lib/central-time";
+import { daysToVisit } from "@/lib/analytics/events";
+import { identify, track, trackPageview, useTrackInView } from "@/lib/analytics/track";
 import { cardLooksValid, type Details, type DetailsErrors, validateDetails } from "@/lib/checkout/validate";
 
 // "Your details" and "Payment" on the one-page checkout. The details are
@@ -41,6 +43,11 @@ export function CheckoutForm() {
     [],
   );
 
+  const detailsSection = useRef<HTMLElement>(null);
+  const paymentSection = useRef<HTMLElement>(null);
+  useTrackInView(detailsSection, () => trackPageview("/portal/join/patient"));
+  useTrackInView(paymentSection, () => trackPageview("/portal/join/payment"));
+
   const keyOf = (d: Details) => `${d.name}\n${d.email}\n${d.phone}`;
 
   const saveDetails = async (): Promise<boolean> => {
@@ -54,11 +61,13 @@ export function CheckoutForm() {
         body: JSON.stringify(details),
       });
       if (!response.ok) throw new Error(`details failed: ${response.status}`);
-      const { status } = await response.json();
+      const { status, personId, created } = await response.json();
       if (status === "email_taken") {
         setSaveState("email_taken");
         return false;
       }
+      identify(personId);
+      if (created) track("portal.onboarding.userCreated");
       savedKey.current = keyOf(details);
       setSaveState("saved");
       return true;
@@ -92,6 +101,7 @@ export function CheckoutForm() {
         body: JSON.stringify({ email: details.email }),
       });
       if (!response.ok) throw new Error(`sign-in failed: ${response.status}`);
+      identify((await response.json()).personId);
       savedKey.current = keyOf(details);
       setSaveState("saved");
     } catch {
@@ -110,6 +120,7 @@ export function CheckoutForm() {
       return;
     }
 
+    track("portal.payment.method_added", { simulated: true });
     setBooking(true);
     setFailed(false);
     if (!(await saveDetails())) {
@@ -123,7 +134,8 @@ export function CheckoutForm() {
         body: JSON.stringify({ cardSimulated: true }),
       });
       if (!response.ok) throw new Error(`book failed: ${response.status}`);
-      const { path } = await response.json();
+      const { path, slotStart } = await response.json();
+      track("portal.appointment.confirmed", { days_to_visit: daysToVisit(slotStart) });
       router.push(path);
     } catch {
       setFailed(true);
@@ -138,7 +150,7 @@ export function CheckoutForm() {
 
   return (
     <form noValidate onSubmit={onSubmit} className="flex flex-col gap-8">
-      <section aria-labelledby="your-details" className="flex flex-col gap-4" onBlur={onDetailsBlur}>
+      <section ref={detailsSection} aria-labelledby="your-details" className="flex flex-col gap-4" onBlur={onDetailsBlur}>
         <h2 id="your-details" className="text-xl">
           {copy.checkout.yourDetails}
         </h2>
@@ -200,7 +212,7 @@ export function CheckoutForm() {
         </div>
       </section>
 
-      <section aria-labelledby="payment" className="flex flex-col gap-4">
+      <section ref={paymentSection} aria-labelledby="payment" className="flex flex-col gap-4">
         <h2 id="payment" className="text-xl">
           {copy.checkout.payment}
         </h2>

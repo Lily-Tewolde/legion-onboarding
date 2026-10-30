@@ -25,7 +25,7 @@ async function Demo() {
     <div className="flex flex-col gap-6">
       <p className="font-medium">{visitLine(session.slot_start, providerName(session.provider_id))}</p>
       <p>{copy.demo.note}</p>
-      <DemoControls />
+      <DemoControls intakeDone={session.intake_done} />
     </div>
   );
 }

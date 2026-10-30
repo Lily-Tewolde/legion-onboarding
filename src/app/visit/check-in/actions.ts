@@ -2,6 +2,8 @@ import type { CheckInTurn } from "@/lib/ai/check-in";
 import { afterAnswer, type FlowEffect } from "@/lib/check-in/flow";
 import type { CheckInResponse, SummaryResponse } from "@/lib/check-in/step";
 import { type CheckInState, checkInStore } from "@/lib/check-in/stored";
+import { fallbackReason } from "@/lib/analytics/events";
+import { track } from "@/lib/analytics/track";
 import { crisisFromStore } from "@/lib/whats-going-on/stored";
 
 // The check-in's calls to the server, shared by the check-in screen and the
@@ -34,9 +36,19 @@ export async function sendTurns(
     { turns, afterSafe: options.afterSafe ?? false, form: options.form ?? false, checkFrom },
     options.signal,
   );
+  // The first answer starts the check-in
+  if (checkInStore.get().turns.length === 0 && !options.afterSafe) track("portal.intake.started");
   const { state, effect } = afterAnswer(checkInStore.get(), turns, response);
   checkInStore.save(state);
-  if (effect.to === "crisis") crisisFromStore.save({ from: "check_in" });
+  if (response.result === "crisis") {
+    track("portal.crisis.shown", { source: response.source, kind: response.kind, step: "check_in" });
+    track("portal.intake.stopped", { reason: "crisis" });
+    crisisFromStore.save({ from: "check_in" });
+  }
+  if (response.result === "fallback") {
+    track("portal.ai.fallback_used", { step: "check_in", reason: fallbackReason(response.reason) });
+  }
+  if (response.result === "next" && response.status === "stop") track("portal.intake.stopped", { reason: "under_18" });
   if (effect.to === "summary") await summarizeAndCheck(turns);
   return effect;
 }
@@ -57,11 +69,17 @@ async function summarizeAndCheck(turns: CheckInTurn[]) {
     save({ summary: response.summary, stage: "medications" });
     return;
   }
+  track("portal.ai.fallback_used", {
+    step: "check_in_summary",
+    reason: fallbackReason(response?.result === "fallback" ? response.reason : "network"),
+  });
   await finishCheckIn({ summary: null });
 }
 
 // Finished: only "done" is saved on the server
 export async function finishCheckIn(patch: Partial<CheckInState>) {
   save({ ...patch, stage: "done", note: null });
+  if ("medicationsChanged" in patch) track("portal.intake.medications_confirmed", { changed: Boolean(patch.medicationsChanged) });
+  track("portal.intake.completed", { questions_answered: checkInStore.get().turns.filter((turn) => !turn.skipped).length });
   await post("/api/visit/check-in-done", {}).catch((error) => console.error(error));
 }

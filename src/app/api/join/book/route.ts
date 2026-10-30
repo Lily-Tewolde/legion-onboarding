@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     await updateSession(visitorId, { booked_at: new Date().toISOString(), current_screen: "booked" });
     await resetDemoClock();
-    return NextResponse.json({ path: "/join/booked" });
+    return NextResponse.json({ path: "/join/booked", slotStart: session.slot_start });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "unavailable" }, { status: 500 });

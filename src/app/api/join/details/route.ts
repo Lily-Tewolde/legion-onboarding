@@ -35,7 +35,8 @@ export async function POST(request: Request) {
     if (result.status === "email_taken") return NextResponse.json({ status: "email_taken" });
 
     await updateSession(visitorId, { person_id: result.person.id });
-    return NextResponse.json({ status: "saved" });
+    // The made-up person's id links later events to them (build brief, section 5)
+    return NextResponse.json({ status: "saved", personId: result.person.id, created: !session.person_id });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "unavailable" }, { status: 500 });

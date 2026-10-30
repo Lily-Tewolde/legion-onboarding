@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Progress } from "@/components/Progress";
 import { Skeleton } from "@/components/Skeleton";
 import { copy } from "@/copy";
+import { TrackPageview } from "@/lib/analytics/track";
 import { providerOption } from "@/lib/provider/present";
 import { missingFor, recommendationFor } from "@/server/booking";
 import { getSession } from "@/server/sessions";
@@ -15,6 +16,7 @@ import { ProviderPicker } from "./ProviderPicker";
 export default function ProviderPage() {
   return (
     <div className="flex flex-col gap-8 pt-6">
+      <TrackPageview path="/portal/join/match" />
       <Progress phase="your_provider" />
       <h1 className="text-3xl">{copy.provider.title}</h1>
       <Suspense fallback={<Skeleton rows={4} />}>

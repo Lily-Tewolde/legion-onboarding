@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useMemo, useRef, type ReactNode } from "react";
 import { copy } from "@/copy";
+import { screenOf } from "@/lib/analytics/events";
+import { track } from "@/lib/analytics/track";
 import { Button } from "./Button";
 import { cx } from "./cx";
 import { InlineLink } from "./InlineLink";
@@ -30,6 +32,7 @@ export function HelpPanelProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       open: () => {
+        track("portal.help.clicked", { screen: screenOf(window.location.pathname) });
         dialogRef.current?.showModal();
         titleRef.current?.focus();
       },

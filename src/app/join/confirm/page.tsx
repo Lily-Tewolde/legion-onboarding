@@ -1,11 +1,13 @@
 import { Progress } from "@/components/Progress";
 import { copy } from "@/copy";
+import { TrackPageview } from "@/lib/analytics/track";
 import { ConfirmForm } from "./ConfirmForm";
 
 // Screen 3: "Here's what we understood". Layout only for now
 export default function ConfirmPage() {
   return (
     <div className="flex flex-col gap-8 pt-6">
+      <TrackPageview path="/portal/join/needs" />
       <Progress phase="whats_going_on" />
       <div className="flex flex-col gap-3">
         <h1 className="text-3xl">{copy.confirm.title}</h1>

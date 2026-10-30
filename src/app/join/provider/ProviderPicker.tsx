@@ -7,6 +7,7 @@ import { Checkbox } from "@/components/Checkbox";
 import { List } from "@/components/List";
 import { Tag } from "@/components/Tag";
 import { copy } from "@/copy";
+import { track } from "@/lib/analytics/track";
 import { bookLabel, type ProviderOption } from "@/lib/provider/present";
 
 // The recommended provider and their times, with "See more providers" for
@@ -56,6 +57,8 @@ export function ProviderPicker({
       });
       if (!response.ok) throw new Error(`reserve failed: ${response.status}`);
       const { path } = await response.json();
+      track("portal.provider_selected", { recommended: chosenProvider.id === recommended.id });
+      track("portal.provider.reservation.created");
       router.push(path);
     } catch {
       setFailed(true);
@@ -105,7 +108,14 @@ export function ProviderPicker({
       )}
 
       <div className="flex flex-col items-start gap-2">
-        <Checkbox label={copy.provider.earlierTime} checked={earlier} onChange={setEarlier} />
+        <Checkbox
+          label={copy.provider.earlierTime}
+          checked={earlier}
+          onChange={(checked) => {
+            if (checked) track("portal.earlier_time.requested");
+            setEarlier(checked);
+          }}
+        />
         {earlier && (
           <div className="flex flex-col gap-1">
             <p>{copy.provider.earlierTimeOn}</p>
