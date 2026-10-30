@@ -3,8 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useLayoutEffect, useState, useSyncExternalStore, type FormEvent } from "react";
 import { Button } from "@/components/Button";
+import { ConcernIcon } from "@/components/concernIcons";
 import { cx } from "@/components/cx";
-import { SegmentedControl } from "@/components/SegmentedControl";
+import { Close, Info } from "@/components/icons";
+import { Card, PageTitle, Screen } from "@/components/Screen";
+import { FieldError, SegmentedControl } from "@/components/SegmentedControl";
+import { Skeleton } from "@/components/Skeleton";
 import { TextField } from "@/components/TextField";
 import { copy } from "@/copy";
 import { CONCERN_LABELS, type ConcernLabel } from "@/data";
@@ -47,12 +51,23 @@ export function ConfirmForm() {
   return state.understanding ? <Confirm state={state} understanding={state.understanding} /> : <BackToStart />;
 }
 
+const FLOW = { phase: "whats_going_on" as const, part: 2, parts: 2, back: "/join/whats-going-on" };
+
+function Heading() {
+  return (
+    <div className="flex flex-col gap-2">
+      <PageTitle>{copy.confirm.title}</PageTitle>
+      <p className="text-body md:text-body-lg">{copy.confirm.intro}</p>
+    </div>
+  );
+}
+
 function ConfirmSkeleton() {
   return (
-    <div aria-hidden="true" className="flex flex-col gap-4">
-      <div className="h-control-sm w-2/3 rounded-full bg-wash motion-safe:animate-pulse" />
-      <div className="h-6 w-full rounded-md bg-wash motion-safe:animate-pulse" />
-    </div>
+    <Screen flow={FLOW} width="picker">
+      <Heading />
+      <Skeleton rows={1} />
+    </Screen>
   );
 }
 
@@ -168,127 +183,159 @@ function Confirm({ state, understanding }: { state: WhatsGoingOnState; understan
     router.push("/join/whats-going-on");
   };
 
+  const YES_NO = [
+    { value: "yes", label: copy.join.yes },
+    { value: "no", label: copy.join.no },
+  ];
+
   return (
-    <form noValidate onSubmit={onSubmit} className="flex flex-col gap-8">
-      <div className="flex flex-col gap-3">
-        <ul className="flex flex-wrap gap-2">
-          {chips.map((chip) => (
-            <li
-              key={chip.label}
-              className="inline-flex min-h-control-sm items-center gap-1 rounded-full border border-action bg-wash pl-4 text-base font-medium text-navy"
-            >
-              {chip.display}
-              {chips.length > 1 ? (
-                <button
-                  type="button"
-                  aria-label={copy.confirm.remove.replace("{item}", chip.display)}
-                  onClick={() => setChips(labels.filter((label) => label !== chip.label))}
-                  className="focus-ring inline-flex size-control-sm cursor-pointer items-center justify-center rounded-full text-lg"
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              ) : (
-                <span className="pr-4" />
-              )}
-            </li>
-          ))}
-        </ul>
-        <Button variant="text" className="self-start" aria-expanded={adding} onClick={() => setAdding(!adding)}>
-          {copy.confirm.add}
-        </Button>
-        {adding && (
-          <div className="flex flex-wrap gap-2">
-            {CONCERN_LABELS.filter((label) => !labels.includes(label)).map((label) => (
-              <Button
-                key={label}
-                variant="secondary"
-                size="small"
-                onClick={() => {
-                  setChips(toggleChip(labels, label));
-                  setAdding(false);
-                }}
+    <Screen
+      flow={FLOW}
+      width="picker"
+      footer={
+        <div className="flex flex-col items-stretch gap-1">
+          {errors.save && (
+            <div role="alert" className="flex flex-col gap-1">
+              <FieldError>{copy.common.somethingWentWrong}</FieldError>
+              <p className="text-body text-slate">{copy.common.keepsHappening}</p>
+            </div>
+          )}
+          <Button type="submit" form="confirm-form" disabled={saving} className="w-full">
+            {errors.save ? copy.common.tryAgain : copy.confirm.looksRight}
+          </Button>
+          <Button variant="text" onClick={startOver} className={cx(saving && "pointer-events-none")}>
+            {copy.confirm.startOver}
+          </Button>
+        </div>
+      }
+    >
+      <Heading />
+      <form id="confirm-form" noValidate onSubmit={onSubmit} className="flex flex-col gap-3 md:gap-4">
+        <div className="flex flex-col gap-2">
+          <ul className="flex flex-wrap gap-2">
+            {chips.map((chip) => (
+              <li
+                key={chip.label}
+                className="inline-flex min-h-control-sm items-center gap-2 rounded-full border-2 border-action bg-wash pl-2 text-body font-bold whitespace-nowrap text-ink"
               >
-                {copy.conditions[label]}
-              </Button>
+                <span aria-hidden="true" className="flex size-7 items-center justify-center rounded-full bg-white text-brand">
+                  <ConcernIcon label={chip.label} />
+                </span>
+                {chip.display}
+                {chips.length > 1 ? (
+                  <button
+                    type="button"
+                    aria-label={copy.confirm.remove.replace("{item}", chip.display)}
+                    onClick={() => setChips(labels.filter((label) => label !== chip.label))}
+                    className="focus-ring -ml-1 inline-flex size-control-sm cursor-pointer items-center justify-center rounded-full text-slate hover:text-ink"
+                  >
+                    <Close size={16} />
+                  </button>
+                ) : (
+                  <span className="pr-3" />
+                )}
+              </li>
             ))}
-          </div>
+            <li>
+              <button
+                type="button"
+                aria-expanded={adding}
+                onClick={() => setAdding(!adding)}
+                className="focus-ring inline-flex min-h-control-sm cursor-pointer items-center rounded-full border-[1.5px] border-dashed border-line-control bg-white px-4 text-body font-semibold text-action hover:border-action"
+              >
+                {copy.confirm.add}
+              </button>
+            </li>
+          </ul>
+          {adding && (
+            <div className="rise flex flex-wrap gap-2">
+              {CONCERN_LABELS.filter((label) => !labels.includes(label)).map((label) => (
+                <button
+                  key={label}
+                  type="button"
+                  onClick={() => {
+                    setChips(toggleChip(labels, label));
+                    setAdding(false);
+                  }}
+                  className="focus-ring inline-flex min-h-control-sm cursor-pointer items-center gap-2 rounded-full border-[1.5px] border-line-control bg-white pr-3 pl-2 text-body font-medium whitespace-nowrap text-navy hover:border-action"
+                >
+                  <span aria-hidden="true" className="flex size-7 items-center justify-center rounded-full bg-wash text-brand">
+                    <ConcernIcon label={label} />
+                  </span>
+                  {copy.conditions[label]}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {labels.includes("Anxiety") && (
+          <p className="flex items-start gap-2 text-body text-navy">
+            <Info size={18} className="mt-[3px] flex-none text-brand" />
+            {copy.confirm.policy.Anxiety.replace(/(\d) mg/g, "$1\u00a0mg")}
+          </p>
         )}
-      </div>
 
-      {labels.includes("Anxiety") && <p className="text-slate">{copy.confirm.policy.Anxiety}</p>}
-
-      {diagnosisFor.map((label) => {
-        const name = label in copy.confirm.diagnosisNames
-          ? copy.confirm.diagnosisNames[label as keyof typeof copy.confirm.diagnosisNames]
-          : copy.conditions[label];
-        return (
-          <SegmentedControl
-            key={label}
-            legend={copy.confirm.diagnosed.replace("{item}", name)}
-            name={`diagnosed-${label}`}
-            options={[
-              { value: "yes", label: copy.join.yes },
-              { value: "no", label: copy.join.no },
-              { value: "not_sure", label: copy.confirm.notSure },
-            ]}
-            value={answers[label]}
-            onChange={(value) => {
-              setErrors((current) => ({ ...current, diagnoses: current.diagnoses?.filter((l) => l !== label) }));
-              whatsGoingOnStore.save({ ...state, diagnoses: { ...answers, [label]: value as Diagnosed } });
-            }}
-            error={errors.diagnoses?.includes(label) ? copy.join.errors.required : undefined}
-          />
-        );
-      })}
-
-      {rows.map((row) =>
-        row === "age" ? (
-          <TextField
-            key={row}
-            id="recheck-dateOfBirth"
-            label={copy.confirm.recheck.dateOfBirth}
-            hint={copy.join.dateOfBirthHint}
-            value={rechecks.dateOfBirth ?? ""}
-            onChange={(value) => {
-              setRechecks((current) => ({ ...current, dateOfBirth: value }));
-              setErrors((current) => ({ ...current, age: false }));
-            }}
-            error={errors.age ? copy.join.errors.dateOfBirth : undefined}
-            inputMode="numeric"
-            autoComplete="bday"
-          />
-        ) : (
-          <SegmentedControl
-            key={row}
-            legend={RECHECK_LEGEND[row]}
-            name={`recheck-${row}`}
-            options={[
-              { value: "yes", label: copy.join.yes },
-              { value: "no", label: copy.join.no },
-            ]}
-            value={rechecks[RECHECK_FIELD[row]]}
-            onChange={(value) => tap(row, value as YesNo)}
-            error={errors[row] ? copy.join.errors.required : undefined}
-          />
-        ),
-      )}
-
-      <p className="text-slate">{copy.confirm.notDiagnosis}</p>
-
-      <div className="flex flex-col items-start gap-3">
-        {errors.save && (
-          <div role="alert" className="flex flex-col gap-1">
-            <p className="text-error">{copy.common.somethingWentWrong}</p>
-            <p>{copy.common.keepsHappening}</p>
-          </div>
+        {diagnosisFor.length > 0 && (
+          <Card className="gap-4">
+            {diagnosisFor.map((label) => {
+              const name =
+                label in copy.confirm.diagnosisNames
+                  ? copy.confirm.diagnosisNames[label as keyof typeof copy.confirm.diagnosisNames]
+                  : copy.conditions[label];
+              return (
+                <SegmentedControl
+                  key={label}
+                  legend={copy.confirm.diagnosed.replace("{item}", name)}
+                  name={`diagnosed-${label}`}
+                  options={[...YES_NO, { value: "not_sure", label: copy.confirm.notSure }]}
+                  value={answers[label]}
+                  onChange={(value) => {
+                    setErrors((current) => ({ ...current, diagnoses: current.diagnoses?.filter((l) => l !== label) }));
+                    whatsGoingOnStore.save({ ...state, diagnoses: { ...answers, [label]: value as Diagnosed } });
+                  }}
+                  error={errors.diagnoses?.includes(label) ? copy.join.errors.required : undefined}
+                />
+              );
+            })}
+          </Card>
         )}
-        <Button type="submit" disabled={saving}>
-          {errors.save ? copy.common.tryAgain : copy.confirm.looksRight}
-        </Button>
-        <Button variant="text" onClick={startOver} className={cx(saving && "pointer-events-none")}>
-          {copy.confirm.startOver}
-        </Button>
-      </div>
-    </form>
+
+        {rows.map((row) => (
+          <Card key={row} className="rise gap-3">
+            {row === "age" ? (
+              <TextField
+                id="recheck-dateOfBirth"
+                labelOutside
+                label={copy.confirm.recheck.dateOfBirth}
+                hint={copy.join.dateOfBirthHint}
+                value={rechecks.dateOfBirth ?? ""}
+                onChange={(value) => {
+                  setRechecks((current) => ({ ...current, dateOfBirth: value }));
+                  setErrors((current) => ({ ...current, age: false }));
+                }}
+                error={errors.age ? copy.join.errors.dateOfBirth : undefined}
+                inputMode="numeric"
+                autoComplete="bday"
+              />
+            ) : (
+              <SegmentedControl
+                legend={RECHECK_LEGEND[row]}
+                name={`recheck-${row}`}
+                options={YES_NO}
+                value={rechecks[RECHECK_FIELD[row]]}
+                onChange={(value) => tap(row, value as YesNo)}
+                error={errors[row] ? copy.join.errors.required : undefined}
+              />
+            )}
+          </Card>
+        ))}
+
+        <p className="flex items-start gap-2 text-body text-slate">
+          <Info size={18} className="mt-[3px] flex-none" />
+          {copy.confirm.notDiagnosis}
+        </p>
+      </form>
+    </Screen>
   );
 }

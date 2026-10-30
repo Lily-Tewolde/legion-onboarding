@@ -11,6 +11,7 @@ export function ThisIsForMe() {
   const router = useRouter();
   return (
     <Button
+      className="w-full"
       onClick={() => {
         whatsGoingOnStore.save({ ...whatsGoingOnStore.get(), forThemselves: true });
         router.push("/join/whats-going-on");
