@@ -14,22 +14,48 @@ export const copy = {
     // {number} is the tap-to-call link
     phone: "Call or text us at {number}.",
     phoneNumber: "(555) 010-0123",
-    phoneLabel: "Demo number",
     hours: "Monday to Friday, 8 am to 6 pm Central.",
-    hoursLabel: "Demo hours",
+    demo: "Demo number and hours",
     crisis: "If you're in crisis, call or text {number} any time.",
     crisisNumber: "988",
     close: "Close",
   },
-  // The four phases on the booking screens, ending at "You're booked"
+  // The four phases on the booking screens, ending at "You're booked".
+  // Screen readers hear "{phase}, part {part} of {parts}"
   progress: {
     aboutYou: "About you",
     whatsGoingOn: "What's going on",
     yourProvider: "Your provider",
     book: "Book",
+    reader: "{phase}, part {part} of {parts}",
+  },
+  // The desktop path-to-care panel. The line is decided; the rest is Claude
+  // Design's wording
+  panel: {
+    line: "Take it one step at a time. We'll help you find the right care.",
+    title: "Your path to care",
+    done: ", done",
+    inProgress: ", in progress",
+    // {year} is the year they were born; {plan} is the plan or "Self-pay"
+    aboutYou: "Born {year} · Texas · {plan}",
+    selfPay: "Self-pay",
+    booked: "You're booked",
+    typicalCost: "Typical cost: $0 to $40 a visit",
+    earliest: "Earliest visit: {date}",
+    yourVisit: "Your visit: {date}",
+    // Alt text for each phase's photo (Pexels, credited in the README)
+    photos: [
+      "An older man laughing on a phone call",
+      "A woman resting on a sofa with a laptop",
+      "A clinician smiling at a laptop",
+      "A woman with a coffee in morning light, relaxed",
+    ],
+    quote: "[A short quote from a real Legion patient]",
+    quoteNote: "Placeholder: Legion to supply",
   },
   common: {
     back: "Back",
+    close: "Close",
     continue: "Continue",
     somethingWentWrong: "Something went wrong on our side. Please try again.",
     tryAgain: "Try again",
@@ -78,6 +104,15 @@ export const copy = {
       "You're covered. Your plan is in network. Most patients pay $0 to $40 a visit.",
     fullCostLater: "You'll see your full cost before you book.",
     simulated: "Demo: coverage check simulated",
+    // The proof moment after "You're covered", with demo numbers (Claude
+    // Design's wording, decided Oct 29). {plan} and {day} are filled in
+    proofTitle: "Care that takes your plan",
+    proofClinicians: "Texas clinicians take {plan}",
+    proofEarliest: "Earliest visit, {day}",
+    proofCost: "What most patients pay a visit",
+    proofCostValue: "$0–$40",
+    proofPhoto: "A clinician smiling at a laptop",
+    proofDemo: "Demo: numbers are made up",
     // The plan search (decided Oct 29), Claude Design's wording
     searchTitle: "Search for your plan",
     searchLabel: "Plan name",
@@ -88,6 +123,8 @@ export const copy = {
     searchAgain: "Search again",
     notListed:
       "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan.",
+    // Claude Design's wording
+    change: "Change",
     continueSelfPay: "Continue as self-pay",
     talkToPerson: "Talk to a person",
   },
@@ -127,10 +164,19 @@ export const copy = {
     listening: "Listening… Tap to stop.",
     empty: "Please tell us a little more.",
     useForm: "Use a simple form instead",
+    // The starter chips' group, for screen readers, and the last chip
+    chipsLabel: "Or tap any that fit",
+    notSureChip: "Not sure",
+    // The simple form's second question (Claude Design's wording, approved)
+    backToFirst: "Back to the first question",
     stillWorking: "Still working on it…",
     // {link} is "use a simple form instead"
     notUnderstood: "We didn't quite catch that. Try again, or {link}.",
     notUnderstoodLink: "use a simple form instead",
+    // The mic and the length limit (copy audit, Oct 29). The same lines show in the check-in
+    micBlocked: "We can't use your mic. You can type instead.",
+    nothingHeard: "We didn't hear anything. Try again, or type instead.",
+    atLimit: "That's the limit here. You can tell your provider the rest at your visit.",
     formNote: "We're using a simple form for this step.",
     formConditions: "What would you like help with? Choose any that fit.",
     formNeed: "How can we help you?",
@@ -168,6 +214,8 @@ export const copy = {
     intro: "Remove anything that's wrong, or add anything we missed.",
     remove: "Remove {item}",
     add: "+ Add",
+    // The round + button on phones, for screen readers
+    addLabel: "Add something we missed",
     // One line, only for the concern it applies to. To confirm with Legion
     policy: {
       Anxiety: "We don't prescribe benzodiazepines over 1 mg a day.",
@@ -215,8 +263,22 @@ export const copy = {
     book: "Book {day} at {time}",
     slot: "{day}, {date} at {time}",
     noTimes: "We don't have open times for your plan right now.",
+    timeTaken: "That time was just taken. Please pick another time.",
     talkToPerson: "Talk to a person",
     tellMeWhenTimesOpen: "Tell me when times open",
+    // Claude Design's wording (no-times copy approved as written)
+    timesOpenOn: "We'll let you know when times open.",
+    // The summary under the title (decided Oct 29, copy audit)
+    summary: "{plan} providers in Texas for {concern}",
+    summarySelfPay: "Providers in Texas for {concern}",
+    summaryNoConcern: "{plan} providers in Texas",
+    summaryAny: "Providers in Texas",
+    moreTitle: "More providers",
+    showMore: "Show more providers",
+    recommended: "Recommended",
+    next: "Next: {date} at {time}",
+    days: "Days with open times",
+    times: "Times on {day}",
   },
   // Screen 5, the one-page checkout. The title and section headings are the
   // screen's and sections' names in the copy draft
@@ -251,15 +313,29 @@ export const copy = {
     expiry: "Expiry (MM/YY)",
     securityCode: "Security code",
     zip: "ZIP code",
-    paymentLabel: "Demo: payment simulated. Use any made-up card number.",
+    paymentLabel: "Demo: payment simulated. Any made-up card works.",
     bookMyVisit: "Book my visit",
     errors: {
-      name: "Please enter your first and last name.",
+      name: "Please enter your full name.",
       email: "Please enter an email like name@example.com.",
       phone: "Please enter a 10-digit US phone number.",
       consent: "Please check the box to continue.",
       card: "We couldn't save this card. Please check the details and try again.",
+      cardNumber: "Please enter your card number.",
+      expiry: "Please check the expiry date.",
+      securityCode: "Please enter the 3 or 4 digit code on your card.",
+      zip: "Please enter a 5-digit ZIP code.",
     },
+  },
+  // The visit card on the checkout, "You're booked" and the visit page: two or
+  // three labelled rows (Claude Design's VisitCard). {date} and {time} fill When
+  visitCard: {
+    when: "When",
+    with: "With",
+    how: "How",
+    whenValue: "{date} at {time}",
+    video: "Video visit",
+    videoShort: "Video",
   },
   // Screen 6
   booked: {
@@ -269,6 +345,11 @@ export const copy = {
     google: "Google",
     apple: "Apple",
     outlook: "Outlook",
+    // For screen readers, where only the logo shows (Claude Design's wording)
+    addGoogle: "Add to Google Calendar",
+    addApple: "Add to Apple Calendar",
+    addOutlook: "Add to Outlook",
+    photo: "A woman with a coffee in morning light, relaxed",
     goToVisit: "Go to my visit page",
     // The calendar event, from the confirmation line
     calendarTitle: "{provider} · Video visit",
@@ -299,15 +380,17 @@ export const copy = {
     // After an eligibility surprise other than age. Placeholder, waiting for Lily's OK
     eligibilityNote: "Thanks for telling us. Someone from our team may reach out before your visit.",
     under18: "Thanks for telling us. Someone from our team will reach out before your visit.",
-    // The stepper's name for screen readers. Placeholder, waiting for Lily's OK
-    progress: "Check-in progress",
+    // The stepper: the small label above the title, and what screen readers
+    // hear (Claude Design's wording)
+    label: "Check-in",
+    progressReader: "Check-in, question {part} of {parts}",
     answerLabel: "Your answer",
     // The medication check at the end
     medsTitle: "Did we get your medications right?",
     medsYes: "Yes, that's right",
     medsFix: "Fix something",
     medsNone: "You didn't mention any medications.",
-    medsNoneYes: "That's right",
+    medsNoneYes: "Yes, that's right",
     medsAdd: "Add one",
     didYouMean: "Did you mean {drug}?",
     didYouMeanYes: "Yes",
@@ -326,7 +409,17 @@ export const copy = {
     // Placeholder, for when no visit is known on this device
     titleNoProvider: "Pre-visit summary",
     label: "AI summary for clinician review. Not a diagnosis.",
-    safetyFlag: "A safety flag was raised during the check-in. See the answers.",
+    safetyFlag: "A safety flag was raised during the check-in.",
+    // Claude Design's wording: the small label, the flag card, and the
+    // source chip ("Q2") with what screen readers hear
+    viewLabel: "Clinician view",
+    safetyTitle: "Safety flag",
+    keptGoing: "Kept going after “I'm safe”",
+    sourceChip: "Q{number}",
+    sourceReader: "See answer {number}",
+    // {name}, {age} and {when}; the age is left out when it isn't known
+    patientLine: "{name} · {age} · {when}",
+    patientLineNoAge: "{name} · {when}",
     sections: {
       main_concern: "Main concern (in the patient's words)",
       whats_been_happening: "What's been happening",
@@ -351,10 +444,6 @@ export const copy = {
     noSummary: "The AI summary isn't available. The answers are below.",
     statuses: { taking: "Taking", stopped: "Stopped", as_needed: "As needed", unclear: "Unclear" },
     saidAs: "said '{name}'",
-    // The demo panel's switch between the two views. Placeholders until Claude
-    // Design's wording is copied in
-    openClinician: "Open the clinician view (demo)",
-    openPortal: "Back to the patient portal (demo)",
     flagKinds: {
       self_harm: "Safety: possible risk of self-harm",
       harm_to_others: "Safety: possible risk of harm to others",
@@ -370,7 +459,9 @@ export const copy = {
   },
   // The portal's tabs (decided Oct 29). Profile is only an entry point for now
   portal: {
-    nav: "Your portal",
+    nav: "Portal",
+    // For screen readers on the Inbox tab: "Inbox, 2 messages"
+    inboxCount: "Inbox, {count} messages",
     visit: "Visit",
     inbox: "Inbox",
     profile: "Profile",
@@ -400,14 +491,25 @@ export const copy = {
     // Milestone cards (decided). The milestone names
     // and the cancel check are placeholders, waiting for Lily's OK
     completedTag: "Completed",
+    // The other milestone tags (Claude Design's wording)
+    optionalTag: "Optional",
+    milestones: "Your milestones",
+    skippedTag: "Skipped",
+    missedTag: "Missed",
     milestoneBooked: "Visit booked",
-    milestoneCheckIn: "Check-in done",
+    milestoneCheckIn: "Check-in",
     milestoneFirstVisit: "First visit",
     // After the visit (Claude Design's wording)
     done: "Your provider will send your next steps to your inbox.",
     goToInbox: "Go to my inbox",
     cancelCheck: "Cancel this visit?",
     cancelYes: "Yes, cancel it",
+    // Within 48 hours, before acting (copy audit)
+    lateCancel: "Your visit is less than 48 hours away, so cancelling now has a $250 fee.",
+    lateReschedule: "Your visit is less than 48 hours away, so rescheduling now has a $250 fee.",
+    cancelled: "Your visit is cancelled.",
+    bookNewTime: "Book a new time",
+    rescheduled: "Your visit is now {day} at {time}.",
     keep: "Keep my visit",
     demoControls: "Demo controls",
   },
@@ -422,6 +524,10 @@ export const copy = {
     reminder24h: "Reminder: your visit with {provider} is tomorrow at {time}. Need to change it? {link}",
     reminder1h: "Your visit starts in 1 hour. Join here: {link}",
     joinVisit: "Join visit",
+    // Each reminder's label, and "Show all" on a long message (Claude Design's wording)
+    before24h: "24 hours before",
+    before1h: "1 hour before",
+    showAll: "Show all",
     // Placeholder, waiting for Lily's OK
     empty: "No messages yet.",
   },
@@ -433,13 +539,18 @@ export const copy = {
     note: "Demo only. This records how the visit went, so the funnel runs from start to finish.",
     markedCompleted: "Visit marked completed (demo)",
     markedNoShow: "Visit marked as a no-show (demo)",
+    // The pinned button (Claude Design's wording): short on phones
+    button: "Demo",
+    switchLabel: "View",
+    patientPortal: "Patient portal",
+    clinicianView: "Clinician view",
   },
   // After the visit is marked completed, never during onboarding (decided).
   // Claude Design's wording, with the review ask after a 9 or 10
   nps: {
     question: "How was your first visit?",
-    low: "Not good",
-    high: "Great",
+    low: "0 = Not good",
+    high: "10 = Great",
     reviewAsk: "Thank you! Would you share a short review? It helps other people find care.",
     writeReview: "Write a review",
     notNow: "Not now",
@@ -468,6 +579,8 @@ export const copy = {
     talkToPerson: "Talk to a person",
     safeNow: "I'm safe right now and want to keep going",
     safeNowError: "Please check the box to continue.",
+    // The label on the "I'm safe right now" section, for screen readers (from the board)
+    keepGoing: "Keep going",
     // When someone may be in danger right now. To confirm with Legion's clinical team
     immediate: {
       title: "Call 911 now",

@@ -1,45 +1,37 @@
+import type { ReactNode } from "react";
 import { cx } from "./cx";
 
-// Adapted from Inspo Book 01's filter chip: a toggle button with aria-pressed.
-// Sized up to 16px text and a 44px tap target. Selected shows a tick as well
-// as the colour change, so the state never relies on colour alone
+// The spec's chip and option: a 44px pill with a 1.5px border. Selected is
+// border, fill and bold, never a check inside. An optional icon sits in a
+// 28px circle at the start. A toggle button with aria-pressed
 export type ChipProps = {
   label: string;
   selected: boolean;
   onToggle: (next: boolean) => void;
+  icon?: ReactNode;
+  error?: boolean;
 };
 
-export function Chip({ label, selected, onToggle }: ChipProps) {
+export function Chip({ label, selected, onToggle, icon, error }: ChipProps) {
   return (
     <button
       type="button"
       aria-pressed={selected}
       onClick={() => onToggle(!selected)}
       className={cx(
-        "focus-ring inline-flex min-h-control-sm items-center gap-1.5 rounded-full border px-4 text-base",
-        "cursor-pointer transition-colors duration-150 motion-reduce:transition-none",
+        "focus-ring inline-flex min-h-control-sm cursor-pointer items-center gap-2 rounded-full text-body whitespace-nowrap",
+        icon ? "pr-3 pl-2" : "px-4",
         selected
-          ? "border-action bg-wash font-medium text-navy"
-          : "border-line-control bg-white text-ink hover:border-ink",
+          ? "border-2 border-action bg-wash font-bold text-ink"
+          : cx("border-[1.5px] bg-white font-medium text-navy hover:border-action active:bg-tint", error ? "border-error" : "border-line-control"),
       )}
     >
-      {selected && <Tick />}
+      {icon && (
+        <span className={cx("flex size-7 flex-none items-center justify-center rounded-full text-brand", selected ? "bg-white" : "bg-wash")}>
+          {icon}
+        </span>
+      )}
       {label}
     </button>
   );
 }
-
-const Tick = () => (
-  <svg
-    className="size-4 flex-none text-action"
-    viewBox="0 0 16 16"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-  >
-    <path d="M3.5 8.5l3 3 6-7" />
-  </svg>
-);

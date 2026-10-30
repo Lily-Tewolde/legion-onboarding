@@ -36,6 +36,16 @@ export async function portalInbox(session: BookedSession, now: Date = new Date()
   };
 }
 
+// Whether the visit is less than 48 hours away on the demo clock, so
+// cancelling or rescheduling now has Legion's $250 late fee (copy audit)
+export async function lessThan48Hours(slotStart: string, now: Date = new Date()): Promise<boolean> {
+  const stored = (await cookies()).get(DEMO_CLOCK_COOKIE)?.value;
+  const clock = inboxClock(slotStart, now, isDemoPoint(stored) ? stored : null);
+  const ahead = new Date(slotStart).getTime() - clock.getTime();
+  // A visit that's already started or passed (a no-show) has its own fee line
+  return ahead > 0 && ahead < 48 * 60 * 60 * 1000;
+}
+
 // A new or cancelled time starts the demo clock again
 export async function resetDemoClock() {
   (await cookies()).delete(DEMO_CLOCK_COOKIE);

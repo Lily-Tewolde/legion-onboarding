@@ -5,6 +5,9 @@ import type { CheckInState } from "./stored";
 // by hand (no AI call), labelled on screen as a sample. Not a real patient
 const QUESTIONS = copy.checkIn.questions;
 
+// The sample's made-up patient line
+export const SAMPLE_PATIENT = { name: "Maria Lopez", age: 58, when: "Mon, Nov 2 at 10 am" };
+
 export const SAMPLE_CHECK_IN: CheckInState = {
   stage: "done",
   form: false,

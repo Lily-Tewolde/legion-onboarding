@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { plans } from "@/data";
-import { searchPlans } from "./plan-search";
+import { searchPlanList, searchPlans } from "./plan-search";
 
 const ids = (query: string) => searchPlans(query).map((plan) => plan.id);
 
@@ -28,7 +28,19 @@ describe("the plan search", () => {
     assert.deepEqual(ids("medi"), ["medicaid", "medicare"]);
   });
 
-  it("finds nothing for a plan that isn't on the list", () => {
+  it("finds nothing for a plan that isn't on Legion's list", () => {
     assert.deepEqual(ids("Humana"), []);
+  });
+});
+
+describe("the full plan list", () => {
+  it("adds the insurers Legion doesn't take, with no plan behind them", () => {
+    const all = searchPlanList("");
+    assert.equal(all.length, plans.length + 4);
+    assert.deepEqual(searchPlanList("huma"), [{ name: "Humana", planId: null }]);
+  });
+
+  it("keeps Legion's own plans findable the same way", () => {
+    assert.deepEqual(searchPlanList("bcbs tx"), [{ name: "Blue Cross Blue Shield", planId: "bcbs" }]);
   });
 });

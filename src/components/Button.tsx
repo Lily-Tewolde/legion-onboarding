@@ -2,10 +2,11 @@ import Link from "next/link";
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "react";
 import { cx } from "./cx";
 
-// Adapted from Inspo Book 01: pill shape and control heights kept; colours
-// swapped to Legion's darker blue. No rotating light ring and no arrow, to keep it calm.
-// One primary button per screen; secondary actions are text-style buttons
-// underneath (copy draft, "On every screen")
+// From Claude Design's component spec: one primary button per screen (54px
+// pill, 18px semibold, pinned to the bottom on phones), with the secondary
+// action as a text-style button under it (17px semibold, 44px tap height,
+// underlined on hover). The outline variant is for in-card choices like
+// "Continue as self-pay". Pressed shrinks a touch (globals.css)
 type Variant = "primary" | "secondary" | "text";
 type Size = "large" | "small";
 
@@ -17,28 +18,26 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-action text-white border-action hover:bg-action-hover hover:border-action-hover",
+    "h-control rounded-full bg-action px-6 text-question font-semibold text-white hover:bg-action-hover active:bg-action-hover disabled:bg-line disabled:text-slate",
   secondary:
-    "bg-white text-ink border-line-control hover:border-ink",
-  text: "border-transparent bg-transparent text-action underline underline-offset-4 hover:text-action-hover",
+    "min-h-field rounded-full border-[1.5px] border-line-control bg-white px-5 text-body-lg font-semibold text-navy hover:border-action disabled:border-dashed disabled:border-muted-line disabled:bg-muted disabled:text-line-control",
+  text: "min-h-control-sm px-2 text-body-lg font-semibold text-action hover:text-action-hover hover:underline hover:underline-offset-4 disabled:text-line-control",
 };
 
-const sizes: Record<Size, string> = {
-  large: "h-control px-7 font-medium",
-  small: "h-control-sm px-6",
+// Small is for compact choices, like the visit rating's numbers: 44px tall
+const small: Record<Variant, string> = {
+  primary: "h-control-sm! px-5 text-body!",
+  secondary: "min-h-control-sm! px-4 text-body!",
+  text: "",
 };
 
-export const buttonClasses = (
-  variant: Variant = "primary",
-  size: Size = "large",
-  className?: string,
-) =>
+export const buttonClasses = (variant: Variant = "primary", size: Size = "large", className?: string) =>
   cx(
-    "focus-ring inline-flex items-center justify-center rounded-full border text-base whitespace-nowrap",
-    "transition-colors duration-200 motion-reduce:transition-none",
-    "cursor-pointer disabled:cursor-not-allowed disabled:opacity-40",
+    "focus-ring inline-flex cursor-pointer items-center justify-center gap-2 text-center whitespace-nowrap",
+    "disabled:cursor-not-allowed",
+    variant === "text" && "rounded-lg",
     variants[variant],
-    variant === "text" ? "h-control-sm px-2 font-medium" : sizes[size],
+    size === "small" && small[variant],
     className,
   );
 

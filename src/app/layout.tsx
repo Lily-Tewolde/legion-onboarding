@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { DemoBanner } from "@/components/DemoBanner";
 import { HelpLink, HelpPanelProvider } from "@/components/HelpPanel";
+import { Logo } from "@/components/Logo";
+import { NavMotion } from "@/components/NavMotion";
 import { copy } from "@/copy";
 import "./globals.css";
 
@@ -17,22 +19,22 @@ const inter = Inter({
   axes: ["opsz"],
 });
 
-// The page shell on every screen: the demo banner, the name as plain text
-// (no logo) with the help link opposite it, and one centred column that
-// gives the task the full page
+// The page shell on every screen: the demo banner and the top bar (the logo,
+// and the help link opposite it). Each screen lays out the rest with <Screen>
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+    <html lang="en" className={`${inter.variable} antialiased`}>
+      <body className="flex min-h-dvh flex-col">
         <HelpPanelProvider>
+          <NavMotion />
           <DemoBanner />
-          <header className="mx-auto flex w-full max-w-task items-center justify-between px-4 pt-2">
-            <p className="font-semibold text-navy">{copy.shell.name}</p>
-            <HelpLink />
+          <header className="relative z-20 bg-white md:border-b md:border-[#eef1f6]">
+            <div className="mx-auto flex h-11 w-full max-w-form items-center justify-between pr-1.5 pl-4 md:h-16 md:max-w-shell md:px-8">
+              <Logo />
+              <HelpLink />
+            </div>
           </header>
-          <main className="mx-auto w-full max-w-task flex-1 px-4 pb-16">
-            {children}
-          </main>
+          {children}
         </HelpPanelProvider>
       </body>
     </html>

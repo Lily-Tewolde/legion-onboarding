@@ -1,86 +1,362 @@
 @import "tailwindcss";
 
-/* Design tokens. Legion's palette and Inter, on the structure of Lily's
-   Inspo Book 01 (spacing, radii, control sizes, focus ring, shadows, motion).
-   Values and contrast ratios are in docs/design.md. */
+/* Design tokens from Claude Design's handoff spec (the Main board, Oct 29).
+   Values there are the source of truth; nothing here is styled one off. */
 @theme {
   /* Only these colours exist, so nothing off-palette slips in */
   --color-*: initial;
   --color-white: #ffffff;
+  --color-ink: #000614; /* headings, questions */
+  --color-navy: #061b4d; /* body text, the demo banner */
+  --color-slate: #4f5d72; /* hints and labels, 6.7:1 */
+  --color-action: #2f5fe0; /* buttons, links, selected, 5.5:1 */
+  --color-action-hover: #234bb8; /* hover and pressed */
+  --color-brand: #3e70f7; /* Legion's blue: icons only */
+  --color-wash: #eef2fc; /* selected fill, icon circles */
+  --color-tint: #f3f6fd; /* tiles inside white cards */
+  --color-tag: #dce6fa; /* tags */
+  --color-card-line: #e3e9f5; /* card and tile borders */
+  --color-card-hover: #c9d5ee; /* a tappable card on hover */
+  --color-line: #e3e8f2; /* dividers, empty progress segments */
+  --color-line-control: #8590a2; /* inputs and options, 3.2:1 */
+  --color-muted: #f7f8fb; /* disabled and placeholder fills */
+  --color-muted-line: #b8c2d3; /* disabled and placeholder borders */
+  --color-error: #c42b2b; /* error borders and icons */
+  --color-error-text: #a32020; /* error text, 7.5:1 */
+  --color-error-tint: #fdecec; /* safety flag, crisis icon */
+  --color-error-line: #e7a3a3; /* safety flag border */
+  --color-error-ink: #5e1313; /* text on the safety flag */
 
-  /* Legion's palette, read from legionhealth.com */
-  --color-ink: #000614; /* main text, 20.3:1 on white */
-  --color-navy: #061b4d; /* deep accents, 16.5:1 on white */
-  --color-brand: #3e70f7; /* Legion's blue: large text and decoration only (4.3:1) */
-  --color-slate: #607086; /* secondary text, 5.1:1 on white */
-  --color-wash: #eef2fc; /* soft panels, the banner, selected fills */
-  --color-pale: #b6d3ea; /* decoration only */
-
-  /* Darker blue for button fills and text links, so labels pass 4.5:1 */
-  --color-action: #2f5fe0; /* 5.5:1 with white */
-  --color-action-hover: #244cc0; /* 7.3:1 with white */
-
-  /* Lines: subtle for dividers, control for anything you tap (3:1 or more) */
-  --color-line: #dce2ea;
-  --color-line-control: #7d879a; /* 3.6:1 on white */
-
-  /* Red only for errors and the crisis path */
-  --color-error: #dc2626; /* 4.8:1 on white */
-
-  /* Type: Inter for body, Inter Display (Inter's optical size 32) for headings */
+  /* Inter for body text; headings use its optical size 32 (Inter Display) */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* Radii from Inspo Book 01 */
-  --radius-xs: 2px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-card: 16px;
+  /* Type scale */
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.25rem;
+  --text-body: 1rem;
+  --text-body--line-height: 1.5rem;
+  --text-body-lg: 1.0625rem;
+  --text-body-lg--line-height: 1.625rem;
+  --text-question: 1.125rem;
+  --text-question--line-height: 1.625rem;
+  --text-card-question: 1.25rem;
+  --text-card-question--line-height: 1.75rem;
+  --text-card-question-lg: 1.5rem;
+  --text-card-question-lg--line-height: 2rem;
+  --text-page-title: 1.625rem;
+  --text-page-title--line-height: 2rem;
+  --text-notice-title: 1.75rem;
+  --text-notice-title--line-height: 2.25rem;
+  --text-page-title-lg: 2rem;
+  --text-page-title-lg--line-height: 2.5rem;
 
-  /* Control heights from Inspo Book 01, small raised from 42px to 44px for tap targets */
-  --spacing-control: 3.375rem; /* 54px: main buttons, segmented controls */
-  --spacing-control-sm: 2.75rem; /* 44px: small buttons, chips, list rows */
+  /* Radius */
+  --radius-field: 12px;
+  --radius-tile: 16px;
+  --radius-card: 20px;
 
-  /* One reading column for the task, about 70 characters of body text */
-  --container-task: 40rem;
+  /* Control heights */
+  --spacing-control: 3.375rem; /* 54px: the primary button */
+  --spacing-field: 3.25rem; /* 52px: inputs and options */
+  --spacing-control-sm: 2.75rem; /* 44px: chips, text-style buttons, tap targets */
 
-  /* Shadows from Inspo Book 01 */
-  --shadow-card: 0 14px 34px rgb(15 23 42 / 0.1);
-  --shadow-float: 0 18px 50px rgb(15 23 42 / 0.16);
+  /* Content widths */
+  --container-form: 37.5rem; /* 600px: questions and payment */
+  --container-picker: 47.5rem; /* 760px: chip pickers, the clinician view */
+  --container-wide: 53.75rem; /* 860px: provider and details */
+  --container-notice: 39.5rem; /* 632px: screen-outs and the crisis screens */
+  --container-panel: 20rem; /* 320px: the desktop path panel */
+  --container-shell: 80rem; /* 1280px: the desktop top bar */
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px rgb(6 27 77 / 0.04), 0 6px 20px rgb(6 27 77 / 0.06);
+  --shadow-notice: 0 1px 2px rgb(6 27 77 / 0.04), 0 12px 32px rgb(6 27 77 / 0.08);
+  --shadow-card-hover: 0 2px 4px rgb(6 27 77 / 0.06), 0 10px 28px rgb(6 27 77 / 0.1);
+  --shadow-sheet: 0 -12px 40px rgb(6 27 77 / 0.18);
+  --shadow-dialog: 0 24px 64px rgb(6 27 77 / 0.24);
+
+  /* Motion: the spec's spring (no bounce), exit and settle */
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-settle: cubic-bezier(0.34, 1.32, 0.64, 1);
 }
 
-/* Focus ring from Inspo Book 01, drawn as an outline so it survives forced colours */
+/* Keyboard focus on everything: 3px action blue, 2px offset */
 @utility focus-ring {
   &:focus-visible {
-    outline: 2px solid var(--color-action);
+    outline: 3px solid var(--color-action);
     outline-offset: 2px;
   }
+}
+
+/* A white card behind anything people read */
+@utility card {
+  background: var(--color-white);
+  border: 1px solid var(--color-card-line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
 }
 
 @layer base {
   :root {
     color-scheme: light;
+    --in: 0.45s;
+    --out: 0.28s;
+    --press: 0.12s;
+    --step: 60ms;
   }
 
   body {
     background: var(--color-white);
-    color: var(--color-ink);
+    color: var(--color-navy);
     font-family: var(--font-sans);
     font-size: 1rem;
     line-height: 1.5;
+    -webkit-tap-highlight-color: transparent;
   }
 
   h1,
   h2,
   h3 {
-    font-variation-settings: "opsz" 32;
+    color: var(--color-ink);
     font-weight: 600;
-    letter-spacing: -0.01em;
-    line-height: 1.25;
     text-wrap: balance;
   }
 
-  p {
+  /* Headings set in Inter Display */
+  .display {
+    font-variation-settings: "opsz" 32;
+    letter-spacing: -0.02em;
+  }
+
+  p,
+  li,
+  dd,
+  dt,
+  blockquote {
     text-wrap: pretty;
+  }
+
+  /* Press, hover and selected colours: pressed shrinks a touch, colours fade */
+  button,
+  a,
+  label {
+    transition:
+      transform var(--press) var(--ease-spring),
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  button:not(:disabled):active,
+  a[href]:active,
+  label:active {
+    transform: scale(0.97);
+  }
+}
+
+/* Arriving on a screen: forward slides in from the right, Back from the left,
+   heading first, then each card 60ms apart. Never on first load */
+@keyframes in-fwd {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+}
+@keyframes in-back {
+  from {
+    opacity: 0;
+    transform: translateX(-32px);
+  }
+}
+@keyframes lift {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+html.nav-fwd .screen {
+  animation: in-fwd var(--in) var(--ease-spring) both;
+}
+html.nav-back .screen {
+  animation: in-back var(--in) var(--ease-spring) both;
+}
+html.nav-fwd .screen-body > *,
+html.nav-back .screen-body > * {
+  animation: lift var(--in) var(--ease-spring) both;
+}
+.screen-body > *:nth-child(2) {
+  animation-delay: var(--step);
+}
+.screen-body > *:nth-child(3) {
+  animation-delay: calc(var(--step) * 2);
+}
+.screen-body > *:nth-child(4) {
+  animation-delay: calc(var(--step) * 3);
+}
+.screen-body > *:nth-child(5) {
+  animation-delay: calc(var(--step) * 4);
+}
+.screen-body > *:nth-child(n + 6) {
+  animation-delay: calc(var(--step) * 5);
+}
+
+/* Things that appear after a tap rise in; sections that open animate their height */
+html.live .rise {
+  transition:
+    opacity var(--in) var(--ease-spring),
+    transform var(--in) var(--ease-spring);
+  @starting-style {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+.expand {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition:
+    grid-template-rows var(--in) var(--ease-spring),
+    opacity 0.3s ease;
+}
+.expand > * {
+  min-height: 0;
+  overflow: hidden;
+}
+html.live .expand {
+  @starting-style {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+
+/* Each dictated word fades in */
+@keyframes word {
+  from {
+    opacity: 0;
+  }
+}
+.word {
+  animation: word 0.35s ease both;
+}
+
+/* Sheets (mobile) and dialogs (desktop) */
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes sheet-out {
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes grow-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+@keyframes grow-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* The progress segments and the panel's rings fill with the spring */
+.seg-fill {
+  transition: width 0.5s var(--ease-spring);
+}
+.ring {
+  transition: stroke-dasharray 0.5s var(--ease-spring);
+}
+
+/* Skeletons shimmer softly; no loading text */
+@keyframes shimmer {
+  from {
+    background-position: 150% 0;
+  }
+  to {
+    background-position: -50% 0;
+  }
+}
+.shimmer {
+  background-color: var(--color-wash);
+  background-image: linear-gradient(90deg, rgb(255 255 255 / 0) 0%, rgb(255 255 255 / 0.75) 50%, rgb(255 255 255 / 0) 100%);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+/* Reduce Motion: every movement becomes a gentle 200ms fade */
+@media (prefers-reduced-motion: reduce) {
+  html.nav-fwd .screen,
+  html.nav-back .screen,
+  html.nav-fwd .screen-body > *,
+  html.nav-back .screen-body > * {
+    animation: fade-in 0.2s ease both !important;
+  }
+  html.live .rise {
+    @starting-style {
+      transform: none;
+    }
+  }
+  html.live .expand {
+    @starting-style {
+      grid-template-rows: 1fr;
+    }
+  }
+  button:not(:disabled):active,
+  a[href]:active,
+  label:active {
+    transform: none;
+  }
+  .shimmer {
+    animation: none;
+  }
+  .seg-fill,
+  .ring {
+    transition: none;
+  }
+}
+
+/* "You're booked": the path panel slides away for the booked moment */
+.panel-away {
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 32px;
+  width: 320px;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+@keyframes panel-away {
+  from {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  to {
+    transform: translateX(-40px);
+  }
+}
+html.nav-fwd .panel-away {
+  animation: panel-away 0.5s var(--ease-spring) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.nav-fwd .panel-away {
+    animation: fade-out 0.2s ease both;
   }
 }

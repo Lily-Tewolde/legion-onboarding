@@ -1,28 +1,35 @@
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
-import { Progress } from "@/components/Progress";
+import { Screen } from "@/components/Screen";
 import { Skeleton } from "@/components/Skeleton";
 import { copy } from "@/copy";
 import { TrackPageview } from "@/lib/analytics/track";
 import { providerOption } from "@/lib/provider/present";
 import { missingFor, recommendationFor } from "@/server/booking";
+import { providerSummary } from "@/server/provider-summary";
+import { lessThan48Hours } from "@/server/portal";
 import { getSession } from "@/server/sessions";
 import { readVisitorId } from "@/server/visitor";
 import { NoTimes } from "./NoTimes";
-import { ProviderPicker } from "./ProviderPicker";
+import { PROVIDER_FLOW, ProviderHeading, ProviderPicker } from "./ProviderPicker";
 
 // Screen 4: "Recommended for you". One recommended provider first, with the
-// reason built from the made-up data. Layout only for now
+// reason built from the made-up data
 export default function ProviderPage() {
   return (
-    <div className="flex flex-col gap-8 pt-6">
+    <>
       <TrackPageview path="/portal/join/match" />
-      <Progress phase="your_provider" />
-      <h1 className="text-3xl">{copy.provider.title}</h1>
-      <Suspense fallback={<Skeleton rows={4} />}>
+      <Suspense
+        fallback={
+          <Screen flow={PROVIDER_FLOW} width="wide">
+            <ProviderHeading summary={copy.provider.summaryAny} />
+            <Skeleton rows={3} />
+          </Screen>
+        }
+      >
         <Recommended />
       </Suspense>
-    </div>
+    </>
   );
 }
 
@@ -33,14 +40,17 @@ async function Recommended() {
   if (!session || missing) redirect(missing ?? "/join");
 
   const result = recommendationFor(session);
-  if (!result.found) return <NoTimes />;
+  const summary = providerSummary(session, result);
+  if (!result.found) return <NoTimes summary={summary} />;
 
   const payMethod = session.pay_method ?? "self_pay";
   return (
     <ProviderPicker
       recommended={providerOption(result.recommended, payMethod)}
-      others={result.others.map((other) => providerOption(other, payMethod))}
+      summary={summary}
+      hasOthers={result.others.length > 0}
       rescheduling={Boolean(session.booked_at)}
+      late={session.booked_at && session.slot_start && !session.visit_outcome ? await lessThan48Hours(session.slot_start) : false}
     />
   );
 }

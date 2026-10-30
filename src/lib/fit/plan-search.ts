@@ -25,3 +25,17 @@ export function searchPlans(query: string): Plan[] {
   if (!typed) return plans;
   return plans.filter((plan) => namesOf(plan).some((name) => name.startsWith(typed) || typed.includes(name)));
 }
+
+// The full plan list on the plan search screen (Claude Design's, approved Oct
+// 29): Legion's plans, plus insurers Legion doesn't take. Picking one of
+// those leads to "We couldn't find your plan", so it never adds a plan
+const OTHER_PLANS = ["Ambetter", "Baylor Scott & White Health Plan", "Humana", "Wellpoint"];
+
+export type PlanListItem = { name: string; planId: string | null };
+
+export function searchPlanList(query: string): PlanListItem[] {
+  const typed = normalise(query);
+  const legion = searchPlans(query).map((plan) => ({ name: plan.name, planId: plan.id }));
+  const others = OTHER_PLANS.filter((name) => !typed || normalise(name).includes(typed)).map((name) => ({ name, planId: null }));
+  return [...legion, ...others].sort((a, b) => a.name.localeCompare(b.name));
+}

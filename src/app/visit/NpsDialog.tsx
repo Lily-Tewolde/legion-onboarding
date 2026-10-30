@@ -1,7 +1,9 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { Button } from "@/components/Button";
+import { Close } from "@/components/icons";
 import { copy } from "@/copy";
 import { track } from "@/lib/analytics/track";
 import { createSessionStore } from "@/lib/session-store";
@@ -24,15 +26,32 @@ export function NpsDialog() {
 
   const close = () => store.save({ ...rating, closed: true });
 
-  return (
+  // Into the body, so the phone sheet sits above the portal's tab bar. The
+  // rating only exists in the browser, so this never runs on the server
+  return createPortal(
     <div
       role="dialog"
       aria-labelledby="rating-title"
-      className="fixed right-4 bottom-4 left-4 z-10 flex flex-col gap-3 rounded-card border border-line bg-white p-4 shadow-float sm:left-auto sm:w-96"
+      className={[
+        "fixed z-40 flex flex-col gap-3 bg-white",
+        "inset-x-0 bottom-0 rounded-t-card px-4 pt-2 pb-[calc(16px+env(safe-area-inset-bottom))] shadow-sheet",
+        "animate-[sheet-in_var(--in)_var(--ease-spring)_both]",
+        "md:inset-x-auto md:right-6 md:bottom-6 md:w-96 md:rounded-card md:border md:border-card-line md:p-5 md:shadow-dialog md:animate-[grow-in_var(--in)_var(--ease-spring)_both]",
+        "motion-reduce:animate-[fade-in_.2s_ease_both]",
+      ].join(" ")}
     >
+      <span aria-hidden="true" className="h-[5px] w-9 self-center rounded-full bg-[#c9d1de] md:hidden" />
+      <button
+        type="button"
+        aria-label={copy.nps.close}
+        onClick={close}
+        className="focus-ring absolute top-3 right-3 flex size-11 cursor-pointer items-center justify-center rounded-full text-slate hover:text-ink"
+      >
+        <Close size={20} />
+      </button>
       {rating.score === null && (
         <>
-          <h2 id="rating-title" className="text-lg">
+          <h2 id="rating-title" className="display pr-10 text-card-question">
             {copy.nps.question}
           </h2>
           <div role="group" aria-labelledby="rating-title" className="grid grid-cols-6 gap-2">
@@ -41,7 +60,7 @@ export function NpsDialog() {
                 key={score}
                 variant="secondary"
                 size="small"
-                className="px-0"
+                className="rounded-field! px-0"
                 onClick={() => {
                   track("portal.visit.rated", { score });
                   store.save({ score, review: score >= 9 ? "asked" : null, closed: false });
@@ -51,22 +70,22 @@ export function NpsDialog() {
               </Button>
             ))}
           </div>
-          <p className="flex justify-between text-sm text-slate">
-            <span>0 = {copy.nps.low}</span>
-            <span>10 = {copy.nps.high}</span>
+          <p className="flex justify-between text-label text-slate">
+            <span>{copy.nps.low}</span>
+            <span>{copy.nps.high}</span>
           </p>
-          <Button variant="text" className="self-start" onClick={close}>
-            {copy.nps.close}
+          <Button variant="text" onClick={close} className="self-center">
+            {copy.nps.notNow}
           </Button>
         </>
       )}
 
       {rating.review === "asked" && (
         <>
-          <p id="rating-title" role="status">
+          <p id="rating-title" role="status" className="pr-10 text-body-lg">
             {copy.nps.reviewAsk}
           </p>
-          <div className="flex flex-col items-start gap-1">
+          <div className="flex flex-col items-stretch gap-1">
             <Button onClick={() => store.save({ ...rating, review: "writing" })}>{copy.nps.writeReview}</Button>
             <Button variant="text" onClick={close}>
               {copy.nps.notNow}
@@ -77,25 +96,20 @@ export function NpsDialog() {
 
       {rating.review === "writing" && (
         <>
-          <p id="rating-title" role="status">
+          <p id="rating-title" role="status" className="pr-10 text-body-lg">
             {copy.nps.reviewDemo}
           </p>
-          <Button variant="text" className="self-start" onClick={close}>
-            {copy.nps.close}
-          </Button>
         </>
       )}
 
       {rating.score !== null && rating.review === null && (
         <>
-          <p id="rating-title" role="status">
+          <p id="rating-title" role="status" className="pr-10 text-body-lg">
             {copy.nps.thanks}
           </p>
-          <Button variant="text" className="self-start" onClick={close}>
-            {copy.nps.close}
-          </Button>
         </>
       )}
-    </div>
+    </div>,
+    document.body,
   );
 }

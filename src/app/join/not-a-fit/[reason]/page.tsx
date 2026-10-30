@@ -1,13 +1,17 @@
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/Button";
+import { TalkToPersonButton } from "@/components/HelpPanel";
+import { Heart, Phone } from "@/components/icons";
 import { InlineLink } from "@/components/InlineLink";
+import { Notice, NoticeText, ResourceTile } from "@/components/Notice";
 import { copy } from "@/copy";
 import { goBackPath, isScreenOutReason, SCREEN_OUT_REASONS } from "@/lib/fit/flow";
 import type { ScreenOutReason } from "@/server/sessions";
 
-// The screen-outs: one calm layout, with the right resources for each reason
-// and "Answered by mistake? Go back", which returns to the step with that
-// answer, with the answers kept. Layout only for now; the visual design comes later
+// The screen-outs (boards U01 to U04): one calm layout, with the right
+// resources for each reason on their own tile, "Talk to a person", and
+// "Answered by mistake? Go back", which returns to the step with that answer,
+// with the answers kept
 
 const SAMHSA = "tel:+18006624357";
 
@@ -40,17 +44,24 @@ export default async function NotAFitPage({ params }: PageProps<"/join/not-a-fit
   const { lines, resource } = content[reason];
 
   return (
-    <div className="flex flex-col gap-6 pt-6">
-      <h1 className="text-3xl">{copy.screenOut.title}</h1>
+    <Notice
+      icon={<Heart size={24} />}
+      title={copy.screenOut.title}
+      actions={
+        <>
+          <TalkToPersonButton label={copy.crisis.talkToPerson} variant="primary" className="w-full" />
+          <ButtonLink href={goBackPath[reason]} variant="text" className="w-full">
+            {copy.screenOut.goBack}
+          </ButtonLink>
+        </>
+      }
+    >
       {lines.map((line) => (
-        <p key={line}>{line}</p>
+        <NoticeText key={line}>{line}</NoticeText>
       ))}
-      <p>
+      <ResourceTile icon={<Phone size={16} />}>
         <InlineLink text={resource.text} label={resource.label} href={resource.href} />
-      </p>
-      <ButtonLink href={goBackPath[reason]} variant="text" className="self-start">
-        {copy.screenOut.goBack}
-      </ButtonLink>
-    </div>
+      </ResourceTile>
+    </Notice>
   );
 }

@@ -19,7 +19,7 @@ export const InlineLink = ({
       {before}
       <a
         href={href}
-        className="focus-ring relative rounded-sm font-medium text-action underline underline-offset-4 hover:text-action-hover after:absolute after:-inset-x-2 after:-inset-y-3.5 after:content-['']"
+        className="focus-ring relative rounded-sm font-medium whitespace-nowrap text-action underline underline-offset-4 hover:text-action-hover after:absolute after:-inset-x-2 after:-inset-y-3.5 after:content-['']"
       >
         {label}
       </a>

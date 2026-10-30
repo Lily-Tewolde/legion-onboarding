@@ -1,26 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useRef } from "react";
 import { Button } from "@/components/Button";
-import { Tag } from "@/components/Tag";
+import { Sheet, type SheetHandle } from "@/components/Sheet";
 import { copy } from "@/copy";
 
-// "What if I cancel?" opens Legion's full policy under the cancellation line
+// "What if I cancel?" opens Legion's full policy in a sheet on phones and a
+// dialog on desktop
 export function WhatIfCancel() {
-  const [open, setOpen] = useState(false);
+  const sheet = useRef<SheetHandle>(null);
   return (
-    <div className="flex flex-col items-start gap-2">
-      <Button variant="text" aria-expanded={open} aria-controls="cancel-policy" onClick={() => setOpen(!open)}>
+    <>
+      <Button variant="text" className="-ml-2" onClick={() => sheet.current?.open()}>
         {copy.checkout.whatIfCancel}
       </Button>
-      {open && (
-        <div id="cancel-policy" className="flex flex-col gap-1">
-          <p>{copy.checkout.cancelPolicy}</p>
-          <div>
-            <Tag>{copy.common.fromLegion}</Tag>
-          </div>
-        </div>
-      )}
-    </div>
+      <Sheet ref={sheet} title={copy.checkout.whatIfCancel} titleId="cancel-policy-title">
+        <p className="text-body-lg">{copy.checkout.cancelPolicy}</p>
+        <Button className="w-full" onClick={() => sheet.current?.close()}>
+          {copy.common.close}
+        </Button>
+      </Sheet>
+    </>
   );
 }

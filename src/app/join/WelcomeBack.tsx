@@ -15,9 +15,9 @@ export async function WelcomeBack() {
   if (!path) return null;
 
   return (
-    <div className="flex flex-col gap-3 rounded-lg border border-line p-4">
-      <p>{copy.join.welcomeBack}</p>
-      <ButtonLink href={path} variant="secondary" className="self-start">
+    <div className="card flex items-center justify-between gap-3 p-4 md:px-6">
+      <p className="text-body font-semibold text-ink">{copy.join.welcomeBack}</p>
+      <ButtonLink href={path} variant="text">
         {copy.common.continue}
       </ButtonLink>
     </div>

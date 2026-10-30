@@ -1,12 +1,13 @@
 "use client";
 
-import { useId, type ReactNode } from "react";
+import { type ReactNode, useId } from "react";
 import { cx } from "./cx";
+import { FieldError } from "./SegmentedControl";
 
 // For yes-or-no choices inside the flow: "Tell me if an earlier time opens",
-// the consent and "I'm safe right now". A native checkbox drawn in Legion's
-// colours: a 24px box in a 44px tap row, with optional error text.
-// The label can hold a link, like "Read the consent"
+// the consent and "I'm safe right now". A native checkbox in the spec's
+// colours: a 24px box in a 44px tap row, with optional error text. The label
+// can hold a link, like "Read the consent"
 export type CheckboxProps = {
   label: ReactNode;
   checked: boolean;
@@ -19,9 +20,9 @@ export function Checkbox({ label, checked, onChange, error }: CheckboxProps) {
   const errorId = error ? `${id}-error` : undefined;
 
   return (
-    <div>
-      <div className="flex min-h-control-sm items-center gap-3">
-        <span className="relative flex size-6 flex-none">
+    <div className="flex flex-col gap-1.5">
+      <div className="flex min-h-control-sm items-start gap-3">
+        <span className="relative mt-2.5 flex size-6 flex-none">
           <input
             id={id}
             type="checkbox"
@@ -30,10 +31,9 @@ export function Checkbox({ label, checked, onChange, error }: CheckboxProps) {
             aria-invalid={error ? true : undefined}
             aria-describedby={errorId}
             className={cx(
-              "focus-ring peer size-6 cursor-pointer appearance-none rounded-sm border-2 bg-white",
-              "transition-colors duration-150 motion-reduce:transition-none",
+              "focus-ring peer size-6 cursor-pointer appearance-none rounded-md border-[1.5px] bg-white",
               "checked:border-action checked:bg-action",
-              error ? "border-error" : "border-line-control hover:border-ink",
+              error ? "border-2 border-error" : "border-line-control hover:border-action",
             )}
           />
           <svg
@@ -49,15 +49,11 @@ export function Checkbox({ label, checked, onChange, error }: CheckboxProps) {
             <path d="M3.5 8.5l3 3 6-7" />
           </svg>
         </span>
-        <label htmlFor={id} className="cursor-pointer py-2.5 text-base text-ink">
+        <label htmlFor={id} className="cursor-pointer py-2.5 text-body-lg text-navy">
           {label}
         </label>
       </div>
-      {error && (
-        <p id={errorId} className="mt-1 text-error">
-          {error}
-        </p>
-      )}
+      {error && <FieldError id={errorId}>{error}</FieldError>}
     </div>
   );
 }
