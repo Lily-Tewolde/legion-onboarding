@@ -47,6 +47,13 @@ function Summary({ record, sample }: { record: CheckInState; sample: boolean }) 
   const safety = record.flags.filter((flag) => SAFETY_KINDS.has(flag.kind));
   const eligibility = record.flags.filter((flag) => !SAFETY_KINDS.has(flag.kind));
   const allSkipped = record.turns.length > 0 && record.turns.every((turn) => turn.skipped);
+  // The AI's own flags, less any the crisis layers or the check-in already
+  // raised for the same answers
+  const flagged = new Map(record.flags.map((flag) => [flag.messageId, SAFETY_KINDS.has(flag.kind) ? "safety" : "eligibility"]));
+  const aiFlags = (summary?.flags ?? []).filter((flag) => {
+    const category = flag.type === "past_risk" ? "safety" : flag.type;
+    return !flag.cites.every((cite) => flagged.get(cite) === category);
+  });
 
   // A source link opens "All answers" first, then goes to the answer
   const onSourceClick = (event: MouseEvent) => {
@@ -69,7 +76,7 @@ function Summary({ record, sample }: { record: CheckInState; sample: boolean }) 
         <p className="font-medium text-slate">{copy.clinician.label}</p>
       </div>
 
-      {(safety.length > 0 || eligibility.length > 0 || (summary?.flags.length ?? 0) > 0) && (
+      {(safety.length > 0 || eligibility.length > 0 || aiFlags.length > 0) && (
         <section aria-labelledby="flags" className="flex flex-col gap-3 rounded-lg border-2 border-error p-4">
           <h2 id="flags" className="text-xl">
             {copy.clinician.flagsTitle}
@@ -79,7 +86,7 @@ function Summary({ record, sample }: { record: CheckInState; sample: boolean }) 
             {[...safety, ...eligibility].map((flag) => (
               <FlagLine key={`${flag.kind}-${flag.messageId}`} flag={flag} quote={answerText(flag.messageId)} turns={record.turns} />
             ))}
-            {summary?.flags.map((flag, i) => (
+            {aiFlags.map((flag, i) => (
               <li key={`ai-${i}`}>
                 {flag.note} <Sources cites={flag.cites} turns={record.turns} />
               </li>
