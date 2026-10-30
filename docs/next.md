@@ -28,3 +28,9 @@ Ideas decided against for this build, kept for later. Each says what would make 
 - **Why not now:** helping a family member get care raises consent and privacy questions for Legion's clinical and legal teams. Common in immigrant families, where one person often handles the paperwork
 - **When:** if Legion's teams want to support family members helping someone sign up
 
+## The whole flow in the patient's language
+
+- **Idea:** if someone writes in Spanish, show every screen in Spanish, not just their chips
+- **Today:** the chips on the confirm screen show in the patient's language (for example "ansiedad"), with the standard English label behind each. The diagnosis question and the rest of the app stay in English
+- **Why not now:** every screen, the crisis and screen-out copy, and the AI's own lines would need translating, and Legion hasn't confirmed which languages it supports
+- **When:** once Legion confirms which languages it supports
