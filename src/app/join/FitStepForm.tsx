@@ -128,9 +128,11 @@ function StepForm({ step, answers, intro }: { step: FitStep; answers: FitAnswers
 
   const leave = useLeave();
 
-  // A one-tap answer, acted on by its own rule only
-  const tap = (field: TapField, patch: FitAnswers) => {
+  // A one-tap answer, acted on by its own rule only. An arrow key only
+  // records the answer; leaving needs a tap, Space, Enter or Continue
+  const tap = (field: TapField, patch: FitAnswers, explicit = true) => {
     const next = update(patch);
+    if (!explicit) return;
     const outcome = tapOutcome(field, next);
     if (outcome) leave(outcome, next, field);
   };
@@ -218,7 +220,7 @@ function StepForm({ step, answers, intro }: { step: FitStep; answers: FitAnswers
 type QuestionProps = {
   answers: FitAnswers;
   update: (patch: FitAnswers) => FitAnswers;
-  tap: (field: TapField, patch: FitAnswers) => void;
+  tap: (field: TapField, patch: FitAnswers, explicit?: boolean) => void;
   error: (field: FitField) => string | undefined;
 };
 
@@ -263,7 +265,7 @@ function AboutQuestions({ answers, update, tap, error }: QuestionProps) {
             name="inTexas"
             options={YES_NO}
             value={answers.inTexas}
-            onChange={(value) => tap("inTexas", { inTexas: value as YesNo })}
+            onChange={(value, { explicit }) => tap("inTexas", { inTexas: value as YesNo }, explicit)}
             error={error("inTexas")}
           />
         </Card>
@@ -284,7 +286,7 @@ function HealthQuestions({ answers, tap, error }: Omit<QuestionProps, "update">)
           hint={copy.join.safetyHint}
           options={YES_NO}
           value={answers.safety}
-          onChange={(value) => tap("safety", { safety: value as YesNo, safeConfirmed: false })}
+          onChange={(value, { explicit }) => tap("safety", { safety: value as YesNo, safeConfirmed: false }, explicit)}
           error={error("safety")}
         />
       </Card>
@@ -296,7 +298,7 @@ function HealthQuestions({ answers, tap, error }: Omit<QuestionProps, "update">)
             hint={copy.join.hospitalHint}
             options={YES_NO}
             value={answers.hospital}
-            onChange={(value) => tap("hospital", { hospital: value as YesNo })}
+            onChange={(value, { explicit }) => tap("hospital", { hospital: value as YesNo }, explicit)}
             error={error("hospital")}
           />
         </Card>
@@ -429,7 +431,7 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
               name="medicaidOrMedicare"
               options={YES_NO}
               value={answers.medicaidOrMedicare}
-              onChange={(value) => tap("medicaidOrMedicare", { medicaidOrMedicare: value as YesNo })}
+              onChange={(value, { explicit }) => tap("medicaidOrMedicare", { medicaidOrMedicare: value as YesNo }, explicit)}
               error={error("medicaidOrMedicare")}
             />
           </div>
