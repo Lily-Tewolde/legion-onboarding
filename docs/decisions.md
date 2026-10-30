@@ -829,6 +829,22 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **What:** Demo labels stay, but only as one small line at the bottom of a screen where something is made up or simulated, plus the banner at the top. "From Legion's current flow" comes off the screens and goes in the README instead. The copy draft still marks those lines, so the source stays clear. Updates "Use Legion's real prices and cancellation fees, labelled" above
 - **Why:** The banner at the top already says it's a demo, so one small line at the bottom of a page is enough
 
+## 2026-10-29 · Reschedule shows the 48-hour policy first, like Cancel
+
+- **What:** "Reschedule" shows Legion's 48-hour policy before it acts, the same as "Cancel visit". Then picking a new time books it straight away, since the details and card are already done. It clears a no-show and keeps the check-in. Cancel asks first, frees the time and keeps the details. Lily's call on PR 16
+- **Why:** A change within 48 hours has a fee, so the patient sees the policy before either one acts
+- **Rejected:** Rescheduling straight away with no policy shown (PR 16 as first built)
+
+## 2026-10-29 · The demo clock is a cookie
+
+- **What:** The demo's "skip to" point is a cookie, `lh_demo_clock`, not a database column. "Demo: skip to 72 hours" then moves on to 24 hours and 1 hour, so the reminders and "Join visit" can be shown. The clock only moves forward, and it resets when a time is booked, rescheduled or cancelled. Claude Code's choice in PR 16
+- **Why:** It's only the demo's skip point, not patient data, so it needs no migration
+
+## 2026-10-29 · The visit rating is tracked as a score only
+
+- **What:** `portal.visit.rated` fires when a score is picked in "How was your first visit?", with the score (0 to 10) and nothing else. The rating also stays in the browser tab so it isn't asked twice. Lily's answer to PR 16; the event comes in PR 9
+- **Why:** NPS after the first visit is in the requirements, and a score alone keeps free text out of every event
+
 ---
 
 # Spoken defence (fill before the review call)

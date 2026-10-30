@@ -106,7 +106,9 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 | `/join/not-a-fit/[reason]` | Screen-outs |
 | `/help-now` | Crisis screen, with versions for immediate danger (911 first) and for being hurt by someone else (safety resources) |
 | `/join/someone-else` | Someone else screen |
-| `/visit` | 7. Your first visit, with the inbox (8 and 11) |
+| `/visit` | 7. Your first visit (the Visit tab) |
+| `/visit/inbox` | 8 and 11. The inbox (the Inbox tab) |
+| `/visit/profile` | The Profile tab, an entry point only |
 | `/visit/check-in` | 9. Pre-visit check-in |
 | `/clinician` | 10. Clinician view |
 | `/demo` | 12. Demo controls |
@@ -149,6 +151,8 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 - **Confirm screen:** for each concern where we don't know whether it's been diagnosed (for example, only a chip was tapped), one row under the chips: "Have you been diagnosed with {concern}?" Yes / No / Not sure. No AI question
 - **Check-in:** a topic already covered is confirmed and extended, never skipped or repeated word for word. A soft inline note when the patient asks something we can't answer here, and the check-in continues. At the end, the patient confirms their medications as they said them (or as heard). Normalization is plain code with a list of known drugs: only a one-letter typo that matches exactly one known drug, with nothing else close, is fixed. Anything else stays "unclear". If what we heard isn't a real drug, the medication check asks "Did you mean {drug}?", so the patient decides. If it's a real drug that doesn't fit what they told us, no other drug is suggested: "Can you check the name of this medication?", and it stays unclear. A medication question gets "We'll pass your question to your provider." One gentle note after two skips in a row. If the patient says they're under 18, the check-in stops after the flag with a calm message (to confirm with Legion's clinical and legal team)
 - **Clinician summary:** important facts mentioned in passing (for example, pregnancy or drinking) are kept, worded neutrally. Clinician-only flags (for example, taking someone else's prescription) are never shown to the patient
+
+**Portal (PR 16):** the demo clock ("Demo: skip to 72 hours", then 24 hours and 1 hour) is a cookie, `lh_demo_clock`, not a column. It only moves forward and resets when a time is booked, rescheduled or cancelled. Reschedule and Cancel both show Legion's 48-hour policy first. Reschedule then books the new time straight away, since the details and card are done, clears a no-show and keeps the check-in. Cancel frees the time and keeps the details.
 
 **Recommended provider:** the first made-up provider who treats a confirmed concern and, if insured, takes the plan; ties broken by the earliest slot. The reason line is built from that data, never written by the AI.
 
@@ -208,6 +212,7 @@ PostHog (US Cloud), `posthog-js` in the browser. Keep Legion's names where the s
 | `portal.visit.joined` | "Join visit" | |
 | `portal.visit.completed` | Demo: mark completed | intake_done |
 | `portal.visit.no_show` | Demo: mark no-show | |
+| `portal.visit.rated` | A score is picked in "How was your first visit?" | score (0 to 10) |
 | `portal.help.clicked` | Help link | screen |
 
 This is enough to compute the one metric (`portal.visit.completed` within 30 days ÷ starters minus `portal.fit.screened_out`), the screen-out rate, median days to the first visit, and each step's conversion.

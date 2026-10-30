@@ -169,7 +169,13 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - How many Texas clinicians take their plan, the earliest visit and the typical cost, with demo numbers, as written in Claude Design's final design **[decided]**
 
 **"I don't see my plan"**
-- First, the full plan list with search, as written in Claude Design's final design **[decided]**
+- First, the full plan list with search **[decided]**:
+    - Title: "Search for your plan"
+    - Field label: "Plan name"
+    - When more plans match than show: "Keep typing to see {n} more"
+    - Link: "I still don't see my plan"
+    - Error: "Please choose your plan."
+    - Button: "Search again"
 - Only if their plan still isn't there: "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan."
 - Buttons: "Continue as self-pay", "Talk to a person"
 
@@ -319,19 +325,25 @@ One page, like a one-page checkout when you shop online.
 
 ## 11. Your first visit
 
-- Portal tabs: "Visit", "Inbox", "Profile". A bottom tab bar on mobile, a left sidebar on desktop. Profile is only an entry point **[decided]**
-- Milestone cards with a small "Completed" tag, for example booked, check-in done, first visit **[decided]**
+- Portal tabs: "Visit", "Inbox", "Profile". A bottom tab bar on mobile, a left sidebar on desktop. Profile is only an entry point **[decided]**. It shows the made-up name, email and phone from checkout, with the demo line at the bottom: "Demo: changing your details isn't part of this prototype." **[drafted]**
+- Milestone cards with a small "Completed" tag, for example booked, check-in done, first visit **[decided]**. Names: "Visit booked", "Check-in done", "First visit" **[drafted]**
 - Title: "Your first visit"
 - The visit card, with the same labelled rows
 - Calendar preview of the visit, with "Add to calendar": "Google", "Apple", "Outlook"
 - What to expect: "Your provider will ask about what's going on, your history and any medications. Plan for about 60 minutes somewhere quiet and private." (60 minutes is from Legion's current flow)
 - Text-style buttons: "Reschedule", "Cancel visit" **[decided]**
+- "Reschedule" and "Cancel visit" both show Legion's 48-hour policy first, then act **[decided]**
+- Cancel asks first: "Cancel this visit?" Buttons: "Yes, cancel it", "Keep my visit" **[drafted]**
 - Check-in card: "Optional: pre-visit check-in". "About 5 minutes. Your provider can spend more of your visit on you. You can skip it."
 - "Do it any time before your visit. Earlier gives your provider time to read it."
 - Button: "Start check-in"
 - Messages: the "Inbox" tab (see screens 12 and 15)
-- Demo control, beside the visit card: "Demo: skip to 72 hours" **[decided]**
-- After the visit is marked completed, a small dialog in the corner: "How was your first visit?" 0 to 10. Never during onboarding. A high score can lead into asking for a review. Claude Design's visit rating, review ask and after-the-visit copy are approved as written **[decided]**
+- Demo control, beside the visit card: "Demo: skip to 72 hours" **[decided]**. It then moves on to "Demo: skip to 24 hours" and "Demo: skip to 1 hour", so the reminders and "Join visit" can be shown **[drafted]**
+- After the visit is marked completed, a small dialog in the corner. Never during onboarding **[decided]**:
+    - "How was your first visit?" 0 to 10, with "0 = Not good" and "10 = Great"
+    - After a 9 or 10: "Thank you! Would you share a short review? It helps other people find care." Buttons: "Write a review", "Not now"
+    - After a lower score: "Thanks for telling us. It helps us get better."
+- After the visit: "Your provider will send your next steps to your inbox." Button: "Go to my inbox" **[decided]**
 
 **Lily's notes**
 - This is a simple version of a patient portal page
@@ -418,8 +430,9 @@ One page, like a one-page checkout when you shop online.
 - Title: "Demo controls"
 - Buttons: "Mark visit completed", "Mark no-show", and a switch between the patient portal and the clinician view (wording as in Claude Design's final design) **[decided]**
 - "Demo only. This records how the visit went, so the funnel runs from start to finish."
+- "Join visit" opens the demo controls, since there's no real video visit **[drafted]**
 - After marking completed: "Visit marked completed (demo)"
-- After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee for a missed first visit, $250, since the demo visit is a first visit **[decided]** *(from Legion's current flow; credited in the README, not on screen)*. Where the full cancellation policy is shown, it keeps both amounts
+- After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee for a missed first visit, $250, since the demo visit is a first visit **[decided]**: "The fee for a missed first visit is $250." **[drafted]** *(from Legion's current flow; credited in the README, not on screen)*. Where the full cancellation policy is shown, it keeps both amounts
 
 **Lily's notes**
 - A separate demo panel
