@@ -145,7 +145,7 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
       <div className="flex flex-col gap-3 lg:grid lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:items-start lg:gap-6">
         <div className="contents lg:order-2 lg:block">{visit}</div>
         <div ref={section} onBlur={onBlur} className="lg:order-1">
-          <Card className="gap-3 max-lg:border-0 max-lg:bg-transparent max-lg:p-0 max-lg:shadow-none">
+          <Card className="gap-3 max-lg:border-0 max-lg:bg-transparent max-lg:p-0! max-lg:shadow-none">
             <div className="flex flex-col gap-1">
               <h2 id="your-details" className="display text-card-question md:text-card-question-lg">
                 {copy.checkout.yourDetails}

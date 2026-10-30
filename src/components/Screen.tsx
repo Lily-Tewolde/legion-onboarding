@@ -9,7 +9,8 @@ import { PHASE_LABEL } from "./phase";
 // desktop"):
 // - Below 768px: the four-segment progress with the back arrow under the top
 //   bar, one column with 16px gutters, and the primary button pinned to the
-//   bottom with the safe area
+//   bottom with the safe area. On short phones (under 760px tall) the
+//   spacing tightens, so content clears that button at 390 x 700
 // - 768 to 1023px: one centred column, the button no longer pinned
 // - 1024px and up: the path-to-care panel (320px) beside the content, 48px
 //   apart, with Back above the phase label
@@ -61,7 +62,7 @@ export function Screen({
         <div className={cx("flex min-w-0 flex-1 flex-col", flow ? "lg:items-start" : "items-center")}>
           <main
             className={cx(
-              "screen-body flex w-full flex-1 flex-col gap-3 px-4 pt-1 pb-2 md:mx-auto md:flex-none md:gap-4 md:px-0 md:pt-0 lg:mx-0",
+              "screen-body flex w-full flex-1 flex-col gap-3 px-4 pt-1 pb-2 short:gap-2 short:pt-0 md:mx-auto md:flex-none md:gap-4 md:px-0 md:pt-0 lg:mx-0",
               !flow && "md:pt-6",
               WIDTHS[width],
               className,
@@ -79,6 +80,7 @@ export function Screen({
             <div
               className={cx(
                 "sticky bottom-0 z-10 w-full bg-white px-4 pt-2 pb-[calc(12px+env(safe-area-inset-bottom))]",
+                "short:pt-1.5 short:pb-[calc(8px+env(safe-area-inset-bottom))]",
                 "md:static md:mx-auto md:bg-transparent md:px-0 md:pt-4 md:pb-0 lg:mx-0",
                 WIDTHS[width],
               )}
@@ -109,10 +111,11 @@ export function PageTitle({ children, id }: { children: ReactNode; id?: string }
   );
 }
 
-// A white card behind anything people read: 16px padding on phones, 24px on desktop
+// A white card behind anything people read: 16px padding on phones (12px on
+// short ones), 24px on desktop
 export function Card({ children, className, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cx("card flex flex-col gap-2 p-4 md:p-6", className)} {...rest}>
+    <div className={cx("card flex flex-col gap-2 p-4 short:p-3 md:p-6", className)} {...rest}>
       {children}
     </div>
   );

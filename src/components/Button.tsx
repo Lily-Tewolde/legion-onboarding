@@ -3,9 +3,9 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from "reac
 import { cx } from "./cx";
 
 // From Claude Design's component spec: one primary button per screen (54px
-// pill, 18px semibold, pinned to the bottom on phones), with the secondary
-// action as a text-style button under it (17px semibold, 44px tap height,
-// underlined on hover). The outline variant is for in-card choices like
+// pill, 48px on short phones, 18px semibold, pinned to the bottom on phones),
+// with the secondary action as a text-style button under it (17px semibold,
+// 44px tap height, underlined on hover). The outline variant is for in-card choices like
 // "Continue as self-pay". Pressed shrinks a touch (globals.css)
 type Variant = "primary" | "secondary" | "text";
 type Size = "large" | "small";
@@ -18,7 +18,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variants: Record<Variant, string> = {
   primary:
-    "h-control rounded-full bg-action px-6 text-question font-semibold text-white hover:bg-action-hover active:bg-action-hover disabled:bg-line disabled:text-slate",
+    "h-control short:h-12 rounded-full bg-action px-6 text-question font-semibold text-white hover:bg-action-hover active:bg-action-hover disabled:bg-line disabled:text-slate",
   secondary:
     "min-h-field rounded-full border-[1.5px] border-line-control bg-white px-5 text-body-lg font-semibold text-navy hover:border-action disabled:border-dashed disabled:border-muted-line disabled:bg-muted disabled:text-line-control",
   text: "min-h-control-sm px-2 text-body-lg font-semibold text-action hover:text-action-hover hover:underline hover:underline-offset-4 disabled:text-line-control",

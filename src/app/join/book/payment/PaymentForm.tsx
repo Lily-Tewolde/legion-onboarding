@@ -3,11 +3,11 @@
 import { useRouter } from "next/navigation";
 import { type FormEvent, type ReactNode, useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@/components/Button";
-import { cx } from "@/components/cx";
-import { Calendar, ChevronDown, Lock } from "@/components/icons";
+import { Lock } from "@/components/icons";
 import { Card, DemoLine, type Flow, Screen } from "@/components/Screen";
 import { FieldError } from "@/components/SegmentedControl";
 import { TextField } from "@/components/TextField";
+import { VisitToggle } from "@/components/VisitToggle";
 import { copy } from "@/copy";
 import { daysToVisit } from "@/lib/analytics/events";
 import { track, trackPageview, useTrackInView } from "@/lib/analytics/track";
@@ -26,7 +26,6 @@ export function PaymentForm({ flow, whenShort, summary }: { flow: Flow; whenShor
   const router = useRouter();
   const [card, setCard] = useState(EMPTY_CARD);
   const [errors, setErrors] = useState<CardErrors>({});
-  const [open, setOpen] = useState(false);
   const [booking, setBooking] = useState(false);
   const [failed, setFailed] = useState(false);
   const section = useRef<HTMLElement>(null);
@@ -93,31 +92,22 @@ export function PaymentForm({ flow, whenShort, summary }: { flow: Flow; whenShor
         </div>
       }
     >
-      <section aria-label={copy.checkout.yourVisit} className="card overflow-hidden">
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-controls="visit-summary"
-          onClick={() => setOpen(!open)}
-          className="focus-ring flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-left md:px-6"
+      <section aria-label={copy.checkout.yourVisit}>
+        <VisitToggle
+          summary={
+            <>
+              <span className="text-label font-semibold text-slate">{copy.checkout.yourVisit}</span>
+              <span className="text-body font-semibold text-ink">{whenShort}</span>
+            </>
+          }
         >
-          <Calendar size={20} className="flex-none text-brand" />
-          <span className="flex flex-1 flex-col">
-            <span className="text-label font-semibold text-slate">{copy.checkout.yourVisit}</span>
-            <span className="text-body font-semibold text-ink">{whenShort}</span>
-          </span>
-          <ChevronDown size={22} className={cx("flex-none text-action transition-transform duration-300", open && "rotate-180")} />
-        </button>
-        {open && (
-          <div id="visit-summary" className="expand">
-            <div className="px-4 pb-4 md:px-6">{summary}</div>
-          </div>
-        )}
+          {summary}
+        </VisitToggle>
       </section>
 
       {/* On phones the fields sit on the page, with the lock line beside the
           heading (board 08-Payment-M); a card from 768px up */}
-      <Card className="gap-3 max-md:border-0 max-md:bg-transparent max-md:p-0 max-md:shadow-none">
+      <Card className="gap-3 max-md:border-0 max-md:bg-transparent max-md:p-0! max-md:shadow-none">
         <section ref={section} aria-labelledby="payment-title" className="flex flex-col gap-3">
           <div className="flex flex-col gap-1 max-md:flex-row max-md:flex-wrap max-md:items-center max-md:justify-between max-md:gap-x-3">
             <h1 id="payment-title" className="display text-page-title md:text-card-question-lg">
