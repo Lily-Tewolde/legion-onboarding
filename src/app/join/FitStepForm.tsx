@@ -387,7 +387,9 @@ function InsuranceQuestions({ answers, update, tap, error }: QuestionProps) {
             // Oct 30): they aren't plans we take, so they're kept apart, and
             // stay above the pinned Continue on short phones
             <div role="radiogroup" aria-labelledby="plan-label" aria-describedby={error("planId") ? "plan-error" : undefined} className="flex flex-col gap-3 short:gap-2">
-              <div className="flex flex-col gap-1 md:grid md:grid-cols-2 md:gap-2">
+              {/* Two columns from 768px, each as wide as its longest name, so
+                  "Blue Cross Blue Shield" sits on one line (Lily, Oct 30) */}
+              <div className="flex flex-col gap-1 md:grid md:grid-cols-[auto_auto] md:gap-2">
                 {plans
                   .filter((option) => !option.screensOut)
                   .map((option) => (
@@ -465,7 +467,7 @@ function PlanOption({ checked, invalid, onClick, children }: { checked: boolean;
       aria-checked={checked}
       onClick={onClick}
       className={cx(
-        "focus-ring flex min-h-[46px] w-full cursor-pointer items-center gap-3 rounded-field px-4 text-left text-body-lg whitespace-nowrap short:min-h-control-sm md:py-1.5 md:leading-tight md:whitespace-normal",
+        "focus-ring flex min-h-[46px] w-full cursor-pointer items-center gap-3 rounded-field px-4 text-left text-body-lg whitespace-nowrap short:min-h-control-sm",
         "border-[1.5px] bg-white font-medium text-navy hover:border-action",
         invalid ? "border-error" : "border-line-control",
       )}

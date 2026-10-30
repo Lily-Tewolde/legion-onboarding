@@ -21,3 +21,14 @@ Each insurer's own logo, downloaded from its own website on Oct 29, 2026, and us
 | insurers/cigna.svg | Cigna Healthcare logo | Plan cards on screen 1 and plan search | cigna.com, the inline SVG logo in the site header |
 | insurers/unitedhealthcare.svg | UnitedHealthcare logo | Plan cards on screen 1 and plan search | uhc.com, the site header logo: https://www.uhc.com/content/dam/uhcdotcom/website-assets/logo-blue.svg |
 | insurers/oscar.svg | Oscar logo | Plan cards on screen 1 and plan search | hioscar.com, the inline SVG logo in the site header, in the site's own colour (#4F50FF) |
+
+## Calendar icons
+
+Each calendar's own product icon, downloaded from its owner's site on Oct 30, 2026, and used only in this prototype for Legion, on the "Add to calendar" buttons. The icons belong to their owners. Apple doesn't publish an SVG of its Calendar icon, so the Apple button uses the Apple logo Lily supplied.
+
+| File | Shows | Used on | Source |
+|---|---|---|---|
+| ../icons/google-calendar.svg | Google Calendar icon | "Add to calendar" on "You're booked" and the visit page | Google's own: https://www.gstatic.com/images/branding/productlogos/calendar_2026/v2/web/192px.svg (the icon on workspace.google.com/products/calendar). Unchanged except for an added `viewBox` so it scales |
+| ../icons/outlook.svg | Microsoft Outlook icon | "Add to calendar" on "You're booked" and the visit page | Microsoft's Office brand icons: https://res.cdn.office.net/files/fabric-cdn-prod_20230815.002/assets/brand-icons/product/svg/outlook_48x1.svg, unchanged |
+| ../icons/apple.png | Apple logo | "Add to calendar" on "You're booked" and the visit page | Supplied by Lily (transparent PNG, 107 x 128) |
+

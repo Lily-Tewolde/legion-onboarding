@@ -27,7 +27,7 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - Demo line: one small line at the bottom of a screen where something is made up or simulated, plus the banner. No demo tags in the body text **[decided]**
 - Nothing on screen says "From Legion's current flow". The README credits what comes from it **[decided]**
 - Desktop panel line: "Take it one step at a time. We'll help you find the right care." **[decided]**
-- Desktop panel quote: "I got an appointment within a week and the doctor was really nice and professional." Credit: "Chris Slate, Google review" (a review on legionhealth.com) **[decided]**
+- ~~Desktop panel quote~~ Removed Oct 30: no quote in the panel **[decided]**
 - Back: "Back"
 - Loading: skeleton screens, no loading text
 - When an AI step takes more than 5 seconds: "Still working on it…". At 10 seconds, the "Use a simple form instead" link is offered, and what they typed is kept **[decided]**
@@ -176,6 +176,7 @@ Shown under the plan field once a plan is picked. Not its own screen.
     - When more plans match than show: "Keep typing to see {n} more"
     - Link: "I still don't see my plan"
     - Error: "Please choose your plan."
+    - In the logo slot of an insurer Legion doesn't take (no logo, on purpose): "Self-pay only" **[decided Oct 30]**
     - Button: "Search again"
 - Only if their plan still isn't there: "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan."
 - Buttons: "Continue as self-pay", "Talk to a person"
@@ -408,7 +409,7 @@ Two steps: details, then payment **[decided]**. The visit card stays on both.
 - At the medication check, when what we heard isn't a real drug name (spoken, or more than a one-letter typo): "Did you mean {drug}?" Buttons: "Yes", "No, keep what I said" **[decided]**. The patient decides, not the AI
 - When it's a real drug that doesn't fit what they told us (for example, Celebrex for depression): no other drug is suggested. "Can you check the name of this medication?" It stays marked unclear for the clinician **[decided]**
 - If the patient says they're under 18: the check-in stops with "Thanks for telling us. Someone from our team will reach out before your visit." **[decided]** **[Confirm with Legion's clinical and legal team]**
-- Done: "Thanks. Your provider will see your answers before your visit." Button: "Back to my visit page"
+- Done: "Thanks. Your provider will read this before your visit, so you don't have to start from the beginning." Button: "Back to my visit page" *(warmed Oct 30, Lily's wording)*
 
 **Lily's notes**
 - "Answer as much as you'd like" instead of "as much or as little"

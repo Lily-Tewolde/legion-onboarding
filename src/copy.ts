@@ -50,8 +50,6 @@ export const copy = {
       "A clinician smiling at a laptop",
       "A woman with a coffee in morning light, relaxed",
     ],
-    quote: "“I got an appointment within a week and the doctor was really nice and professional.”",
-    quoteNote: "Chris Slate, Google review",
   },
   common: {
     back: "Back",
@@ -121,6 +119,8 @@ export const copy = {
     stillNotListed: "I still don’t see my plan",
     choosePlan: "Please choose your plan.",
     searchAgain: "Search again",
+    // Beside an insurer Legion doesn't take, in the plan search (Lily, Oct 30)
+    selfPayOnly: "Self-pay only",
     notListed:
       "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan.",
     // Claude Design's wording
@@ -408,7 +408,8 @@ export const copy = {
     // Placeholders, waiting for Lily's OK
     medicationField: "Medication",
     removeMedication: "Remove",
-    done: "Thanks. Your provider will see your answers before your visit.",
+    // Lily's wording (Oct 30), a little warmer
+    done: "Thanks. Your provider will read this before your visit, so you don't have to start from the beginning.",
     backToVisit: "Back to my visit page",
   },
   // Screen 10, for the clinician. Not patient-facing, so it isn't held to the

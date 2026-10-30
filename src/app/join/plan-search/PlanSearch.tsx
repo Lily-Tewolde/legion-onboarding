@@ -149,8 +149,20 @@ export function PlanSearch() {
                   : "border-[1.5px] border-line-control bg-white font-medium text-navy hover:border-action",
               )}
             >
-              <InsurerLogo planId={item.planId} />
-              <span>{item.name}</span>
+              {/* An insurer Legion doesn't take has no logo, on purpose: its slot
+                  says "Self-pay only" instead, quietly, and screen readers hear it
+                  after the name */}
+              {item.planId ? (
+                <InsurerLogo planId={item.planId} />
+              ) : (
+                <span aria-hidden="true" className="w-20 flex-none text-label leading-4 font-medium text-slate md:w-16">
+                  {copy.coverage.selfPayOnly}
+                </span>
+              )}
+              <span>
+                {item.name}
+                {!item.planId && <span className="sr-only">, {copy.coverage.selfPayOnly}</span>}
+              </span>
             </button>
           );
         })}
