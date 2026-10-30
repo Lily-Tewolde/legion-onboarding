@@ -78,12 +78,14 @@ export const copy = {
       "You're covered. Your plan is in network. Most patients pay $0 to $40 a visit.",
     fullCostLater: "You'll see your full cost before you book.",
     simulated: "Demo: coverage check simulated",
-    // The plan search (decided Oct 29). Placeholders until Claude Design's
-    // final strings are copied in
-    searchLabel: "Search for your plan",
-    searchHint: "Type the name on your insurance card.",
-    searchResults: "Plans",
-    stillNotListed: "I still don't see my plan",
+    // The plan search (decided Oct 29), Claude Design's wording
+    searchTitle: "Search for your plan",
+    searchLabel: "Plan name",
+    // {count} more plans match than are shown
+    searchMore: "Keep typing to see {count} more",
+    stillNotListed: "I still don’t see my plan",
+    choosePlan: "Please choose your plan.",
+    searchAgain: "Search again",
     notListed:
       "We couldn't find your plan. You can continue as self-pay, or talk to a person to check your plan.",
     continueSelfPay: "Continue as self-pay",
@@ -300,13 +302,15 @@ export const copy = {
     // shows (decided Oct 29); the wording of the fee line waits for Lily's OK
     missed: "You missed your visit. Want to book a new time?",
     missedFee: "The fee for a missed first visit is $250.",
-    // Milestone cards (decided). The milestone names, the after-the-visit
-    // line and the cancel check are placeholders, waiting for Lily's OK
+    // Milestone cards (decided). The milestone names
+    // and the cancel check are placeholders, waiting for Lily's OK
     completedTag: "Completed",
     milestoneBooked: "Visit booked",
     milestoneCheckIn: "Check-in done",
     milestoneFirstVisit: "First visit",
-    done: "Your first visit is done.",
+    // After the visit (Claude Design's wording)
+    done: "Your provider will send your next steps to your inbox.",
+    goToInbox: "Go to my inbox",
     cancelCheck: "Cancel this visit?",
     cancelYes: "Yes, cancel it",
     keep: "Keep my visit",
@@ -336,13 +340,17 @@ export const copy = {
     markedNoShow: "Visit marked as a no-show (demo)",
   },
   // After the visit is marked completed, never during onboarding (decided).
-  // The question is decided; the scale ends and the thanks are placeholders
-  // until Claude Design's strings are copied in
+  // Claude Design's wording, with the review ask after a 9 or 10
   nps: {
     question: "How was your first visit?",
-    low: "0 is not good",
-    high: "10 is great",
-    thanks: "Thank you for telling us.",
+    low: "Not good",
+    high: "Great",
+    reviewAsk: "Thank you! Would you share a short review? It helps other people find care.",
+    writeReview: "Write a review",
+    notNow: "Not now",
+    thanks: "Thanks for telling us. It helps us get better.",
+    // Placeholder: there's no real review page in the prototype
+    reviewDemo: "Demo: this would open Legion's review page.",
     close: "Close",
   },
   // Placeholder screen, waiting for Lily's OK

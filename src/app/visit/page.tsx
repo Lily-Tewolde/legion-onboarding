@@ -54,10 +54,11 @@ async function Visit() {
       )}
 
       {session.visit_outcome === "completed" && (
-        <>
+        <section className="flex flex-col items-start gap-3">
           <p className="text-lg font-medium">{copy.visit.done}</p>
+          <ButtonLink href="/visit/inbox">{copy.visit.goToInbox}</ButtonLink>
           <NpsDialog />
-        </>
+        </section>
       )}
 
       {upcoming && (
