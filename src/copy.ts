@@ -408,7 +408,8 @@ export const copy = {
     // Placeholders, waiting for Lily's OK
     medicationField: "Medication",
     removeMedication: "Remove",
-    done: "Thanks. Your provider will see your answers before your visit.",
+    // Lily's wording (Oct 30), a little warmer
+    done: "Thanks. Your provider will read this before your visit, so you don't have to start from the beginning.",
     backToVisit: "Back to my visit page",
   },
   // Screen 10, for the clinician. Not patient-facing, so it isn't held to the

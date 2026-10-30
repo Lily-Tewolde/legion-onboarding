@@ -408,7 +408,7 @@ Two steps: details, then payment **[decided]**. The visit card stays on both.
 - At the medication check, when what we heard isn't a real drug name (spoken, or more than a one-letter typo): "Did you mean {drug}?" Buttons: "Yes", "No, keep what I said" **[decided]**. The patient decides, not the AI
 - When it's a real drug that doesn't fit what they told us (for example, Celebrex for depression): no other drug is suggested. "Can you check the name of this medication?" It stays marked unclear for the clinician **[decided]**
 - If the patient says they're under 18: the check-in stops with "Thanks for telling us. Someone from our team will reach out before your visit." **[decided]** **[Confirm with Legion's clinical and legal team]**
-- Done: "Thanks. Your provider will see your answers before your visit." Button: "Back to my visit page"
+- Done: "Thanks. Your provider will read this before your visit, so you don't have to start from the beginning." Button: "Back to my visit page" *(warmed Oct 30, Lily's wording)*
 
 **Lily's notes**
 - "Answer as much as you'd like" instead of "as much or as little"
