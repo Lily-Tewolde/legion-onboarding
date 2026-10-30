@@ -66,6 +66,9 @@ export function DemoControls() {
           {copy.booked.goToVisit}
         </ButtonLink>
       )}
+      <ButtonLink href="/clinician" variant="text">
+        {copy.clinician.openClinician}
+      </ButtonLink>
     </div>
   );
 }

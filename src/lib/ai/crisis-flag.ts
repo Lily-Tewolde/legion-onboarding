@@ -26,7 +26,7 @@ Set crisis to true if the message shows any of these, and set kind to the most u
 
 A crisis can be one sentence inside a long, ordinary answer. The message can be in any language, and can come from speech-to-text with misheard words ("kill my shelf" means "kill myself"). Judge what the patient means.
 
-Set crisis to false and kind to null for everyday figures of speech ("this is killing me", "I'd kill for some sleep", "my boss will be the death of me", "me muero de sueño"), for ordinary symptoms, stress, diagnoses, hospital stays or medication questions, and for short or vague answers ("Everything, really.", "Not great.", "I don't know.") with no sign of the above.
+Set crisis to false and kind to null for everyday figures of speech ("this is killing me", "I'd kill for some sleep", "my boss will be the death of me", "me muero de sueño"), for ordinary symptoms, stress, diagnoses, hospital stays or medication questions, and for short or vague answers ("Everything, really.", "Not great.", "I don't know.") with no sign of the above. The message is often an answer to a check-in question you can't see, such as which medications they take: naming a medication, a dose, or running out of one ("No, just the Adderall.", "Sertraline 50 mg.") is not a crisis unless they say they took too much or plan to.
 
 If the message has a possible sign of the above and you're unsure how serious it is, set crisis to true. A false alarm only shows support resources; a missed crisis can cost a life.
 

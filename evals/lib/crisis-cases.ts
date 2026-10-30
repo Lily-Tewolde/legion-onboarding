@@ -31,7 +31,23 @@ export type Behaviour =
   | "wgo_chips"
   | "wgo_fallback"
   | "wgo_limits"
-  | "wgo_order";
+  | "wgo_order"
+  | "intake_count"
+  | "intake_no_advice"
+  | "intake_questions"
+  | "intake_notes"
+  | "intake_eligibility"
+  | "intake_injection"
+  | "intake_crisis_path"
+  | "summary_meds"
+  | "summary_med_check"
+  | "summary_cites"
+  | "summary_supported"
+  | "summary_facts"
+  | "summary_flags"
+  | "summary_privacy"
+  | "system_rules"
+  | "system_notice";
 
 export type Check = {
   caseId: string;
