@@ -906,3 +906,35 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **Why:** The privacy notice and consent come before we save their details. The details step is where the person is saved, with the time they consented, and payment comes after that save. Putting the notice and consent on payment would store someone's name, email and phone before they'd seen the notice or agreed. Claude Code raised this in PR 23
 - **Rejected:** The notice and consent on payment, right before "Book my visit", as the copy audit first had it
 - **Revisit when:** Legion's counsel says where the notice and consent have to sit
+
+## 2026-10-30 · Content clears the pinned footer at 390 x 700, not 844
+
+- **What:** On phones under 760px tall, spacing tightens so each screen's content clears the pinned button on first view: gaps 12 to 8px, card padding 16 to 12px, the primary button 54 to 48px, a slimmer progress row and footer, the same on the crisis screens and screen-outs. 390 x 844 and desktop are unchanged. On phones, details shows the visit collapsed to when, who and the cost, and it opens to when they're charged and the cancel policy, like payment. Lily's call after the PR 23 design audit (PR 32)
+- **Why:** The screens were sized for 844, so at 700 content sat under the pinned footer on first view, from 18px over on safety to 269px over on details. The footer itself worked. Lily decided earlier that content stays within about 700px and space comes from layout, not smaller text
+- **Rejected:** Tightening only, which left details and insurance over. Unpinning the button when a screen doesn't fit, which puts Continue below the fold
+- **Revisit when:** Details or payment with errors needs to fit without scrolling. Both still scroll a little at 700
+
+## 2026-10-30 · Medicaid, Medicare and "I don't see my plan" sit in their own block under the plans
+
+- **What:** On the insurance screen, the five real plans keep the single column with logos. Medicaid, Medicare and "I don't see my plan" sit in a short block of their own under a line, so they stay above the pinned Continue at 390 x 700. Lily's call (PR 33)
+- **Why:** They aren't plans, they're screen-outs, so they shouldn't sit in the same list as the commercial plans. Splitting them out fixes the height and matches what they are
+- **Rejected:** Shorter rows (they're already near the 44px tap floor). Two columns on phones, which don't fit the logos. Accepting the scroll
+
+## 2026-10-30 · A real Legion review in the desktop panel
+
+- **What:** The panel quote is "I got an appointment within a week and the doctor was really nice and professional." credited "Chris Slate, Google review", a review on legionhealth.com. It replaces the placeholder, and its box has a solid border, since dashed means placeholder. Lily supplied it (PR 29)
+- **Why:** The quote shows on every desktop panel screen, so a placeholder there would be in the submission
+- **Rejected:** Taking the quote off
+
+## 2026-10-30 · `/design` comes off the site
+
+- **What:** The `/design` reference page is deleted. Lily's call (PR 31). `/demo` stays
+- **Why:** It was a page for checking the design on the live link, not part of the patient flow or a deliverable
+
+## 2026-10-30 · Smaller calls from the design audit fixes
+
+- **What:** Claude Code's choices in PRs 28 and 30:
+    - **A sheet closes when its screen is hidden or goes away.** Next keeps a screen you've left alive but hidden, and an open sheet there stayed modal, so the clinician view couldn't be clicked after switching to it from Demo controls
+    - **Demo controls closes after marking the visit on the portal,** since the portal shows the outcome and the rating comes up after a completed visit. On the clinician view it stays open with its status line, as that page shows neither
+- **Why:** Nothing was decided for these, so Claude Code picked what keeps the happy path working
+
