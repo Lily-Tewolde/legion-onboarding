@@ -109,11 +109,12 @@ export function HelpLink() {
   );
 }
 
-// A "Talk to a person" button inside a screen, as a text-style button
-export function TalkToPersonButton({ label }: { label: string }) {
+// A "Talk to a person" button inside a screen: text-style, or the screen's
+// primary button when it's the main way forward
+export function TalkToPersonButton({ label, variant = "text" }: { label: string; variant?: "primary" | "text" }) {
   const { open } = useHelpPanel();
   return (
-    <Button variant="text" onClick={open}>
+    <Button variant={variant} onClick={open}>
       {label}
     </Button>
   );
