@@ -9,14 +9,15 @@ import { FieldError } from "@/components/SegmentedControl";
 import { TextField } from "@/components/TextField";
 import { copy } from "@/copy";
 import { identify, track, trackPageview, useTrackInView } from "@/lib/analytics/track";
-import { type Details, type DetailsErrors, validateDetails } from "@/lib/checkout/validate";
+import { type Details, type DetailsErrors, MAX_NAME, validateDetails } from "@/lib/checkout/validate";
 import type { Flow } from "@/components/Screen";
 
 // The checkout's first step, "Your details" (Claude Design's 07-Details). The
 // details are saved as soon as the section is complete and left, so progress
 // is kept even if the card step isn't finished; an email that's already used
-// offers the simulated sign-in instead. Consent stays here, with the notice,
-// because the made-up person is saved with it at this step
+// offers the simulated sign-in instead. Consent stays here (Lily, Oct 29),
+// because the made-up person is saved with it at this step; the terms notice
+// is on payment, right before "Book my visit"
 
 type SaveState = "idle" | "saving" | "saved" | "email_taken" | "failed";
 
@@ -144,6 +145,7 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
                 label={copy.checkout.name}
                 value={details.name}
                 onChange={(name) => update({ name })}
+                maxLength={MAX_NAME}
                 error={errors.name ? copy.checkout.errors.name : undefined}
                 valid={!valid.name && details.name !== ""}
                 autoComplete="name"
@@ -168,7 +170,6 @@ export function DetailsForm({ flow, visit }: { flow: Flow; visit: React.ReactNod
                 valid={!valid.phone && details.phone !== ""}
                 autoComplete="tel-national"
               />
-              <p className="pt-1 text-label text-slate">{copy.checkout.notice}</p>
               <div id="consent" tabIndex={-1}>
                 <Checkbox
                   label={copy.checkout.consent}

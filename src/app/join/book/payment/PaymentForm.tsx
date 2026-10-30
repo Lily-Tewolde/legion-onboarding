@@ -12,19 +12,20 @@ import { copy } from "@/copy";
 import { daysToVisit } from "@/lib/analytics/events";
 import { track, trackPageview, useTrackInView } from "@/lib/analytics/track";
 import { todayInCentral } from "@/lib/central-time";
-import { cardLooksValid } from "@/lib/checkout/validate";
+import { type CardErrors, cardErrors } from "@/lib/checkout/validate";
 
 // The checkout's second step, "Payment" (Claude Design's 08-Payment). The
 // visit summary sits collapsed above it and opens inside the same card. The
 // card is checked in the browser only and never sent anywhere: payment is
-// simulated. It's cleared as soon as the screen is hidden
+// simulated. It's cleared as soon as the screen is hidden. Each field gets
+// its own error (copy audit), and the terms notice sits right before the button
 
 const EMPTY_CARD = { number: "", expiry: "", securityCode: "", zip: "" };
 
 export function PaymentForm({ flow, whenShort, summary }: { flow: Flow; whenShort: string; summary: ReactNode }) {
   const router = useRouter();
   const [card, setCard] = useState(EMPTY_CARD);
-  const [cardError, setCardError] = useState(false);
+  const [errors, setErrors] = useState<CardErrors>({});
   const [open, setOpen] = useState(false);
   const [booking, setBooking] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -34,7 +35,7 @@ export function PaymentForm({ flow, whenShort, summary }: { flow: Flow; whenShor
   useLayoutEffect(
     () => () => {
       setCard(EMPTY_CARD);
-      setCardError(false);
+      setErrors({});
       setBooking(false);
       setFailed(false);
     },
@@ -43,14 +44,16 @@ export function PaymentForm({ flow, whenShort, summary }: { flow: Flow; whenShor
 
   const set = (field: keyof typeof EMPTY_CARD, value: string) => {
     setCard((current) => ({ ...current, [field]: value }));
-    setCardError(false);
+    setErrors((current) => ({ ...current, [field]: undefined }));
   };
 
   const onSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (!cardLooksValid(card, todayInCentral())) {
-      setCardError(true);
-      document.getElementById("card-number")?.focus();
+    const found = cardErrors(card, todayInCentral());
+    if (Object.keys(found).length > 0) {
+      setErrors(found);
+      const first = (["number", "expiry", "securityCode", "zip"] as const).find((field) => found[field]);
+      document.getElementById({ number: "card-number", expiry: "card-expiry", securityCode: "card-code", zip: "card-zip" }[first ?? "number"])?.focus();
       return;
     }
     track("portal.payment.method_added", { simulated: true });
@@ -133,13 +136,15 @@ export function PaymentForm({ flow, whenShort, summary }: { flow: Flow; whenShor
               onChange={(v) => set("number", v)}
               inputMode="numeric"
               autoComplete="cc-number"
-              error={cardError ? copy.checkout.errors.card : undefined}
+              error={errors.number === "missing" ? copy.checkout.errors.cardNumber : errors.number ? copy.checkout.errors.card : undefined}
             />
             <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-              <TextField id="card-expiry" label={copy.checkout.expiry} value={card.expiry} onChange={(v) => set("expiry", v)} inputMode="numeric" autoComplete="cc-exp" inputClassName="pr-2" />
-              <TextField id="card-code" label={copy.checkout.securityCode} value={card.securityCode} onChange={(v) => set("securityCode", v)} inputMode="numeric" autoComplete="cc-csc" inputClassName="pr-2" />
-              <TextField id="card-zip" label={copy.checkout.zip} value={card.zip} onChange={(v) => set("zip", v)} inputMode="numeric" autoComplete="postal-code" inputClassName="pr-2" />
+              <TextField id="card-expiry" label={copy.checkout.expiry} value={card.expiry} onChange={(v) => set("expiry", v)} inputMode="numeric" autoComplete="cc-exp" inputClassName="pr-2" error={errors.expiry ? copy.checkout.errors.expiry : undefined} />
+              <TextField id="card-code" label={copy.checkout.securityCode} value={card.securityCode} onChange={(v) => set("securityCode", v)} inputMode="numeric" autoComplete="cc-csc" inputClassName="pr-2" error={errors.securityCode ? copy.checkout.errors.securityCode : undefined} />
+              <TextField id="card-zip" label={copy.checkout.zip} value={card.zip} onChange={(v) => set("zip", v)} inputMode="numeric" autoComplete="postal-code" inputClassName="pr-2" error={errors.zip ? copy.checkout.errors.zip : undefined} />
             </div>
+            {/* Moved here from the details step (copy audit). Consent stays on details */}
+            <p className="pt-1 text-label text-slate">{copy.checkout.notice}</p>
           </form>
         </section>
       </Card>
