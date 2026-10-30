@@ -101,7 +101,7 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 | `/join/whats-going-on` | 2. What's going on? |
 | `/join/confirm` | 3. Here's what we understood |
 | `/join/provider` | 4. Your provider |
-| `/join/book` | 5. Book your visit (one-page checkout) |
+| `/join/book` | 5. Book your visit (two steps: details, then payment) |
 | `/join/booked` | 6. You're booked |
 | `/join/not-a-fit/[reason]` | Screen-outs |
 | `/help-now` | Crisis screen, with versions for immediate danger (911 first) and for being hurt by someone else (safety resources) |
@@ -119,8 +119,8 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 - **Colour:** the page stays white, blue only in the background, a white card behind anything people read, and the demo banner never covered
 - **One way of doing each thing:** a check only on a valid typed field, never inside a choice. Yes then No. An 8px spacing scale, the same card padding and radius for each kind of thing, at least 12px of padding inside chips and options, chip labels at 16px. Icons and avatars line up with the first line of text. No label wraps; the short date ("Mon, Nov 2") where the full one would wrap; phone numbers on one line
 - **Progress:** one row on mobile: the back arrow and one bar in four segments, one per phase. The phase name is a small label above the heading, same spot on every screen. Screen readers hear "About you, part 2 of 3". No dots, no "Step x of 4", no time left. On the desktop panel, a ring around each phase number that turns into a check, a one-line summary under each finished phase, then "Typical cost" and "Earliest visit". The check-in has one stepper
-- **Desktop panel and photos:** a labelled photo placeholder (changing per phase or every couple of steps), the quote on every panel screen, no panel on the crisis screens and screen-outs. A logo placeholder at the top sized for Legion's logo
-- **Screen 1:** insurer logo placeholders in the plan cards. "I don't see my plan" opens the full plan list with search first. The proof moment right after "You're covered": Texas clinicians who take the plan, the earliest visit and the typical cost (demo numbers)
+- **Desktop panel and photos:** Lily's photos, one per phase (about-you, whats-going-on, your-provider, book), resized for the web; your-provider also goes on the proof moment after insurance, and book on "You're booked". Credits in the README, from `CREDITS.md`. Provider avatars stay as initials. The panel changes photo per phase, the quote on every panel screen, no panel on the crisis screens and screen-outs. A logo placeholder at the top sized for Legion's logo
+- **Screen 1:** plan names as text, no insurer logos. "I don't see my plan" opens the full plan list with search first. The proof moment right after "You're covered": Texas clinicians who take the plan, the earliest visit and the typical cost (demo numbers)
 - **"What's going on?":** Legion's full conditions list as starter chips with line icons, "Not sure" last. Live dictation. The text box grows as they type (on the check-in, to about 6 or 7 lines, then scrolls)
 - **Provider:** a one-sentence summary at the top. Tapping a provider shows its own day strip of times. "See more providers" as its own screen: three cards, then "Show more providers", the recommended one pinned at the top
 - **Checkout:** the visit card on two or three labelled rows on a white card. Labels inside the inputs. A collapsed visit summary above payment, opening inside the same card. The card number on its own row, then expiry, security code and ZIP. Cost once per layout (desktop panel, mobile Details step)
@@ -161,7 +161,8 @@ The full screen-by-screen spec is `docs/new-flow-map.md`. Every screen: the bann
 - `POST /api/ai/whats-going-on`: Sonnet, structured output per `docs/evals.md`
 - `POST /api/ai/check-in/next`: Sonnet, returns the next question or done
 - `POST /api/ai/check-in/summary`: Sonnet, the clinician summary with citations
-- `POST /api/ai/crisis-flag`: Haiku, run on every patient message, in parallel with the word list
+- The crisis flag (Haiku) runs inside each AI step's route, on every patient message, in parallel with the word list. There's no separate crisis-flag route
+- `POST /api/visit/check-in-done`: records only `intake_done`. The check-in's answers and summary stay in the browser tab
 
 Models: `claude-sonnet-5-5` for both AI steps, `claude-haiku-5-5` for the crisis flag, `claude-opus-5-5` for the eval grader (current IDs on Anthropic's models page, Oct 29). If the Haiku flag misses any crisis case in the evals, switch it to `claude-sonnet-5-5` and log the result in `docs/decisions.md`.
 
@@ -169,7 +170,7 @@ Structured outputs use `output_config.format` with `type: "json_schema"`. The AP
 
 - **Slow responses:** at 5 seconds, show "Still working on it…". At 10 seconds, offer "Use a simple form instead" and keep what the patient typed. The step only switches to the form on its own on a real error (a failed call, a refusal, a truncated response or a validation failure)
 - **Rate limit:** about 30 "What's going on?" calls per visitor per hour (the crisis flag never counts toward it), plus a daily spending cap for the whole demo (`AI_DAILY_CAP_USD`, default $10, estimated from the token counts each call returns, the crisis flag included). Over either limit, the step opens as the simple form with its note
-- **Patient text limit:** 2,000 characters per answer
+- **Patient text limit:** 1,000 characters per answer, with "That's the limit here. You can tell your provider the rest at your visit." at the limit. Names up to 100 characters
 
 ## 5. Events to track
 

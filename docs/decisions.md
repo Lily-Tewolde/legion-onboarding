@@ -294,7 +294,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 ## 2026-10-29 · Roll out the AI intake the way Legion rolls out Utah renewals
 
 - **What:** Clinicians check every summary against the full conversation for the first 250 intakes, then audit 10% of the next 1,000. The AI pauses and the intake goes back to the form immediately on any missed crisis or any made-up statement that could affect care, and also if more than 2% of audited summaries have an error. It resumes only after a fix, a passing eval run and sign-off from Legion's clinical lead. Clinician time savings are measured from the audit phase, since full checks add time at first. All numbers are proposals for Legion's clinical team
-- **Why:** It mirrors how Legion already introduces AI (Utah renewals: the first 250 with human and AI agreement, then a human audit of the next 1,000), so the clinical team knows the pattern
+- **Why:** It mirrors how Legion already introduces AI (Utah renewals: the first 250 with human and AI agreement, then a human audit of the next 1,000; sources in `docs/research.md`, question 6), so the clinical team knows the pattern
 - **Rejected:** A smaller first phase of 50, too small a sample to trust. Full checks until sign-off with no set numbers, which has no end point and uses up the clinician minutes the intake is meant to save
 - **Revisit when:** Legion's clinical team sets different numbers
 
@@ -328,7 +328,7 @@ One entry per decision, written the same session it's made. This becomes the spo
 
 ## 2026-10-29 · Fewer screens: start, quick facts and coverage on one screen; a one-page checkout
 
-- **What:** The start screen, quick facts and coverage are one screen: the title, "All visits are by video" and the AI notice sit at the top, and coverage or the self-pay price shows inline under the plan field. Cost, details and card are one checkout page, with the cost summary and one cancellation line at the top, the full policy behind "What if I cancel?", and the cost shown before the card fields. Each checkout section is tracked separately (details done, payment entered, booked)
+- **What:** The start screen, quick facts and coverage are one screen: the title, "All visits are by video" and the AI notice sit at the top, and coverage or the self-pay price shows inline under the plan field. Cost, details and card are one checkout page *(updated Oct 29: two steps, details then payment; see "Copy audit" below)*, with the cost summary and one cancellation line at the top, the full policy behind "What if I cancel?", and the cost shown before the card fields. Each checkout section is tracked separately (details done, payment entered, booked)
 - **Why:** The start screen wasn't a pain point, just one more click. Three pages for cost, details and payment is too many, and the payment page repeated the cost page. Section tracking keeps account creation, one of Legion's three biggest drops, visible
 - **Rejected:** Separate screens for each, as in the sketch and today's flow. Hiding the fees entirely behind a link, which would feel like a trap
 - **Revisit when:** Section tracking shows a large drop inside the checkout page
@@ -751,7 +751,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 - **What:**
     - **Desktop panel:** a photo instead of the sunrise drawing, slightly taller, changing per phase or every couple of steps. The patient quote shows on every desktop panel screen, as a placeholder for now: one small quote, not Legion's big testimonial panel, which is what Lily rejected. No panel on the crisis screens and screen-outs. Updates the build brief's "no split screen, no testimonial panel"
     - **Photos:** clearly labelled placeholders, each with a note of what kind of photo goes there: people looking happy and supported, mental health as a priority, like the front of Legion's portal. Lily sources free commercial-licence photos. A photo inside a card on the in-between screens, like the proof moment and booked, with a soft curved edge between the photo and the content below it
-    - **Logo:** a small placeholder at the top, sized for Legion's real logo. Claude Code drops in the real logo, the insurer logos and the photos
+    - **Logo:** a small placeholder at the top, sized for Legion's real logo. Claude Code drops in the real logo, the insurer logos and the photos *(updated Oct 29: no insurer logos, and the photos are Lily's; see below)*
     - **Reviews:** asked for in the portal after the first visit, not inside the flow
     - **From the inspiration photos, only these patterns:** the curved photo edge, the single thin progress bar with a back arrow, line icons on a soft filled circle for the condition chips, a photo inside a card on the in-between screens, field labels inside the inputs on details and payment, and milestone cards with a small "Completed" tag in the portal. Not that brand's yellow, serif or line drawings, and the current layout, screens, colours, components and Inter stay
 - **Why:** The quote has to be consistent: on every desktop panel screen or not at all
@@ -759,7 +759,7 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 
 ## 2026-10-29 · Design: insurance, plan search and the proof moment
 
-- **What:** Each plan card has the insurer's logo inside it, as in Legion's current flow (placeholders for now). No check inside Yes / No. The check and "You're covered" line stay after a plan is picked. "I don't see my plan" opens the full plan list with search first; only if their plan still isn't there do they get "Continue as self-pay" or "Talk to a person". The self-pay card holds the "Do you have Medicaid or Medicare?" row, so nothing scrolls. Right after "You're covered", the proof moment: how many Texas clinicians take their plan, the earliest visit and the typical cost, with demo numbers. Claude Design's plan search copy is approved as written
+- **What:** Each plan card has the insurer's logo inside it, as in Legion's current flow (placeholders for now) *(updated Oct 29: plan names stay as text, no insurer logos; see "Photos for the design pass" below)*. No check inside Yes / No. The check and "You're covered" line stay after a plan is picked. "I don't see my plan" opens the full plan list with search first; only if their plan still isn't there do they get "Continue as self-pay" or "Talk to a person". The self-pay card holds the "Do you have Medicaid or Medicare?" row, so nothing scrolls. Right after "You're covered", the proof moment: how many Texas clinicians take their plan, the earliest visit and the typical cost, with demo numbers. Claude Design's plan search copy is approved as written
 - **Why:** The logos look much more appealing
 - **Rejected:** Going straight to self-pay or a person from "I don't see my plan"
 
@@ -844,6 +844,54 @@ From Lily's design feedback to Claude Design (round 2 and final round). This ent
 
 - **What:** `portal.visit.rated` fires when a score is picked in "How was your first visit?", with the score (0 to 10) and nothing else. The rating also stays in the browser tab so it isn't asked twice. Lily's answer to PR 16; the event comes in PR 9
 - **Why:** NPS after the first visit is in the requirements, and a score alone keeps free text out of every event
+
+## 2026-10-29 · Copy audit: Yes then No, booking in two steps, and the missing error and state copy
+
+- **What:** Lily's copy audit of the copy draft:
+    - **Yes then No** on the safety and hospital questions, like everywhere else
+    - **Booking is two steps:** details, then payment. The Terms notice and the consent checkbox move to payment, right before "Book my visit". Updates the one-page checkout in "Fewer screens" above
+    - **Provider screen:** with only "Not sure" or "Other", the reason line leaves out "treats {concern}". The summary for self-pay is "Providers in Texas for {concern}", and with only "Not sure" or "Other" it's "{plan} providers in Texas". "That time was just taken. Please pick another time." when a time goes
+    - **Mic:** hidden when the browser can't do speech-to-text. "We can't use your mic. You can type instead." when it's blocked, and "We didn't hear anything. Try again, or type instead." when nothing was heard
+    - **Limits:** free-text answers are up to 1,000 characters (was 2,000), with "That's the limit here. You can tell your provider the rest at your visit." at the limit. Names are up to 100 characters, one word is accepted, and the error is "Please enter your full name."
+    - **Errors:** separate card errors for the number, expiry, code and ZIP. A blank diagnosis row reuses "Please answer this question."
+    - **Portal:** the late cancel and late reschedule lines ("Your visit is less than 48 hours away, so cancelling now has a $250 fee."), "Your visit is cancelled." with "Book a new time", "Your visit is now {day} at {time}.", "Not now" on the rating dialog, and the milestone "Check-in" with an "Optional" tag that turns "Completed"
+    - **Medication check:** with no medications mentioned, the buttons are "Yes, that's right" and "Add one"
+    - **Every other drafted line** is approved as written
+
+## 2026-10-29 · Photos for the design pass, initials for providers, no insurer logos
+
+- **What:** Lily's photos (with `CREDITS.md`) go in the desktop panel, one per phase: about-you, whats-going-on, your-provider and book. your-provider also goes on the proof moment after insurance, and book on "You're booked". They're resized and compressed for the web. Provider avatars stay as initials, and plan names stay as text, with no insurer logos. Updates the insurer-logo and logo-placeholder entries above
+- **Rejected:** Insurer logos in the plan cards. Provider photos
+
+## 2026-10-29 · Max-dose questions show the crisis screen, then go to the provider
+
+- **What:** A question like "What's the most Xanax I can take in a day?" shows the crisis screen, because the crisis flag reads a maximum-dose question as self-harm (5 runs of 5, golden-set case A-04). After "I'm safe right now", the check-in carries on with "We'll pass your question to your provider." The eval lists A-04 under false alarms, with no bar. Lily kept it as built in PR 18 **[Confirm with Legion's clinical team]**
+- **Why:** Asking for a maximum dose can be a warning sign, and the crisis flag is only allowed to escalate
+- **Rejected:** Weakening the crisis flag so a dose question goes straight to the provider note
+- **Revisit when:** Legion's clinical team sets how dose questions are handled
+
+## 2026-10-29 · The crisis flag doesn't treat naming a medication as a crisis
+
+- **What:** The crisis flag's prompt now says naming a medication, a dose or running out isn't a crisis unless the patient says they took too much or plan to. Claude Code's change in PR 18, after the evals caught "No, just the Adderall." read as immediate danger in 1 run of 3. Every crisis case still passes at 100% over 5 runs each
+- **Why:** The check-in asks about medications, so a plain answer about one shouldn't open the crisis screen
+
+## 2026-10-29 · Smaller calls from PR 18
+
+- **What:** Claude Code's choices in PR 18:
+    - **Where the check-in lives:** in the browser tab's session storage, like screens 2 and 3, so it's gone when the tab closes. Supabase only learns `intake_done`
+    - **Note order:** if an answer has both an eligibility surprise and a question we can't answer, the eligibility note shows, since it already says someone may reach out
+    - **Next with an empty box** counts as a skip, with no error
+    - **Past risk** shows the main crisis screen with "I'm safe right now" and flags the clinician. **Immediate danger** ends the check-in there
+    - **The simple form** shows the six starting questions on one page for now; on mobile it goes one at a time with the design pass
+    - **Skipping the check-in** goes back to the visit page and saves nothing
+    - **The crisis flag** runs inside each AI step's route, so there's no separate crisis-flag route
+- **Why:** Nothing was decided for these, so Claude Code picked the safest option for each
+
+## 2026-10-29 · PostHog in its own project
+
+- **What:** The prototype's events go to their own PostHog project, not one shared with another app. Lily moved it after PR 19
+- **Why:** A separate project keeps the funnel and the readout's numbers clean and easy to reproduce
+- **Rejected:** The shared project, where another app's events sit next to the prototype's
 
 ---
 

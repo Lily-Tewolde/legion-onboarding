@@ -20,6 +20,13 @@ Every figure reproduces from Legion's data with `python3 analysis/size_funnel.py
 I walked the Texas flow by hand on Oct 28, on desktop and on my phone, in incognito, and stopped before reserving a real provider. Full notes are in `docs/flow-map.md` and `docs/step-1-findings.md`.
 
 - I answered 7 questions before learning I was covered, 9 before seeing a provider, and 20 before seeing the full cost, fees and card requirement
+
+| Questions answered before... | Legion today | My flow |
+|---|---|---|
+| Knowing I'm covered | 7 | 4 (self-pay sees the price after 3) |
+| Seeing a provider | 9 | 8 |
+| Seeing the full cost and cancellation policy | 20 | 10 |
+
 - The fit check is six identical yes / no cards, and screen-out answers turn the card red
 - The patient quote takes half the page on every step, even after someone has started
 - The recommended provider wasn't first, and I had to scroll past a loading box to reach anyone
@@ -39,6 +46,18 @@ The flow goes from "Let's get you care" to a completed first visit, in 12 screen
 5. **Book your visit:** the full cost and cancellation policy before the card, on one page
 6. **You're booked**, then a portal with Visit, Inbox and Profile tabs, an **AI pre-visit check-in**, a **clinician view** that leads with what a doctor scans first, reminders, demo controls to finish the visit, and an NPS question only after the visit
 
+| Step | The patient | The AI | Rules decide | A person |
+|---|---|---|---|---|
+| Let's get you care | Date of birth, Texas, insurance, and two direct safety questions | Nothing | Under 18, outside Texas, Medicaid or Medicare, and a recent hospital stay screen out. "Yes" to safety opens the crisis screen | "Talk to a person" on every screen |
+| What's going on? | Types, speaks or taps chips | Restates it as concerns, with at most one clarifying question. A separate flag checks for crisis | A word list runs first. Over a limit, or if the AI fails, it's a simple form | 988, 911 and Legion's number on the crisis screen |
+| Here's what we understood | Fixes the chips, says what's been diagnosed | Its restatement, never a diagnosis | Anything that contradicts screen 1 runs screen 1's rules again | |
+| Your provider | Picks a time | Nothing | The recommended provider, from the concern, the plan and the earliest time | "Talk to a person" when there are no times |
+| Book your visit | Details, consent and a made-up card | Nothing | Field checks. An email that's already used offers sign-in | |
+| Portal | Adds it to a calendar, reads the inbox, reschedules or cancels | Nothing | When each message arrives (72 hours, 24 hours, 1 hour), and the late fee | |
+| Pre-visit check-in (optional) | Answers 5 to 8 questions, typed or spoken, and confirms medications | Writes each next question, then a summary for the clinician. The crisis flag runs on every answer | 5 to 8 questions, no repeats, no doses, under 18 stops it. Medication names are matched in code | Crisis or being hurt goes to resources and a person |
+| Clinician view | | The summary, with every line linked to the answer it came from | Flags are only ever shown to the clinician | The clinician reads it before the visit |
+| First visit | Joins, then rates the visit | Nothing | NPS only after the visit is marked completed | The provider runs the visit (simulated, with demo controls) |
+
 **Built fully:** the AI pre-visit check-in and the clinician summary. That's where AI does real clinical data-collection work, and it sits in the stretch from booked to first visit that Legion doesn't measure today. **Built simply:** the booking screens, which are mostly layout fixes to the measured drops.
 
 **Safety:** a word list and a separate AI flag check every free-text answer. Either one can send the patient to crisis resources and a person, and neither can clear the other. The AI never diagnoses or gives medical advice.
@@ -54,7 +73,7 @@ The full log, with what I rejected and when I'd revisit each one, is in `docs/de
 1. **The fit check asks facts, not six yes / no cards.** Fewer taps and coverage much earlier. The tradeoff: a typed date of birth can be mistyped, so the age rule is tested at its edges
 2. **One "What's going on?" question instead of the conditions and needs pages.** It gives the recommended provider a real reason. Those two pages lose few sessions today, so I didn't build a full chat in booking
 3. **Card at booking, charged after the visit.** There's no evidence payment is where people drop, and a card protects against no-shows. Reserve-first is in what's next, to test once payment is tracked
-4. **The AI check-in rolls out the way Legion rolls out Utah renewals:** clinicians check every summary for the first 250, then audit 10% of the next 1,000, with clear pause rules. The numbers are proposals for Legion's clinical team
+4. **The AI check-in rolls out the way Legion rolls out Utah renewals:** clinicians check every summary for the first 250, then audit 10% of the next 1,000, with clear pause rules. The 250 and 1,000 come from Legion's Utah pilot (`docs/research.md`, question 6); the 10% and the pause rules are proposals for Legion's clinical team
 5. **Tell patients about AI once, at the start,** with a "Talk to a person" link on every screen
 
 ## How I'd measure it through the first visit
@@ -86,10 +105,10 @@ From `docs/next.md`:
 
 ## How I used AI
 
-- **Three tools, one spec:** a Cowork session for the research, the data read, the spec, the docs and reviewing every PR; Claude Design for the visual design, over rounds of my feedback; and Claude Code for the build, in small PRs, each checked against the spec before I merged it
-- **Evals before prompts ship:** a 70-case golden set and `npm run eval`. I scored 10 grader cases blind before seeing the grader's results, and it agrees with me on all 10
+- **Two Cowork sessions, Claude Design and Claude Code, one spec:** one Cowork session for the work (the research, the data read, the spec, the docs and reviewing every PR) and one for the competitor research; Claude Design for the visual design, over rounds of my feedback; and Claude Code for the build, in small PRs, each checked against the spec before I merged it
+- **Evals before prompts ship:** a 70-case golden set and `npm run eval`. I scored 10 grader cases blind before seeing the grader's results. It agreed with me on 9 of 10 at first, and the miss was the answer key, which I corrected and logged
 - **Every decision is mine,** and I edited or approved every line of copy. Where I changed an AI draft, the doc says so (for example, "Changes from the AI draft" in `docs/data-read.md`)
-- **The full, unedited AI history,** with its index: [fill in]
+- **The AI history, unedited, with its index:** [fill in]
 
 ---
 

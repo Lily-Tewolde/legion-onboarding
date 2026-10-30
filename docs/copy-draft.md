@@ -43,7 +43,7 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - Title: "Talk to a person"
 - "Call or text us at (555) 010-0123."
 - "Monday to Friday, 8 am to 6 pm Central."
-- Demo line at the bottom: "Demo number and hours" **[drafted]**
+- Demo line at the bottom: "Demo number and hours" **[decided]**
 - "If you're in crisis, call or text 988 any time."
 - Button: "Close"
 
@@ -68,8 +68,8 @@ Crisis resources use the wording from their own sources: the 988 Suicide & Crisi
 - Insurance. Label: "Do you have health insurance?" Options: "Yes", "No". "Yes" shows the plan field; "No" is self-pay **[decided]**
 - Plan, if insured. Label: "Your insurance plan". Placeholder: "Choose your plan". Last option: "I don't see my plan". Coverage shows inline under the field (see screen 3)
 - Self-pay, shown inline once "No" is chosen: "Self-pay is $250 for your first visit and $150 for follow-up visits, charged after your visit." *(from Legion's current flow; credited in the README, not on screen)*
-- **[REVIEW]** Safety question: "Are you thinking about harming yourself or others?" Options: "No", "Yes". Hint: "If you answer yes, we'll show you how to get help right away."
-- **[REVIEW]** **[Confirm with Legion's clinical team]** "Have you been in the hospital for mental health or substance use in the past year?" Options: "No", "Yes". Hint: "This helps us make sure we can offer the right level of care."
+- **[REVIEW]** Safety question: "Are you thinking about harming yourself or others?" Options: "Yes", "No" **[decided]**. Hint: "If you answer yes, we'll show you how to get help right away."
+- **[REVIEW]** **[Confirm with Legion's clinical team]** "Have you been in the hospital for mental health or substance use in the past year?" Options: "Yes", "No" **[decided]**. Hint: "This helps us make sure we can offer the right level of care."
 - Button: "Continue"
 - Errors:
     - "Please enter your date of birth as MM / DD / YYYY."
@@ -132,16 +132,16 @@ Shown from the safety question, or when the word list or the AI flag catches som
 - On phones, these open the dialer or messages in one tap. On desktop, the numbers are shown clearly
 - **[Confirm with Legion's clinical team]** On its own at the bottom: checkbox "I'm safe right now and want to keep going", then button "Continue". The crisis check stays on for the rest of the session
 
-**Added from the golden-set review (Oct 29). Lines marked [drafted] were drafted in the Legion Cowork Session for Lily to edit.**
+**Added from the golden-set review (Oct 29). Lines first drafted in the Legion Cowork Session; Lily approved them as written on Oct 29.**
 
-*Immediate danger (for example, "I took a bunch of my pills an hour ago")* **[REVIEW]** **[drafted]** **[Confirm with Legion's clinical team]**
+*Immediate danger (for example, "I took a bunch of my pills an hour ago")* **[REVIEW]** **[decided]** **[Confirm with Legion's clinical team]**
 - Title: "Call 911 now"
 - "If you've taken something or you're in danger right now, call 911."
 - Primary button: "Call 911"
 - Secondary, text-style button under it: "Call or text 988" **[decided]**
 - No "I'm safe" checkbox on this version **[Confirm with Legion's clinical team]**
 
-*Being hurt by someone else (for example, "My partner hurts me when he drinks")* **[REVIEW]** **[drafted]** **[Confirm with Legion's clinical team]**
+*Being hurt by someone else (for example, "My partner hurts me when he drinks")* **[REVIEW]** **[decided]** **[Confirm with Legion's clinical team]**
 - Title: "Help is available"
 - "If you're in immediate danger, call 911."
 - "The National Domestic Violence Hotline is free and open 24/7, with help in Spanish. Call 1-800-799-7233 or text START to 88788." (Source: [thehotline.org](https://www.thehotline.org/))
@@ -192,10 +192,14 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - Button: "Continue"
 - While reading: skeleton
 - If empty: "Please tell us a little more."
+- If the browser can't do speech-to-text, the mic button is hidden **[decided]**
+- If the mic is blocked: "We can't use your mic. You can type instead." **[decided]**
+- If nothing was heard: "We didn't hear anything. Try again, or type instead." **[decided]**
+- Free-text answers here and in the check-in are up to 1,000 characters. At the limit: "That's the limit here. You can tell your provider the rest at your visit." **[decided]**
 - Link: "Use a simple form instead"
 - If the answer can't be read (for example, mashed keys): "We didn't quite catch that. Try again, or use a simple form instead." If it happens a second time, the simple form opens **[decided]**
 
-**Someone else (for example, "My husband needs help with his anxiety")** **[REVIEW]** **[drafted]**
+**Someone else (for example, "My husband needs help with his anxiety")** **[REVIEW]** **[decided]**
 - Title: "Is this for someone else?"
 - "It sounds like you're looking for help for someone else. They'll need to sign up themselves, so their provider can talk with them directly."
 - "If you're worried about their safety right now, call or text 988."
@@ -216,10 +220,10 @@ Shown under the plan field once a plan is picked. Not its own screen.
 - Title: "Here's what we understood"
 - "Remove anything that's wrong, or add anything we missed."
 - Chip remove (for screen readers): "Remove {item}"
-- Add: "+ Add"
+- Add: "+ Add". On mobile, a round + button that screen readers hear as "Add something we missed" **[decided]**
 - Policy line, only for the concern it applies to **[Confirm with Legion]**. For example, for Anxiety: "We don't prescribe benzodiazepines over 1 mg a day." For now, Anxiety's is the only one
 - "This only repeats what you told us. It isn't a diagnosis."
-- For each concern where we don't know whether it's been diagnosed (for example, only a chip was tapped): one row under the chips, "Have you been diagnosed with {concern}?" For example: "Have you been diagnosed with anxiety?" Options: "Yes", "No", "Not sure". Concerns we already know about get no row **[decided]**
+- For each concern where we don't know whether it's been diagnosed (for example, only a chip was tapped): one row under the chips, "Have you been diagnosed with {concern}?" For example: "Have you been diagnosed with anxiety?" Options: "Yes", "No", "Not sure". Concerns we already know about get no row **[decided]**. If a row is left blank on "Looks right": "Please answer this question." **[decided]**
 - How each concern reads in that question, with acronyms in capitals: "ADHD", "anxiety", "depression", "insomnia", "PTSD", "OCD", "panic disorder", "bipolar disorder". No row for "Other" or "I'm not sure" **[decided]**
 - Double-checks, when the answer mentions something that doesn't match screen 1: one small row each, under the chips **[decided]**
     - Another state: "You mentioned another state. Will you be in Texas for your visits?" Options: "Yes", "No"
@@ -238,8 +242,11 @@ Shown under the plan field once a plan is picked. Not its own screen.
 
 - Title: "Recommended for you"
 - Summary at the top: "{plan} providers in Texas for {concern}", for example "Aetna providers in Texas for anxiety" **[decided]**
+    - Self-pay: "Providers in Texas for {concern}" **[decided]**
+    - With only "Not sure" or "Other": "{plan} providers in Texas" **[decided]**
 - Tapping a provider shows that provider's own times as a short day strip **[decided]**
-- Reason: "Why we recommend {full name}, {credential}: treats {concern} · takes your plan · available {day}". For self-pay, leave out "takes your plan"
+- Reason: "Why we recommend {full name}, {credential}: treats {concern} · takes your plan · available {day}". For self-pay, leave out "takes your plan". With only "Not sure" or "Other", leave out "treats {concern}" **[decided]**
+- If the time was just taken: "That time was just taken. Please pick another time." **[decided]**
 - Demo line at the bottom: "Demo: made-up provider"
 - "Video visit · about 60 minutes" (60 minutes is from Legion's current flow)
 - "Pick a time"
@@ -259,7 +266,7 @@ Shown under the plan field once a plan is picked. Not its own screen.
 
 ## 7. Book your visit (screens 7, 8 and 9 combined)
 
-One page, like a one-page checkout when you shop online.
+Two steps: details, then payment **[decided]**. The visit card stays on both.
 
 **Your visit (summary card at the top)**
 - Two or three labelled rows: date and time, who they're seeing, video visit, with the short date ("Mon, Nov 2") where the full one would wrap **[decided]**
@@ -273,24 +280,29 @@ One page, like a one-page checkout when you shop online.
 
 **Your details**
 - "So your provider knows who you are, and we can send you your visit details."
-- Fields: "First and last name", "Email", "Mobile phone"
-- **[Confirm with Legion]** Notice: "By continuing, you agree to our Terms of Service and Privacy Policy. You can read our HIPAA Notice of Privacy Practices and how we use AI." (Each is a link. A proposed pattern; what's required is for Legion's counsel.)
-- **[Confirm with Legion]** Checkbox: "I consent to treatment by Legion Health providers." Link: "Read the consent"
+- Fields: "First and last name" (up to 100 characters; one word is accepted), "Email", "Mobile phone"
 - Email already used: "There's already an account with this email." Buttons: "Sign in to continue", "Use a different email". Demo line at the bottom: "Demo: sign-in simulated"
 
 **Payment**
 - "You won't be charged now."
 - Above the payment fields, a collapsed visit summary (date, provider, video visit) that opens inside the same card **[decided]**
 - Fields, with labels inside the inputs: "Card number" on its own row, then "Expiry (MM/YY)", "Security code", "ZIP code" **[decided]**
-- Demo line at the bottom: "Demo: payment simulated. Use any made-up card number."
+- Demo line at the bottom: "Demo: payment simulated. Any made-up card works." **[decided]**
+- Right before the button, moved here from the details step **[decided]**:
+    - **[Confirm with Legion]** Notice: "By continuing, you agree to our Terms of Service and Privacy Policy. You can read our HIPAA Notice of Privacy Practices and how we use AI." (Each is a link. A proposed pattern; what's required is for Legion's counsel.)
+    - **[Confirm with Legion]** Checkbox: "I consent to treatment by Legion Health providers." Link: "Read the consent"
 
 **Button:** "Book my visit"
 
 - Errors:
-    - "Please enter your first and last name."
+    - "Please enter your full name." **[decided]**
     - "Please enter an email like name@example.com."
     - "Please enter a 10-digit US phone number."
     - "Please check the box to continue."
+    - "Please enter your card number." **[decided]**
+    - "Please check the expiry date." **[decided]**
+    - "Please enter the 3 or 4 digit code on your card." **[decided]**
+    - "Please enter a 5-digit ZIP code." **[decided]**
     - "We couldn't save this card. Please check the details and try again."
 
 **Lily's notes**
@@ -325,22 +337,26 @@ One page, like a one-page checkout when you shop online.
 
 ## 11. Your first visit
 
-- Portal tabs: "Visit", "Inbox", "Profile". A bottom tab bar on mobile, a left sidebar on desktop. Profile is only an entry point **[decided]**. It shows the made-up name, email and phone from checkout, with the demo line at the bottom: "Demo: changing your details isn't part of this prototype." **[drafted]**
-- Milestone cards with a small "Completed" tag, for example booked, check-in done, first visit **[decided]**. Names: "Visit booked", "Check-in done", "First visit" **[drafted]**
+- Portal tabs: "Visit", "Inbox", "Profile". A bottom tab bar on mobile, a left sidebar on desktop. Profile is only an entry point **[decided]**. It shows the made-up name, email and phone from checkout, with the demo line at the bottom: "Demo: changing your details isn't part of this prototype." **[decided]**
+- Milestone cards with a small "Completed" tag, for example booked, check-in done, first visit **[decided]**. Names: "Visit booked", "Check-in", "First visit". "Check-in" has an "Optional" tag that turns "Completed" once it's done **[decided]**
 - Title: "Your first visit"
 - The visit card, with the same labelled rows
 - Calendar preview of the visit, with "Add to calendar": "Google", "Apple", "Outlook"
 - What to expect: "Your provider will ask about what's going on, your history and any medications. Plan for about 60 minutes somewhere quiet and private." (60 minutes is from Legion's current flow)
 - Text-style buttons: "Reschedule", "Cancel visit" **[decided]**
 - "Reschedule" and "Cancel visit" both show Legion's 48-hour policy first, then act **[decided]**
-- Cancel asks first: "Cancel this visit?" Buttons: "Yes, cancel it", "Keep my visit" **[drafted]**
+- Cancel asks first: "Cancel this visit?" Buttons: "Yes, cancel it", "Keep my visit" **[decided]**
+- Within 48 hours, before cancelling: "Your visit is less than 48 hours away, so cancelling now has a $250 fee." **[decided]**
+- Within 48 hours, before rescheduling: "Your visit is less than 48 hours away, so rescheduling now has a $250 fee." **[decided]**
+- After cancelling: "Your visit is cancelled." Button: "Book a new time" **[decided]**
+- After rescheduling: "Your visit is now {day} at {time}." **[decided]**
 - Check-in card: "Optional: pre-visit check-in". "About 5 minutes. Your provider can spend more of your visit on you. You can skip it."
 - "Do it any time before your visit. Earlier gives your provider time to read it."
 - Button: "Start check-in"
-- Messages: the "Inbox" tab (see screens 12 and 15)
-- Demo control, beside the visit card: "Demo: skip to 72 hours" **[decided]**. It then moves on to "Demo: skip to 24 hours" and "Demo: skip to 1 hour", so the reminders and "Join visit" can be shown **[drafted]**
+- Messages: the "Inbox" tab (see screens 12 and 15). Newest first. A long message shows three lines, then "Show all" **[decided]**
+- Demo control, beside the visit card: "Demo: skip to 72 hours" **[decided]**. It then moves on to "Demo: skip to 24 hours" and "Demo: skip to 1 hour", so the reminders and "Join visit" can be shown **[decided]**
 - After the visit is marked completed, a small dialog in the corner. Never during onboarding **[decided]**:
-    - "How was your first visit?" 0 to 10, with "0 = Not good" and "10 = Great"
+    - "How was your first visit?" 0 to 10, with "0 = Not good" and "10 = Great". Text-style button: "Not now" **[decided]**
     - After a 9 or 10: "Thank you! Would you share a short review? It helps other people find care." Buttons: "Write a review", "Not now"
     - After a lower score: "Thanks for telling us. It helps us get better."
 - After the visit: "Your provider will send your next steps to your inbox." Button: "Go to my inbox" **[decided]**
@@ -379,11 +395,13 @@ One page, like a one-page checkout when you shop online.
 - Small link at the bottom, always visible: "Skip the check-in" **[decided]**
 - While the next question loads: skeleton
 - Form fallback note: "We're using a simple form for the check-in."
+- After an eligibility surprise other than age: "Thanks for telling us. Someone from our team may reach out before your visit." **[drafted]**
+- Fixing medications: field label "Medication", button "Remove" **[drafted]**
 - After two skips in a row, shown once, never as a warning: "That's okay. A few answers help your provider spend more of your visit on you." **[decided]**
 - When the patient asks something we can't answer here (for example, about cost or coverage), a soft note in line, and the check-in keeps going: "We can't answer that here. For cost or coverage, talk to a person." **[decided]**
 - When the patient asks a medication question (for example, about a dose): "We'll pass your question to your provider." The check-in keeps going **[decided]**
-- Medication check, at the end: "Did we get your medications right?" Each medication shows as the patient said it, or as it was heard when spoken. Primary button: "Yes, that's right". Text-style button under it: "Fix something". The "Skip the check-in" link stays at the bottom **[decided]**. If none were mentioned: "You didn't mention any medications." Buttons: "That's right", "Add one" **[drafted]**
-- At the medication check, when what we heard isn't a real drug name (spoken, or more than a one-letter typo): "Did you mean {drug}?" Buttons: "Yes", "No, keep what I said" **[drafted]**. The patient decides, not the AI
+- Medication check, at the end: "Did we get your medications right?" Each medication shows as the patient said it, or as it was heard when spoken. Primary button: "Yes, that's right". Text-style button under it: "Fix something". The "Skip the check-in" link stays at the bottom **[decided]**. If none were mentioned: "You didn't mention any medications." Buttons: "Yes, that's right", "Add one" **[decided]**
+- At the medication check, when what we heard isn't a real drug name (spoken, or more than a one-letter typo): "Did you mean {drug}?" Buttons: "Yes", "No, keep what I said" **[decided]**. The patient decides, not the AI
 - When it's a real drug that doesn't fit what they told us (for example, Celebrex for depression): no other drug is suggested. "Can you check the name of this medication?" It stays marked unclear for the clinician **[decided]**
 - If the patient says they're under 18: the check-in stops with "Thanks for telling us. Someone from our team will reach out before your visit." **[decided]** **[Confirm with Legion's clinical and legal team]**
 - Done: "Thanks. Your provider will see your answers before your visit." Button: "Back to my visit page"
@@ -400,12 +418,13 @@ One page, like a one-page checkout when you shop online.
 - Label: "AI summary for clinician review. Not a diagnosis."
 - Leads with what a doctor scans first: the safety flag if there is one (with the quote and the link to the answer), the concern in one line with its source link, and current medications. Everything else is behind "All answers" **[decided]**
 - Flags at the top: safety and eligibility
-- **[REVIEW]** If a safety flag was raised: "A safety flag was raised during the check-in. See the answers."
+- If a safety flag was raised, two lines: "A safety flag was raised during the check-in." then "Kept going after “I'm safe”" **[decided]**
 - **[Confirm with Legion's clinical team]** Sections: "Main concern (in the patient's words)", "What's been happening", "Past mental health care", "Medications (current and recently stopped)", "Sleep", "Other health and allergies", "Goals for the visit", "Unclear answers"
 - Each line links to the answer it came from
 - Text-style button: "All answers" (the other sections, and the questions and answers). One way to reach the answers, not two **[decided]**
 - No check-in on this device: "No check-in on this device yet." Button: "Load a sample check-in"
 - Demo line at the bottom, for the sample: "Sample: a made-up check-in for demo purposes"
+- Clinician view lines **[drafted]**: "Flags", "Answer {number}", "Patient skipped the check-in questions.", "Skipped", "As heard: '{name}' (unclear)", "said '{name}'", "confirmed by the patient", "The AI summary isn't available. The answers are below.", plus the flag labels and status words in `src/copy.ts`
 
 **Lily's notes**
 - A one-page structured summary, like a clipboard, not a conversation
@@ -430,9 +449,10 @@ One page, like a one-page checkout when you shop online.
 - Title: "Demo controls"
 - Buttons: "Mark visit completed", "Mark no-show", and a switch between the patient portal and the clinician view (wording as in Claude Design's final design) **[decided]**
 - "Demo only. This records how the visit went, so the funnel runs from start to finish."
-- "Join visit" opens the demo controls, since there's no real video visit **[drafted]**
+- "Join visit" opens the demo controls, since there's no real video visit **[decided]**
+- The switch: "Open the clinician view (demo)" and "Back to the patient portal (demo)" **[drafted]**
 - After marking completed: "Visit marked completed (demo)"
-- After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee for a missed first visit, $250, since the demo visit is a first visit **[decided]**: "The fee for a missed first visit is $250." **[drafted]** *(from Legion's current flow; credited in the README, not on screen)*. Where the full cancellation policy is shown, it keeps both amounts
+- After marking no-show: "Visit marked as a no-show (demo)". The patient's visit page then shows: "You missed your visit. Want to book a new time?" Button: "Reschedule". Plus the no-show fee for a missed first visit, $250, since the demo visit is a first visit **[decided]**: "The fee for a missed first visit is $250." **[decided]** *(from Legion's current flow; credited in the README, not on screen)*. Where the full cancellation policy is shown, it keeps both amounts
 
 **Lily's notes**
 - A separate demo panel

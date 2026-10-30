@@ -101,7 +101,7 @@ Pre-visit intake, each turn:
 ```json
 {
   "status": "ask | done | eligibility_flag | stop",
-  "inline_note": "cannot_answer or null (the app shows the fixed note from the copy)",
+  "inline_note": "cannot_answer | medication_question or null (the app shows the fixed note from the copy)",
   "next_question": "string or null",
   "eligibility_flags": [{ "type": "age | state | insurance | hospital_stay | someone_else", "message_id": "m4" }]
 }
@@ -114,7 +114,7 @@ Clinician summary (sections match the clinician view; confirm with Legion's clin
   "main_concern": [{ "quote": "the patient's own words", "cites": ["m1"] }],
   "whats_been_happening": [{ "text": "string", "cites": ["m2"] }],
   "past_care": [{ "text": "string", "cites": ["m4"] }],
-  "medications": [{ "name": "string or null", "name_as_said": "the patient's words, or the speech-to-text as heard", "dose": "string or null", "status": "taking | stopped | as_needed | unclear", "cites": ["m3"] }],
+  "medications": [{ "name": "string or null", "name_as_said": "the patient's words, or the speech-to-text as heard", "dose": "string or null", "status": "taking | stopped | as_needed | unclear", "details": "timing or other detail as said, like \"in the morning\", or null", "cites": ["m3"] }],
   "sleep": [{ "text": "string", "cites": ["m5"] }],
   "other_health": [{ "text": "string", "cites": ["m6"] }],
   "goals": [{ "text": "string", "cites": ["m1"] }],
@@ -122,6 +122,8 @@ Clinician summary (sections match the clinician view; confirm with Legion's clin
   "flags": [{ "type": "eligibility | safety | past_risk | attention", "note": "neutral, for the clinician only", "cites": ["m4"] }]
 }
 ```
+
+After the AI, the app adds three fields to each medication for the medication check: `status_as_said`, `question` and `confirmed_by_patient` (PR 18).
 
 Crisis flag:
 
