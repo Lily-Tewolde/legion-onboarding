@@ -15,7 +15,7 @@ import { VisitActions } from "./VisitActions";
 
 // Screen 7: "Your first visit", a simple patient portal page. The check-in
 // opens any time after booking; the 72-hour invite is a nudge, not a lock.
-// After a no-show, the reschedule prompt with Legion's fee policy; after the
+// After a no-show, the reschedule prompt and the first-visit fee; after the
 // visit, the rating. Layout only for now
 export default function VisitPage() {
   return (
@@ -49,8 +49,7 @@ async function Visit() {
         <section className="flex flex-col items-start gap-3">
           <p className="text-lg font-medium">{copy.visit.missed}</p>
           <ButtonLink href="/join/provider">{copy.visit.reschedule}</ButtonLink>
-          <p>{copy.checkout.cancelPolicy}</p>
-          <Tag>{copy.common.fromLegion}</Tag>
+          <p>{copy.visit.missedFee}</p>
         </section>
       )}
 

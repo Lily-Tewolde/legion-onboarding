@@ -296,8 +296,10 @@ export const copy = {
       "24h": "Demo: skip to 24 hours",
       "1h": "Demo: skip to 1 hour",
     },
-    // After "Mark no-show", with Legion's cancellation policy for the fee
+    // After "Mark no-show". The demo visit is a first visit, so only its fee
+    // shows (decided Oct 29); the wording of the fee line waits for Lily's OK
     missed: "You missed your visit. Want to book a new time?",
+    missedFee: "The fee for a missed first visit is $250.",
     // Milestone cards (decided). The milestone names, the after-the-visit
     // line and the cancel check are placeholders, waiting for Lily's OK
     completedTag: "Completed",
