@@ -145,7 +145,3 @@ Components adapted from my own design library (Inspo Book 01).
 | `book.webp` | A woman with a coffee in morning light | Desktop panel, "Book", and "You're booked" |
 
 **Logos:** Legion Health's own logo, from legionhealth.com. The insurer logos (Aetna, Blue Cross Blue Shield, Cigna, UnitedHealthcare and Oscar) are each insurer's own, from its website, and belong to their owners. The Google, Apple and Outlook marks on the calendar buttons belong to Google, Apple and Microsoft. Google's and Apple's were supplied by Lily, and Outlook's is from Microsoft's site. All are used only in this prototype for Legion.
-
----
-
-**Time:** [fill in]
