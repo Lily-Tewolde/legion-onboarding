@@ -1,12 +1,10 @@
 # Legion onboarding, rebuilt for an AI-native world: Lily Tewolde
 
-> **Draft.** Lines marked [fill in] wait on the build, the walkthrough or the final numbers.
-
-**Live:** [fill in] · **Repo:** [fill in] · **PRs:** [fill in] · **Walkthrough:** [fill in] · **AI history:** [fill in]
+**Live:** [legion-onboarding-omega.vercel.app](https://legion-onboarding-omega.vercel.app) · **Repo:** [github.com/Lily-Tewolde/legion-onboarding](https://github.com/Lily-Tewolde/legion-onboarding) · **PRs:** [every pull request](https://github.com/Lily-Tewolde/legion-onboarding/pulls?q=is%3Apr) · **Walkthrough:** [Loom, 7 min 48 sec](https://www.loom.com/share/0f9d7dbda0f14f878cdc692e7424f29b) · **AI history:** [`ai-history/`](ai-history/)
 
 ## How to try it
 
-**Live:** [fill in]. Use made-up details only. The banner on every screen says so.
+**Live:** [legion-onboarding-omega.vercel.app](https://legion-onboarding-omega.vercel.app). Use made-up details only. The banner on every screen says so.
 
 **The happy path, about 3 minutes:**
 
@@ -58,7 +56,7 @@ I walked the Texas flow by hand on Oct 28, on desktop and on my phone, in incogn
 
 ## What I built and why
 
-[fill in: 2 to 4 lines on what's live once the build is done]
+The whole flow is live, from "Let's get you care" through to a completed first visit. Four questions before you know you're covered instead of seven, and ten before the full cost instead of twenty. Eligibility is decided by tested rules in code, never by the AI. After booking, an optional five-minute AI check-in writes a summary the clinician opens before the visit, with every line linked back to the patient's own words.
 
 The flow goes from "Let's get you care" to a completed first visit, in 12 screens (`docs/new-flow-map.md`):
 
@@ -93,7 +91,7 @@ All data is made up. Coverage, payment, messages and the visit are simulated, wi
 
 The full log, with what I rejected and when I'd revisit each one, is in `docs/decisions.md`.
 
-1. **The fit check asks facts, not six yes / no cards.** Fewer taps and coverage much earlier. The tradeoff: a typed date of birth can be mistyped, so the age rule is tested at its edges
+1. **The fit check asks facts, not six yes / no cards.** Fewer taps and coverage much earlier. The tradeoff: a rule can't tell a typo from a real answer, so a mistyped date of birth screens someone out and they have to go back and correct it
 2. **One "What's going on?" question instead of the conditions and needs pages.** It gives the recommended provider a real reason. Those two pages lose few sessions today, so I didn't build a full chat in booking
 3. **Card at booking, charged after the visit.** There's no evidence payment is where people drop, and a card protects against no-shows. Reserve-first is in what's next, to test once payment is tracked
 4. **The AI check-in rolls out the way Legion rolls out Utah renewals:** clinicians check every summary for the first 250, then audit 10% of the next 1,000, with clear pause rules. The 250 and 1,000 come from Legion's Utah pilot (`docs/research.md`, question 6); the 10% and the pause rules are proposals for Legion's clinical team
@@ -124,15 +122,14 @@ From `docs/next.md`:
 - **The flow is in English, except the chips.** Trigger to fix: Legion confirms which languages it supports
 - **First-visit completion has no baseline.** Trigger to fix: the first 30 days of measurement
 - **Returning patients see the AI notice only if they start from the beginning.** Trigger to fix: returning patients reach the AI steps without having seen it
-- [fill in: anything the build leaves out]
+- **Built simply on purpose:** coverage, payment, messages and the visit are simulated and labelled on screen, and sign-in is simulated. Not built: real authentication, real payments, real email or text, a real calendar, and standard screeners
 
 ## How I used AI
 
 - **Two Cowork sessions, Claude Design and Claude Code, one spec:** one Cowork session for the work (the research, the data read, the spec, the docs and reviewing every PR) and one for the competitor research; Claude Design for the visual design, over rounds of my feedback; and Claude Code for the build, in small PRs, each checked against the spec before I merged it
 - **Evals before prompts ship:** a 70-case golden set and `npm run eval`. I scored 10 grader cases blind before seeing the grader's results. It agreed with me on 9 of 10 at first, and the miss was the answer key, which I corrected and logged
 - **Every decision is mine,** and I edited or approved every line of copy. Where I changed an AI draft, the doc says so (for example, "Changes from the AI draft" in `docs/data-read.md`)
-- **The AI history, unedited, with its index:** [fill in]
-
+- **The AI history, unedited, with its index:** [`ai-history/`](ai-history/). Every session, with [`AI_HISTORY_INDEX.md`](ai-history/AI_HISTORY_INDEX.md) saying what each one was for, how it was captured, and where to look for the decisions
 
 ## Credits
 
