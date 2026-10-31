@@ -6328,9 +6328,9 @@ A few things to check:
 Before you submit, export this chat into the AI History folder as **Legion Cowork Session 3 - Competitor onboarding.md**.
 
 Sources:
-- [Competitor onboarding - comparison.md](computer://[REDACTED: personal path]/Desktop/JOB%20SEARCH/INTERVIEWS%20BY%20COMPANY/Legion%20Health/Take-Home/Competitor%20onboarding/Competitor%20onboarding%20-%20comparison.md)
-- [Step 1 findings.md](computer://[REDACTED: personal path]/Desktop/JOB%20SEARCH/INTERVIEWS%20BY%20COMPANY/Legion%20Health/Take-Home/Step%201%20-%20Walk/Step%201%20findings.md)
-- [Legion Health - Take-Home Assignment.md](computer://[REDACTED: personal path]/Desktop/JOB%20SEARCH/INTERVIEWS%20BY%20COMPANY/Legion%20Health/Take-Home/Legion%20Health%20-%20Take-Home%20Assignment.md)
+- [Competitor onboarding - comparison.md](computer://[REDACTED: personal path]/Competitor%20onboarding/Competitor%20onboarding%20-%20comparison.md)
+- [Step 1 findings.md](computer://[REDACTED: personal path]/Step%201%20-%20Walk/Step%201%20findings.md)
+- [Legion Health - Take-Home Assignment.md](computer://[REDACTED: personal path]/Legion%20Health%20-%20Take-Home%20Assignment.md)
 
 
 ---
