@@ -1,0 +1,881 @@
+▗ ▗   ▖ ▖  Claude Code v2.1.312
+           Opus 5.5 · Claude Max
+ ▘▘   ▝▝   ~/Projects/legion-onboarding
+
+▎ [✻] [✻] [✻] · Share Claude Code and earn CA$15 in usage credits · /passes
+
+❯ review the whole legion-onboarding repo on main plus the open prs, read only, 
+  dont change anything. look for bugs, security issues like secrets or patient  
+  text reaching logs or posthog, accessibility problems, dead code, and         
+  anything that doesnt match the build brief. list findings in order of         
+  severity with file and line, and say which ones a reviewer would notice       
+
+  Ran 3 shell commands (ctrl+o to expand)
+
+⏺ 3 background agents launched (↓ to manage)
+   ├ Accessibility review of UI
+   ├ Build brief conformance check
+   └ Bugs and dead code sweep
+
+⏺ Meanwhile I'll take the security and data-flow part myself: secrets, and
+  patient text reaching logs or PostHog.
+
+  Ran 6 shell commands (ctrl+o to expand)
+
+⏺ I'm working through the security and data-flow checks while three background
+  agents review accessibility, build-brief conformance, and bugs/dead code.
+
+  Ran 6 shell commands (ctrl+o to expand)
+
+⏺ Still in the security pass. I just confirmed a real safety bug in the "Leave
+  this page" quick exit. Next I'm checking the build brief's event rules.
+
+  Searched for 1 pattern, ran 5 shell commands (ctrl+o to expand)
+
+⏺ I notice the branch switched from docs/consent-reversal to
+  fix/footer-clearance with a new commit a few minutes ago—something I didn't
+  do, likely another session working in this repo. I'll rely on the pushed
+  origin/* refs instead of the working tree and continue with the data and
+  readout checks.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+⏺ Scripts only print, so running them changes nothing. I'm checking that the
+  README numbers reproduce.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Numbers reproduce. While the agents finish, I'm checking commit and PR text
+  against the repo's own rules.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ My own pass is done. Waiting on the three background reviews (accessibility,
+  build-brief conformance, bugs/dead code) before I verify their findings and
+  write everything up.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Updated plan
+  ⎿  /plan to preview
+
+⏺ My own pass is written up. Three background reviews are still running:
+  accessibility, build-brief conformance, and bugs/dead code. When they finish
+  I'll check their findings against the code and give you one ranked list.
+
+✻ Crunched for 3m 44s · done 9:25 AM
+
+⏺ Agent "Accessibility review of UI" finished · 5m 8s
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+⏺ The accessibility review is back, and I checked its top two findings against
+  the code. Both hold. Arrow keys on the Yes/No radios immediately trigger a
+  screen-out or the crisis page. On phones, the sheet's Close button is hidden.
+  I'm still waiting on the build-brief and bugs/dead-code reviews.
+
+✻ Brewed for 11s · done 9:28 AM
+
+⏺ Agent "Bugs and dead code sweep" finished · 5m 45s
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ The bugs and dead-code review is back. I checked its main findings against the
+  code, and these hold:
+
+  - Sign-in by email: it lets anyone read and overwrite another person's
+    details.
+  - Screen 1 after booking: answering screen 1 again changes a booked session,
+    because the fit route never checks whether a visit is already booked.
+  - Crisis checks: in the check-in's simple form, the crisis-flag AI calls
+    aren't rate-limited.
+  - Daily cost cap: it adds up rows without paging, so it stops counting once a
+    day passes about 1,000 AI calls, depending on the Supabase row limit.
+
+  Still waiting on the build-brief conformance review. Then I'll put everything
+  into one ranked list.
+
+✻ Baked for 7s · done 9:28 AM
+
+⏺ Agent "Build brief conformance check" finished · 9m 5s
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Updated plan
+  ⎿  /plan to preview
+
+⏺ I reviewed main and the four open PRs (#23, #25, #26, #27) without changing
+  anything. I found 7 high, 12 medium and 8 low findings. I re-read the code for
+  every high finding and for the medium findings the background reviews raised.
+  The accessibility findings come from reading the code, not from a
+  screen-reader run.
+
+  Two things to know first:
+  - Your local main is out of date (it's at PR #4), so I reviewed the pushed
+    versions on GitHub.
+  - Partway through, this folder switched from docs/consent-reversal to a new
+    fix/footer-clearance branch, with a commit just before. I didn't do that, so
+    another session seems to be working here.
+
+  "Seen" means a reviewer would notice it by clicking the live link, reading the
+  README or the PRs, or doing a basic keyboard or data check. "Code" means
+  you'd only find it by reading the code. Line numbers are on #23 unless marked
+  otherwise.
+
+  High
+
+  1. "Leave this page" leaves the patient's words one Back away (seen if tested;
+     main and #23). help-now/being-hurt/LeaveThisPage.tsx:14 replaces only that
+     one page in the browser history. The page before it is "What's going on?",
+     and the typed text is still stored in that browser tab. So pressing Back
+     from Google shows what the person wrote about being hurt.
+  2. Arrow keys on Yes/No questions trigger screen-outs and the crisis page 
+     (seen; main and #23). In components/SegmentedControl.tsx:43, choosing an
+     option immediately leaves the page. Keyboard users who arrow to "No" on
+     "Are you in Texas?" are screened out, and arrowing to "Yes" on the safety
+     question opens the crisis page. It also records a screen-out in the
+     database and in PostHog, which skews the screen-out rate.
+  3. Anyone can read and overwrite another person's details with just their 
+     email (code; main and #23). api/join/sign-in/route.ts:23-25 links any
+     existing person to the current visitor.
+     - The profile page then shows that person's name, email and phone.
+     - If the visitor edits their details again, details/route.ts:34 overwrites
+       that person's record.
+     - It also merges the two people in PostHog.
+  4. Consent is given before the notice is shown (seen; PR #27 says so itself).
+     In #23 the consent checkbox is on details (DetailsForm.tsx:186) and the
+     terms notice is on payment (PaymentForm.tsx:147). consented_at is saved on
+     details, which contradicts merged decision #24.
+  5. The README on main is still a draft (seen).
+     - The [fill in] placeholders remain for Live, Repo, PRs, Walkthrough, "What
+       I built" and Demo controls.
+     - The brief's required "Inspo Book 01" credit line and the photo credits
+       are missing.
+     - It says the checkout is "on one page", but the brief asks for two steps.
+  6. A placeholder patient quote shows on every desktop screen in #23 (seen).
+     "[A short quote from a real Legion patient] / Placeholder: Legion to
+     supply" comes from copy.ts:53-54 and is shown at PathPanel.tsx:113-116.
+  7. The tracking can't measure the one metric (seen by a data reviewer).
+     - analysis/metrics.md:10 divides first visits by people who booked. The
+       brief divides by everyone who starts, minus screen-outs.
+     - The #25 PostHog funnel doesn't take screen-outs out.
+     - portal.fit.submitted never fires for tap screen-outs, so it's always
+       "eligible".
+     - People who use "Sign in to continue" never fire userCreated
+       (DetailsForm.tsx:71), so they drop out of the funnel even if they finish
+       their visit.
+
+  Medium
+
+  8. Health data goes to PostHog on an identified person. The concern labels and
+     the crisis kind are sent once the person is identified. The brief asks for
+     both, so it's your call. kind is typed as any string, so nothing in the
+     code stops free text going in.
+  9. Phone sheets have no Close button a screen reader can reach (#23).
+     Sheet.tsx:125 hides Close below tablet width. The clinician's "All answers"
+     sheet and the cancelled-visit sheet have no other way to close.
+  10. Errors aren't announced to screen readers and focus doesn't move to them.
+      - This covers empty "What's going on?", the simple form, the confirm
+        screen, the "I'm safe" checkbox, and consent (focus lands on the
+        wrapper, not the checkbox).
+      - "Email already used" also lost its alert role in #23.
+  11. Some choice lists don't work with arrow keys (#23). The plan list, plan
+      search, appointment times and medication check use buttons acting as
+      radios with no arrow-key support. Picking Medicaid leaves the page.
+  12. Placeholder text fails contrast at 3.23:1 (#23). This is in
+      Dictate.tsx:111 and TextField.tsx:73, including the "What's going on?"
+      example text.
+  13. The AI cost limits can be dodged.
+      - In the check-in's simple form, every answer gets a crisis-flag AI call
+        with no limit (lib/check-in/step.ts:44-60).
+      - Clearing the cookie resets the per-visitor limit.
+      - The daily-cap total in server/ai-calls.ts:42-47 reads rows without
+        paging, so it may stop counting past 1,000 rows a day. I didn't check
+        this project's Supabase row limit.
+  14. Answering screen 1 again changes a booked visit.
+      api/join/fit/route.ts:57-65 doesn't check whether the visit is booked. A
+      booked patient who answers "under 18" is redirected out of the portal, but
+      the booking stays in the database.
+  15. A reserved time can be booked after it has passed.
+      api/join/book/route.ts:18-22 only checks that a time was reserved.
+  16. The demo controls can count a completed visit twice. Clicking completed,
+      then no-show, then completed fires portal.visit.completed twice. There are
+      two copies of these controls (components/DemoControls.tsx:41 and
+      app/demo/DemoControls.tsx:41), and both do it.
+  17. The double-save fix in #23 only covers unchanged details. If a field is
+      edited while the first save is still running, a second save starts. That
+      gives a false "email already used", or leaves an orphan person record if
+      the email changed.
+  18. The insurer logos in #26 contradict the brief.
+      - Brief lines 90 and 123 say "no insurer logos", and the brief and flow
+        map weren't updated.
+      - The logos are trademarks downloaded from the insurers' own sites.
+      - CREDITS.md lists .jpg files and legion-logo.png, but the repo has .webp
+        files and legion-health-logo.png.
+  19. The terms notice has no links. It names a "HIPAA Notice of Privacy
+      Practices" with no page behind it, and the copy draft's "Read the consent"
+      link is missing.
+
+  Low
+
+  20. Smaller accessibility issues (#23).
+      - The 0–10 rating buttons have no scale labels a screen reader links to
+        them, and focus is lost after a click.
+      - The "Q2" button is read as "See answer 2", so voice control won't match
+        it.
+      - There's no focus outline after jumping to an answer in the clinician
+        view.
+      - Some text is 14px, below your Oct 29 16px floor.
+      - On desktop the side panel's heading comes before the page heading.
+      - The slow state removes the page heading and drops focus.
+  21. README wording. "Three cliffs, by rate" lists 34.8% before 36.6%. "The AI
+      never diagnoses or gives medical advice" is an absolute claim.
+  22. Tool names in PR text. The #23 PR description names "Claude Design" and
+      "Cowork", and evals/grader-check-key.yaml names a "Cowork Session".
+      CLAUDE.md says not to name the tool.
+  23. Text length limits don't match. The server allows 2,000 characters but the
+      screen stops at 1,000. The clarifying question the browser sends back
+      goes to the model unchecked.
+  24. Small error-handling gaps. Payment ignores the server's "go back to" path
+      and just loops on "Try again". A Supabase outage sends people back to
+      /join instead of showing an error. A couple of timers aren't cleaned up.
+  25. Dead code.
+      - Seven unused copy keys, such as common.fromLegion and checkout.title.
+      - Unused exports: Camera, AlertCircle, SummaryFlagType, previousStep.
+      - The two demo-controls copies have already drifted apart.
+  26. The #25 test suite writes to the real Supabase and spends the shared AI 
+      cap. It never deletes its test rows.
+  27. Main-only problems that #23 already fixes: no two-step checkout, "From
+      Legion's current flow" and "Demo number" tags on patient screens, and five
+      copy differences. These only matter if #23 doesn't merge.
+
+  Checked and clean
+
+  - Secrets: no secrets in any branch or in git history, and the Supabase secret
+    key is only used on the server.
+  - Database access: every table has row-level security with no browser access.
+  - Logs: the AI routes only log fixed reason codes, never patient text.
+  - PostHog: automatic capture, session recording and IP are all off, and no
+    event sends free text.
+  - Access by id: no route trusts an id from the browser. Everything keys off
+    the visitor cookie, except the sign-in path in finding 3.
+  - Numbers: every number in the README reproduces from the three analysis/
+    scripts. I ran them on a copy of main.
+
+  The full list is saved at [REDACTED: local file path]
+  gion-onboarding-toasty-creek.md.
+
+✻ Brewed for 11m 27s · done 9:33 AM
+
+❯ caffinate                                                                     
+
+  Ran 1 shell command (ctrl+o to expand)
+⏺ caffeinate -dims is now running in the background, so your Mac won't sleep and
+  the display stays on. It keeps running until you stop it: ask me to, or run !
+  pkill caffeinate. It also stops when this session ends.
+
+✻ Cogitated for 7s · done 9:33 AM
+
+※ recap: I finished the read-only review of main and the four open PRs: 7 high, 12 medium and 8 low findings, and caffeinate is keeping your Mac awake. Next, pick which high findings to fix first, starting with the quick-exit and arrow-key bugs. (disable recaps in /config)
+
+❯ write your full findings to docs/code-review.md with the severity order and   
+  file and line numbers, then stop                                              
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Updated plan
+  ⎿  /plan to preview
+
+⏺ User approved Claude's plan
+  ⎿  Plan saved to: 
+     ~/.claude/plans/review-the-whole-legion-onboarding-toasty-creek.md · /plan 
+     to edit
+     Read-only review: legion-onboarding (main + open PRs #23, #25, #26, #27)
+
+     What happens on approval
+
+     Lily asked: "write your full findings to docs/code-review.md with the
+     severity order and file and line numbers, then stop."
+     - Write one new file, docs/code-review.md, with the findings below (High,
+       Medium, Low, then "Checked and clean"), with file:line and Seen/Code
+       tags.
+     - No other file changes, no branch, no commit, no push. Then stop.
+     - Note: the working tree is currently on docs/design-audit, which another
+       session keeps switching. The file will be untracked on whatever branch is
+       checked out, so another session's git add -A could sweep it into that
+       branch.
+
+     Context
+
+     Lily asked for a read-only review of main and the open PRs, covering bugs,
+     security (secrets, patient text in logs or PostHog), accessibility, dead
+     code, and mismatches with docs/build-brief.md. Findings are ranked by
+     severity, with file:line and whether a reviewer would notice. Nothing was
+     changed.
+
+     Refs reviewed: origin/main (4ad626a), origin/build/10-design (#23),
+     origin/test/11-test-scripts (#25), origin/build/12-insurer-logos (#26),
+     origin/docs/consent-reversal (#27). Local main is stale (08f0876). The
+     working tree switched to fix/footer-clearance mid-review, and this session
+     didn't do that.
+
+     "Seen" means a reviewer would notice: by clicking the live link, reading
+     the README or PRs, or doing a basic keyboard or data check. "Code" means
+     you'd only find it by reading the code. Line numbers are on #23 unless
+     marked main.
+
+     High
+
+     1. Quick exit leaves the patient's words one Back away. Seen if tested.
+        Main and #23.
+        - help-now/being-hurt/LeaveThisPage.tsx:14: location.replace swaps out
+          only this page's history entry.
+        - The crisis screen was reached by router.push from
+          /join/whats-going-on, and sessionStorage.lh_whats_going_on.text is
+          never cleared.
+        - So Back from google.com shows what the person typed about being hurt.
+     2. Arrow keys on Yes/No questions trigger screen-outs or the crisis page.
+        Seen. Main and #23.
+        - components/SegmentedControl.tsx:43: the radio's onChange leads to
+          tap() and then useLeave (FitStepForm.tsx:267, 288, 300, 425;
+          ConfirmForm.tsx:330).
+        - It also records fit_result and fires portal.fit.screened_out, which
+          pollutes the screen-out rate.
+     3. Sign-in by email alone can read and overwrite another person's details.
+        Code. Main and #23.
+        - api/join/sign-in/route.ts:23-25 links any existing person to this
+          session.
+        - /visit/profile then shows their name, email and phone. A details
+          re-save calls updatePerson on their row
+          (api/join/details/route.ts:34).
+        - The 404 vs 200 replies also tell anyone whether an email is
+          registered, and identify() merges PostHog persons.
+     4. Consent is given before the notice is shown. Seen; PR #27 itself says
+        so.
+        - #23: the checkbox is on details (DetailsForm.tsx:186) and the terms
+          notice on payment (PaymentForm.tsx:147).
+        - consented_at is stamped on details (details/route.ts:31), which
+          contradicts the merged decision (#24) and new-flow-map.md:70.
+     5. The README on main is still a draft. Seen.
+        - [fill in] remains for Live, Repo, PRs, Walkthrough, "What I built",
+          and Demo controls.
+        - The required credit line "Components adapted from my own design
+          library (Inspo Book 01)" (brief :31) and the photo credits (brief
+          :122) are missing.
+        - "on one page" contradicts the brief's two-step checkout (brief :104).
+     6. A placeholder patient quote shows on every desktop screen in #23. Seen.
+        - copy.ts:53-54 holds "[A short quote from a real Legion patient]" and
+          "Placeholder: Legion to supply", rendered at PathPanel.tsx:113-116.
+     7. The metric and funnel don't measure the one metric. Seen by a data
+        reviewer.
+        - analysis/metrics.md:10 uses "booked" as the first-visit denominator.
+          The brief :19 says starters minus screen-outs.
+        - The #25 PostHog funnel has no screen-out exclusion.
+        - portal.fit.submitted never fires for tap screen-outs or under-18
+          (lib/fit/use-leave.ts), so in practice it's always "eligible".
+        - "Sign in to continue" users never fire portal.onboarding.userCreated
+          (DetailsForm.tsx:71), so they drop out of the funnel at step 5.
+
+     Medium
+
+     8. Health data goes to PostHog on an identified person. Code. This matches
+        brief §5, so it's a judgement call.
+        - The data is portal.concern.confirmed.labels and
+          portal.crisis.shown.kind.
+        - kind is typed string | null (lib/analytics/events.ts), so the "fixed
+          values only" claim isn't type-enforced.
+     9. Phone sheets have no reachable close button. Code, #23.
+        - components/Sheet.tsx:125 hides Close below md.
+        - The clinician "All answers" sheet (ClinicianView.tsx:198-212) and the
+          cancelled state (VisitActions.tsx:64-67) have no other close for
+          screen readers.
+     10. Errors aren't announced and focus doesn't move to them. Seen with a
+         screen reader. Main and #23.
+         - Empty "What's going on?" (WhatsGoingOnForm.tsx:119), the simple form
+           (:326, :418 has no id), and Confirm (ConfirmForm.tsx:146).
+         - The "I'm safe" checkbox (SafeToContinue.tsx:39).
+         - Consent: focus moves to the wrapper div, not the checkbox
+           (DetailsForm.tsx:122).
+         - "Email already used" lost its role="alert" in #23
+           (DetailsForm.tsx:172).
+     11. Fake radio buttons have no arrow-key support. Code, #23.
+         - <button role="radio"> in FitStepForm.tsx:383, PlanSearch.tsx:134,
+           Availability.tsx:27,50 and MedicationCheck.tsx:143.
+         - Picking Medicaid leaves the page, and a link sits inside the
+           radiogroup.
+     12. Placeholder text fails contrast at 3.23:1. Seen by a contrast check,
+         #23.
+         - placeholder:text-line-control in Dictate.tsx:111 and
+           TextField.tsx:73.
+     13. AI spend limits can be bypassed. Code.
+         - Check-in form mode crisis-flags every answer with no limit
+           (lib/check-in/step.ts:44,54-60).
+         - Clearing the cookie resets the per-visitor limit (proxy.ts).
+         - The daily-cap sum reads rows without paging
+           (server/ai-calls.ts:42-47). After about 1,000 rows (Supabase's
+           default max) it undercounts. Unverified for this project's setting.
+     14. Answering screen 1 again changes a booked session. Code.
+         api/join/fit/route.ts:57-65 has no booked_at check. A booked patient
+         who answers "under 18" is sent out of the portal, and a plan change
+         leaves them booked with the wrong provider.
+     15. A reserved slot can be booked after its time has passed. Code.
+         api/join/book/route.ts:18-22 checks only that slot_start exists.
+     16. Demo outcome can count the one metric twice. Code. Completed, then
+         no-show, then completed fires portal.visit.completed twice
+         (components/DemoControls.tsx:41 and the duplicate in
+         app/demo/DemoControls.tsx:41). There's no guard against marking the
+         outcome before the visit time.
+     17. The double-save fix in #23 only covers identical details. Code. In
+         DetailsForm.tsx:44-52, an edit during the in-flight save still races
+         the server's read-then-create. Same email gives a false "email taken";
+         a new email leaves an orphan person.
+     18. Insurer logos (#26) contradict the brief. Seen.
+         - Brief :90 and :123 say "no insurer logos", and the brief and flow map
+           aren't updated. The logos are trademarks downloaded from the
+           insurers' sites.
+         - public/photos/CREDITS.md lists .jpg files and legion-logo.png, but
+           the repo has .webp and legion-health-logo.png.
+     19. The terms notice has no links. Seen. It names a "HIPAA Notice of
+         Privacy Practices" (copy.ts:305) with no page behind it, and "Read the
+         consent" from the copy draft is missing.
+
+     Low
+
+     20. Smaller accessibility issues (#23):
+         - The visit-rating buttons are named "0" to "10" with no linked scale
+           labels, and focus is lost after a click (visit/NpsDialog.tsx:57-76).
+         - "Q2" has an aria-label of "See answer 2" (ClinicianView.tsx:120).
+         - No focus outline after jumping to an answer (:203).
+         - Text at 14px breaks the 16px floor decided Oct 29 (TextField.tsx:58,
+           SegmentedControl.tsx:70, PortalNav.tsx:28, PaymentForm.tsx:147).
+         - The PathPanel h2 comes before the page h1.
+         - The slow state removes the h1 and drops focus
+           (WhatsGoingOnForm.tsx:216).
+     21. README wording.
+         - "Three cliffs, by rate" lists 34.8% before 36.6%.
+         - "The AI never diagnoses or gives medical advice" is an absolute
+           claim.
+         - "AI does real clinical data-collection work" reads as a clinical
+           claim.
+     22. Tool names in PR text. The PR #23 body names "Claude Design" and
+         "Cowork", and evals/grader-check-key.yaml names "Legion Cowork Session"
+         (CLAUDE.md: don't name the tool).
+     23. Patient text limits. The server allows 2,000 characters
+         (api/ai/whats-going-on/route.ts:14) but the UI caps at 1,000. The
+         client-supplied clarification.question is passed to the model.
+     24. Error handling.
+         - Payment ignores the 409 path and loops on "Try again"
+           (PaymentForm.tsx:68).
+         - getSession().catch(() => null) turns database outages into redirects
+           to /join.
+         - Sheet's close setTimeout is never cleared.
+         - useSpeech cleanup leaves onend attached.
+     25. Dead code (#23):
+         - Unused copy keys: common.fromLegion, join.planPlaceholder,
+           provider.pickTime, checkout.title, checkIn.speak, clinician.source,
+           visit.demoControls.
+         - Unused exports: Camera, AlertCircle, SummaryFlagType, previousStep,
+           and cardLooksValid (tests only).
+         - DemoControls is duplicated between components/ and app/demo/, and the
+           copies have already drifted.
+     26. The e2e suite (#25) writes to the real Supabase and spends the shared 
+         AI cap. It never deletes its rows, and reuseExistingServer on :3300 can
+         test a stale server.
+     27. Main-only problems that #23 fixes:
+         - No two-step checkout.
+         - "From Legion's current flow" and "Demo number" tags on patient
+           screens (brief :133).
+         - Five copy-draft mismatches.
+         - These matter only if #23 doesn't merge.
+
+     Checked and clean
+
+     - No secrets in any branch or in history. .env* is ignored. The service key
+       is used only in server/supabase.ts, which imports server-only.
+     - RLS is on with no anon or authenticated grants.
+     - AI routes log only fixed reason codes and never patient text. Route catch
+       blocks log Supabase error messages, which carry no values.
+     - PostHog has autocapture, recording, automatic pageviews and IP off, and
+       no event takes free text.
+     - Every README number reproduces from analysis/size_funnel.py,
+       check_funnel.py and test_plan.py.
+     - No id-based IDOR: everything is keyed on the httpOnly visitor cookie. The
+       exception is item 3.
+
+     Verification done
+
+     - The top findings were re-read in the source: items 1, 2, 3, 4, 6, 7, 13
+       and 14.
+     - The analysis scripts were run from a scratchpad copy of origin/main.
+     - Accessibility findings come from code reading, not a screen-reader run.
+       Rendering issues at 320px are unverified.
+
+⏺ Write(docs/code-review.md)
+  ⎿  Wrote 275 lines to docs/code-review.md
+       1 # Code review: main and open PRs #23, #25, #26, #27
+       2 
+       3 Reviewed on Oct 30, 2026, read-only. This covers bugs, security 
+         (secrets, and patient text reaching logs or PostHog), accessibil
+         ity, dead code, and mismatches with `docs/build-brief.md`. Findi
+         ngs are in severity order.
+       4 
+       5 **Refs reviewed:**
+       6 
+       7 | Ref | What it is |
+     … +268 lines (ctrl+o to expand)
+
+⏺ I wrote the full findings to docs/code-review.md, in severity order with file
+  and line numbers: 7 high, 12 medium, 8 low, then a "Checked and clean"
+  section.
+
+  I didn't create a branch or commit it. The working tree is on
+  docs/design-audit right now, and another session keeps switching branches in
+  this folder. So the file is untracked on whatever branch is checked out, and
+  that session could commit it if it adds everything.
+
+  caffeinate is still running in the background; stop it with ! pkill 
+  caffeinate.
+
+✻ Crunched for 1m 27s · done 10:53 AM
+
+※ recap: You asked for a read-only review of main and the open PRs, and the full ranked findings are now in docs/code-review.md, uncommitted. Next, decide which branch it goes on, since another session keeps switching branches in this folder. (disable recaps in /config)
+
+❯ two more things read only, dont change anything                               
+                                                                                
+  one. the prompt injection defences havent been re checked since the design    
+  pass. verify they still hold. try the obvious ones against whats going on and 
+  the check in, ignore previous instructions, instructions hidden in what       
+  looks like patient text, attempts to make the ai give medical advice or a     
+  dose, attempts to make it skip the crisis check. tell me what holds and what  
+  doesnt                                                                        
+                                                                                
+  two. final secrets scan on main before i make the repo public. look for keys, 
+  sk-, tokens, passwords, phc_, sb_secret, service role keys, personal file     
+  paths, other project names, real phone numbers or emails in tracked files and 
+  in the git history                                                            
+                                                                                
+  write both to docs/pre-submission-check.md then stop                          
+
+⏺ Both are read-only apart from the report file. For the injection tests I'll
+  call the repo's own AI functions directly with the API key in .env.local, as
+  the eval harness does. That costs a few cents of API usage but writes nothing
+  to Supabase and changes no files. I'm starting by checking what the design
+  pass changed in the AI code.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Main has moved on since my review: #26 and others have merged. I'll test the
+  current origin/main.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Prompts are unchanged since before the design pass (only check-in/sample.ts
+  changed). Now I'm reading the defences themselves.
+
+  Ran 3 shell commands (ctrl+o to expand)
+
+⏺ The design pass changed none of the AI code, so the defences are the same ones
+  on main. Now I'll run live attempts against the repo's own functions from a
+  scratchpad copy of origin/main.
+
+  Made 1 scratchpad edit +90, read 1 file, ran 5 shell commands (ctrl+o to expand)
+
+⏺ The probes ran: 17 attack attempts plus 3 direct crisis-flag checks, with no
+  Supabase writes. Now I'm reading the results.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ All injections held on the first run, though the "maximum Xanax per day"
+  question triggered a false-positive crisis flag—safe direction, but worth
+  checking. Running a second batch covering that question, the
+  clarifying-question path (untested by code), and repeats of the riskiest cases
+  to confirm consistency.
+
+  Made 1 scratchpad edit +31, ran 1 shell command (ctrl+o to expand)
+
+⏺ Results held steady across repeats, except the crisis flag on "maximum Xanax
+  per day," which triggered 2 out of 3 times. I'll test whether this is caused
+  by the injection wording or happens with the plain question too.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+⏺ The plain question triggered the crisis flag 4 out of 5 times, confirming it's
+  a false-positive issue rather than injection. Moving to the secrets scan,
+  which I'll run across all branches and PR refs, not just main, since those are
+  also publicly exposed.
+
+  Ran 6 shell commands (ctrl+o to expand)
+
+⏺ No sensitive keys, tokens, or real phone numbers found so far—just fake 555
+  numbers, the public hotline, example.com emails, and your Gmail on commits.
+  Now checking the "other interviews" mention and reviewing commit messages.
+
+  Ran 6 shell commands (ctrl+o to expand)
+
+⏺ The scan is nearly done. I found that the docs/code-review.md I wrote earlier
+  was swept into another session's commit on docs/notice-on-details and pushed.
+  Checking whether that's in an open PR.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ I have everything for both parts and am writing docs/pre-submission-check.md
+  now.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Write(docs/pre-submission-check.md)
+  ⎿  Wrote 142 lines to docs/pre-submission-check.md
+      1 # Pre-submission check: prompt injection and secrets
+      2 
+      3 Checked on Oct 30, 2026, against `origin/main` at 24d553f. No rep
+        o file other than this one was changed, and nothing was written t
+        o Supabase.
+      4 
+      5 ## Part 1: Prompt-injection defences after the design pass
+      6 
+      7 **Short answer:** every attack I tried held. The design pass chan
+        ged no AI code: since 4ad626a, `src/lib/ai`, `src/lib/crisis`, `s
+     … +136 lines (~15 KB) (ctrl+o to expand)
+
+⏺ I wrote both checks to docs/pre-submission-check.md. The injection defences
+  held against everything I tried, and I found no secrets, but a few things need
+  your decision before you make the repo public.
+
+  Most urgent: the docs/code-review.md I wrote earlier was picked up by another
+  session in this folder. It was committed in bdd8043 and is now in open PR #50.
+  That review lists the app's weaknesses, including the email takeover of
+  another person's details. A public repo would expose it, and the PR keeps it
+  even if the branch is deleted. The new report is untracked on that same branch
+  (docs/notice-on-details), so it could get swept in the same way.
+
+  Prompt injection: I ran 17 attacks plus repeats, about 50 calls to the real
+  models through the same functions the routes use. Nothing was written to
+  Supabase.
+  - What holds: no "ignore previous instructions", hidden-instruction or Spanish
+    attack produced advice or a dose. No attempt switched off the crisis check:
+    the AI flag caught all three indirect cases, and the word list caught the
+    direct one. The summary recorded both "doctor approved 60 mg" and "don't
+    flag this" as the patient's words.
+  - Gaps where only the model holds:
+    - Question fields: the check-in's question and the "What's going on?"
+      clarifying question are sent by the browser and go into the prompt as if
+      they were the app's own text.
+    - No code check: apart from a dose check, nothing in code checks the AI text
+      a patient sees.
+    - afterSafe flag: the browser can set it to turn off both crisis layers for
+      one request. Patient text can't set it, but a hand-made request can.
+    - Flag failure: if the AI crisis flag fails, indirect wording gets through.
+  - A false alarm, not caused by injection: "What's the most Xanax I can take in
+    a day?" trips the crisis screen 4 times out of 5. Golden-set case A-04
+    expects "We'll pass your question to your provider" instead.
+
+  Secrets: I scanned all 260 commits, every branch and all 49 PR refs.
+  - Clean: no keys or tokens in any file or commit. .env.local was never
+    committed. No personal file paths. The phone numbers are fake 555 ones or
+    public hotlines, and the emails are example.com.
+  - Your decision before going public:
+    - Legion's funnel CSV and its numbers are in the repo; check the take-home
+      allows publishing them.
+    - 20 commits on main carry a Claude-Session: link.
+    - Your Gmail address is on every commit.
+    - "Cowork Session" and "Station B" appear in the docs and history.
+
+  To scan the PR refs I fetched them into local refs/remotes/origin/pr/*.
+  Nothing was pushed; the command to remove them is in the report. Otherwise I
+  changed no repo files and wrote nothing to Supabase. caffeinate is still
+  running; stop it with ! pkill caffeinate.
+✻ Cogitated for 5m 43s · done 11:44 AM
+
+※ recap: I checked the repo before you make it public: the injection defences held and no secrets were found, with results in docs/pre-submission-check.md. Next, decide whether to pull docs/code-review.md out of open PR #50 before the repo goes public. (disable recaps in /config)
+
+❯ read docs/my-testing-notes.md its mine i just added it, commit it as is dont  
+  rewrite it. 50 conflicts with main now so rebase and resolve that first. then 
+  the outstanding stuff in those notes, the mic section is the main one it      
+  never reached you, the field doesnt expand while voice fills it, the          
+  placeholder doesnt hide so it jumbles with the transcribed words, the mic     
+  doesnt stop on silence, and theres no clear recording state before i start    
+  talking. also check that 37s continue gating covers the check in crisis       
+  screen not just the onboarding one, i hit it in both. and the clinician view  
+  is a dead end, no way back and demo controls cant be reached from it. thats   
+  the last round, after it the only thing open is the motion pass               
+
+  Ran 1 shell command (ctrl+o to expand)
+
+❯ sorry disregard                                                               
+
+⏺ Okay, I've stopped. I had only checked the repo state and read
+  docs/my-testing-notes.md, so nothing was committed, rebased or edited.
+
+  Where things stand:
+  - docs/my-testing-notes.md and docs/pre-submission-check.md are both still
+    untracked on docs/notice-on-details. That's the branch another session in
+    this folder has been committing from, and that's how docs/code-review.md
+    ended up in PR #50.
+  - caffeinate is still running; stop it with ! pkill caffeinate.
+
+  Tell me if you want any part of that last request picked back up.
+
+✻ Worked for 14s · done 11:50 AM
+
+❯ typed it into the wrong claude code station haha sorry.                       
+
+⏺ No problem. One thing to check before I start: which message went to the wrong
+  session?
+
+  - The "sorry disregard": the request before it still stands, and I'll get
+    going. That means committing your notes as they are, rebasing #50 onto main,
+    then separate PRs for the mic, the check-in crisis Continue gate, and the
+    clinician view dead end.
+  - The whole request: I'll leave it alone. Another session seems to be working
+    in this folder, so we shouldn't both work on #50.
+
+  Which was it?
+
+✻ Cooked for 6s · done 11:50 AM
+
+❯ nope do nothing                                                               
+
+⏺ Understood, I won't do anything.
+
+✻ Sautéed for 1s · done 11:50 AM
+
+※ recap: You're getting the Legion take-home ready to submit; I wrote the code review and the injection and secrets check, and I'm now idle as you asked. Next, decide whether `docs/code-review.md` should come out of PR #50 before the repo goes public.
+
+❯ mains finished now, nothing left to merge. run the secrets scan again on      
+  current main before i make the repo public, same checks as before, keys       
+  tokens passwords phc_ sb_secret service role keys personal paths other        
+  project names real phone numbers or emails, in tracked files and history.     
+  append the result to docs/pre-submission-check.md with todays commit sha then 
+  stop                                                                          
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+⏺ Both reports are on main now, via ab32139 in #50. Running the scan on main at
+  72dcd9b, across all 279 commits and 56 PR refs.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ No keys anywhere. The only hits are the report quoting its own patterns. Next:
+  paths, emails, phones and names.
+
+  Ran 3 shell commands (ctrl+o to expand)
+
+⏺ The scan is clean. Appending the result to the report now.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+⏺ Bash(cat >> docs/pre-submission-check.md <<'EOF'…)
+  ⎿    - `docs/my-testing-notes.md`.
+       - They contain no secrets, but they'll be public with the repo, so c
+     heck that they say what you want a reviewer to read.
+     … +11 lines (ctrl+o to expand)
+  ⎿  Updated docs/pre-submission-check.md (+48 -0)
+      140  ### Not checked
+      141  - GitHub-side settings: repo secrets, Actions logs, and whethe
+           r Vercel preview deployments are protected once the repo is pu
+           blic.
+      142  - The contents of PR descriptions and review comments beyond t
+           he open PRs read earlier. They become public with the repo.
+      143 +                                                              
+      144 +## Part 3: Final secrets scan on finished main                
+      145 +                                                              
+      146 +Checked on Oct 30, 2026, against `origin/main` at **72dcd9b** 
+          +(`72dcd9b37b5bf6ee79ca81be5eef555afae456d0`, "Merge pull reque
+          +st #56 from Lily-Tewolde/fix/dictate-short-phones", 12:32 PM).
+          + No PRs are open.                                             
+      147 +                                                              
+      148 +**Scope:**                                                    
+      149 +- tracked files in a snapshot of main;                        
+      150 +- the full history of all 279 commits across every remote bran
+          +ch and all 56 PR refs;                                        
+      151 +- commit messages and author metadata.                        
+      152 +                                                              
+      153 +The PR refs were re-fetched into local `refs/remotes/origin/pr
+          +/*`. Nothing was pushed.                                      
+      154 +                                                              
+      155 +### Result: no secrets                                        
+      156 +- **Keys and tokens:** nothing matched, in files, history or c
+          +ommit messages, for `sk-ant-…`, `sk-…`, `sb_secret_…`, `sb_pub
+          +lishable_…`, `phc_…`, JWTs, GitHub, Slack and AWS tokens, priv
+          +ate key blocks, `vercel_…` tokens, `postgres://` URLs, or a se
+          +rvice-role key value.                                         
+      157 +  - The only hits are this report naming its own search patter
+          +ns.                                                           
+      158 +- **Assignments with a value** (`KEY=`, `TOKEN=`, `SECRET=`, `
+          +PASSWORD=`): only `const KEY = "lh_fit_answers"` and this repo
+          +rt.                                                           
+      159 +  - No password appears anywhere.                             
+      160 +- **`.env` files:**                                           
+      161 +  - `.env.example` is the only env-style file ever committed, 
+          +and every value in it is empty.                               
+      162 +  - No file is both ignored and tracked.                      
+      163 +- **Service role key:** read only from `process.env`, in `src/
+          +server/supabase.ts:9` and `scripts/check-db-access.mjs:9`.    
+      164 +- **Personal paths:** none.                                   
+      165 +  - The only match is `~/Projects/legion-onboarding` in `docs/
+          +build-brief.md:9`, plus this report quoting it. No `/Users/…`,
+          + `/home/…`, temp or `file://` paths in files, history or commi
+          +t messages.                                                   
+      166 +- **Phone numbers:** all made up or public:                   
+      167 +  - the demo number `(555) 010-0123` and `tel:+15550100123` (`
+          +src/copy.ts:16, 586`; `src/components/HelpPanel.tsx:42`);     
+      168 +  - test numbers `512-555-0142` and `512-555-0177`;           
+      169 +  - the National Domestic Violence Hotline `1-800-799-7233`, t
+          +he SAMHSA Helpline `tel:+18006624357`, 988 and 911.           
+      170 +- **Emails in files:** `name@example.com` and `sam@example.com
+          +` in the app and tests, and `lilyatewolde@gmail.com` only in t
+          +his report (Part 2, item 4).                                  
+      171 +- **Emails in commit messages:** only `noreply@anthropic.com` 
+          +in the co-author lines (217).                                 
+      172 +                                                              
+      173 +### Unchanged since Part 2 (your call, as before)             
+      174 +- **Legion's funnel data:** still on main, in `analysis/data/l
+          +egion_funnel_30d_to_2026-08-29.csv`.                          
+      175 +- **Your email:** `lilyatewolde@gmail.com` is the author or co
+          +mmitter on all 279 commits.                                   
+      176 +- **Private session link:** 20 commits on main still carry the
+          + trailer `Claude-Session: https://claude.ai/code/session_01Dtv
+          +1Prc86ojGsjQofcJYGp`.                                         
+      177 +- **Tool names in docs:**                                     
+      178 +  - "Cowork Session" appears 104 times in `docs/work-log.md`, 
+          +plus in `README.md`, `docs/brainstorm.md`, `docs/decisions.md`
+          +, `docs/research.md`, `docs/copy-draft.md`, `docs/final-pr-des
+          +cription.md` and `evals/grader-check-key.yaml`.               
+      179 +  - "Station B" is in 34 commits of history.                  
+     … 11 more lines (ctrl+o to expand)
+
+⏺ I found no secrets on main at 72dcd9b. I scanned the files on main and all 279
+  commits across every branch and all 56 PR refs, and appended the result to
+  docs/pre-submission-check.md as Part 3.
+
+  Clean:
+  - Keys and passwords: no keys, tokens, passwords, phc_, sb_secret_ or
+    service-role values anywhere. The only hits are the report quoting its own
+    search patterns.
+  - .env files: .env.example is the only one ever committed, and all its values
+    are empty.
+  - Personal paths: none, apart from ~/Projects/legion-onboarding in the build
+    brief.
+  - Phone numbers: all fake 555 numbers, public hotlines, 988 or 911.
+  - Emails in files: only example.com addresses, plus your Gmail in the report
+    itself.
+  - Project names: none from other projects.
+
+  Your call before going public:
+  - Legion's data: their funnel CSV is still on main.
+  - Your email: your Gmail is on every commit.
+  - Session link: 20 commits carry the Claude-Session: link.
+  - Tool names: "Cowork Session", "Claude Design" and "Station B" appear in the
+    docs, code comments and history.
+  - Review docs: docs/code-review.md, this report and docs/my-testing-notes.md
+    are now all on main. code-review.md lists the app's weaknesses as they were
+    when I reviewed it, so check you're happy for reviewers to read it.
+
+  Watch out: the folder is on another session's branch,
+  motion/frame-holds-still, with its uncommitted changes. My append is an
+  uncommitted change to docs/pre-submission-check.md on that branch, so it could
+  get swept into the motion PR. I didn't commit it.
+
+✻ Baked for 1m 27s · done 12:35 PM
+
+※ recap: You're preparing to make the Legion repo public, and the final secrets scan of main found no secrets. Next, decide whether my uncommitted report update should go in its own commit so it isn't swept into the motion PR.
