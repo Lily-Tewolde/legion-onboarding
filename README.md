@@ -1,6 +1,6 @@
 # Legion onboarding, rebuilt for an AI-native world: Lily Tewolde
 
-**Live:** [legion-onboarding-omega.vercel.app](https://legion-onboarding-omega.vercel.app) · **Repo:** [github.com/Lily-Tewolde/legion-onboarding](https://github.com/Lily-Tewolde/legion-onboarding) · **PRs:** [every pull request](https://github.com/Lily-Tewolde/legion-onboarding/pulls?q=is%3Apr) · **Walkthrough:** [Loom, 7 min 48 sec](https://www.loom.com/share/0f9d7dbda0f14f878cdc692e7424f29b) · **AI history:** [`ai-history/`](ai-history/)
+**Live:** [legion-onboarding-omega.vercel.app](https://legion-onboarding-omega.vercel.app) · **Repo:** [github.com/Lily-Tewolde/legion-onboarding](https://github.com/Lily-Tewolde/legion-onboarding) · **PRs:** [every pull request](https://github.com/Lily-Tewolde/legion-onboarding/pulls?q=is%3Apr) · **Walkthrough:** [Loom](https://www.loom.com/share/0f9d7dbda0f14f878cdc692e7424f29b) · **AI history:** [`ai-history/`](ai-history/)
 
 ## How to try it
 
