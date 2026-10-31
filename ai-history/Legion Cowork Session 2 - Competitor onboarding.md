@@ -607,7 +607,7 @@ Take-Home
 ./Step 1 - Walk/02 - Current flow - Mobile (Oct 28).mp4
 ./Step 1 - Walk/Step 1 findings.md
 ./Prep
-./Prep/A-log.md
+./Prep/log.md
 ./Prep/Design review notes.md
 ./Prep/carry-to-B.md
 ./Prep/Evals learning notes (draft).md
