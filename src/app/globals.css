@@ -159,24 +159,24 @@
   }
 }
 
-/* Arriving on a screen: forward slides in from the right, Back from the left,
-   heading first, then each card 60ms apart. Never on first load */
+/* Moving between screens, the frame holds still: the top bar, the stepper,
+   the desktop path panel, the pinned footer and the portal tab bar never
+   travel. Only the content area changes: each element in it arrives from a
+   small offset, forward from the right and Back from the left, heading
+   first, then the rest 60ms apart. What sits in the same spot on every screen
+   (Back on desktop, the phase label) is marked .still and stays put.
+   Switching portal tabs doesn't travel at all: the content fades in quietly.
+   Never on first load (Lily, Oct 30) */
 @keyframes in-fwd {
   from {
     opacity: 0;
-    transform: translateX(32px);
+    transform: translateX(12px);
   }
 }
 @keyframes in-back {
   from {
     opacity: 0;
-    transform: translateX(-32px);
-  }
-}
-@keyframes lift {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
+    transform: translateX(-12px);
   }
 }
 @keyframes fade-in {
@@ -189,29 +189,28 @@
     opacity: 0;
   }
 }
-html.nav-fwd .screen {
+html.nav-fwd .screen-body > :not(.still) {
   animation: in-fwd var(--in) var(--ease-spring) both;
 }
-html.nav-back .screen {
+html.nav-back .screen-body > :not(.still) {
   animation: in-back var(--in) var(--ease-spring) both;
 }
-html.nav-fwd .screen-body > *,
-html.nav-back .screen-body > * {
-  animation: lift var(--in) var(--ease-spring) both;
+html.nav-fade .screen-body > :not(.still) {
+  animation: fade-in var(--out) ease both;
 }
-.screen-body > *:nth-child(2) {
+html:is(.nav-fwd, .nav-back) .screen-body > :nth-child(2 of :not(.still)) {
   animation-delay: var(--step);
 }
-.screen-body > *:nth-child(3) {
+html:is(.nav-fwd, .nav-back) .screen-body > :nth-child(3 of :not(.still)) {
   animation-delay: calc(var(--step) * 2);
 }
-.screen-body > *:nth-child(4) {
+html:is(.nav-fwd, .nav-back) .screen-body > :nth-child(4 of :not(.still)) {
   animation-delay: calc(var(--step) * 3);
 }
-.screen-body > *:nth-child(5) {
+html:is(.nav-fwd, .nav-back) .screen-body > :nth-child(5 of :not(.still)) {
   animation-delay: calc(var(--step) * 4);
 }
-.screen-body > *:nth-child(n + 6) {
+html:is(.nav-fwd, .nav-back) .screen-body > :nth-child(n + 6 of :not(.still)) {
   animation-delay: calc(var(--step) * 5);
 }
 
@@ -294,10 +293,9 @@ html.live .expand {
 
 /* Reduce Motion: every movement becomes a gentle 200ms fade */
 @media (prefers-reduced-motion: reduce) {
-  html.nav-fwd .screen,
-  html.nav-back .screen,
-  html.nav-fwd .screen-body > *,
-  html.nav-back .screen-body > * {
+  html.nav-fwd .screen-body > :not(.still),
+  html.nav-back .screen-body > :not(.still),
+  html.nav-fade .screen-body > :not(.still) {
     animation: fade-in 0.2s ease both !important;
   }
   html.live .rise {

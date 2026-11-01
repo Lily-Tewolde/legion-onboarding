@@ -61,10 +61,10 @@ export function ClinicianView({ patient, demo, back }: { patient: Patient; demo?
 function Header({ provider, line, back }: { provider: string; line?: string; back: string }) {
   return (
     <>
-      <div className="flex min-h-control-sm items-center">
+      <div className="still flex min-h-control-sm items-center">
         <BackLink href={back} />
       </div>
-      <p className="-mb-2 text-label font-semibold text-slate">{copy.clinician.viewLabel}</p>
+      <p className="still -mb-2 text-label font-semibold text-slate">{copy.clinician.viewLabel}</p>
       <div className="flex flex-col gap-1.5">
         <PageTitle>{provider ? copy.clinician.title.replace("{provider}", provider) : copy.clinician.titleNoProvider}</PageTitle>
         {line && <p className="text-body font-semibold text-navy">{line}</p>}
